@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VALORA Admin — Dashboard</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #070707;
+      --sidebar: #0d0d0d;
+      --card: #111111;
+      --border: #272727;
+      --gold: #d5a83e;
+      --gold-light: #edc967;
+      --text: #f5f5f5;
+      --muted: #858585;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+
+    .sidebar {
+      width: 255px;
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(180deg, #111 0%, #090909 100%);
+      border-left: 1px solid var(--border);
+      padding: 25px 16px;
+      z-index: 100;
+    }
+
+    .brand {
+      text-align: center;
+      padding-bottom: 25px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand-icon {
+      width: 48px;
+      height: 48px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--gold);
+      border-radius: 14px;
+      color: var(--gold-light);
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .brand h1 {
+      margin-top: 12px;
+      font-size: 20px;
+      letter-spacing: 4px;
+    }
+
+    .brand span {
+      display: block;
+      margin-top: 5px;
+      color: var(--gold);
+      font-size: 9px;
+      letter-spacing: 2px;
+    }
+
+    .menu {
+      margin-top: 25px;
+    }
+
+    .menu-title {
+      color: #555;
+      font-size: 10px;
+      margin: 0 12px 10px;
+    }
+
+    .menu a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 14px;
+      margin-bottom: 5px;
+      border-radius: 10px;
+      color: #999;
+      text-decoration: none;
+      font-size: 13px;
+      transition: .2s;
+    }
+
+    .menu a:hover,
+    .menu a.active {
+      color: var(--gold-light);
+      background: rgba(213, 168, 62, .09);
+    }
+
+    .menu-icon {
+      width: 20px;
+      text-align: center;
+      color: var(--gold);
+    }
+
+    /* Main */
+
+    .main {
+      width: calc(100% - 255px);
+      margin-right: 255px;
+      padding: 25px 30px;
+    }
+
+    .topbar {
+      min-height: 65px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 30px;
+    }
+
+    .page-title h2 {
+      font-size: 25px;
+      margin-bottom: 6px;
+    }
+
+    .page-title p {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .admin {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .admin-info {
+      text-align: left;
+    }
+
+    .admin-info strong {
+      display: block;
+      font-size: 13px;
+    }
+
+    .admin-info span {
+      color: var(--gold);
+      font-size: 10px;
+    }
+
+    .avatar {
+      width: 42px;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #a87921, #edc65e);
+      color: #111;
+      font-weight: bold;
+    }
+
+    /* Cards */
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-bottom: 25px;
+    }
+
+    .stat-card {
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: linear-gradient(145deg, #151515, #0d0d0d);
+    }
+
+    .stat-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .stat-icon {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border-radius: 11px;
+      color: var(--gold-light);
+      background: rgba(213, 168, 62, .09);
+      border: 1px solid rgba(213, 168, 62, .15);
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .stat-value {
+      font-size: 27px;
+      font-weight: bold;
+    }
+
+    .stat-change {
+      margin-top: 8px;
+      color: #67bd83;
+      font-size: 11px;
+    }
+
+    /* Content */
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 20px;
+    }
+
+    .panel {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: #0e0e0e;
+      overflow: hidden;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .panel-header h3 {
+      font-size: 14px;
+    }
+
+    .view-all {
+      color: var(--gold-light);
+      text-decoration: none;
+      font-size: 11px;
+    }
+
+    /* Table */
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 550px;
+    }
+
+    th,
+    td {
+      padding: 15px 18px;
+      text-align: right;
+      border-bottom: 1px solid #1d1d1d;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    th {
+      color: #666;
+      font-weight: normal;
+      font-size: 10px;
+    }
+
+    td {
+      color: #ccc;
+    }
+
+    .user {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .user-avatar {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #1d1d1d;
+      color: var(--gold-light);
+      font-size: 10px;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 20px;
+      font-size: 9px;
+    }
+
+    .status.active {
+      color: #75c98d;
+      background: rgba(117, 201, 141, .08);
+    }
+
+    .status.pending {
+      color: #e2b95a;
+      background: rgba(226, 185, 90, .08);
+    }
+
+    /* Activity */
+
+    .activity {
+      padding: 5px 20px;
+    }
+
+    .activity-item {
+      display: flex;
+      gap: 13px;
+      padding: 16px 0;
+      border-bottom: 1px solid #1c1c1c;
+    }
+
+    .activity-icon {
+      width: 35px;
+      height: 35px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: rgba(213, 168, 62, .08);
+      color: var(--gold-light);
+    }
+
+    .activity-text strong {
+      display: block;
+      font-size: 11px;
+      margin-bottom: 5px;
+    }
+
+    .activity-text span {
+      color: #666;
+      font-size: 10px;
+    }
+
+    /* Mobile */
+
+    .mobile-menu {
+      display: none;
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #111;
+      color: var(--gold-light);
+      cursor: pointer;
+      font-size: 20px;
+    }
+
+    @media (max-width: 1100px) {
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 750px) {
+      .sidebar {
+        transform: translateX(100%);
+        transition: .25s;
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .main {
+        width: 100%;
+        margin-right: 0;
+        padding: 18px;
+      }
+
+      .mobile-menu {
+        display: block;
+      }
+
+      .topbar {
+        gap: 15px;
+      }
+
+      .page-title h2 {
+        font-size: 21px;
+      }
+
+      .admin-info {
+        display: none;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .stats .stat-card {
+        padding: 18px;
+      }
+
+      .topbar {
+        margin-bottom: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+
+    <div class="brand">
+      <div class="brand-icon">V</div>
+      <h1>VALORA</h1>
+      <span>ADMIN PANEL</span>
+    </div>
+
+    <nav class="menu">
+
+      <div class="menu-title">الرئيسية</div>
+
+      <a href="dashboard.html" class="active">
+        <span class="menu-icon">⌂</span>
+        Dashboard
+      </a>
+
+      <div class="menu-title">الإدارة</div>
+
+      <a href="#">
+        <span class="menu-icon">♙</span>
+        المستخدمون
+      </a>
+
+      <a href="#">
+        <span class="menu-icon">◈</span>
+        الإيداعات
+      </a>
+
+      <a href="#">
+        <span class="menu-icon">◇</span>
+        السحوبات
+      </a>
+
+      <a href="#">
+        <span class="menu-icon">↔</span>
+        المعاملات
+      </a>
+
+      <a href="#">
+        <span class="menu-icon">▣</span>
+        المحافظ
+      </a>
+
+      <div class="menu-title">النظام</div>
+
+      <a href="#">
+        <span class="menu-icon">⚙</span>
+        الإعدادات
+      </a>
+
+      <a href="login.html">
+        <span class="menu-icon">⇥</span>
+        تسجيل الخروج
+      </a>
+
+    </nav>
+
+  </aside>
+
+  <main class="main">
+
+    <header class="topbar">
+
+      <div class="page-title">
+        <button class="mobile-menu" id="mobileMenu">☰</button>
+        <h2>لوحة التحكم</h2>
+        <p>مرحباً بك في نظام إدارة VALORA</p>
+      </div>
+
+      <div class="admin">
+        <div class="admin-info">
+          <strong>Administrator</strong>
+          <span>Super Admin</span>
+        </div>
+
+        <div class="avatar">A</div>
+      </div>
+
+    </header>
+
+    <section class="stats">
+
+      <div class="stat-card">
+        <div class="stat-top">
+          <span class="stat-label">إجمالي المستخدمين</span>
+          <div class="stat-icon">♙</div>
+        </div>
+        <div class="stat-value">12,480</div>
+        <div class="stat-change">↑ 8.4% هذا الشهر</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-top">
+          <span class="stat-label">إجمالي الإيداعات</span>
+          <div class="stat-icon">↗</div>
+        </div>
+        <div class="stat-value">$284,650</div>
+        <div class="stat-change">↑ 12.7% هذا الشهر</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-top">
+          <span class="stat-label">السحوبات المعلقة</span>
+          <div class="stat-icon">↙</div>
+        </div>
+        <div class="stat-value">126</div>
+        <div class="stat-change">تحتاج إلى مراجعة</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-top">
+          <span class="stat-label">إجمالي الأرباح</span>
+          <div class="stat-icon">◈</div>
+        </div>
+        <div class="stat-value">$96,420</div>
+        <div class="stat-change">↑ 6.2% هذا الشهر</div>
+      </div>
+
+    </section>
+
+    <section class="content-grid">
+
+      <div class="panel">
+
+        <div class="panel-header">
+          <h3>أحدث المستخدمين</h3>
+          <a href="#" class="view-all">عرض الكل</a>
+        </div>
+
+        <div class="table-wrap">
+
+          <table>
+            <thead>
+              <tr>
+                <th>المستخدم</th>
+                <th>البريد</th>
+                <th>الرصيد</th>
+                <th>الحالة</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td>
+                  <div class="user">
+                    <div class="user-avatar">MA</div>
+                    محمد أحمد
+                  </div>
+                </td>
+                <td>mohamed@example.com</td>
+                <td>$4,820</td>
+                <td><span class="status active">نشط</span></td>
+              </tr>
+
+              <tr>
+                <td>
+                  <div class="user">
+                    <div class="user-avatar">AK</div>
+                    أحمد خالد
+                  </div>
+                </td>
+                <td>ahmed@example.com</td>
+                <td>$2,450</td>
+                <td><span class="status active">نشط</span></td>
+              </tr>
+
+              <tr>
+                <td>
+                  <div class="user">
+                    <div class="user-avatar">OM</div>
+                    عمر محمد
+                  </div>
+                </td>
+                <td>omar@example.com</td>
+                <td>$1,280</td>
+                <td><span class="status pending">معلق</span></td>
+              </tr>
+
+            </tbody>
+          </table>
+
+        </div>
+
+      </div>
+
+      <div class="panel">
+
+        <div class="panel-header">
+          <h3>آخر النشاطات</h3>
+          <a href="#" class="view-all">عرض الكل</a>
+        </div>
+
+        <div class="activity">
+
+          <div class="activity-item">
+            <div class="activity-icon">↗</div>
+            <div class="activity-text">
+              <strong>إيداع جديد</strong>
+              <span>تم استلام إيداع بقيمة $1,250</span>
+            </div>
+          </div>
+
+          <div class="activity-item">
+            <div class="activity-icon">♙</div>
+            <div class="activity-text">
+              <strong>مستخدم جديد</strong>
+              <span>تم تسجيل مستخدم جديد في النظام</span>
+            </div>
+          </div>
+
+          <div class="activity-item">
+            <div class="activity-icon">↙</div>
+            <div class="activity-text">
+              <strong>طلب سحب</strong>
+              <span>طلب سحب جديد بقيمة $850</span>
+            </div>
+          </div>
+
+          <div class="activity-item">
+            <div class="activity-icon">✓</div>
+            <div class="activity-text">
+              <strong>عملية مكتملة</strong>
+              <span>تم تأكيد عملية تحويل بنجاح</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+<script>
+  const mobileMenu = document.getElementById("mobileMenu");
+  const sidebar = document.getElementById("sidebar");
+
+  mobileMenu.addEventListener("click", () => {
+    sidebar.classList.toggle("open");
+  });
+</script>
+
+</body>
+          </html>
