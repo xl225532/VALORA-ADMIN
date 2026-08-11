@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VALORA Admin — المستخدمون</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #070707;
+      --sidebar: #0c0c0c;
+      --card: #111111;
+      --border: #252525;
+      --gold: #d4a63a;
+      --gold-light: #f0ca68;
+      --text: #f5f5f5;
+      --muted: #858585;
+      --green: #5fc982;
+      --red: #df6c6c;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    /* SIDEBAR */
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 260px;
+      height: 100vh;
+      padding: 24px 16px;
+      background: linear-gradient(180deg, #111, #080808);
+      border-left: 1px solid var(--border);
+      z-index: 1000;
+    }
+
+    .brand {
+      text-align: center;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand-logo {
+      width: 54px;
+      height: 54px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--gold);
+      border-radius: 16px;
+      color: var(--gold-light);
+      font-size: 27px;
+      font-weight: bold;
+    }
+
+    .brand h1 {
+      margin-top: 12px;
+      font-size: 21px;
+      letter-spacing: 5px;
+    }
+
+    .brand p {
+      margin-top: 5px;
+      color: var(--gold);
+      font-size: 9px;
+      letter-spacing: 3px;
+    }
+
+    .menu {
+      margin-top: 25px;
+    }
+
+    .menu-title {
+      margin: 0 10px 9px;
+      color: #505050;
+      font-size: 10px;
+    }
+
+    .menu a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px;
+      margin-bottom: 5px;
+      border-radius: 11px;
+      color: #999;
+      text-decoration: none;
+      font-size: 13px;
+      transition: .2s;
+    }
+
+    .menu a:hover,
+    .menu a.active {
+      color: var(--gold-light);
+      background: rgba(212,166,58,.09);
+    }
+
+    .menu-icon {
+      width: 22px;
+      text-align: center;
+      color: var(--gold);
+    }
+
+    /* MAIN */
+
+    .main {
+      min-height: 100vh;
+      margin-right: 260px;
+      padding: 25px 30px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 65px;
+      margin-bottom: 25px;
+    }
+
+    .title h2 {
+      font-size: 26px;
+      margin-bottom: 7px;
+    }
+
+    .title p {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .mobile-menu {
+      display: none;
+      width: 42px;
+      height: 42px;
+      margin-left: 10px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #111;
+      color: var(--gold-light);
+      cursor: pointer;
+      font-size: 20px;
+    }
+
+    .admin {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .admin-text {
+      text-align: left;
+    }
+
+    .admin-text strong {
+      display: block;
+      font-size: 13px;
+    }
+
+    .admin-text span {
+      color: var(--gold);
+      font-size: 10px;
+    }
+
+    .avatar {
+      width: 43px;
+      height: 43px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #a87820, #edc866);
+      color: #111;
+      font-weight: bold;
+    }
+
+    /* STATS */
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .stat {
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: linear-gradient(145deg, #151515, #0d0d0d);
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .stat strong {
+      display: block;
+      margin-top: 12px;
+      font-size: 25px;
+    }
+
+    /* TOOLBAR */
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: #0e0e0e;
+    }
+
+    .search {
+      position: relative;
+      flex: 1;
+    }
+
+    .search input,
+    .filter {
+      width: 100%;
+      height: 46px;
+      border: 1px solid #292929;
+      border-radius: 10px;
+      outline: none;
+      background: #131313;
+      color: white;
+      padding: 0 14px;
+      font-size: 12px;
+    }
+
+    .search input:focus,
+    .filter:focus {
+      border-color: var(--gold);
+    }
+
+    .filter {
+      width: 180px;
+      cursor: pointer;
+    }
+
+    /* TABLE */
+
+    .table-card {
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      background: #0e0e0e;
+    }
+
+    .table-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .table-header h3 {
+      font-size: 14px;
+    }
+
+    .add-btn {
+      height: 38px;
+      padding: 0 16px;
+      border: 0;
+      border-radius: 9px;
+      background: linear-gradient(135deg, #a87820, #edc866);
+      color: #111;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 11px;
+    }
+
+    .table-scroll {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      min-width: 900px;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 15px 18px;
+      border-bottom: 1px solid #1d1d1d;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    th {
+      color: #666;
+      font-size: 10px;
+      font-weight: normal;
+    }
+
+    td {
+      color: #c8c8c8;
+      font-size: 11px;
+    }
+
+    .user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-avatar {
+      width: 35px;
+      height: 35px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #1c1c1c;
+      color: var(--gold-light);
+      font-size: 9px;
+    }
+
+    .user-name strong {
+      display: block;
+      color: #eee;
+      margin-bottom: 4px;
+      font-size: 11px;
+    }
+
+    .user-name span {
+      color: #666;
+      font-size: 9px;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 9px;
+    }
+
+    .active {
+      color: var(--green);
+      background: rgba(95,201,130,.08);
+    }
+
+    .pending {
+      color: var(--gold-light);
+      background: rgba(212,166,58,.08);
+    }
+
+    .blocked {
+      color: var(--red);
+      background: rgba(223,108,108,.08);
+    }
+
+    .actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .action {
+      width: 32px;
+      height: 32px;
+      border: 1px solid #292929;
+      border-radius: 8px;
+      background: #151515;
+      color: #aaa;
+      cursor: pointer;
+    }
+
+    .action:hover {
+      color: var(--gold-light);
+      border-color: var(--gold);
+    }
+
+    /* PAGINATION */
+
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 20px;
+      color: #666;
+      font-size: 10px;
+    }
+
+    .pages {
+      display: flex;
+      gap: 5px;
+    }
+
+    .page {
+      width: 32px;
+      height: 32px;
+      border: 1px solid #292929;
+      border-radius: 8px;
+      background: #151515;
+      color: #999;
+      cursor: pointer;
+    }
+
+    .page.active {
+      background: var(--gold);
+      color: #111;
+      border-color: var(--gold);
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 1100px) {
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 800px) {
+      .sidebar {
+        transform: translateX(100%);
+        transition: .3s;
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .main {
+        margin-right: 0;
+        padding: 18px;
+      }
+
+      .mobile-menu {
+        display: inline-block;
+      }
+
+      .title {
+        display: flex;
+        align-items: center;
+      }
+
+      .admin-text {
+        display: none;
+      }
+
+      .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .filter {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .main {
+        padding: 14px;
+      }
+
+      .title h2 {
+        font-size: 21px;
+      }
+
+      .title p {
+        display: none;
+      }
+
+      .table-header {
+        gap: 10px;
+      }
+
+      .add-btn {
+        padding: 0 11px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+
+    <div class="brand">
+      <div class="brand-logo">V</div>
+      <h1>VALORA</h1>
+      <p>ADMIN PANEL</p>
+    </div>
+
+    <nav class="menu">
+
+      <div class="menu-title">الرئيسية</div>
+
+      <a href="dashboard.html" class="menu-link">
+        <span class="menu-icon">⌂</span>
+        لوحة التحكم
+      </a>
+
+      <div class="menu-title">الإدارة</div>
+
+      <a href="users.html" class="menu-link active">
+        <span class="menu-icon">♙</span>
+        المستخدمون
+      </a>
+
+      <a href="#" class="menu-link">
+        <span class="menu-icon">↗</span>
+        الإيداعات
+      </a>
+
+      <a href="#" class="menu-link">
+        <span class="menu-icon">↙</span>
+        السحوبات
+      </a>
+
+      <a href="#" class="menu-link">
+        <span class="menu-icon">↔</span>
+        المعاملات
+      </a>
+
+      <a href="#" class="menu-link">
+        <span class="menu-icon">▣</span>
+        المحافظ
+      </a>
+
+      <div class="menu-title">النظام</div>
+
+      <a href="#" class="menu-link">
+        <span class="menu-icon">⚙</span>
+        الإعدادات
+      </a>
+
+      <a href="index.html" class="menu-link">
+        <span class="menu-icon">⇥</span>
+        تسجيل الخروج
+      </a>
+
+    </nav>
+
+  </aside>
+
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <header class="topbar">
+
+      <div class="title">
+
+        <button class="mobile-menu" id="mobileMenu">☰</button>
+
+        <div>
+          <h2>المستخدمون</h2>
+          <p>إدارة ومتابعة جميع مستخدمي النظام</p>
+        </div>
+
+      </div>
+
+      <div class="admin">
+
+        <div class="admin-text">
+          <strong>Administrator</strong>
+          <span>Super Admin</span>
+        </div>
+
+        <div class="avatar">A</div>
+
+      </div>
+
+    </header>
+
+
+    <!-- STATS -->
+
+    <section class="stats">
+
+      <div class="stat">
+        <span>إجمالي المستخدمين</span>
+        <strong>12,480</strong>
+      </div>
+
+      <div class="stat">
+        <span>المستخدمون النشطون</span>
+        <strong>11,920</strong>
+      </div>
+
+      <div class="stat">
+        <span>بانتظار التحقق</span>
+        <strong>384</strong>
+      </div>
+
+      <div class="stat">
+        <span>الحسابات المحظورة</span>
+        <strong>176</strong>
+      </div>
+
+    </section>
+
+
+    <!-- SEARCH / FILTER -->
+
+    <section class="toolbar">
+
+      <div class="search">
+        <input
+          type="text"
+          id="search"
+          placeholder="ابحث بالاسم أو البريد الإلكتروني..."
+        >
+      </div>
+
+      <select class="filter" id="statusFilter">
+        <option value="all">جميع الحالات</option>
+        <option value="active">نشط</option>
+        <option value="pending">معلق</option>
+        <option value="blocked">محظور</option>
+      </select>
+
+    </section>
+
+
+    <!-- TABLE -->
+
+    <section class="table-card">
+
+      <div class="table-header">
+
+        <h3>قائمة المستخدمين</h3>
+
+        <button class="add-btn">
+          + إضافة مستخدم
+        </button>
+
+      </div>
+
+      <div class="table-scroll">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>المستخدم</th>
+              <th>البريد الإلكتروني</th>
+              <th>الرصيد</th>
+              <th>التسجيل</th>
+              <th>الحالة</th>
+              <th>الإجراءات</th>
+            </tr>
+          </thead>
+
+          <tbody id="usersTable">
+
+            <tr data-status="active">
+
+              <td>
+                <div class="user">
+                  <div class="user-avatar">MA</div>
+                  <div class="user-name">
+                    <strong>محمد أحمد</strong>
+                    <span>ID: 100245</span>
+                  </div>
+                </div>
+              </td>
+
+              <td>mohamed@example.com</td>
+
+              <td>$4,820.00</td>
+
+              <td>12 أغسطس 2026</td>
+
+              <td>
+                <span class="status active">نشط</span>
+              </td>
+
+              <td>
+                <div class="actions">
+                  <button class="action">◉</button>
+                  <button class="action">✎</button>
+                </div>
+              </td>
+
+            </tr>
+
+
+            <tr data-status="active">
+
+              <td>
+                <div class="user">
+                  <div class="user-avatar">AK</div>
+                  <div class="user-name">
+                    <strong>أحمد خالد</strong>
+                    <span>ID: 100246</span>
+                  </div>
+                </div>
+              </td>
+
+              <td>ahmed@example.com</td>
+
+              <td>$2,450.00</td>
+
+              <td>11 أغسطس 2026</td>
+
+              <td>
+                <span class="status active">نشط</span>
+              </td>
+
+              <td>
+                <div class="actions">
+                  <button class="action">◉</button>
+                  <button class="action">✎</button>
+                </div>
+              </td>
+
+            </tr>
+
+
+            <tr data-status="pending">
+
+              <td>
+                <div class="user">
+                  <div class="user-avatar">OM</div>
+                  <div class="user-name">
+                    <strong>عمر محمد</strong>
+                    <span>ID: 100247</span>
+                  </div>
+                </div>
+              </td>
+
+              <td>omar@example.com</td>
+
+              <td>$1,280.00</td>
+
+              <td>10 أغسطس 2026</td>
+
+              <td>
+                <span class="status pending">معلق</span>
+              </td>
+
+              <td>
+                <div class="actions">
+                  <button class="action">◉</button>
+                  <button class="action">✎</button>
+                </div>
+              </td>
+
+            </tr>
+
+
+            <tr data-status="blocked">
+
+              <td>
+                <div class="user">
+                  <div class="user-avatar">SA</div>
+                  <div class="user-name">
+                    <strong>سامي علي</strong>
+                    <span>ID: 100248</span>
+                  </div>
+                </div>
+              </td>
+
+              <td>sami@example.com</td>
+
+              <td>$620.00</td>
+
+              <td>9 أغسطس 2026</td>
+
+              <td>
+                <span class="status blocked">محظور</span>
+              </td>
+
+              <td>
+                <div class="actions">
+                  <button class="action">◉</button>
+                  <button class="action">✎</button>
+                </div>
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+
+      <div class="pagination">
+
+        <span>عرض 1 - 4 من 12,480 مستخدم</span>
+
+        <div class="pages">
+          <button class="page active">1</button>
+          <button class="page">2</button>
+          <button class="page">3</button>
+          <button class="page">→</button>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <script>
+
+    const mobileMenu = document.getElementById("mobileMenu");
+    const sidebar = document.getElementById("sidebar");
+
+    mobileMenu.addEventListener("click", function () {
+      sidebar.classList.toggle("open");
+    });
+
+
+    const search = document.getElementById("search");
+    const statusFilter = document.getElementById("statusFilter");
+    const rows = document.querySelectorAll("#usersTable tr");
+
+
+    function filterUsers() {
+
+      const searchValue = search.value.toLowerCase().trim();
+      const statusValue = statusFilter.value;
+
+      rows.forEach(row => {
+
+        const text = row.textContent.toLowerCase();
+        const status = row.dataset.status;
+
+        const matchesSearch = text.includes(searchValue);
+        const matchesStatus =
+          statusValue === "all" || status === statusValue;
+
+        row.style.display =
+          matchesSearch && matchesStatus ? "" : "none";
+
+      });
+
+    }
+
+
+    search.addEventListener("input", filterUsers);
+    statusFilter.addEventListener("change", filterUsers);
+
+  </script>
+
+</body>
+  </html>
