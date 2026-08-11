@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VALORA Admin — تسجيل الدخول</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Arial, sans-serif;
+      background:
+        radial-gradient(circle at 80% 20%, #3b2a0d 0%, transparent 30%),
+        radial-gradient(circle at 20% 80%, #241a08 0%, transparent 30%),
+        #050505;
+      color: #fff;
+    }
+
+    .login-box {
+      width: 420px;
+      padding: 45px 38px;
+      background: rgba(15, 15, 15, .96);
+      border: 1px solid #9d7628;
+      border-radius: 22px;
+      box-shadow:
+        0 25px 70px rgba(0, 0, 0, .7),
+        0 0 40px rgba(212, 166, 67, .08);
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    .logo-icon {
+      width: 65px;
+      height: 65px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #d5a83e;
+      border-radius: 18px;
+      color: #e5bc5c;
+      font-size: 34px;
+      font-weight: bold;
+      box-shadow: 0 0 25px rgba(213, 168, 62, .12);
+    }
+
+    .logo h1 {
+      margin-top: 15px;
+      letter-spacing: 6px;
+      font-size: 27px;
+    }
+
+    .logo span {
+      display: block;
+      margin-top: 7px;
+      color: #cda348;
+      font-size: 11px;
+      letter-spacing: 4px;
+    }
+
+    h2 {
+      margin-bottom: 8px;
+      font-size: 24px;
+    }
+
+    .subtitle {
+      color: #888;
+      font-size: 13px;
+      margin-bottom: 28px;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 9px;
+      color: #d8b65e;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      height: 54px;
+      padding: 0 16px;
+      border: 1px solid #292929;
+      border-radius: 12px;
+      background: #101010;
+      color: white;
+      outline: none;
+      font-size: 14px;
+      transition: .2s;
+    }
+
+    input:focus {
+      border-color: #d3a63d;
+      box-shadow: 0 0 0 3px rgba(211, 166, 61, .08);
+    }
+
+    input::placeholder {
+      color: #555;
+    }
+
+    .password-box {
+      position: relative;
+    }
+
+    .password-box input {
+      padding-left: 48px;
+    }
+
+    .show-password {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 0;
+      background: none;
+      color: #777;
+      cursor: pointer;
+    }
+
+    .options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 5px 0 25px;
+      font-size: 12px;
+    }
+
+    .remember {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: #888;
+    }
+
+    .remember input {
+      width: 15px;
+      height: 15px;
+      accent-color: #d3a63d;
+    }
+
+    .forgot {
+      color: #d8b65e;
+      text-decoration: none;
+    }
+
+    .login-btn {
+      width: 100%;
+      height: 55px;
+      border: 0;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #a87921, #edc65e, #a87921);
+      color: #080808;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(211, 166, 61, .2);
+    }
+
+    .security {
+      margin-top: 25px;
+      text-align: center;
+      color: #666;
+      font-size: 11px;
+    }
+
+    .security span {
+      color: #c39a3c;
+    }
+
+    .error {
+      color: #e46b6b;
+      text-align: center;
+      font-size: 12px;
+      margin-top: 14px;
+      min-height: 16px;
+    }
+
+    @media (max-width: 500px) {
+      .login-box {
+        width: calc(100% - 28px);
+        padding: 35px 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="login-box">
+
+    <div class="logo">
+      <div class="logo-icon">V</div>
+      <h1>VALORA</h1>
+      <span>ADMIN PANEL</span>
+    </div>
+
+    <h2>مرحباً بعودتك</h2>
+    <p class="subtitle">سجّل الدخول للوصول إلى لوحة الإدارة</p>
+
+    <form id="loginForm">
+
+      <div class="input-group">
+        <label for="email">البريد الإلكتروني</label>
+        <input
+          type="email"
+          id="email"
+          placeholder="admin@example.com"
+          autocomplete="email"
+          required
+        >
+      </div>
+
+      <div class="input-group">
+        <label for="password">كلمة المرور</label>
+
+        <div class="password-box">
+          <input
+            type="password"
+            id="password"
+            placeholder="أدخل كلمة المرور"
+            autocomplete="current-password"
+            required
+          >
+
+          <button
+            type="button"
+            class="show-password"
+            id="showPassword"
+          >◉</button>
+        </div>
+      </div>
+
+      <div class="options">
+
+        <label class="remember">
+          <input type="checkbox" id="remember">
+          <span>تذكرني</span>
+        </label>
+
+        <a href="#" class="forgot">نسيت كلمة المرور؟</a>
+
+      </div>
+
+      <button type="submit" class="login-btn">
+        تسجيل الدخول
+      </button>
+
+      <div class="error" id="error"></div>
+
+    </form>
+
+    <div class="security">
+      🔒 <span>منطقة إدارة آمنة</span>
+    </div>
+
+  </div>
+
+  <script>
+    const password = document.getElementById("password");
+    const showPassword = document.getElementById("showPassword");
+    const form = document.getElementById("loginForm");
+    const error = document.getElementById("error");
+
+    showPassword.addEventListener("click", () => {
+      if (password.type === "password") {
+        password.type = "text";
+        showPassword.textContent = "◉";
+      } else {
+        password.type = "password";
+        showPassword.textContent = "◉";
+      }
+    });
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value.trim();
+      const pass = password.value.trim();
+
+      if (!email || !pass) {
+        error.textContent = "يرجى إدخال البريد الإلكتروني وكلمة المرور";
+        return;
+      }
+
+      error.textContent = "";
+
+      // لاحقاً سنربط تسجيل الدخول بالـ Backend والـ Database
+      console.log("Login:", email);
+    });
+  </script>
+
+</body>
+</html>
