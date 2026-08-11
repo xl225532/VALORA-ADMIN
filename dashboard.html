@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>VALORA ADMIN | لوحة التحكم</title>
+
+    <link
+        rel="stylesheet"
+        href="css/admin.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="admin-layout">
+
+
+    <!-- ==========================================
+         الشريط الجانبي
+    =========================================== -->
+
+    <aside class="sidebar">
+
+
+        <div class="logo">
+
+            <h2>VALORA</h2>
+
+            <span>لوحة الإدارة</span>
+
+        </div>
+
+
+        <nav>
+
+
+            <a
+                href="dashboard.html"
+                class="active"
+            >
+                🏠
+                <span>الرئيسية</span>
+            </a>
+
+
+            <a href="users.html">
+                👥
+                <span>المستخدمون</span>
+            </a>
+
+
+            <a href="deposits.html">
+                💰
+                <span>الإيداعات</span>
+            </a>
+
+
+            <a href="withdrawals.html">
+                💸
+                <span>السحوبات</span>
+            </a>
+
+
+            <a href="trade-codes.html">
+                🔐
+                <span>أكواد الصفقات</span>
+            </a>
+
+
+            <a href="notifications.html">
+                🔔
+                <span>الإشعارات</span>
+            </a>
+
+
+            <a href="messages.html">
+                💬
+                <span>الرسائل</span>
+            </a>
+
+
+            <a href="verification.html">
+                🪪
+                <span>التحقق من الهوية</span>
+            </a>
+
+
+            <a href="settings.html">
+                ⚙️
+                <span>الإعدادات</span>
+            </a>
+
+
+        </nav>
+
+
+        <button
+            type="button"
+            onclick="logoutAdmin()"
+        >
+            تسجيل الخروج
+        </button>
+
+
+    </aside>
+
+
+
+    <!-- ==========================================
+         المحتوى الرئيسي
+    =========================================== -->
+
+    <main class="content">
+
+
+        <!-- رأس الصفحة -->
+
+        <header class="header">
+
+
+            <div>
+
+                <h1>
+                    لوحة التحكم
+                </h1>
+
+                <p>
+                    نظرة عامة على منصة VALORA
+                </p>
+
+            </div>
+
+
+            <div class="admin-badge">
+
+                مدير النظام
+
+            </div>
+
+
+        </header>
+
+
+
+        <!-- ==========================================
+             الإحصائيات
+        =========================================== -->
+
+        <section class="stats">
+
+
+            <div class="stat-card">
+
+                <h3>
+                    إجمالي المستخدمين
+                </h3>
+
+                <strong>
+                    0
+                </strong>
+
+            </div>
+
+
+
+            <div class="stat-card">
+
+                <h3>
+                    إجمالي الإيداعات
+                </h3>
+
+                <strong>
+                    0 USDT
+                </strong>
+
+            </div>
+
+
+
+            <div class="stat-card">
+
+                <h3>
+                    طلبات السحب
+                </h3>
+
+                <strong>
+                    0
+                </strong>
+
+            </div>
+
+
+
+            <div class="stat-card">
+
+                <h3>
+                    المستخدمون النشطون
+                </h3>
+
+                <strong>
+                    0
+                </strong>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ==========================================
+             آخر المستخدمين
+        =========================================== -->
+
+        <section class="panel">
+
+
+            <h2>
+                آخر المستخدمين
+            </h2>
+
+
+            <div class="table-wrapper">
+
+
+                <table class="admin-table">
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                UID
+                            </th>
+
+                            <th>
+                                البريد الإلكتروني
+                            </th>
+
+                            <th>
+                                رقم الهاتف
+                            </th>
+
+                            <th>
+                                تاريخ التسجيل
+                            </th>
+
+                            <th>
+                                الحالة
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                        <tr>
+
+                            <td>
+                                —
+                            </td>
+
+                            <td>
+                                لا توجد بيانات
+                            </td>
+
+                            <td>
+                                —
+                            </td>
+
+                            <td>
+                                —
+                            </td>
+
+                            <td>
+                                —
+                            </td>
+
+                        </tr>
+
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ==========================================
+             آخر الإيداعات
+        =========================================== -->
+
+        <section class="panel">
+
+
+            <h2>
+                آخر الإيداعات
+            </h2>
+
+
+            <div class="table-wrapper">
+
+
+                <table class="admin-table">
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                UID
+                            </th>
+
+                            <th>
+                                المستخدم
+                            </th>
+
+                            <th>
+                                المبلغ
+                            </th>
+
+                            <th>
+                                العملة
+                            </th>
+
+                            <th>
+                                التاريخ
+                            </th>
+
+                            <th>
+                                الحالة
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                        <tr>
+
+                            <td>
+                                —
+                            </td>
+
+                            <td>
+                                لا توجد بيانات
+                            </td>
+
+                            <td>
+                                —
+                            </td>
+
+                            <td>
+                                —
+                            </td>
+
+                            <td>
+                                —
+                            </td>
+
+                            <td>
+                                —
+                            </td>
+
+                        </tr>
+
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ==========================================
+             طلبات السحب
+        =========================================== -->
+
+        <section class="panel">
+
+
+            <h2>
+                طلبات السحب الأخيرة
+            </h2>
+
+
+            <div class="table-wrapper">
+
+
+                <table class="admin-table">
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                UID
+                            </th>
+
+                            <th>
+                                المستخدم
+                            </th>
+
+                            <th>
+                                العملة
+                            </th>
+
+                            <th>
+                                المبلغ
+                            </th>
+
+                            <th>
+                                عنوان السحب
+                            </th>
+
+                            <th>
+                                الحالة
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                        <tr>
+
+                            <td>
+                                —
+                            </td>
+
+                            <td>
+                                لا توجد طلبات
+                            </td>
+
+                            <td>
+                                —
+                            </td>
+
+                            <td>
+                                —
+                            </td>
+
+                            <td>
+                                —
+                            </td>
+
+                            <td>
+                                —
+                            </td>
+
+                        </tr>
+
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+</div>
+
+
+
+<!-- ==========================================
+     حماية لوحة الإدارة
+=========================================== -->
+
+<script src="js/admin.js"></script>
+
+
+<script>
+
+    protectAdminPage();
+
+</script>
+
+
+</body>
+
+</html>
