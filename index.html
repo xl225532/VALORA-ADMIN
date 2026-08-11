@@ -294,21 +294,21 @@
     });
 
     form.addEventListener("submit", (e) => {
-      e.preventDefault();
+  e.preventDefault();
 
-      const email = document.getElementById("email").value.trim();
-      const pass = password.value.trim();
+  const email = document.getElementById("email").value.trim();
+  const pass = password.value.trim();
 
-      if (!email || !pass) {
-        error.textContent = "يرجى إدخال البريد الإلكتروني وكلمة المرور";
-        return;
-      }
+  if (!email || !pass) {
+    error.textContent = "يرجى إدخال البريد الإلكتروني وكلمة المرور";
+    return;
+  }
 
-      error.textContent = "";
+  error.textContent = "";
 
-      // لاحقاً سنربط تسجيل الدخول بالـ Backend والـ Database
-      console.log("Login:", email);
-    });
+  // انتقال مؤقت إلى لوحة التحكم
+  window.location.href = "dashboard.html";
+});
   </script>
 
 </body>
