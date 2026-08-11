@@ -1,791 +1,531 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VALORA Admin — لوحة التحكم</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    <meta charset="UTF-8">
 
-    :root {
-      --bg: #070707;
-      --sidebar: #0c0c0c;
-      --card: #111111;
-      --card-hover: #151515;
-      --border: #242424;
-      --gold: #d4a63a;
-      --gold-light: #f0ca68;
-      --text: #f5f5f5;
-      --muted: #858585;
-      --green: #5fc982;
-      --red: #df6c6c;
-      --blue: #6d9eea;
-    }
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    body {
-      min-height: 100vh;
-      font-family: Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-    }
+    <title>VALORA | لوحة التحكم</title>
 
-    button,
-    a {
-      font-family: inherit;
-    }
+    <link
+        rel="stylesheet"
+        href="css/admin.css"
+    >
 
-    /* ==================== SIDEBAR ==================== */
-
-    .sidebar {
-      position: fixed;
-      top: 0;
-      right: 0;
-      width: 260px;
-      height: 100vh;
-      padding: 24px 16px;
-      background: linear-gradient(180deg, #111 0%, #080808 100%);
-      border-left: 1px solid var(--border);
-      z-index: 1000;
-      overflow-y: auto;
-      transition: .3s ease;
-    }
-
-    .brand {
-      text-align: center;
-      padding: 4px 0 24px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .brand-logo {
-      width: 54px;
-      height: 54px;
-      margin: auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid var(--gold);
-      border-radius: 16px;
-      color: var(--gold-light);
-      font-size: 27px;
-      font-weight: bold;
-      box-shadow: 0 0 25px rgba(212,166,58,.08);
-    }
-
-    .brand h1 {
-      margin-top: 12px;
-      font-size: 21px;
-      letter-spacing: 5px;
-    }
-
-    .brand p {
-      margin-top: 5px;
-      color: var(--gold);
-      font-size: 9px;
-      letter-spacing: 3px;
-    }
-
-    .menu {
-      margin-top: 25px;
-    }
-
-    .menu-title {
-      margin: 0 10px 9px;
-      color: #505050;
-      font-size: 10px;
-    }
-
-    .menu-link {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 13px 13px;
-      margin-bottom: 5px;
-      border: 0;
-      border-radius: 11px;
-      background: transparent;
-      color: #999;
-      text-decoration: none;
-      font-size: 13px;
-      cursor: pointer;
-      text-align: right;
-      transition: .2s;
-    }
-
-    .menu-link:hover,
-    .menu-link.active {
-      color: var(--gold-light);
-      background: rgba(212,166,58,.09);
-    }
-
-    .menu-icon {
-      width: 22px;
-      text-align: center;
-      color: var(--gold);
-      font-size: 16px;
-    }
-
-    /* ==================== MAIN ==================== */
-
-    .main {
-      min-height: 100vh;
-      margin-right: 260px;
-      padding: 25px 30px;
-    }
-
-    .topbar {
-      min-height: 65px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      margin-bottom: 30px;
-    }
-
-    .mobile-menu {
-      display: none;
-      width: 42px;
-      height: 42px;
-      border: 1px solid var(--border);
-      border-radius: 11px;
-      background: #111;
-      color: var(--gold-light);
-      cursor: pointer;
-      font-size: 20px;
-    }
-
-    .page-title h2 {
-      font-size: 26px;
-      margin-bottom: 7px;
-    }
-
-    .page-title p {
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .admin-profile {
-      display: flex;
-      align-items: center;
-      gap: 11px;
-    }
-
-    .admin-info {
-      text-align: left;
-    }
-
-    .admin-info strong {
-      display: block;
-      font-size: 13px;
-    }
-
-    .admin-info span {
-      display: block;
-      margin-top: 4px;
-      color: var(--gold);
-      font-size: 10px;
-    }
-
-    .admin-avatar {
-      width: 44px;
-      height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #a87820, #edc866);
-      color: #111;
-      font-weight: bold;
-    }
-
-    /* ==================== STATISTICS ==================== */
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 17px;
-      margin-bottom: 22px;
-    }
-
-    .stat-card {
-      padding: 21px;
-      border: 1px solid var(--border);
-      border-radius: 17px;
-      background: linear-gradient(145deg, #151515, #0c0c0c);
-      transition: .2s;
-    }
-
-    .stat-card:hover {
-      border-color: rgba(212,166,58,.3);
-      background: var(--card-hover);
-      transform: translateY(-2px);
-    }
-
-    .stat-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .stat-label {
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .stat-icon {
-      width: 40px;
-      height: 40px;
-      display: grid;
-      place-items: center;
-      border: 1px solid rgba(212,166,58,.15);
-      border-radius: 11px;
-      background: rgba(212,166,58,.08);
-      color: var(--gold-light);
-      font-size: 17px;
-    }
-
-    .stat-number {
-      margin-top: 17px;
-      font-size: 27px;
-      font-weight: bold;
-    }
-
-    .stat-bottom {
-      margin-top: 8px;
-      color: var(--green);
-      font-size: 10px;
-    }
-
-    /* ==================== PANELS ==================== */
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1.55fr 1fr;
-      gap: 20px;
-    }
-
-    .panel {
-      overflow: hidden;
-      border: 1px solid var(--border);
-      border-radius: 17px;
-      background: #0e0e0e;
-    }
-
-    .panel-header {
-      min-height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 20px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .panel-header h3 {
-      font-size: 14px;
-    }
-
-    .panel-link {
-      color: var(--gold-light);
-      text-decoration: none;
-      font-size: 11px;
-    }
-
-    /* ==================== TABLE ==================== */
-
-    .table-scroll {
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      min-width: 560px;
-      border-collapse: collapse;
-    }
-
-    th,
-    td {
-      padding: 15px 18px;
-      text-align: right;
-      border-bottom: 1px solid #1c1c1c;
-      white-space: nowrap;
-    }
-
-    th {
-      color: #626262;
-      font-size: 10px;
-      font-weight: normal;
-    }
-
-    td {
-      color: #c7c7c7;
-      font-size: 11px;
-    }
-
-    .user {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-    }
-
-    .user-avatar {
-      width: 32px;
-      height: 32px;
-      display: grid;
-      place-items: center;
-      border-radius: 50%;
-      background: #1b1b1b;
-      color: var(--gold-light);
-      font-size: 9px;
-    }
-
-    .status {
-      display: inline-block;
-      padding: 5px 9px;
-      border-radius: 20px;
-      font-size: 9px;
-    }
-
-    .status.active {
-      color: var(--green);
-      background: rgba(95,201,130,.08);
-    }
-
-    .status.pending {
-      color: var(--gold-light);
-      background: rgba(212,166,58,.08);
-    }
-
-    /* ==================== ACTIVITY ==================== */
-
-    .activity {
-      padding: 3px 20px;
-    }
-
-    .activity-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      padding: 17px 0;
-      border-bottom: 1px solid #1c1c1c;
-    }
-
-    .activity-icon {
-      width: 36px;
-      height: 36px;
-      flex-shrink: 0;
-      display: grid;
-      place-items: center;
-      border-radius: 10px;
-      background: rgba(212,166,58,.08);
-      color: var(--gold-light);
-    }
-
-    .activity-text strong {
-      display: block;
-      margin-bottom: 5px;
-      font-size: 11px;
-    }
-
-    .activity-text span {
-      color: #666;
-      font-size: 10px;
-      line-height: 1.5;
-    }
-
-    /* ==================== RESPONSIVE ==================== */
-
-    @media (max-width: 1150px) {
-      .stats {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 800px) {
-      .sidebar {
-        transform: translateX(100%);
-      }
-
-      .sidebar.open {
-        transform: translateX(0);
-      }
-
-      .main {
-        margin-right: 0;
-        padding: 18px;
-      }
-
-      .mobile-menu {
-        display: block;
-      }
-
-      .topbar {
-        align-items: flex-start;
-      }
-
-      .page-title {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-      }
-
-      .page-title h2 {
-        font-size: 21px;
-      }
-
-      .admin-info {
-        display: none;
-      }
-    }
-
-    @media (max-width: 520px) {
-      .stats {
-        grid-template-columns: 1fr;
-      }
-
-      .main {
-        padding: 15px;
-      }
-
-      .page-title p {
-        display: none;
-      }
-
-      .stat-number {
-        font-size: 24px;
-      }
-    }
-  </style>
 </head>
+
 
 <body>
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar" id="sidebar">
 
-    <div class="brand">
-      <div class="brand-logo">V</div>
-      <h1>VALORA</h1>
-      <p>ADMIN PANEL</p>
-    </div>
-
-    <nav class="menu">
-
-      <div class="menu-title">الرئيسية</div>
-
-      <a href="dashboard.html" class="menu-link active">
-        <span class="menu-icon">⌂</span>
-        لوحة التحكم
-      </a>
-
-      <div class="menu-title">الإدارة</div>
-
-      <a href="#" class="menu-link">
-        <span class="menu-icon">♙</span>
-        المستخدمون
-      </a>
-
-      <a href="#" class="menu-link">
-        <span class="menu-icon">↗</span>
-        الإيداعات
-      </a>
-
-      <a href="#" class="menu-link">
-        <span class="menu-icon">↙</span>
-        السحوبات
-      </a>
-
-      <a href="#" class="menu-link">
-        <span class="menu-icon">↔</span>
-        المعاملات
-      </a>
-
-      <a href="#" class="menu-link">
-        <span class="menu-icon">▣</span>
-        المحافظ
-      </a>
-
-      <div class="menu-title">النظام</div>
-
-      <a href="#" class="menu-link">
-        <span class="menu-icon">⚙</span>
-        الإعدادات
-      </a>
-
-      <a href="index.html" class="menu-link">
-        <span class="menu-icon">⇥</span>
-        تسجيل الخروج
-      </a>
-
-    </nav>
-
-  </aside>
+<div class="admin-layout">
 
 
-  <!-- MAIN -->
-  <main class="main">
+    <!-- =========================
+         القائمة الجانبية
+    ========================== -->
 
-    <header class="topbar">
+    <aside class="sidebar">
 
-      <div class="page-title">
+        <div class="logo">
 
-        <button class="mobile-menu" id="mobileMenu">
-          ☰
+            <h2>VALORA</h2>
+
+            <span>لوحة الإدارة</span>
+
+        </div>
+
+
+        <nav>
+
+            <a
+                href="dashboard.html"
+                class="active"
+            >
+                🏠
+                <span>لوحة التحكم</span>
+            </a>
+
+
+            <a href="users.html">
+                👥
+                <span>المستخدمون</span>
+            </a>
+
+
+            <a href="deposits.html">
+                💰
+                <span>الإيداعات</span>
+            </a>
+
+
+            <a href="withdrawals.html">
+                💸
+                <span>السحوبات</span>
+            </a>
+
+
+            <a href="trade-codes.html">
+                🔐
+                <span>أكواد الصفقات</span>
+            </a>
+
+
+            <a href="notifications.html">
+                🔔
+                <span>الإشعارات</span>
+            </a>
+
+
+            <a href="messages.html">
+                💬
+                <span>الرسائل</span>
+            </a>
+
+
+            <a href="verification.html">
+                🪪
+                <span>التحقق من الهوية</span>
+            </a>
+
+
+            <a href="settings.html">
+                ⚙️
+                <span>الإعدادات</span>
+            </a>
+
+        </nav>
+
+
+        <button
+            type="button"
+            onclick="logoutAdmin()"
+        >
+            تسجيل الخروج
         </button>
 
-        <div>
-          <h2>لوحة التحكم</h2>
-          <p>نظرة عامة على نظام VALORA</p>
-        </div>
-
-      </div>
-
-      <div class="admin-profile">
-
-        <div class="admin-info">
-          <strong>Administrator</strong>
-          <span>Super Admin</span>
-        </div>
-
-        <div class="admin-avatar">
-          A
-        </div>
-
-      </div>
-
-    </header>
+    </aside>
 
 
-    <!-- STATISTICS -->
-    <section class="stats">
 
-      <div class="stat-card">
+    <!-- =========================
+         المحتوى
+    ========================== -->
 
-        <div class="stat-top">
-          <span class="stat-label">إجمالي المستخدمين</span>
-          <div class="stat-icon">♙</div>
-        </div>
-
-        <div class="stat-number">12,480</div>
-
-        <div class="stat-bottom">
-          ↑ 8.4% هذا الشهر
-        </div>
-
-      </div>
+    <main class="content">
 
 
-      <div class="stat-card">
+        <!-- رأس الصفحة -->
 
-        <div class="stat-top">
-          <span class="stat-label">إجمالي الإيداعات</span>
-          <div class="stat-icon">↗</div>
-        </div>
+        <header class="header">
 
-        <div class="stat-number">$284,650</div>
+            <div>
 
-        <div class="stat-bottom">
-          ↑ 12.7% هذا الشهر
-        </div>
+                <h1>
+                    لوحة التحكم
+                </h1>
 
-      </div>
+                <p>
+                    مرحباً بك في لوحة إدارة VALORA
+                </p>
 
-
-      <div class="stat-card">
-
-        <div class="stat-top">
-          <span class="stat-label">السحوبات المعلقة</span>
-          <div class="stat-icon">↙</div>
-        </div>
-
-        <div class="stat-number">126</div>
-
-        <div class="stat-bottom">
-          تحتاج إلى مراجعة
-        </div>
-
-      </div>
-
-
-      <div class="stat-card">
-
-        <div class="stat-top">
-          <span class="stat-label">إجمالي الأرباح</span>
-          <div class="stat-icon">◈</div>
-        </div>
-
-        <div class="stat-number">$96,420</div>
-
-        <div class="stat-bottom">
-          ↑ 6.2% هذا الشهر
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- CONTENT -->
-    <section class="grid">
-
-      <!-- USERS -->
-      <div class="panel">
-
-        <div class="panel-header">
-          <h3>أحدث المستخدمين</h3>
-          <a href="#" class="panel-link">عرض الكل</a>
-        </div>
-
-        <div class="table-scroll">
-
-          <table>
-
-            <thead>
-              <tr>
-                <th>المستخدم</th>
-                <th>البريد الإلكتروني</th>
-                <th>الرصيد</th>
-                <th>الحالة</th>
-              </tr>
-            </thead>
-
-            <tbody>
-
-              <tr>
-                <td>
-                  <div class="user">
-                    <div class="user-avatar">MA</div>
-                    محمد أحمد
-                  </div>
-                </td>
-                <td>mohamed@example.com</td>
-                <td>$4,820</td>
-                <td>
-                  <span class="status active">نشط</span>
-                </td>
-              </tr>
-
-              <tr>
-                <td>
-                  <div class="user">
-                    <div class="user-avatar">AK</div>
-                    أحمد خالد
-                  </div>
-                </td>
-                <td>ahmed@example.com</td>
-                <td>$2,450</td>
-                <td>
-                  <span class="status active">نشط</span>
-                </td>
-              </tr>
-
-              <tr>
-                <td>
-                  <div class="user">
-                    <div class="user-avatar">OM</div>
-                    عمر محمد
-                  </div>
-                </td>
-                <td>omar@example.com</td>
-                <td>$1,280</td>
-                <td>
-                  <span class="status pending">معلق</span>
-                </td>
-              </tr>
-
-            </tbody>
-
-          </table>
-
-        </div>
-
-      </div>
-
-
-      <!-- ACTIVITY -->
-      <div class="panel">
-
-        <div class="panel-header">
-          <h3>آخر النشاطات</h3>
-          <a href="#" class="panel-link">عرض الكل</a>
-        </div>
-
-        <div class="activity">
-
-          <div class="activity-item">
-
-            <div class="activity-icon">↗</div>
-
-            <div class="activity-text">
-              <strong>إيداع جديد</strong>
-              <span>تم تسجيل إيداع بقيمة $1,250</span>
             </div>
 
-          </div>
 
-
-          <div class="activity-item">
-
-            <div class="activity-icon">♙</div>
-
-            <div class="activity-text">
-              <strong>مستخدم جديد</strong>
-              <span>تم تسجيل مستخدم جديد في النظام</span>
+            <div class="admin-badge">
+                مدير النظام
             </div>
 
-          </div>
+        </header>
 
 
-          <div class="activity-item">
 
-            <div class="activity-icon">↙</div>
+        <!-- =========================
+             الإحصائيات
+        ========================== -->
 
-            <div class="activity-text">
-              <strong>طلب سحب</strong>
-              <span>يوجد طلب سحب جديد بقيمة $850</span>
+        <section class="stats">
+
+
+            <div class="stat-card">
+
+                <h3>
+                    إجمالي المستخدمين
+                </h3>
+
+                <strong id="totalUsers">
+                    0
+                </strong>
+
             </div>
 
-          </div>
 
 
-          <div class="activity-item">
+            <div class="stat-card">
 
-            <div class="activity-icon">✓</div>
+                <h3>
+                    إجمالي الإيداعات
+                </h3>
 
-            <div class="activity-text">
-              <strong>عملية مكتملة</strong>
-              <span>تم تأكيد عملية بنجاح</span>
+                <strong id="totalDeposits">
+                    0 USDT
+                </strong>
+
             </div>
 
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>
-
-  </main>
 
 
-  <script>
+            <div class="stat-card">
 
-    const mobileMenu = document.getElementById("mobileMenu");
-    const sidebar = document.getElementById("sidebar");
+                <h3>
+                    طلبات السحب
+                </h3>
 
-    mobileMenu.addEventListener("click", function () {
-      sidebar.classList.toggle("open");
-    });
+                <strong id="totalWithdrawals">
+                    0
+                </strong>
 
-  </script>
+            </div>
+
+
+
+            <div class="stat-card">
+
+                <h3>
+                    المستخدمون النشطون
+                </h3>
+
+                <strong id="activeUsers">
+                    0
+                </strong>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =========================
+             ملخص سريع
+        ========================== -->
+
+        <section class="panel">
+
+            <h2>
+                ملخص المنصة
+            </h2>
+
+
+            <div class="user-info">
+
+
+                <div>
+
+                    <span>
+                        إيداعات اليوم
+                    </span>
+
+                    <strong id="todayDeposits">
+                        0 USDT
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        سحوبات اليوم
+                    </span>
+
+                    <strong id="todayWithdrawals">
+                        0 USDT
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        طلبات معلقة
+                    </span>
+
+                    <strong id="pendingRequests">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        أعضاء جدد اليوم
+                    </span>
+
+                    <strong id="newUsersToday">
+                        0
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             آخر المستخدمين
+        ========================== -->
+
+        <section class="panel">
+
+            <h2>
+                آخر المستخدمين
+            </h2>
+
+
+            <div class="table-wrapper">
+
+
+                <table class="admin-table">
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                UID
+                            </th>
+
+                            <th>
+                                البريد الإلكتروني
+                            </th>
+
+                            <th>
+                                الهاتف
+                            </th>
+
+                            <th>
+                                تاريخ التسجيل
+                            </th>
+
+                            <th>
+                                الحالة
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="recentUsers">
+
+
+                        <tr>
+
+                            <td colspan="5">
+
+                                لا توجد بيانات حالياً
+
+                            </td>
+
+                        </tr>
+
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             آخر الإيداعات
+        ========================== -->
+
+        <section class="panel">
+
+            <h2>
+                آخر الإيداعات
+            </h2>
+
+
+            <div class="table-wrapper">
+
+
+                <table class="admin-table">
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                UID
+                            </th>
+
+                            <th>
+                                المستخدم
+                            </th>
+
+                            <th>
+                                المبلغ
+                            </th>
+
+                            <th>
+                                العملة
+                            </th>
+
+                            <th>
+                                التاريخ
+                            </th>
+
+                            <th>
+                                الحالة
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="recentDeposits">
+
+
+                        <tr>
+
+                            <td colspan="6">
+
+                                لا توجد إيداعات حالياً
+
+                            </td>
+
+                        </tr>
+
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             آخر طلبات السحب
+        ========================== -->
+
+        <section class="panel">
+
+            <h2>
+                آخر طلبات السحب
+            </h2>
+
+
+            <div class="table-wrapper">
+
+
+                <table class="admin-table">
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                UID
+                            </th>
+
+                            <th>
+                                المستخدم
+                            </th>
+
+                            <th>
+                                العملة
+                            </th>
+
+                            <th>
+                                المبلغ
+                            </th>
+
+                            <th>
+                                عنوان السحب
+                            </th>
+
+                            <th>
+                                الحالة
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="recentWithdrawals">
+
+
+                        <tr>
+
+                            <td colspan="6">
+
+                                لا توجد طلبات سحب حالياً
+
+                            </td>
+
+                        </tr>
+
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+</div>
+
+
+
+<!-- =========================
+     حماية الصفحة
+========================== -->
+
+<script src="js/admin.js"></script>
+
+
+<script>
+
+    protectAdminPage();
+
+</script>
+
 
 </body>
-          </html>
+
+</html>
