@@ -435,76 +435,7 @@
     </main>
 
     <script>
-        // إظهار وإخفاء كلمة المرور
-        const togglePassword = document.getElementById("togglePassword");
-        const passwordInput = document.getElementById("password");
-
-        togglePassword.addEventListener("click", function () {
-
-            const isPassword =
-                passwordInput.type === "password";
-
-            passwordInput.type =
-                isPassword ? "text" : "password";
-
-            togglePassword.textContent =
-                isPassword ? "◉" : "◌";
-
-            togglePassword.setAttribute(
-                "aria-label",
-                isPassword
-                    ? "إخفاء كلمة المرور"
-                    : "إظهار كلمة المرور"
-            );
-        });
-
-        // النموذج حالياً تجريبي فقط
-        // سيتم ربط تسجيل الدخول بالـ API وقاعدة البيانات لاحقاً
-        const loginForm = document.getElementById("loginForm");
-        const loginMessage = document.getElementById("loginMessage");
-
-        loginForm.addEventListener("submit", function (event) {
-
-            event.preventDefault();
-
-            loginMessage.className = "message";
-            loginMessage.textContent = "";
-
-            const email =
-                document.getElementById("email").value.trim();
-
-            const password =
-                document.getElementById("password").value;
-
-            if (!email || !password) {
-                loginMessage.textContent =
-                    "يرجى إدخال البريد الإلكتروني وكلمة المرور.";
-
-                loginMessage.className =
-                    "message error";
-
-                return;
-            }
-
-            /*
-                لاحقاً سنضع هنا:
-
-                fetch("API_URL/login", {
-                    method: "POST",
-                    ...
-                });
-
-                ولن نضع بيانات المدير داخل HTML.
-                تسجيل الدخول الحقيقي سيكون عن طريق API
-                وقاعدة البيانات.
-            */
-
-            loginMessage.textContent =
-                "واجهة تسجيل الدخول جاهزة للربط بالنظام.";
-
-            loginMessage.className =
-                "message error";
-        });
+        <script src="js/admin.js"></script>
     </script>
 
 </body>
