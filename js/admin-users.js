@@ -1,20 +1,13 @@
 /* ==========================================
    VALORA ADMIN
-   USERS DATA SYSTEM
+   USERS SYSTEM
 ========================================== */
 
 "use strict";
 
 
-/*
-    مفتاح بيانات المستخدمين في لوحة الإدارة.
-
-    حالياً نستخدمه للتجربة فقط.
-    لاحقاً سيتم استبداله بقاعدة البيانات/API
-    بدون تغيير شكل بيانات المستخدم.
-*/
-
-const VALORA_ADMIN_USERS_KEY = "VALORA_ADMIN_USERS";
+const VALORA_ADMIN_USERS_KEY =
+    "VALORA_ADMIN_USERS";
 
 
 /* ==========================================
@@ -24,57 +17,90 @@ const VALORA_ADMIN_USERS_KEY = "VALORA_ADMIN_USERS";
 function generateAdminUID() {
 
     const random =
-        Math.floor(100000 + Math.random() * 900000);
+        Math.floor(
+            100000 +
+            Math.random() * 900000
+        );
 
     return "VA" + random;
+
 }
 
 
 /* ==========================================
-   إنشاء مستخدم تجريبي
+   إنشاء كود دعوة
+========================================== */
+
+function generateReferralCode() {
+
+    const chars =
+        "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+    let code = "VA";
+
+    for (let i = 0; i < 6; i++) {
+
+        code +=
+            chars[
+                Math.floor(
+                    Math.random() *
+                    chars.length
+                )
+            ];
+
+    }
+
+    return code;
+
+}
+
+
+/* ==========================================
+   إنشاء مستخدم
 ========================================== */
 
 function createDemoUser() {
 
     return {
 
-        uid: generateAdminUID(),
+        uid:
+            generateAdminUID(),
 
-        referralCode: "VA" +
-            Math.random()
-                .toString(36)
-                .substring(2, 8)
-                .toUpperCase(),
+        referralCode:
+            generateReferralCode(),
 
-        email: "member@valora.com",
+        email:
+            "member@valora.com",
 
-        phone: "",
+        phone:
+            "0500000000",
 
-        balance: 0,
+        balance:
+            0,
 
-        totalDeposit: 0,
+        totalDeposit:
+            0,
 
-        hasDeposit: false,
+        hasDeposit:
+            false,
 
-        invitedCount: 0,
+        invitedCount:
+            0,
 
-        activeMembers: 0,
+        activeMembers:
+            0,
 
-        status: "active",
+        status:
+            "active",
 
-        verificationStatus: "unverified",
+        verificationStatus:
+            "unverified",
 
         createdAt:
             new Date().toISOString(),
 
         lastLogin:
             null,
-
-        /*
-            هذه المصفوفات ستكون مهمة لاحقاً
-            للإيداعات والسحوبات والأرباح
-            والصفقات.
-        */
 
         deposits: [],
 
@@ -91,6 +117,7 @@ function createDemoUser() {
         notifications: []
 
     };
+
 }
 
 
@@ -100,13 +127,13 @@ function createDemoUser() {
 
 function getAdminUsers() {
 
-    const savedUsers =
+    const saved =
         localStorage.getItem(
             VALORA_ADMIN_USERS_KEY
         );
 
 
-    if (!savedUsers) {
+    if (!saved) {
 
         return [];
 
@@ -116,22 +143,17 @@ function getAdminUsers() {
     try {
 
         const users =
-            JSON.parse(savedUsers);
+            JSON.parse(saved);
 
 
-        if (!Array.isArray(users)) {
-
-            return [];
-
-        }
-
-
-        return users;
+        return Array.isArray(users)
+            ? users
+            : [];
 
     } catch (error) {
 
         console.error(
-            "خطأ في قراءة بيانات المستخدمين:",
+            "خطأ في بيانات المستخدمين:",
             error
         );
 
@@ -150,10 +172,6 @@ function saveAdminUsers(users) {
 
     if (!Array.isArray(users)) {
 
-        console.error(
-            "بيانات المستخدمين غير صحيحة"
-        );
-
         return false;
 
     }
@@ -169,6 +187,7 @@ function saveAdminUsers(users) {
 
 
     return true;
+
 }
 
 
@@ -178,7 +197,7 @@ function saveAdminUsers(users) {
 
 function addAdminUser(user) {
 
-    if (!user || typeof user !== "object") {
+    if (!user) {
 
         return false;
 
@@ -189,23 +208,14 @@ function addAdminUser(user) {
         getAdminUsers();
 
 
-    /*
-        منع تكرار UID
-    */
-
     const exists =
         users.some(
-            existingUser =>
-                existingUser.uid === user.uid
+            existing =>
+                existing.uid === user.uid
         );
 
 
     if (exists) {
-
-        console.warn(
-            "المستخدم موجود مسبقاً:",
-            user.uid
-        );
 
         return false;
 
@@ -219,6 +229,35 @@ function addAdminUser(user) {
 
 
     return true;
+
+}
+
+
+/* ==========================================
+   إنشاء عضو تجريبي
+========================================== */
+
+function createFirstDemoUser() {
+
+    const users =
+        getAdminUsers();
+
+
+    if (users.length > 0) {
+
+        return;
+
+    }
+
+
+    const demoUser =
+        createDemoUser();
+
+
+    addAdminUser(
+        demoUser
+    );
+
 }
 
 
@@ -279,7 +318,7 @@ function findAdminUser(searchValue) {
 
 
 /* ==========================================
-   تحديث مستخدم
+   تحديث المستخدم
 ========================================== */
 
 function updateAdminUser(uid, updates) {
@@ -315,11 +354,12 @@ function updateAdminUser(uid, updates) {
 
 
     return true;
+
 }
 
 
 /* ==========================================
-   حساب الإحصائيات
+   إحصائيات المستخدمين
 ========================================== */
 
 function getAdminUserStats() {
@@ -342,31 +382,24 @@ function getAdminUserStats() {
     const depositUsers =
         users.filter(
             user =>
-                Number(user.totalDeposit || 0) > 0
+                Number(
+                    user.totalDeposit || 0
+                ) > 0
         ).length;
 
 
     const today =
-        new Date();
-
-
-    const todayString =
-        today.toISOString()
+        new Date()
+            .toISOString()
             .split("T")[0];
 
 
     const todayUsers =
         users.filter(user => {
 
-            if (!user.createdAt) {
-
-                return false;
-
-            }
-
-
-            return user.createdAt
-                .startsWith(todayString);
+            return String(
+                user.createdAt || ""
+            ).startsWith(today);
 
         }).length;
 
@@ -387,40 +420,8 @@ function getAdminUserStats() {
 
 
 /* ==========================================
-   حساب أهلية الصفقات
+   أهلية الصفقات
 ========================================== */
-
-/*
-    هذه الدالة لا تضيف الأرباح.
-
-    وظيفتها فقط معرفة الصفقات التي يستطيع
-    العضو الحصول عليها.
-
-    القواعد الحالية:
-
-    الصفقة 1:
-    لديه إيداع.
-
-    الصفقة 2:
-    لديه إيداع.
-
-    الصفقة 3:
-    لديه إيداع.
-
-    الصفقة 4:
-    لديه إيداع 500 أو أكثر.
-
-    الصفقة 5:
-    لديه 20 عضو نشط أو أكثر.
-
-    العضو الذي لديه إيداع + 20 عضو نشط
-    يستطيع الحصول على الصفقات المناسبة
-    لكل شرط.
-
-    لاحقاً سننقل هذه القواعد إلى إعدادات
-    لوحة الإدارة حتى تستطيع تغييرها بدون
-    تعديل الكود.
-*/
 
 function getUserTradeEligibility(user) {
 
@@ -429,13 +430,9 @@ function getUserTradeEligibility(user) {
         return {
 
             trade1: false,
-
             trade2: false,
-
             trade3: false,
-
             trade4: false,
-
             trade5: false
 
         };
@@ -444,11 +441,15 @@ function getUserTradeEligibility(user) {
 
 
     const deposit =
-        Number(user.totalDeposit || 0);
+        Number(
+            user.totalDeposit || 0
+        );
 
 
     const activeMembers =
-        Number(user.activeMembers || 0);
+        Number(
+            user.activeMembers || 0
+        );
 
 
     const hasDeposit =
@@ -465,15 +466,20 @@ function getUserTradeEligibility(user) {
 
     return {
 
-        trade1: hasDeposit,
+        trade1:
+            hasDeposit,
 
-        trade2: hasDeposit,
+        trade2:
+            hasDeposit,
 
-        trade3: hasDeposit,
+        trade3:
+            hasDeposit,
 
-        trade4: has500Deposit,
+        trade4:
+            has500Deposit,
 
-        trade5: has20ActiveMembers
+        trade5:
+            has20ActiveMembers
 
     };
 
@@ -481,56 +487,523 @@ function getUserTradeEligibility(user) {
 
 
 /* ==========================================
-   إنشاء عضو تجريبي لأول تجربة
+   حماية النص
 ========================================== */
 
-function createFirstDemoUser() {
+function escapeAdminHTML(value) {
 
-    const users =
-        getAdminUsers();
+    return String(value ?? "")
 
+        .replace(
+            /&/g,
+            "&amp;"
+        )
 
-    /*
-        لا ننشئ مستخدم تجريبي إذا كانت
-        هناك بيانات موجودة بالفعل.
-    */
+        .replace(
+            /</g,
+            "&lt;"
+        )
 
-    if (users.length > 0) {
+        .replace(
+            />/g,
+            "&gt;"
+        )
 
-        return users[0];
+        .replace(
+            /"/g,
+            "&quot;"
+        )
 
-    }
-
-
-    const user =
-        createDemoUser();
-
-
-    addAdminUser(user);
-
-
-    return user;
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 
 }
 
 
 /* ==========================================
-   تصدير الدوال للصفحات
+   إنشاء صف المستخدم
+========================================== */
+
+function createUserRow(user) {
+
+    const row =
+        document.createElement("tr");
+
+
+    const balance =
+        Number(
+            user.balance || 0
+        );
+
+
+    const deposit =
+        Number(
+            user.totalDeposit || 0
+        );
+
+
+    const status =
+        user.status === "active";
+
+
+    row.innerHTML = `
+
+        <td>
+
+            <span class="uid">
+
+                ${escapeAdminHTML(
+                    user.uid
+                )}
+
+            </span>
+
+        </td>
+
+
+        <td>
+
+            ${escapeAdminHTML(
+                user.email
+            )}
+
+        </td>
+
+
+        <td>
+
+            ${escapeAdminHTML(
+                user.phone || "-"
+            )}
+
+        </td>
+
+
+        <td>
+
+            ${balance.toFixed(2)}
+
+        </td>
+
+
+        <td>
+
+            ${deposit.toFixed(2)}
+
+        </td>
+
+
+        <td>
+
+            ${Number(
+                user.invitedCount || 0
+            )}
+
+        </td>
+
+
+        <td>
+
+            ${Number(
+                user.activeMembers || 0
+            )}
+
+        </td>
+
+
+        <td>
+
+            <span
+                class="status ${
+                    status
+                        ? "active"
+                        : "blocked"
+                }"
+            >
+
+                ${
+                    status
+                        ? "نشط"
+                        : "محظور"
+                }
+
+            </span>
+
+        </td>
+
+
+        <td>
+
+            <a
+                href="user-details.html?uid=${encodeURIComponent(
+                    user.uid
+                )}"
+                class="view-button"
+            >
+
+                عرض التفاصيل
+
+            </a>
+
+        </td>
+
+    `;
+
+
+    return row;
+
+}
+
+
+/* ==========================================
+   عرض المستخدمين
+========================================== */
+
+function renderAdminUsers(users) {
+
+    const tableBody =
+        document.getElementById(
+            "usersTableBody"
+        );
+
+
+    const count =
+        document.getElementById(
+            "usersCount"
+        );
+
+
+    if (!tableBody) {
+
+        return;
+
+    }
+
+
+    tableBody.innerHTML = "";
+
+
+    if (!users.length) {
+
+        tableBody.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="9"
+                    class="empty-row"
+                >
+
+                    لا توجد بيانات مستخدمين
+
+                </td>
+
+            </tr>
+
+        `;
+
+
+        if (count) {
+
+            count.textContent =
+                "0 مستخدم";
+
+        }
+
+
+        return;
+
+    }
+
+
+    users.forEach(user => {
+
+        tableBody.appendChild(
+            createUserRow(user)
+        );
+
+    });
+
+
+    if (count) {
+
+        count.textContent =
+            `${users.length} مستخدم`;
+
+    }
+
+}
+
+
+/* ==========================================
+   تحديث الإحصائيات
+========================================== */
+
+function updateUserStatistics() {
+
+    const stats =
+        getAdminUserStats();
+
+
+    const total =
+        document.getElementById(
+            "totalUsers"
+        );
+
+
+    const active =
+        document.getElementById(
+            "activeUsers"
+        );
+
+
+    const deposits =
+        document.getElementById(
+            "depositUsers"
+        );
+
+
+    const today =
+        document.getElementById(
+            "todayUsers"
+        );
+
+
+    if (total) {
+
+        total.textContent =
+            stats.totalUsers;
+
+    }
+
+
+    if (active) {
+
+        active.textContent =
+            stats.activeUsers;
+
+    }
+
+
+    if (deposits) {
+
+        deposits.textContent =
+            stats.depositUsers;
+
+    }
+
+
+    if (today) {
+
+        today.textContent =
+            stats.todayUsers;
+
+    }
+
+}
+
+
+/* ==========================================
+   تحميل الصفحة
+========================================== */
+
+function loadAdminUsers() {
+
+    /*
+        هذه هي النقطة التي كانت ناقصة.
+        إنشاء العضو التجريبي عند أول تشغيل.
+    */
+
+    createFirstDemoUser();
+
+
+    const users =
+        getAdminUsers();
+
+
+    renderAdminUsers(
+        users
+    );
+
+
+    updateUserStatistics();
+
+}
+
+
+/* ==========================================
+   البحث والفلترة
+========================================== */
+
+function searchUsers() {
+
+    const searchInput =
+        document.getElementById(
+            "userSearch"
+        );
+
+
+    const statusSelect =
+        document.getElementById(
+            "userStatus"
+        );
+
+
+    const search =
+        searchInput
+            ? searchInput.value
+                .trim()
+                .toLowerCase()
+            : "";
+
+
+    const selectedStatus =
+        statusSelect
+            ? statusSelect.value
+            : "all";
+
+
+    const users =
+        getAdminUsers();
+
+
+    const filtered =
+        users.filter(user => {
+
+
+            const matchesSearch =
+
+                !search
+
+                ||
+
+                String(
+                    user.uid || ""
+                )
+                    .toLowerCase()
+                    .includes(search)
+
+                ||
+
+                String(
+                    user.email || ""
+                )
+                    .toLowerCase()
+                    .includes(search)
+
+                ||
+
+                String(
+                    user.phone || ""
+                )
+                    .toLowerCase()
+                    .includes(search)
+
+                ||
+
+                String(
+                    user.referralCode || ""
+                )
+                    .toLowerCase()
+                    .includes(search);
+
+
+            const matchesStatus =
+
+                selectedStatus === "all"
+
+                ||
+
+                user.status ===
+                    selectedStatus;
+
+
+            return (
+                matchesSearch &&
+                matchesStatus
+            );
+
+        });
+
+
+    renderAdminUsers(
+        filtered
+    );
+
+}
+
+
+/* ==========================================
+   التشغيل
+========================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        loadAdminUsers();
+
+
+        const searchInput =
+            document.getElementById(
+                "userSearch"
+            );
+
+
+        const statusSelect =
+            document.getElementById(
+                "userStatus"
+            );
+
+
+        if (searchInput) {
+
+            searchInput.addEventListener(
+                "input",
+                searchUsers
+            );
+
+        }
+
+
+        if (statusSelect) {
+
+            statusSelect.addEventListener(
+                "change",
+                searchUsers
+            );
+
+        }
+
+    }
+);
+
+
+/* ==========================================
+   إتاحة النظام للصفحات الأخرى
 ========================================== */
 
 window.VALORA_ADMIN_USERS = {
 
-    get: getAdminUsers,
+    get:
+        getAdminUsers,
 
-    save: saveAdminUsers,
+    save:
+        saveAdminUsers,
 
-    add: addAdminUser,
+    add:
+        addAdminUser,
 
-    find: findAdminUser,
+    find:
+        findAdminUser,
 
-    update: updateAdminUser,
+    update:
+        updateAdminUser,
 
-    stats: getAdminUserStats,
+    stats:
+        getAdminUserStats,
 
     tradeEligibility:
         getUserTradeEligibility,
