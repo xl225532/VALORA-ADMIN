@@ -10,10 +10,10 @@ VALORA ADMIN — USERS
 
 الحالة الحالية:
 
-- واجهة إدارة المستخدمين فقط.
-- لا توجد قاعدة بيانات مرتبطة.
-- لا توجد بيانات وهمية.
-- البيانات ستأتي لاحقًا من API.
+- واجهة إدارة المستخدمين.
+- يوجد مستخدم تجريبي واحد للاختبار.
+- زر عرض التفاصيل يعمل.
+- لاحقًا سيتم استبدال البيانات من API.
 
 المهام:
 - عرض المستخدمين.
@@ -100,10 +100,43 @@ CLEAR PAGE
 function clearUsersPage() {
 
 
-    usersState.users = [];
+    /*
+    =========================================
+    مستخدم تجريبي مؤقت للاختبار
+    سيتم حذفه عند ربط قاعدة البيانات
+    =========================================
+    */
 
 
-    usersState.filteredUsers = [];
+    usersState.users = [
+
+        {
+
+            id: "1001",
+
+            name: "أحمد محمد",
+
+            email: "ahmed@test.com",
+
+            status: "active",
+
+            verification: "verified",
+
+            balance: "$500",
+
+            created_at: "2026-01-01",
+
+            last_activity: "اليوم"
+
+        }
+
+    ];
+
+
+
+    usersState.filteredUsers =
+        usersState.users;
+
 
 
     updateStatistics();
@@ -113,13 +146,6 @@ function clearUsersPage() {
 
 
 }
-
-
-
-
-
-
-
 /*
 =========================================================
 STATISTICS
@@ -132,29 +158,50 @@ function updateStatistics() {
 
     setText(
         "totalUsers",
-        "—"
+        usersState.users.length
     );
 
 
     setText(
         "activeUsers",
-        "—"
+        usersState.users.filter(
+            function(user){
+
+                return user.status === "active";
+
+            }
+        ).length
     );
 
 
     setText(
         "pendingUsers",
-        "—"
+        usersState.users.filter(
+            function(user){
+
+                return user.status === "pending";
+
+            }
+        ).length
     );
 
 
     setText(
         "suspendedUsers",
-        "—"
+        usersState.users.filter(
+            function(user){
+
+                return user.status === "suspended";
+
+            }
+        ).length
     );
 
 
 }
+
+
+
 /*
 =========================================================
 RENDER USERS
@@ -165,13 +212,16 @@ RENDER USERS
 function renderUsers() {
 
 
-    const tbody = document.getElementById(
-        "usersTableBody"
-    );
+    const tbody =
+        document.getElementById(
+            "usersTableBody"
+        );
 
 
     if (!tbody) {
+
         return;
+
     }
 
 
@@ -229,12 +279,10 @@ function renderUsers() {
 
 
     usersState.filteredUsers.forEach(
-        function (user) {
-
+        function(user){
 
             const row =
                 createUserRow(user);
-
 
 
             tbody.appendChild(row);
@@ -249,13 +297,6 @@ function renderUsers() {
 
 
 }
-
-
-
-
-
-
-
 /*
 =========================================================
 CREATE USER ROW
@@ -366,11 +407,9 @@ ${escapeHTML(
 
 <span class="user-verification">
 
-
 ${escapeHTML(
     user.verification || "—"
 )}
-
 
 </span>
 
@@ -450,13 +489,6 @@ class="user-view-button"
 
 
 }
-
-
-
-
-
-
-
 /*
 =========================================================
 SEARCH
@@ -475,7 +507,9 @@ function setupSearch() {
 
 
     if (!input) {
+
         return;
+
     }
 
 
@@ -484,15 +518,16 @@ function setupSearch() {
         "input",
         function () {
 
-
             applyFilters();
-
 
         }
     );
 
 
 }
+
+
+
 /*
 =========================================================
 FILTERS
@@ -597,7 +632,7 @@ function applyFilters() {
 
     usersState.filteredUsers =
         usersState.users.filter(
-            function (user) {
+            function(user){
 
 
 
@@ -683,14 +718,6 @@ function applyFilters() {
 
 
 }
-
-
-
-
-
-
-
-
 /*
 =========================================================
 REFRESH
@@ -709,25 +736,24 @@ function setupRefresh() {
 
 
     if (!button) {
+
         return;
+
     }
 
 
 
     button.addEventListener(
         "click",
-        function () {
-
+        function(){
 
             clearUsersPage();
-
 
         }
     );
 
 
 }
-
 
 
 
@@ -764,16 +790,19 @@ function setupPagination() {
 
         previous.addEventListener(
             "click",
-            function () {
+            function(){
 
 
                 if (
                     usersState.currentPage > 1
                 ) {
 
+
                     usersState.currentPage--;
 
+
                     renderUsers();
+
 
                 }
 
@@ -794,13 +823,29 @@ function setupPagination() {
 
         next.addEventListener(
             "click",
-            function () {
+            function(){
 
 
-                usersState.currentPage++;
+                const totalPages =
+                    Math.ceil(
+                        usersState.filteredUsers.length /
+                        usersState.pageSize
+                    );
 
 
-                renderUsers();
+
+                if (
+                    usersState.currentPage < totalPages
+                ) {
+
+
+                    usersState.currentPage++;
+
+
+                    renderUsers();
+
+
+                }
 
 
             }
@@ -821,22 +866,30 @@ function setupPagination() {
 function updatePagination() {
 
 
+    const total =
+        usersState.filteredUsers.length;
+
+
+
     setText(
         "usersFrom",
-        "0"
+        total > 0 ? "1" : "0"
     );
+
 
 
     setText(
         "usersTo",
-        "0"
+        total
     );
+
 
 
     setText(
         "usersTotal",
-        "0"
+        total
     );
+
 
 
     setText(
@@ -853,43 +906,14 @@ API PLACEHOLDER
 
 لاحقًا عند ربط قاعدة البيانات:
 
-سيتم استبدال هذه الدالة بـ:
-
-fetch()
-أو
-Axios
-
-لجلب المستخدمين الحقيقيين.
+سيتم استبدال هذه الدالة بجلب
+المستخدمين الحقيقيين من السيرفر.
 
 =========================================================
 */
 
 
 async function loadUsersFromAPI() {
-
-
-    /*
-    
-    مثال مستقبلي:
-
-    const response =
-        await fetch("/api/users");
-
-
-    const data =
-        await response.json();
-
-
-    usersState.users = data;
-
-
-    usersState.filteredUsers = data;
-
-
-    renderUsers();
-
-
-    */
 
 
     clearUsersPage();
@@ -932,6 +956,7 @@ function setText(
     element.textContent =
         value ?? "";
 
+
 }
 
 
@@ -952,9 +977,13 @@ function getInitial(
     }
 
 
+
     return String(name)
+
         .trim()
+
         .charAt(0)
+
         .toUpperCase();
 
 
@@ -971,7 +1000,7 @@ function getStatusClass(
 ) {
 
 
-    switch (status) {
+    switch(status){
 
 
         case "active":
@@ -995,6 +1024,7 @@ function getStatusClass(
         default:
 
             return "";
+
 
     }
 
@@ -1047,4 +1077,4 @@ function escapeHTML(
 
 
 
-})();   
+})();    
