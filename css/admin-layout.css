@@ -392,3 +392,369 @@ img {
     padding: 8px 10px;
 
     border: 
+/* =========================================================
+   MOBILE RESPONSIVE FIX
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    html,
+    body {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    .admin-app,
+    .admin-layout {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+    }
+
+
+    /* -----------------------------------------------------
+       SIDEBAR
+       ----------------------------------------------------- */
+
+    .admin-sidebar {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: auto;
+
+        width: min(86vw, 320px);
+        max-width: 320px;
+        height: 100dvh;
+
+        z-index: 1100;
+
+        transform: translateX(105%);
+        transition: transform 0.25s ease;
+
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+
+    /*
+    عندما يفتح الـ Sidebar
+    */
+
+    body.admin-sidebar-open .admin-sidebar {
+        transform: translateX(0);
+    }
+
+
+    /* -----------------------------------------------------
+       OVERLAY
+       ----------------------------------------------------- */
+
+    .admin-sidebar-overlay {
+        position: fixed;
+        inset: 0;
+
+        z-index: 1050;
+
+        display: block;
+
+        background: rgba(0, 0, 0, 0.55);
+
+        opacity: 0;
+        visibility: hidden;
+
+        transition:
+            opacity 0.25s ease,
+            visibility 0.25s ease;
+    }
+
+
+    body.admin-sidebar-open
+    .admin-sidebar-overlay {
+        opacity: 1;
+        visibility: visible;
+    }
+
+
+    /* -----------------------------------------------------
+       MAIN
+       ----------------------------------------------------- */
+
+    .admin-main {
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+
+        margin: 0;
+        padding: 0;
+    }
+
+
+    /* -----------------------------------------------------
+       HEADER
+       ----------------------------------------------------- */
+
+    .admin-header {
+        width: 100%;
+        min-width: 0;
+
+        padding: 12px 14px;
+
+        gap: 10px;
+    }
+
+
+    .admin-header-left,
+    .admin-header-right {
+        min-width: 0;
+    }
+
+
+    .admin-header-left {
+        flex: 1;
+    }
+
+
+    .admin-header-right {
+        flex-shrink: 0;
+    }
+
+
+    .admin-page-heading {
+        min-width: 0;
+    }
+
+
+    .admin-header .admin-page-title {
+        font-size: 18px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+
+    .admin-header .admin-page-description {
+        font-size: 10px;
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+
+    /* -----------------------------------------------------
+       CONTENT
+       ----------------------------------------------------- */
+
+    .admin-content {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+
+        padding: 16px 14px 24px;
+    }
+
+
+    .admin-content-header {
+        width: 100%;
+        min-width: 0;
+
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+
+    .admin-content-header > div {
+        min-width: 0;
+        max-width: 100%;
+    }
+
+
+    .admin-content-header .admin-page-title {
+        font-size: 22px;
+    }
+
+
+    .admin-content-header .admin-page-description {
+        font-size: 11px;
+    }
+
+
+    /* -----------------------------------------------------
+       CONTENT ACTIONS
+       ----------------------------------------------------- */
+
+    .admin-content-actions {
+        width: 100%;
+        max-width: 100%;
+
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+
+    .admin-content-actions .admin-btn {
+        max-width: 100%;
+    }
+
+
+    /* -----------------------------------------------------
+       STATISTICS
+       ----------------------------------------------------- */
+
+    .admin-stats-grid {
+        width: 100%;
+        min-width: 0;
+
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+        gap: 10px;
+    }
+
+
+    .admin-stat-card {
+        min-width: 0;
+        overflow: hidden;
+    }
+
+
+    .admin-stat-label {
+        font-size: 10px;
+    }
+
+
+    .admin-stat-value {
+        font-size: 20px;
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+
+    /* -----------------------------------------------------
+       MAIN GRID
+       ----------------------------------------------------- */
+
+    .admin-grid-main {
+        width: 100%;
+        min-width: 0;
+
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+
+    .admin-card {
+        width: 100%;
+        min-width: 0;
+
+        overflow: hidden;
+    }
+
+
+    .admin-card-header {
+        min-width: 0;
+
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+
+    .admin-card-header > div {
+        min-width: 0;
+        max-width: 100%;
+    }
+
+
+    .admin-card-title {
+        font-size: 14px;
+    }
+
+
+    .admin-card-description {
+        font-size: 10px;
+    }
+
+
+    /* -----------------------------------------------------
+       ACTIVITY
+       ----------------------------------------------------- */
+
+    .dashboard-activity {
+        width: 100%;
+        min-width: 0;
+    }
+
+
+    .dashboard-activity > div {
+        min-width: 0;
+    }
+
+
+    /* -----------------------------------------------------
+       BUTTONS
+       ----------------------------------------------------- */
+
+    .admin-btn {
+        min-height: 38px;
+
+        white-space: nowrap;
+    }
+
+
+    /* -----------------------------------------------------
+       MOBILE MENU BUTTON
+       ----------------------------------------------------- */
+
+    .admin-menu-toggle {
+        display: inline-flex;
+        flex-shrink: 0;
+    }
+
+}
+
+
+/* =========================================================
+   VERY SMALL SCREENS
+   ========================================================= */
+
+@media (max-width: 420px) {
+
+    .admin-sidebar {
+        width: 84vw;
+        max-width: 300px;
+    }
+
+
+    .admin-content {
+        padding-inline: 10px;
+    }
+
+
+    .admin-header {
+        padding-inline: 10px;
+    }
+
+
+    .admin-stats-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+
+    .admin-stat-value {
+        font-size: 22px;
+    }
+
+
+    .admin-header-right {
+        gap: 4px;
+    }
+
+
+    .admin-icon-button {
+        width: 36px;
+        height: 36px;
+    }
+
+}
