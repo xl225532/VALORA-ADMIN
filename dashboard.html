@@ -2,21 +2,13 @@
 <html lang="ar" dir="rtl">
 
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="theme-color" content="#070707">
+    <meta name="description" content="VALORA Administration Dashboard">
 
-    <meta
-        name="theme-color"
-        content="#070707"
-    >
-
-    <title>VALORA | لوحة التحكم</title>
-
+    <title>VALORA ADMIN — لوحة التحكم</title>
 
     <link
         rel="preconnect"
@@ -25,7 +17,7 @@
 
     <link
         rel="preconnect"
-        href="https://fonts.googleapis.com"
+        href="https://fonts.gstatic.com"
         crossorigin
     >
 
@@ -34,41 +26,46 @@
         rel="stylesheet"
     >
 
-
-    <link
-        rel="stylesheet"
-        href="css/admin-layout.css"
-    >
-
+    <link rel="stylesheet" href="css/admin-layout.css">
 </head>
 
 
 <body>
 
-
 <div class="admin-app">
-
-
-    <!-- القائمة الجانبية -->
 
     <div class="admin-layout">
 
 
-        <div class="admin-sidebar-overlay"></div>
+        <!-- =================================================
+             MOBILE OVERLAY
+        ================================================== -->
 
+        <div
+            class="admin-sidebar-overlay"
+            aria-hidden="true"
+        ></div>
+
+
+        <!-- =================================================
+             SIDEBAR
+        ================================================== -->
 
         <aside
             class="admin-sidebar"
-            id="adminSidebar"
+            aria-label="القائمة الرئيسية"
         >
 
+            <!-- Brand -->
 
             <div class="admin-brand">
 
-                <div class="admin-brand-mark">
+                <div
+                    class="admin-brand-mark"
+                    aria-hidden="true"
+                >
                     V
                 </div>
-
 
                 <div class="admin-brand-content">
 
@@ -77,7 +74,7 @@
                     </h1>
 
                     <p class="admin-brand-subtitle">
-                        لوحة الإدارة
+                        Admin Panel
                     </p>
 
                 </div>
@@ -85,26 +82,30 @@
             </div>
 
 
+            <!-- Navigation -->
 
             <nav class="admin-nav">
 
+                <!-- Overview -->
 
                 <div class="admin-nav-section">
-                    الإدارة
+                    الرئيسية
                 </div>
 
-
                 <ul class="admin-nav-list">
-
 
                     <li class="admin-nav-item">
 
                         <a
                             href="dashboard.html"
                             class="admin-nav-link active"
+                            aria-current="page"
                         >
 
-                            <span class="admin-nav-icon">
+                            <span
+                                class="admin-nav-icon"
+                                aria-hidden="true"
+                            >
                                 ◈
                             </span>
 
@@ -116,7 +117,16 @@
 
                     </li>
 
+                </ul>
 
+
+                <!-- Management -->
+
+                <div class="admin-nav-section">
+                    الإدارة
+                </div>
+
+                <ul class="admin-nav-list">
 
                     <li class="admin-nav-item">
 
@@ -125,7 +135,10 @@
                             class="admin-nav-link"
                         >
 
-                            <span class="admin-nav-icon">
+                            <span
+                                class="admin-nav-icon"
+                                aria-hidden="true"
+                            >
                                 ♙
                             </span>
 
@@ -138,7 +151,6 @@
                     </li>
 
 
-
                     <li class="admin-nav-item">
 
                         <a
@@ -146,7 +158,10 @@
                             class="admin-nav-link"
                         >
 
-                            <span class="admin-nav-icon">
+                            <span
+                                class="admin-nav-icon"
+                                aria-hidden="true"
+                            >
                                 ＋
                             </span>
 
@@ -154,10 +169,17 @@
                                 الإيداعات
                             </span>
 
+                            <span
+                                class="admin-nav-badge"
+                                id="pendingDepositsCount"
+                                hidden
+                            >
+                                0
+                            </span>
+
                         </a>
 
                     </li>
-
 
 
                     <li class="admin-nav-item">
@@ -167,7 +189,10 @@
                             class="admin-nav-link"
                         >
 
-                            <span class="admin-nav-icon">
+                            <span
+                                class="admin-nav-icon"
+                                aria-hidden="true"
+                            >
                                 −
                             </span>
 
@@ -180,7 +205,6 @@
                     </li>
 
 
-
                     <li class="admin-nav-item">
 
                         <a
@@ -188,7 +212,10 @@
                             class="admin-nav-link"
                         >
 
-                            <span class="admin-nav-icon">
+                            <span
+                                class="admin-nav-icon"
+                                aria-hidden="true"
+                            >
                                 ⇄
                             </span>
 
@@ -200,7 +227,16 @@
 
                     </li>
 
+                </ul>
 
+
+                <!-- Trading -->
+
+                <div class="admin-nav-section">
+                    التداول
+                </div>
+
+                <ul class="admin-nav-list">
 
                     <li class="admin-nav-item">
 
@@ -209,40 +245,31 @@
                             class="admin-nav-link"
                         >
 
-                            <span class="admin-nav-icon">
-                                ⌘
+                            <span
+                                class="admin-nav-icon"
+                                aria-hidden="true"
+                            >
+                                #
                             </span>
 
                             <span class="admin-nav-label">
-                                أكواد الصفقات
+                                أكواد التداول
                             </span>
 
                         </a>
 
                     </li>
 
+                </ul>
 
 
-                    <li class="admin-nav-item">
+                <!-- Communication -->
 
-                        <a
-                            href="verification.html"
-                            class="admin-nav-link"
-                        >
+                <div class="admin-nav-section">
+                    التواصل
+                </div>
 
-                            <span class="admin-nav-icon">
-                                ✓
-                            </span>
-
-                            <span class="admin-nav-label">
-                                التحقق من الهوية
-                            </span>
-
-                        </a>
-
-                    </li>
-
-
+                <ul class="admin-nav-list">
 
                     <li class="admin-nav-item">
 
@@ -251,8 +278,11 @@
                             class="admin-nav-link"
                         >
 
-                            <span class="admin-nav-icon">
-                                ●
+                            <span
+                                class="admin-nav-icon"
+                                aria-hidden="true"
+                            >
+                                ◉
                             </span>
 
                             <span class="admin-nav-label">
@@ -264,7 +294,6 @@
                     </li>
 
 
-
                     <li class="admin-nav-item">
 
                         <a
@@ -272,19 +301,64 @@
                             class="admin-nav-link"
                         >
 
-                            <span class="admin-nav-icon">
-                                ✉
+                            <span
+                                class="admin-nav-icon"
+                                aria-hidden="true"
+                            >
+                                ▱
                             </span>
 
                             <span class="admin-nav-label">
-                                الدعم والرسائل
+                                الرسائل
                             </span>
 
                         </a>
 
                     </li>
 
+                </ul>
 
+
+                <!-- Verification -->
+
+                <div class="admin-nav-section">
+                    التحقق
+                </div>
+
+                <ul class="admin-nav-list">
+
+                    <li class="admin-nav-item">
+
+                        <a
+                            href="verification.html"
+                            class="admin-nav-link"
+                        >
+
+                            <span
+                                class="admin-nav-icon"
+                                aria-hidden="true"
+                            >
+                                ✓
+                            </span>
+
+                            <span class="admin-nav-label">
+                                التحقق من المستخدمين
+                            </span>
+
+                        </a>
+
+                    </li>
+
+                </ul>
+
+
+                <!-- System -->
+
+                <div class="admin-nav-section">
+                    النظام
+                </div>
+
+                <ul class="admin-nav-list">
 
                     <li class="admin-nav-item">
 
@@ -293,7 +367,10 @@
                             class="admin-nav-link"
                         >
 
-                            <span class="admin-nav-icon">
+                            <span
+                                class="admin-nav-icon"
+                                aria-hidden="true"
+                            >
                                 ⚙
                             </span>
 
@@ -305,31 +382,28 @@
 
                     </li>
 
-
                 </ul>
-
 
             </nav>
 
 
-
-            <!-- حساب المدير -->
+            <!-- Admin Footer -->
 
             <div class="admin-sidebar-footer">
 
-
                 <div class="admin-admin-card">
 
-
-                    <div class="admin-avatar">
+                    <div
+                        class="admin-avatar"
+                        aria-hidden="true"
+                    >
                         A
                     </div>
-
 
                     <div class="admin-admin-info">
 
                         <p class="admin-admin-name">
-                            المدير
+                            Admin
                         </p>
 
                         <p class="admin-admin-role">
@@ -338,45 +412,36 @@
 
                     </div>
 
-
                 </div>
 
-
-                <button
-                    type="button"
-                    class="admin-btn admin-btn-secondary"
-                    id="logoutButton"
-                    style="width:100%;margin-top:10px;"
-                >
-                    تسجيل الخروج
-                </button>
-
-
             </div>
-
 
         </aside>
 
 
-
-        <!-- المحتوى -->
+        <!-- =================================================
+             MAIN
+        ================================================== -->
 
         <section class="admin-main">
 
 
-            <!-- الشريط العلوي -->
+            <!-- =================================================
+                 HEADER
+            ================================================== -->
 
             <header class="admin-header">
 
 
                 <div class="admin-header-left">
 
-
                     <button
                         type="button"
                         class="admin-icon-button admin-menu-toggle"
                         id="mobileMenu"
                         aria-label="فتح القائمة"
+                        aria-expanded="false"
+                        aria-controls="adminSidebar"
                     >
                         ☰
                     </button>
@@ -389,38 +454,52 @@
                         </h2>
 
                         <p class="admin-page-description">
-                            نظرة عامة على منصة VALORA
+                            نظرة عامة على نظام VALORA
                         </p>
 
                     </div>
 
-
                 </div>
-
 
 
                 <div class="admin-header-right">
 
+
+                    <!-- Notifications -->
 
                     <button
                         type="button"
                         class="admin-icon-button admin-notification-button"
                         id="notificationButton"
                         aria-label="الإشعارات"
+                        title="الإشعارات"
                     >
-                        ◉
+
+                        <span aria-hidden="true">
+                            ◉
+                        </span>
+
+                        <span
+                            class="admin-notification-badge"
+                            id="notificationCount"
+                            aria-label="عدد الإشعارات"
+                        ></span>
+
                     </button>
 
+
+                    <!-- Admin -->
 
                     <button
                         type="button"
                         class="admin-icon-button admin-admin-button"
                         id="adminMenuButton"
                         aria-label="حساب المدير"
+                        aria-expanded="false"
+                        title="حساب المدير"
                     >
                         A
                     </button>
-
 
                 </div>
 
@@ -428,31 +507,527 @@
             </header>
 
 
-
-            <!-- محتوى الصفحة -->
+            <!-- =================================================
+                 CONTENT
+            ================================================== -->
 
             <main class="admin-content">
 
 
-                <div class="admin-content-header">
+                <!-- Page Header -->
 
+                <div class="admin-content-header">
 
                     <div>
 
                         <h1 class="admin-page-title">
-                            لوحة التحكم
+                            نظرة عامة
                         </h1>
 
                         <p class="admin-page-description">
-                            ملخص سريع لحالة المنصة والعمليات الحالية
+                            متابعة أداء المنصة والعمليات الأخيرة.
                         </p>
 
                     </div>
 
 
-                    <button
-                        type="button"
-                        class="admin-btn admin-btn-secondary"
-                        id="refreshDashboard"
-                    >
-                       
+                    <div class="admin-content-actions">
+
+                        <button
+                            type="button"
+                            class="admin-btn admin-btn-secondary"
+                            id="refreshDashboard"
+                        >
+                            <span aria-hidden="true">
+                                ↻
+                            </span>
+
+                            تحديث البيانات
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     STATISTICS
+                ================================================== -->
+
+                <section
+                    class="admin-stats-grid"
+                    aria-label="إحصائيات النظام"
+                >
+
+
+                    <!-- Users -->
+
+                    <article class="admin-stat-card">
+
+                        <p class="admin-stat-label">
+                            إجمالي المستخدمين
+                        </p>
+
+                        <h3
+                            class="admin-stat-value"
+                            id="usersCount"
+                        >
+                            —
+                        </h3>
+
+                        <div class="admin-stat-meta positive">
+
+                            <span aria-hidden="true">
+                                ↑
+                            </span>
+
+                            <span id="usersGrowth">
+                                —
+                            </span>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- Deposits -->
+
+                    <article class="admin-stat-card">
+
+                        <p class="admin-stat-label">
+                            إجمالي الإيداعات
+                        </p>
+
+                        <h3
+                            class="admin-stat-value"
+                            id="depositsCount"
+                        >
+                            —
+                        </h3>
+
+                        <div class="admin-stat-meta positive">
+
+                            <span aria-hidden="true">
+                                ↑
+                            </span>
+
+                            <span id="depositsGrowth">
+                                —
+                            </span>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- Transactions -->
+
+                    <article class="admin-stat-card">
+
+                        <p class="admin-stat-label">
+                            العمليات اليوم
+                        </p>
+
+                        <h3
+                            class="admin-stat-value"
+                            id="transactionsCount"
+                        >
+                            —
+                        </h3>
+
+                        <div class="admin-stat-meta">
+
+                            <span id="transactionsMeta">
+                                —
+                            </span>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- System -->
+
+                    <article class="admin-stat-card">
+
+                        <p class="admin-stat-label">
+                            حالة النظام
+                        </p>
+
+                        <h3
+                            class="admin-stat-value"
+                            id="systemStatus"
+                        >
+                            —
+                        </h3>
+
+                        <div class="admin-stat-meta positive">
+
+                            <span
+                                aria-hidden="true"
+                            >
+                                ●
+                            </span>
+
+                            <span>
+                                جميع الخدمات الأساسية
+                            </span>
+
+                        </div>
+
+                    </article>
+
+                </section>
+
+
+                <!-- =================================================
+                     MAIN GRID
+                ================================================== -->
+
+                <div class="admin-grid admin-grid-main">
+
+
+                    <!-- =================================================
+                         RECENT ACTIVITY
+                    ================================================== -->
+
+                    <section class="admin-card">
+
+                        <div class="admin-card-header">
+
+                            <div>
+
+                                <h2 class="admin-card-title">
+                                    آخر النشاطات
+                                </h2>
+
+                                <p class="admin-card-description">
+                                    أحدث الأحداث المسجلة في النظام
+                                </p>
+
+                            </div>
+
+
+                            <button
+                                type="button"
+                                class="admin-btn admin-btn-secondary"
+                                id="viewAllActivity"
+                            >
+                                عرض الكل
+                            </button>
+
+                        </div>
+
+
+                        <div
+                            class="admin-card-body"
+                            id="activityList"
+                        >
+
+                            <div class="admin-empty">
+
+                                <div
+                                    class="admin-empty-icon"
+                                    aria-hidden="true"
+                                >
+                                    ◌
+                                </div>
+
+                                <h3 class="admin-empty-title">
+                                    جاري تحميل النشاطات
+                                </h3>
+
+                                <p class="admin-empty-description">
+                                    يتم تجهيز بيانات النشاط الأخيرة.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- =================================================
+                         SYSTEM STATUS
+                    ================================================== -->
+
+                    <section class="admin-card">
+
+                        <div class="admin-card-header">
+
+                            <div>
+
+                                <h2 class="admin-card-title">
+                                    حالة الخدمات
+                                </h2>
+
+                                <p class="admin-card-description">
+                                    الحالة الحالية لخدمات المنصة
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="admin-card-body">
+
+                            <div
+                                class="admin-grid"
+                                style="gap: 0;"
+                            >
+
+
+                                <!-- Database -->
+
+                                <div
+                                    class="admin-table-row"
+                                    style="
+                                        display:flex;
+                                        align-items:center;
+                                        justify-content:space-between;
+                                        gap:12px;
+                                        padding:14px 0;
+                                        border-bottom:1px solid var(--va-border);
+                                    "
+                                >
+
+                                    <div>
+
+                                        <strong
+                                            style="
+                                                display:block;
+                                                color:var(--va-text);
+                                                font-size:12px;
+                                            "
+                                        >
+                                            قاعدة البيانات
+                                        </strong>
+
+                                        <span
+                                            style="
+                                                color:var(--va-text-muted);
+                                                font-size:10px;
+                                            "
+                                        >
+                                            Database
+                                        </span>
+
+                                    </div>
+
+
+                                    <span
+                                        class="admin-status admin-status-success"
+                                        id="databaseStatus"
+                                    >
+                                        جاري الفحص
+                                    </span>
+
+                                </div>
+
+
+                                <!-- API -->
+
+                                <div
+                                    class="admin-table-row"
+                                    style="
+                                        display:flex;
+                                        align-items:center;
+                                        justify-content:space-between;
+                                        gap:12px;
+                                        padding:14px 0;
+                                        border-bottom:1px solid var(--va-border);
+                                    "
+                                >
+
+                                    <div>
+
+                                        <strong
+                                            style="
+                                                display:block;
+                                                color:var(--va-text);
+                                                font-size:12px;
+                                            "
+                                        >
+                                            خادم API
+                                        </strong>
+
+                                        <span
+                                            style="
+                                                color:var(--va-text-muted);
+                                                font-size:10px;
+                                            "
+                                        >
+                                            API Server
+                                        </span>
+
+                                    </div>
+
+
+                                    <span
+                                        class="admin-status admin-status-success"
+                                        id="apiStatus"
+                                    >
+                                        جاري الفحص
+                                    </span>
+
+                                </div>
+
+
+                                <!-- Storage -->
+
+                                <div
+                                    class="admin-table-row"
+                                    style="
+                                        display:flex;
+                                        align-items:center;
+                                        justify-content:space-between;
+                                        gap:12px;
+                                        padding:14px 0;
+                                    "
+                                >
+
+                                    <div>
+
+                                        <strong
+                                            style="
+                                                display:block;
+                                                color:var(--va-text);
+                                                font-size:12px;
+                                            "
+                                        >
+                                            التخزين
+                                        </strong>
+
+                                        <span
+                                            style="
+                                                color:var(--va-text-muted);
+                                                font-size:10px;
+                                            "
+                                        >
+                                            Storage
+                                        </span>
+
+                                    </div>
+
+
+                                    <span
+                                        class="admin-status admin-status-success"
+                                        id="storageStatus"
+                                    >
+                                        جاري الفحص
+                                    </span>
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                    </section>
+
+                </div>
+
+
+                <!-- =================================================
+                     QUICK ACTIONS
+                ================================================== -->
+
+                <section
+                    class="admin-card"
+                    style="margin-top:18px;"
+                >
+
+                    <div class="admin-card-header">
+
+                        <div>
+
+                            <h2 class="admin-card-title">
+                                الوصول السريع
+                            </h2>
+
+                            <p class="admin-card-description">
+                                الانتقال إلى أهم أقسام الإدارة
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="admin-card-body">
+
+                        <div class="admin-content-actions">
+
+
+                            <a
+                                href="users.html"
+                                class="admin-btn admin-btn-secondary"
+                            >
+                                ♙
+                                المستخدمون
+                            </a>
+
+
+                            <a
+                                href="deposits.html"
+                                class="admin-btn admin-btn-secondary"
+                            >
+                                ＋
+                                الإيداعات
+                            </a>
+
+
+                            <a
+                                href="withdrawals.html"
+                                class="admin-btn admin-btn-secondary"
+                            >
+                                −
+                                السحوبات
+                            </a>
+
+
+                            <a
+                                href="transactions.html"
+                                class="admin-btn admin-btn-secondary"
+                            >
+                                ⇄
+                                العمليات
+                            </a>
+
+
+                            <a
+                                href="verification.html"
+                                class="admin-btn admin-btn-secondary"
+                            >
+                                ✓
+                                التحقق
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+            </main>
+
+        </section>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     SCRIPTS
+====================================================== -->
+
+<script src="js/admin.js"></script>
+<script src="js/dashboard.js"></script>
+
+</body>
+    </html>
