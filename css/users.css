@@ -1,0 +1,947 @@
+/* =========================================================
+   VALORA ADMIN — USERS PAGE
+   ========================================================= */
+
+
+/* =========================================================
+   USERS STATISTICS
+   ========================================================= */
+
+.users-stats-grid {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 14px;
+
+    margin-bottom: 18px;
+}
+
+.users-stat-card {
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+
+    padding: 16px 18px;
+
+    border: 1px solid var(--va-border);
+
+    border-radius: var(--va-radius-md);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.018),
+            transparent
+        ),
+        var(--va-surface);
+
+    box-shadow: var(--va-shadow-sm);
+
+    transition:
+        border-color var(--va-transition),
+        transform var(--va-transition),
+        background var(--va-transition);
+}
+
+.users-stat-card:hover {
+    border-color: var(--va-border-strong);
+
+    background: var(--va-surface-2);
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   STAT ICON
+   ========================================================= */
+
+.users-stat-icon {
+    width: 42px;
+    height: 42px;
+
+    flex: 0 0 42px;
+
+    display: grid;
+    place-items: center;
+
+    border: 1px solid rgba(212, 175, 55, 0.20);
+
+    border-radius: 11px;
+
+    background: var(--va-gold-soft);
+
+    color: var(--va-gold-light);
+
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.users-stat-icon.success {
+    border-color: rgba(67, 200, 121, 0.18);
+
+    background: var(--va-success-soft);
+
+    color: var(--va-success);
+}
+
+.users-stat-icon.warning {
+    border-color: rgba(224, 168, 61, 0.18);
+
+    background: var(--va-warning-soft);
+
+    color: var(--va-warning);
+}
+
+.users-stat-icon.danger {
+    border-color: rgba(228, 92, 92, 0.18);
+
+    background: var(--va-danger-soft);
+
+    color: var(--va-danger);
+}
+
+
+/* =========================================================
+   STAT TEXT
+   ========================================================= */
+
+.users-stat-label {
+    margin: 0;
+
+    color: var(--va-text-muted);
+
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.users-stat-value {
+    margin: 3px 0 0;
+
+    color: var(--va-text);
+
+    font-size: 22px;
+    font-weight: 800;
+
+    line-height: 1.25;
+}
+
+
+/* =========================================================
+   USERS CARD
+   ========================================================= */
+
+.users-card {
+    width: 100%;
+    min-width: 0;
+}
+
+
+/* =========================================================
+   FILTERS
+   ========================================================= */
+
+.users-filters {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(260px, 1fr)
+        180px
+        180px;
+
+    gap: 12px;
+
+    padding: 15px 18px;
+
+    border-bottom: 1px solid var(--va-border);
+
+    background: rgba(255, 255, 255, 0.012);
+}
+
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+.users-search {
+    position: relative;
+
+    min-width: 0;
+}
+
+.users-search-icon {
+    position: absolute;
+
+    top: 50%;
+    right: 13px;
+
+    transform: translateY(-50%);
+
+    color: var(--va-text-muted);
+
+    font-size: 18px;
+
+    pointer-events: none;
+}
+
+.users-search-input {
+    width: 100%;
+    height: 42px;
+
+    padding: 0 40px 0 13px;
+
+    border: 1px solid var(--va-border);
+
+    border-radius: var(--va-radius-sm);
+
+    outline: none;
+
+    background: var(--va-surface);
+
+    color: var(--va-text);
+
+    font-size: 11px;
+
+    transition:
+        border-color var(--va-transition),
+        background var(--va-transition),
+        box-shadow var(--va-transition);
+}
+
+.users-search-input::placeholder {
+    color: #666;
+}
+
+.users-search-input:hover {
+    border-color: var(--va-border-strong);
+}
+
+.users-search-input:focus {
+    border-color: rgba(212, 175, 55, 0.45);
+
+    background: var(--va-surface-2);
+
+    box-shadow:
+        0 0 0 3px rgba(212, 175, 55, 0.08);
+}
+
+
+/* =========================================================
+   FILTER
+   ========================================================= */
+
+.users-filter {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 4px;
+}
+
+.users-filter-label {
+    color: var(--va-text-muted);
+
+    font-size: 9px;
+    font-weight: 600;
+}
+
+.users-select {
+    width: 100%;
+    height: 42px;
+
+    padding: 0 11px;
+
+    border: 1px solid var(--va-border);
+
+    border-radius: var(--va-radius-sm);
+
+    outline: none;
+
+    background: var(--va-surface);
+
+    color: var(--va-text);
+
+    font-size: 11px;
+
+    cursor: pointer;
+
+    transition:
+        border-color var(--va-transition),
+        background var(--va-transition);
+}
+
+.users-select:hover {
+    border-color: var(--va-border-strong);
+
+    background: var(--va-surface-2);
+}
+
+.users-select:focus {
+    border-color: rgba(212, 175, 55, 0.45);
+
+    box-shadow:
+        0 0 0 3px rgba(212, 175, 55, 0.08);
+}
+
+.users-select option {
+    background: #151515;
+
+    color: var(--va-text);
+}
+
+
+/* =========================================================
+   TABLE WRAPPER
+   ========================================================= */
+
+.users-table-wrapper {
+    width: 100%;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    scrollbar-width: thin;
+}
+
+.users-table-wrapper::-webkit-scrollbar {
+    height: 6px;
+}
+
+.users-table-wrapper::-webkit-scrollbar-track {
+    background: var(--va-surface);
+}
+
+.users-table-wrapper::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.10);
+
+    border-radius: 999px;
+}
+
+
+/* =========================================================
+   TABLE
+   ========================================================= */
+
+.users-table {
+    width: 100%;
+
+    min-width: 980px;
+
+    border-collapse: collapse;
+
+    border-spacing: 0;
+}
+
+.users-table thead {
+    background: rgba(255, 255, 255, 0.018);
+}
+
+.users-table th {
+    height: 46px;
+
+    padding: 0 14px;
+
+    border-bottom: 1px solid var(--va-border);
+
+    color: #777;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    text-align: right;
+
+    white-space: nowrap;
+}
+
+.users-table td {
+    height: 68px;
+
+    padding: 10px 14px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.055);
+
+    color: var(--va-text-soft);
+
+    font-size: 10px;
+
+    vertical-align: middle;
+
+    white-space: nowrap;
+}
+
+.users-table tbody tr {
+    transition:
+        background var(--va-transition);
+}
+
+.users-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.025);
+}
+
+.users-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+
+/* =========================================================
+   USER CELL
+   ========================================================= */
+
+.user-cell {
+    min-width: 190px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+
+    flex: 0 0 36px;
+
+    display: grid;
+    place-items: center;
+
+    border: 1px solid rgba(212, 175, 55, 0.20);
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(212, 175, 55, 0.20),
+            rgba(212, 175, 55, 0.06)
+        );
+
+    color: var(--va-gold-light);
+
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.user-info {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.user-info strong {
+    display: block;
+
+    max-width: 170px;
+
+    overflow: hidden;
+
+    color: var(--va-text);
+
+    font-size: 11px;
+    font-weight: 700;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.user-info span {
+    display: block;
+
+    max-width: 190px;
+
+    margin-top: 2px;
+
+    overflow: hidden;
+
+    color: var(--va-text-muted);
+
+    font-size: 9px;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   USER ID
+   ========================================================= */
+
+.user-id {
+    color: var(--va-text-muted);
+
+    font-family:
+        "Segoe UI",
+        Tahoma,
+        Arial,
+        sans-serif;
+
+    font-size: 9px;
+}
+
+
+/* =========================================================
+   USER STATUS
+   ========================================================= */
+
+.user-status,
+.user-verification {
+    min-height: 25px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 9px;
+
+    border-radius: 999px;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+/* Active */
+
+.user-status.active {
+    background: var(--va-success-soft);
+
+    color: var(--va-success);
+}
+
+
+/* Pending */
+
+.user-status.pending {
+    background: var(--va-warning-soft);
+
+    color: var(--va-warning);
+}
+
+
+/* Suspended */
+
+.user-status.suspended {
+    background: var(--va-danger-soft);
+
+    color: var(--va-danger);
+}
+
+
+/* =========================================================
+   VERIFICATION
+   ========================================================= */
+
+.user-verification.verified {
+    background: var(--va-success-soft);
+
+    color: var(--va-success);
+}
+
+.user-verification.unverified {
+    background: rgba(255, 255, 255, 0.06);
+
+    color: var(--va-text-muted);
+}
+
+
+/* =========================================================
+   BALANCE
+   ========================================================= */
+
+.user-balance {
+    color: var(--va-text);
+
+    font-size: 10px;
+    font-weight: 700;
+
+    direction: ltr;
+
+    unicode-bidi: plaintext;
+}
+
+
+/* =========================================================
+   VIEW BUTTON
+   ========================================================= */
+
+.user-view-button {
+    min-width: 54px;
+    height: 30px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 10px;
+
+    border: 1px solid rgba(212, 175, 55, 0.20);
+
+    border-radius: 7px;
+
+    background: var(--va-gold-soft);
+
+    color: var(--va-gold-light);
+
+    font-size: 9px;
+    font-weight: 700;
+
+    transition:
+        background var(--va-transition),
+        border-color var(--va-transition),
+        color var(--va-transition),
+        transform var(--va-transition);
+}
+
+.user-view-button:hover {
+    background: rgba(212, 175, 55, 0.18);
+
+    border-color: rgba(212, 175, 55, 0.40);
+
+    color: #f1d878;
+
+    transform: translateY(-1px);
+}
+
+.user-view-button:active {
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.users-empty {
+    min-height: 240px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 30px;
+
+    text-align: center;
+
+    border-top: 1px solid var(--va-border);
+}
+
+.users-empty[hidden] {
+    display: none;
+}
+
+.users-empty-icon {
+    width: 48px;
+    height: 48px;
+
+    display: grid;
+    place-items: center;
+
+    margin-bottom: 10px;
+
+    border: 1px solid var(--va-border);
+
+    border-radius: 50%;
+
+    background: var(--va-surface-2);
+
+    color: var(--va-gold);
+
+    font-size: 20px;
+}
+
+.users-empty h3 {
+    margin: 0;
+
+    color: var(--va-text);
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.users-empty p {
+    max-width: 360px;
+
+    margin: 5px 0 0;
+
+    color: var(--va-text-muted);
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   PAGINATION
+   ========================================================= */
+
+.users-pagination {
+    min-height: 62px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding: 12px 18px;
+
+    border-top: 1px solid var(--va-border);
+}
+
+.users-pagination-info {
+    color: var(--va-text-muted);
+
+    font-size: 9px;
+
+    white-space: nowrap;
+}
+
+.users-pagination-info strong {
+    color: var(--va-text-soft);
+
+    font-weight: 700;
+}
+
+.users-pagination-buttons {
+    display: flex;
+    align-items: center;
+
+    gap: 5px;
+}
+
+.users-page-button {
+    min-width: 31px;
+    height: 31px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 8px;
+
+    border: 1px solid var(--va-border);
+
+    border-radius: 7px;
+
+    background: var(--va-surface);
+
+    color: var(--va-text-muted);
+
+    font-size: 9px;
+    font-weight: 600;
+
+    transition:
+        background var(--va-transition),
+        border-color var(--va-transition),
+        color var(--va-transition);
+}
+
+.users-page-button:hover:not(:disabled) {
+    background: var(--va-surface-2);
+
+    border-color: var(--va-border-strong);
+
+    color: var(--va-text);
+}
+
+.users-page-button.active {
+    border-color: rgba(212, 175, 55, 0.30);
+
+    background: var(--va-gold-soft);
+
+    color: var(--va-gold-light);
+}
+
+.users-page-button:disabled {
+    opacity: 0.35;
+
+    cursor: not-allowed;
+}
+
+.users-pagination-dots {
+    padding: 0 2px;
+
+    color: #666;
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+    .users-stats-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .users-filters {
+        grid-template-columns:
+            minmax(220px, 1fr)
+            160px
+            160px;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .users-stats-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 10px;
+    }
+
+    .users-stat-card {
+        padding: 13px;
+    }
+
+    .users-stat-icon {
+        width: 36px;
+        height: 36px;
+
+        flex-basis: 36px;
+
+        font-size: 14px;
+    }
+
+    .users-stat-label {
+        font-size: 8px;
+    }
+
+    .users-stat-value {
+        font-size: 18px;
+    }
+
+
+    /* Filters */
+
+    .users-filters {
+        grid-template-columns:
+            minmax(0, 1fr);
+
+        gap: 10px;
+
+        padding: 13px 14px;
+    }
+
+    .users-search-input,
+    .users-select {
+        height: 40px;
+    }
+
+
+    /* Table */
+
+    .users-table-wrapper {
+        overflow-x: auto;
+    }
+
+    .users-table {
+        min-width: 900px;
+    }
+
+
+    /* Pagination */
+
+    .users-pagination {
+        flex-direction: column;
+
+        align-items: stretch;
+
+        padding: 13px 14px;
+    }
+
+    .users-pagination-info {
+        text-align: center;
+    }
+
+    .users-pagination-buttons {
+        justify-content: center;
+
+        flex-wrap: wrap;
+    }
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 420px) {
+
+    .users-stats-grid {
+        grid-template-columns:
+            minmax(0, 1fr);
+    }
+
+    .users-stat-card {
+        padding: 14px;
+    }
+
+    .users-stat-value {
+        font-size: 20px;
+    }
+
+    .users-pagination-buttons {
+        gap: 4px;
+    }
+
+    .users-page-button {
+        min-width: 29px;
+
+        padding-inline: 6px;
+
+        font-size: 8px;
+    }
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
+
+.users-search-input:focus-visible,
+.users-select:focus-visible,
+.user-view-button:focus-visible,
+.users-page-button:focus-visible {
+    outline: 2px solid var(--va-gold);
+
+    outline-offset: 2px;
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .users-stat-card,
+    .user-view-button,
+    .users-page-button {
+        transition: none;
+    }
+      }
