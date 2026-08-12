@@ -2,22 +2,26 @@
 <html lang="ar" dir="rtl">
 
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta name="theme-color" content="#070707">
 
-    <meta
-        name="description"
-        content="VALORA Administration — إدارة المستخدمين"
-    >
+    <meta name="description" content="VALORA Administration — إدارة المستخدمين">
 
-    <title>VALORA ADMIN — المستخدمون</title>
+
+    <title>
+        VALORA ADMIN — المستخدمون
+    </title>
+
 
     <link
         rel="preconnect"
         href="https://fonts.googleapis.com"
     >
+
 
     <link
         rel="preconnect"
@@ -25,937 +29,1246 @@
         crossorigin
     >
 
+
     <link
         href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap"
         rel="stylesheet"
     >
+
 
     <link
         rel="stylesheet"
         href="css/admin-layout.css"
     >
 
+
     <link
         rel="stylesheet"
         href="css/users.css"
     >
+
 </head>
 
 
 <body>
 
+
 <div class="admin-app">
 
-    <div class="admin-layout">
 
+<div class="admin-layout">
 
-        <!-- =================================================
-             MOBILE OVERLAY
-        ================================================== -->
 
-        <div
-            class="admin-sidebar-overlay"
-            aria-hidden="true"
-        ></div>
 
+<!-- =================================================
+     MOBILE OVERLAY
+================================================== -->
 
-        <!-- =================================================
-             SIDEBAR
-        ================================================== -->
 
-        <aside
-            class="admin-sidebar"
-            id="adminSidebar"
-            aria-label="القائمة الرئيسية"
-        >
+<div
+    class="admin-sidebar-overlay"
+    aria-hidden="true"
+></div>
 
-            <!-- Brand -->
 
-            <div class="admin-brand">
 
-                <div
-                    class="admin-brand-mark"
-                    aria-hidden="true"
-                >
-                    V
-                </div>
 
-                <div class="admin-brand-content">
+<!-- =================================================
+     SIDEBAR
+================================================== -->
 
-                    <h1 class="admin-brand-title">
-                        VALORA
-                    </h1>
 
-                    <p class="admin-brand-subtitle">
-                        Admin Panel
-                    </p>
+<aside
+    class="admin-sidebar"
+    id="adminSidebar"
+    aria-label="القائمة الرئيسية"
+>
 
-                </div>
 
-            </div>
 
+<div class="admin-brand">
 
-            <!-- Navigation -->
 
-            <nav class="admin-nav">
+<div
+    class="admin-brand-mark"
+    aria-hidden="true"
+>
+    V
+</div>
 
 
-                <!-- الرئيسية -->
+<div class="admin-brand-content">
 
-                <div class="admin-nav-section">
-                    الرئيسية
-                </div>
 
-                <ul class="admin-nav-list">
+<h1 class="admin-brand-title">
+    VALORA
+</h1>
 
-                    <li class="admin-nav-item">
 
-                        <a
-                            href="dashboard.html"
-                            class="admin-nav-link"
-                        >
+<p class="admin-brand-subtitle">
+    Admin Panel
+</p>
 
-                            <span
-                                class="admin-nav-icon"
-                                aria-hidden="true"
-                            >
-                                ◈
-                            </span>
-
-                            <span class="admin-nav-label">
-                                لوحة التحكم
-                            </span>
-
-                        </a>
-
-                    </li>
-
-                </ul>
-
-
-                <!-- الإدارة -->
-
-                <div class="admin-nav-section">
-                    الإدارة
-                </div>
-
-                <ul class="admin-nav-list">
-
-                    <li class="admin-nav-item">
-
-                        <a
-                            href="users.html"
-                            class="admin-nav-link active"
-                            aria-current="page"
-                        >
-
-                            <span
-                                class="admin-nav-icon"
-                                aria-hidden="true"
-                            >
-                                ♙
-                            </span>
-
-                            <span class="admin-nav-label">
-                                المستخدمون
-                            </span>
-
-                        </a>
-
-                    </li>
-
-
-                    <li class="admin-nav-item">
-
-                        <a
-                            href="deposits.html"
-                            class="admin-nav-link"
-                        >
-
-                            <span
-                                class="admin-nav-icon"
-                                aria-hidden="true"
-                            >
-                                ＋
-                            </span>
-
-                            <span class="admin-nav-label">
-                                الإيداعات
-                            </span>
-
-                        </a>
-
-                    </li>
-
-
-                    <li class="admin-nav-item">
-
-                        <a
-                            href="withdrawals.html"
-                            class="admin-nav-link"
-                        >
-
-                            <span
-                                class="admin-nav-icon"
-                                aria-hidden="true"
-                            >
-                                −
-                            </span>
-
-                            <span class="admin-nav-label">
-                                السحوبات
-                            </span>
-
-                        </a>
-
-                    </li>
-
-
-                    <li class="admin-nav-item">
-
-                        <a
-                            href="transactions.html"
-                            class="admin-nav-link"
-                        >
-
-                            <span
-                                class="admin-nav-icon"
-                                aria-hidden="true"
-                            >
-                                ⇄
-                            </span>
-
-                            <span class="admin-nav-label">
-                                العمليات
-                            </span>
-
-                        </a>
-
-                    </li>
-
-                </ul>
-
-
-                <!-- التداول -->
-
-                <div class="admin-nav-section">
-                    التداول
-                </div>
-
-                <ul class="admin-nav-list">
-
-                    <li class="admin-nav-item">
-
-                        <a
-                            href="trade-codes.html"
-                            class="admin-nav-link"
-                        >
-
-                            <span
-                                class="admin-nav-icon"
-                                aria-hidden="true"
-                            >
-                                #
-                            </span>
-
-                            <span class="admin-nav-label">
-                                أكواد التداول
-                            </span>
-
-                        </a>
-
-                    </li>
-
-                </ul>
-
-
-                <!-- التواصل -->
-
-                <div class="admin-nav-section">
-                    التواصل
-                </div>
-
-                <ul class="admin-nav-list">
-
-                    <li class="admin-nav-item">
-
-                        <a
-                            href="notifications.html"
-                            class="admin-nav-link"
-                        >
-
-                            <span
-                                class="admin-nav-icon"
-                                aria-hidden="true"
-                            >
-                                ◉
-                            </span>
-
-                            <span class="admin-nav-label">
-                                الإشعارات
-                            </span>
-
-                        </a>
-
-                    </li>
-
-
-                    <li class="admin-nav-item">
-
-                        <a
-                            href="messages.html"
-                            class="admin-nav-link"
-                        >
-
-                            <span
-                                class="admin-nav-icon"
-                                aria-hidden="true"
-                            >
-                                ▱
-                            </span>
-
-                            <span class="admin-nav-label">
-                                الرسائل
-                            </span>
-
-                        </a>
-
-                    </li>
-
-                </ul>
-
-
-                <!-- التحقق -->
-
-                <div class="admin-nav-section">
-                    التحقق
-                </div>
-
-                <ul class="admin-nav-list">
-
-                    <li class="admin-nav-item">
-
-                        <a
-                            href="verification.html"
-                            class="admin-nav-link"
-                        >
-
-                            <span
-                                class="admin-nav-icon"
-                                aria-hidden="true"
-                            >
-                                ✓
-                            </span>
-
-                            <span class="admin-nav-label">
-                                التحقق من المستخدمين
-                            </span>
-
-                        </a>
-
-                    </li>
-
-                </ul>
-
-
-                <!-- النظام -->
-
-                <div class="admin-nav-section">
-                    النظام
-                </div>
-
-                <ul class="admin-nav-list">
-
-                    <li class="admin-nav-item">
-
-                        <a
-                            href="settings.html"
-                            class="admin-nav-link"
-                        >
-
-                            <span
-                                class="admin-nav-icon"
-                                aria-hidden="true"
-                            >
-                                ⚙
-                            </span>
-
-                            <span class="admin-nav-label">
-                                الإعدادات
-                            </span>
-
-                        </a>
-
-                    </li>
-
-                </ul>
-
-            </nav>
-
-
-            <!-- Admin Footer -->
-
-            <div class="admin-sidebar-footer">
-
-                <div class="admin-admin-card">
-
-                    <div
-                        class="admin-avatar"
-                        aria-hidden="true"
-                    >
-                        A
-                    </div>
-
-                    <div class="admin-admin-info">
-
-                        <p class="admin-admin-name">
-                            Admin
-                        </p>
-
-                        <p class="admin-admin-role">
-                            مدير النظام
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </aside>
-
-
-        <!-- =================================================
-             MAIN
-        ================================================== -->
-
-        <section class="admin-main">
-
-
-            <!-- =================================================
-                 HEADER
-            ================================================== -->
-
-            <header class="admin-header">
-
-                <div class="admin-header-left">
-
-                    <button
-                        type="button"
-                        class="admin-icon-button admin-menu-toggle"
-                        id="mobileMenu"
-                        aria-label="فتح القائمة"
-                        aria-expanded="false"
-                        aria-controls="adminSidebar"
-                    >
-                        ☰
-                    </button>
-
-
-                    <div class="admin-page-heading">
-
-                        <h2 class="admin-page-title">
-                            المستخدمون
-                        </h2>
-
-                        <p class="admin-page-description">
-                            إدارة ومتابعة حسابات مستخدمي المنصة
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="admin-header-right">
-
-
-                    <!-- Notifications -->
-
-                    <button
-                        type="button"
-                        class="admin-icon-button admin-notification-button"
-                        id="notificationButton"
-                        aria-label="الإشعارات"
-                        title="الإشعارات"
-                    >
-
-                        <span
-                            class="admin-notification-icon"
-                            aria-hidden="true"
-                        >
-
-                            <svg
-                                viewBox="0 0 24 24"
-                                width="18"
-                                height="18"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="1.8"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                            >
-
-                                <path
-                                    d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"
-                                ></path>
-
-                                <path
-                                    d="M10 21h4"
-                                ></path>
-
-                            </svg>
-
-                        </span>
-
-                    </button>
-
-
-                    <!-- Admin -->
-
-                    <button
-                        type="button"
-                        class="admin-icon-button admin-admin-button"
-                        id="adminMenuButton"
-                        aria-label="حساب المدير"
-                        aria-expanded="false"
-                        title="حساب المدير"
-                    >
-                        A
-                    </button>
-
-                </div>
-
-            </header>
-
-
-            <!-- =================================================
-                 CONTENT
-            ================================================== -->
-
-            <main class="admin-content">
-
-
-                <!-- =================================================
-                     PAGE HEADER
-                ================================================== -->
-
-                <div class="admin-content-header">
-
-                    <div>
-
-                        <h1 class="admin-page-title">
-                            المستخدمون
-                        </h1>
-
-                        <p class="admin-page-description">
-                            عرض وإدارة جميع حسابات المستخدمين في المنصة.
-                        </p>
-
-                    </div>
-
-
-                    <div class="admin-content-actions">
-
-                        <button
-                            type="button"
-                            class="admin-btn admin-btn-secondary"
-                            id="refreshUsers"
-                        >
-
-                            <span aria-hidden="true">
-                                ↻
-                            </span>
-
-                            تحديث البيانات
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-                <!-- =================================================
-                     USER STATISTICS
-                ================================================== -->
-
-                <section
-                    class="users-stats-grid"
-                    aria-label="إحصائيات المستخدمين"
-                >
-
-
-                    <!-- Total Users -->
-
-                    <article class="users-stat-card">
-
-                        <div class="users-stat-icon">
-                            ♙
-                        </div>
-
-                        <div>
-
-                            <p class="users-stat-label">
-                                إجمالي المستخدمين
-                            </p>
-
-                            <h3
-                                class="users-stat-value"
-                                id="totalUsers"
-                            >
-                                —
-                            </h3>
-
-                        </div>
-
-                    </article>
-
-
-                    <!-- Active Users -->
-
-                    <article class="users-stat-card">
-
-                        <div class="users-stat-icon success">
-                            ✓
-                        </div>
-
-                        <div>
-
-                            <p class="users-stat-label">
-                                المستخدمون النشطون
-                            </p>
-
-                            <h3
-                                class="users-stat-value"
-                                id="activeUsers"
-                            >
-                                —
-                            </h3>
-
-                        </div>
-
-                    </article>
-
-
-                    <!-- Pending Users -->
-
-                    <article class="users-stat-card">
-
-                        <div class="users-stat-icon warning">
-                            ◷
-                        </div>
-
-                        <div>
-
-                            <p class="users-stat-label">
-                                بانتظار التحقق
-                            </p>
-
-                            <h3
-                                class="users-stat-value"
-                                id="pendingUsers"
-                            >
-                                —
-                            </h3>
-
-                        </div>
-
-                    </article>
-
-
-                    <!-- Suspended Users -->
-
-                    <article class="users-stat-card">
-
-                        <div class="users-stat-icon danger">
-                            !
-                        </div>
-
-                        <div>
-
-                            <p class="users-stat-label">
-                                الحسابات الموقوفة
-                            </p>
-
-                            <h3
-                                class="users-stat-value"
-                                id="suspendedUsers"
-                            >
-                                —
-                            </h3>
-
-                        </div>
-
-                    </article>
-
-                </section>
-
-
-                <!-- =================================================
-                     USERS CARD
-                ================================================== -->
-
-                <section class="admin-card users-card">
-
-
-                    <!-- Card Header -->
-
-                    <div class="admin-card-header">
-
-                        <div>
-
-                            <h2 class="admin-card-title">
-                                قائمة المستخدمين
-                            </h2>
-
-                            <p class="admin-card-description">
-                                الحسابات المسجلة في النظام
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- Filters -->
-
-                    <div class="users-filters">
-
-
-                        <!-- Search -->
-
-                        <div class="users-search">
-
-                            <span
-                                class="users-search-icon"
-                                aria-hidden="true"
-                            >
-                                ⌕
-                            </span>
-
-                            <input
-                                type="search"
-                                id="userSearch"
-                                class="users-search-input"
-                                placeholder="البحث بالاسم أو البريد أو رقم المستخدم..."
-                                autocomplete="off"
-                            >
-
-                        </div>
-
-
-                        <!-- Status Filter -->
-
-                        <div class="users-filter">
-
-                            <label
-                                for="userStatusFilter"
-                                class="users-filter-label"
-                            >
-                                حالة الحساب
-                            </label>
-
-                            <select
-                                id="userStatusFilter"
-                                class="users-select"
-                            >
-
-                                <option value="all">
-                                    جميع الحالات
-                                </option>
-
-                                <option value="active">
-                                    نشط
-                                </option>
-
-                                <option value="pending">
-                                    بانتظار التحقق
-                                </option>
-
-                                <option value="suspended">
-                                    موقوف
-                                </option>
-
-                            </select>
-
-                        </div>
-
-
-                        <!-- Verification Filter -->
-
-                        <div class="users-filter">
-
-                            <label
-                                for="verificationFilter"
-                                class="users-filter-label"
-                            >
-                                التحقق
-                            </label>
-
-                            <select
-                                id="verificationFilter"
-                                class="users-select"
-                            >
-
-                                <option value="all">
-                                    الكل
-                                </option>
-
-                                <option value="verified">
-                                    موثق
-                                </option>
-
-                                <option value="unverified">
-                                    غير موثق
-                                </option>
-
-                            </select>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- =================================================
-                         USERS TABLE
-                    ================================================== -->
-
-                    <div class="users-table-wrapper">
-
-                        <table class="users-table">
-
-                            <thead>
-
-                                <tr>
-
-                                    <th>
-                                        المستخدم
-                                    </th>
-
-                                    <th>
-                                        رقم المستخدم
-                                    </th>
-
-                                    <th>
-                                        الحالة
-                                    </th>
-
-                                    <th>
-                                        التحقق
-                                    </th>
-
-                                    <th>
-                                        الرصيد
-                                    </th>
-
-                                    <th>
-                                        تاريخ التسجيل
-                                    </th>
-
-                                    <th>
-                                        آخر نشاط
-                                    </th>
-
-                                    <th>
-                                        إجراء
-                                    </th>
-
-                                </tr>
-
-                            </thead>
-
-
-                            <!--
-
-                                لا توجد بيانات ثابتة هنا.
-
-                                سيتم إنشاء صفوف المستخدمين
-                                لاحقًا بواسطة users.js
-                                من مصدر بيانات حقيقي.
-
-                            -->
-
-                            <tbody id="usersTableBody">
-
-                            </tbody>
-
-                        </table>
-
-                    </div>
-
-
-                    <!-- =================================================
-                         EMPTY STATE
-                    ================================================== -->
-
-                    <div
-                        class="users-empty"
-                        id="usersEmpty"
-                    >
-
-                        <div
-                            class="users-empty-icon"
-                            aria-hidden="true"
-                        >
-                            ♙
-                        </div>
-
-                        <h3>
-                            لا توجد بيانات مستخدمين
-                        </h3>
-
-                        <p>
-                            لا توجد بيانات مستخدمين متاحة حاليًا.
-                            ستظهر الحسابات هنا بعد الاتصال بمصدر البيانات.
-                        </p>
-
-                    </div>
-
-
-                    <!-- =================================================
-                         PAGINATION
-                    ================================================== -->
-
-                    <div
-                        class="users-pagination"
-                        id="usersPagination"
-                        hidden
-                    >
-
-                        <div
-                            class="users-pagination-info"
-                            id="usersPaginationInfo"
-                        >
-                        </div>
-
-
-                        <div
-                            class="users-pagination-buttons"
-                            id="usersPaginationButtons"
-                        >
-                        </div>
-
-                    </div>
-
-                </section>
-
-            </main>
-
-        </section>
-
-    </div>
 
 </div>
 
 
+</div>
+
+
+
+
+
+<nav class="admin-nav">
+
+
+
+<div class="admin-nav-section">
+    الرئيسية
+</div>
+
+
+
+<ul class="admin-nav-list">
+
+
+<li class="admin-nav-item">
+
+
+<a
+    href="dashboard.html"
+    class="admin-nav-link"
+>
+
+
+<span
+    class="admin-nav-icon"
+    aria-hidden="true"
+>
+    ◈
+</span>
+
+
+<span class="admin-nav-label">
+    لوحة التحكم
+</span>
+
+
+</a>
+
+
+</li>
+
+
+</ul>
+
+
+
+
+
+<div class="admin-nav-section">
+    الإدارة
+</div>
+
+
+
+<ul class="admin-nav-list">
+
+
+
+<li class="admin-nav-item">
+
+
+<a
+    href="users.html"
+    class="admin-nav-link active"
+    aria-current="page"
+>
+
+
+<span
+    class="admin-nav-icon"
+    aria-hidden="true"
+>
+    ♙
+</span>
+
+
+<span class="admin-nav-label">
+    المستخدمون
+</span>
+
+
+</a>
+
+
+</li>
+
+
+
+<li class="admin-nav-item">
+
+
+<a
+    href="deposits.html"
+    class="admin-nav-link"
+>
+
+
+<span
+    class="admin-nav-icon"
+    aria-hidden="true"
+>
+    ＋
+</span>
+
+
+<span class="admin-nav-label">
+    الإيداعات
+</span>
+
+
+</a>
+
+
+</li>
+
+
+
+<li class="admin-nav-item">
+
+
+<a
+    href="withdrawals.html"
+    class="admin-nav-link"
+>
+
+
+<span
+    class="admin-nav-icon"
+    aria-hidden="true"
+>
+    −
+</span>
+
+
+<span class="admin-nav-label">
+    السحوبات
+</span>
+
+
+</a>
+
+
+</li>
+
+
+
+<li class="admin-nav-item">
+
+
+<a
+    href="transactions.html"
+    class="admin-nav-link"
+>
+
+
+<span
+    class="admin-nav-icon"
+    aria-hidden="true"
+>
+    ⇄
+</span>
+
+
+<span class="admin-nav-label">
+    العمليات
+</span>
+
+
+</a>
+
+
+</li>
+
+
+</ul>
+<!-- =================================================
+     SIDEBAR CONTINUED
+================================================== -->
+
+
+<div class="admin-nav-section">
+    التداول
+</div>
+
+
+<ul class="admin-nav-list">
+
+
+<li class="admin-nav-item">
+
+
+<a
+    href="trade-codes.html"
+    class="admin-nav-link"
+>
+
+
+<span
+    class="admin-nav-icon"
+    aria-hidden="true"
+>
+    #
+</span>
+
+
+<span class="admin-nav-label">
+    أكواد التداول
+</span>
+
+
+</a>
+
+
+</li>
+
+
+</ul>
+
+
+
+
+
+<div class="admin-nav-section">
+    التواصل
+</div>
+
+
+
+<ul class="admin-nav-list">
+
+
+<li class="admin-nav-item">
+
+
+<a
+    href="notifications.html"
+    class="admin-nav-link"
+>
+
+
+<span
+    class="admin-nav-icon"
+    aria-hidden="true"
+>
+    ◉
+</span>
+
+
+<span class="admin-nav-label">
+    الإشعارات
+</span>
+
+
+</a>
+
+
+</li>
+
+
+
+<li class="admin-nav-item">
+
+
+<a
+    href="messages.html"
+    class="admin-nav-link"
+>
+
+
+<span
+    class="admin-nav-icon"
+    aria-hidden="true"
+>
+    ▱
+</span>
+
+
+<span class="admin-nav-label">
+    الرسائل
+</span>
+
+
+</a>
+
+
+</li>
+
+
+</ul>
+
+
+
+
+
+<div class="admin-nav-section">
+    التحقق
+</div>
+
+
+
+<ul class="admin-nav-list">
+
+
+<li class="admin-nav-item">
+
+
+<a
+    href="verification.html"
+    class="admin-nav-link"
+>
+
+
+<span
+    class="admin-nav-icon"
+    aria-hidden="true"
+>
+    ✓
+</span>
+
+
+<span class="admin-nav-label">
+    التحقق من المستخدمين
+</span>
+
+
+</a>
+
+
+</li>
+
+
+</ul>
+
+
+
+
+
+<div class="admin-nav-section">
+    النظام
+</div>
+
+
+
+<ul class="admin-nav-list">
+
+
+<li class="admin-nav-item">
+
+
+<a
+    href="settings.html"
+    class="admin-nav-link"
+>
+
+
+<span
+    class="admin-nav-icon"
+    aria-hidden="true"
+>
+    ⚙
+</span>
+
+
+<span class="admin-nav-label">
+    الإعدادات
+</span>
+
+
+</a>
+
+
+</li>
+
+
+</ul>
+
+
+
+</nav>
+
+
+
+
+
+<!-- =================================================
+     ADMIN FOOTER
+================================================== -->
+
+
+<div class="admin-sidebar-footer">
+
+
+<div class="admin-admin-card">
+
+
+<div
+    class="admin-avatar"
+    aria-hidden="true"
+>
+    A
+</div>
+
+
+
+<div class="admin-admin-info">
+
+
+<p class="admin-admin-name">
+    Admin
+</p>
+
+
+<p class="admin-admin-role">
+    مدير النظام
+</p>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</aside>
+
+
+
+
+
+<!-- =================================================
+     MAIN
+================================================== -->
+
+
+<section class="admin-main">
+
+
+
+
+<header class="admin-header">
+
+
+
+<div class="admin-header-left">
+
+
+<button
+    type="button"
+    class="admin-icon-button admin-menu-toggle"
+    id="mobileMenu"
+    aria-label="فتح القائمة"
+>
+    ☰
+</button>
+
+
+
+<div class="admin-page-heading">
+
+
+<h2 class="admin-page-title">
+    المستخدمون
+</h2>
+
+
+<p class="admin-page-description">
+    إدارة ومتابعة حسابات المستخدمين
+</p>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="admin-header-right">
+
+
+<button
+    type="button"
+    class="admin-icon-button admin-notification-button"
+    aria-label="الإشعارات"
+>
+    ◉
+</button>
+
+
+
+<button
+    type="button"
+    class="admin-icon-button admin-admin-button"
+    aria-label="حساب المدير"
+>
+    A
+</button>
+
+
+</div>
+
+
+
+</header>
+<!-- =================================================
+     CONTENT
+================================================== -->
+
+
+<main class="admin-content">
+
+
+
+<div class="admin-content-header">
+
+
+<div>
+
+
+<h1 class="admin-page-title">
+    المستخدمون
+</h1>
+
+
+<p class="admin-page-description">
+    عرض وإدارة حسابات المستخدمين في المنصة.
+</p>
+
+
+</div>
+
+
+
+
+<div class="admin-content-actions">
+
+
+<button
+    type="button"
+    class="admin-btn admin-btn-secondary"
+    id="refreshUsers"
+>
+
+<span aria-hidden="true">
+    ↻
+</span>
+
+تحديث البيانات
+
+</button>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+<!-- =================================================
+     USER STATISTICS
+================================================== -->
+
+
+<section
+    class="users-stats-grid"
+    aria-label="إحصائيات المستخدمين"
+>
+
+
+
+
+<article class="users-stat-card">
+
+
+<div class="users-stat-icon">
+    ♙
+</div>
+
+
+<div>
+
+
+<p class="users-stat-label">
+    إجمالي المستخدمين
+</p>
+
+
+<h3
+    class="users-stat-value"
+    id="totalUsers"
+>
+    —
+</h3>
+
+
+</div>
+
+
+</article>
+
+
+
+
+
+<article class="users-stat-card">
+
+
+<div class="users-stat-icon success">
+    ✓
+</div>
+
+
+<div>
+
+
+<p class="users-stat-label">
+    المستخدمون النشطون
+</p>
+
+
+<h3
+    class="users-stat-value"
+    id="activeUsers"
+>
+    —
+</h3>
+
+
+</div>
+
+
+</article>
+
+
+
+
+
+<article class="users-stat-card">
+
+
+<div class="users-stat-icon warning">
+    ◷
+</div>
+
+
+<div>
+
+
+<p class="users-stat-label">
+    بانتظار التحقق
+</p>
+
+
+<h3
+    class="users-stat-value"
+    id="pendingUsers"
+>
+    —
+</h3>
+
+
+</div>
+
+
+</article>
+
+
+
+
+
+<article class="users-stat-card">
+
+
+<div class="users-stat-icon danger">
+    !
+</div>
+
+
+<div>
+
+
+<p class="users-stat-label">
+    الحسابات الموقوفة
+</p>
+
+
+<h3
+    class="users-stat-value"
+    id="suspendedUsers"
+>
+    —
+</h3>
+
+
+</div>
+
+
+</article>
+
+
+
+</section>
+
+
+
+
+
+
+
+<!-- =================================================
+     USERS CARD
+================================================== -->
+
+
+<section class="admin-card users-card">
+
+
+
+<div class="admin-card-header">
+
+
+<div>
+
+
+<h2 class="admin-card-title">
+    قائمة المستخدمين
+</h2>
+
+
+<p class="admin-card-description">
+    البيانات القادمة من النظام الحقيقي
+</p>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+<!-- FILTERS -->
+
+
+<div class="users-filters">
+
+
+
+<div class="users-search">
+
+
+<span
+    class="users-search-icon"
+    aria-hidden="true"
+>
+    ⌕
+</span>
+
+
+<input
+    type="search"
+    id="userSearch"
+    class="users-search-input"
+    placeholder="البحث بالاسم أو البريد أو رقم المستخدم..."
+    autocomplete="off"
+>
+
+
+</div>
+
+
+
+
+
+<div class="users-filter">
+
+
+<label
+    for="userStatusFilter"
+    class="users-filter-label"
+>
+    حالة الحساب
+</label>
+
+
+<select
+    id="userStatusFilter"
+    class="users-select"
+>
+
+
+<option value="all">
+    جميع الحالات
+</option>
+
+
+<option value="active">
+    نشط
+</option>
+
+
+<option value="pending">
+    بانتظار التحقق
+</option>
+
+
+<option value="suspended">
+    موقوف
+</option>
+
+
+</select>
+
+
+</div>
+
+
+
+
+
+<div class="users-filter">
+
+
+<label
+    for="verificationFilter"
+    class="users-filter-label"
+>
+    التحقق
+</label>
+
+
+<select
+    id="verificationFilter"
+    class="users-select"
+>
+
+
+<option value="all">
+    الكل
+</option>
+
+
+<option value="verified">
+    موثق
+</option>
+
+
+<option value="unverified">
+    غير موثق
+</option>
+
+
+</select>
+
+
+</div>
+
+
+
+</div>
+<!-- =================================================
+     USERS TABLE
+================================================== -->
+
+
+<div class="users-table-wrapper">
+
+
+<table class="users-table">
+
+
+<thead>
+
+
+<tr>
+
+<th>
+    المستخدم
+</th>
+
+
+<th>
+    رقم المستخدم
+</th>
+
+
+<th>
+    الحالة
+</th>
+
+
+<th>
+    التحقق
+</th>
+
+
+<th>
+    الرصيد
+</th>
+
+
+<th>
+    تاريخ التسجيل
+</th>
+
+
+<th>
+    آخر نشاط
+</th>
+
+
+<th>
+    إجراء
+</th>
+
+
+</tr>
+
+
+</thead>
+
+
+
+
+
+<tbody id="usersTableBody">
+
+
+
+<!--
+=================================================
+لا توجد بيانات وهمية هنا
+
+سيتم إنشاء الصفوف من:
+js/users.js
+
+عند الربط مع API / Database
+
+=================================================
+-->
+
+
+
+<tr class="users-empty-row">
+
+
+<td colspan="8">
+
+
+<div class="users-empty">
+
+
+<div class="users-empty-icon">
+    ♙
+</div>
+
+
+<h3>
+    لا توجد بيانات مستخدمين
+</h3>
+
+
+<p>
+    سيتم عرض المستخدمين هنا بعد ربط النظام بمصدر البيانات الحقيقي.
+</p>
+
+
+</div>
+
+
+</td>
+
+
+</tr>
+
+
+
+</tbody>
+
+
+
+</table>
+
+
+</div>
+
+
+
+
+
+
+<!-- =================================================
+     EMPTY STATE
+================================================== -->
+
+
+<div
+    class="users-empty"
+    id="usersEmpty"
+    hidden
+>
+
+
+<div class="users-empty-icon">
+    ♙
+</div>
+
+
+<h3>
+    لا توجد نتائج
+</h3>
+
+
+<p>
+    لم يتم العثور على مستخدمين مطابقين.
+</p>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- =================================================
+     PAGINATION
+================================================== -->
+
+
+<div class="users-pagination">
+
+
+
+<div class="users-pagination-info">
+
+
+عرض
+
+<strong id="usersFrom">
+    0
+</strong>
+
+-
+
+<strong id="usersTo">
+    0
+</strong>
+
+
+من
+
+
+<strong id="usersTotal">
+    0
+</strong>
+
+
+مستخدم
+
+
+
+</div>
+
+
+
+
+
+<div class="users-pagination-buttons">
+
+
+
+<button
+    type="button"
+    class="users-page-button"
+    id="previousPage"
+>
+    السابق
+</button>
+
+
+
+
+<button
+    type="button"
+    class="users-page-button active"
+    id="currentPage"
+>
+    1
+</button>
+
+
+
+
+<button
+    type="button"
+    class="users-page-button"
+    id="nextPage"
+>
+    التالي
+</button>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+</section>
+
+
+</main>
+
+
+</section>
+
+
+</div>
+
+
+</div>
 <!-- =====================================================
      SCRIPTS
 ====================================================== -->
 
+
 <script src="js/admin.js"></script>
+
 <script src="js/users.js"></script>
+
+
 
 </body>
 
-                                </html>
+</html>
