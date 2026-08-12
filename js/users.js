@@ -1,1083 +1,1050 @@
-/* =========================================================
-   VALORA ADMIN
-   USERS MANAGEMENT
-========================================================= */
-
 (function () {
 
-    "use strict";
+"use strict";
 
 
-    /* =====================================================
-       CONFIG
-    ===================================================== */
+/*
+=========================================================
+VALORA ADMIN — USERS
+=========================================================
 
-    const API_BASE_URL = "";
+الحالة الحالية:
 
-    const USERS_ENDPOINT = "/api/users";
+- واجهة إدارة المستخدمين فقط.
+- لا توجد قاعدة بيانات مرتبطة.
+- لا توجد بيانات وهمية.
+- البيانات ستأتي لاحقًا من API.
 
-    const USER_DETAILS_PAGE = "user-details.html";
+المهام:
+- عرض المستخدمين.
+- البحث.
+- الفلترة.
+- الانتقال إلى تفاصيل المستخدم.
 
-    const usersPerPage = 10;
-
-
-    /* =====================================================
-       STATE
-    ===================================================== */
-
-    let allUsers = [];
-
-    let filteredUsers = [];
-
-    let currentPage = 1;
+=========================================================
+*/
 
 
-    /* =====================================================
-       DOM
-    ===================================================== */
-
-    const tableBody =
-        document.getElementById("usersTableBody");
-
-    const emptyState =
-        document.getElementById("usersEmpty");
-
-    const pagination =
-        document.getElementById("usersPagination");
-
-    const paginationInfo =
-        document.getElementById("usersPaginationInfo");
-
-    const paginationButtons =
-        document.getElementById("usersPaginationButtons");
-
-    const searchInput =
-        document.getElementById("userSearch");
-
-    const statusFilter =
-        document.getElementById("userStatusFilter");
-
-    const verificationFilter =
-        document.getElementById("verificationFilter");
-
-    const refreshButton =
-        document.getElementById("refreshUsers");
-
-    const totalUsersElement =
-        document.getElementById("totalUsers");
-
-    const activeUsersElement =
-        document.getElementById("activeUsers");
-
-    const pendingUsersElement =
-        document.getElementById("pendingUsers");
-
-    const suspendedUsersElement =
-        document.getElementById("suspendedUsers");
+document.addEventListener(
+    "DOMContentLoaded",
+    initUsers
+);
 
 
-    /* =====================================================
-       HELPERS
-    ===================================================== */
 
-    function escapeHtml(value) {
 
-        if (
-            value === undefined ||
-            value === null
-        ) {
-            return "";
-        }
 
-        return String(value)
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
+/*
+=========================================================
+STATE
+=========================================================
+*/
 
+
+const usersState = {
+
+    users: [],
+
+    filteredUsers: [],
+
+    currentPage: 1,
+
+    pageSize: 10
+
+};
+
+
+
+
+
+/*
+=========================================================
+INIT
+=========================================================
+*/
+
+
+function initUsers() {
+
+
+    clearUsersPage();
+
+
+    setupSearch();
+
+
+    setupFilters();
+
+
+    setupRefresh();
+
+
+    setupPagination();
+
+
+}
+
+
+
+
+
+
+
+/*
+=========================================================
+CLEAR PAGE
+=========================================================
+*/
+
+
+function clearUsersPage() {
+
+
+    usersState.users = [];
+
+
+    usersState.filteredUsers = [];
+
+
+    updateStatistics();
+
+
+    renderUsers();
+
+
+}
+
+
+
+
+
+
+
+/*
+=========================================================
+STATISTICS
+=========================================================
+*/
+
+
+function updateStatistics() {
+
+
+    setText(
+        "totalUsers",
+        "—"
+    );
+
+
+    setText(
+        "activeUsers",
+        "—"
+    );
+
+
+    setText(
+        "pendingUsers",
+        "—"
+    );
+
+
+    setText(
+        "suspendedUsers",
+        "—"
+    );
+
+
+}
+/*
+=========================================================
+RENDER USERS
+=========================================================
+*/
+
+
+function renderUsers() {
+
+
+    const tbody = document.getElementById(
+        "usersTableBody"
+    );
+
+
+    if (!tbody) {
+        return;
     }
 
 
-    function formatNumber(value) {
 
-        const number = Number(value);
-
-        if (!Number.isFinite(number)) {
-            return "—";
-        }
-
-        return new Intl.NumberFormat("ar-SA", {
-            maximumFractionDigits: 2
-        }).format(number);
-
-    }
+    tbody.innerHTML = "";
 
 
-    function formatCurrency(
-        value,
-        currency = "USD"
+
+    if (
+        usersState.filteredUsers.length === 0
     ) {
 
-        const number = Number(value);
 
-        if (!Number.isFinite(number)) {
-            return "—";
-        }
+        tbody.innerHTML = `
 
-        try {
+        <tr class="users-empty-row">
 
-            return new Intl.NumberFormat("ar-SA", {
-                style: "currency",
-                currency: currency,
-                maximumFractionDigits: 2
-            }).format(number);
+            <td colspan="8">
 
-        } catch (error) {
+                <div class="users-empty">
 
-            return (
-                formatNumber(number) +
-                " " +
-                currency
-            );
-
-        }
-
-    }
-
-
-    function formatDate(value) {
-
-        if (!value) {
-            return "—";
-        }
-
-        const date = new Date(value);
-
-        if (
-            Number.isNaN(
-                date.getTime()
-            )
-        ) {
-            return escapeHtml(value);
-        }
-
-        return new Intl.DateTimeFormat(
-            "ar-SA",
-            {
-                dateStyle: "medium"
-            }
-        ).format(date);
-
-    }
-
-
-    function getUserId(user) {
-
-        return (
-            user.id ??
-            user.userId ??
-            user._id ??
-            user.uuid ??
-            ""
-        );
-
-    }
-
-
-    function getUserName(user) {
-
-        return (
-            user.name ??
-            user.fullName ??
-            user.username ??
-            user.displayName ??
-            "بدون اسم"
-        );
-
-    }
-
-
-    function getUserEmail(user) {
-
-        return (
-            user.email ??
-            ""
-        );
-
-    }
-
-
-    function getUserStatus(user) {
-
-        return String(
-            user.status ??
-            user.accountStatus ??
-            "active"
-        ).toLowerCase();
-
-    }
-
-
-    function getVerificationStatus(user) {
-
-        if (
-            user.verified === true ||
-            user.isVerified === true ||
-            user.emailVerified === true
-        ) {
-            return "verified";
-        }
-
-        return "unverified";
-
-    }
-
-
-    function getUserBalance(user) {
-
-        return (
-            user.balance ??
-            user.currentBalance ??
-            0
-        );
-
-    }
-
-
-    function getCreatedAt(user) {
-
-        return (
-            user.createdAt ??
-            user.created_at ??
-            user.registrationDate ??
-            user.created
-        );
-
-    }
-
-
-    function getLastActivity(user) {
-
-        return (
-            user.lastActivity ??
-            user.last_activity ??
-            user.updatedAt ??
-            user.updated_at
-        );
-
-    }
-
-
-    /* =====================================================
-       STATUS
-    ===================================================== */
-
-    function getStatusLabel(status) {
-
-        switch (status) {
-
-            case "active":
-                return "نشط";
-
-            case "pending":
-                return "بانتظار التحقق";
-
-            case "suspended":
-                return "موقوف";
-
-            case "blocked":
-                return "محظور";
-
-            default:
-                return status || "غير معروف";
-
-        }
-
-    }
-
-
-    function getStatusClass(status) {
-
-        switch (status) {
-
-            case "active":
-                return "success";
-
-            case "pending":
-                return "warning";
-
-            case "suspended":
-            case "blocked":
-                return "danger";
-
-            default:
-                return "";
-
-        }
-
-    }
-
-
-    function getVerificationLabel(status) {
-
-        return status === "verified"
-            ? "موثق"
-            : "غير موثق";
-
-    }
-
-
-    /* =====================================================
-       USER DETAILS URL
-    ===================================================== */
-
-    function getUserDetailsUrl(user) {
-
-        const userId =
-            getUserId(user);
-
-        if (!userId) {
-            return USER_DETAILS_PAGE;
-        }
-
-        return (
-            USER_DETAILS_PAGE +
-            "?id=" +
-            encodeURIComponent(userId)
-        );
-
-    }
-
-
-    /* =====================================================
-       LOAD USERS
-    ===================================================== */
-
-    async function loadUsers() {
-
-        setLoadingState(true);
-
-        try {
-
-            const response = await fetch(
-                API_BASE_URL +
-                USERS_ENDPOINT,
-                {
-                    method: "GET",
-                    headers: {
-                        "Accept": "application/json"
-                    },
-                    credentials: "include"
-                }
-            );
-
-            if (!response.ok) {
-
-                throw new Error(
-                    "HTTP " +
-                    response.status
-                );
-
-            }
-
-            const data =
-                await response.json();
-
-
-            if (Array.isArray(data)) {
-
-                allUsers = data;
-
-            } else if (
-                Array.isArray(data.users)
-            ) {
-
-                allUsers = data.users;
-
-            } else if (
-                Array.isArray(data.data)
-            ) {
-
-                allUsers = data.data;
-
-            } else {
-
-                allUsers = [];
-
-            }
-
-
-            updateStatistics();
-
-            applyFilters();
-
-        } catch (error) {
-
-            console.error(
-                "Users loading error:",
-                error
-            );
-
-            allUsers = [];
-
-            updateStatistics();
-
-            renderUsers();
-
-            showEmptyState(
-                "تعذر تحميل المستخدمين",
-                "تأكد من اتصال مصدر البيانات ثم حاول تحديث الصفحة."
-            );
-
-        } finally {
-
-            setLoadingState(false);
-
-        }
-
-    }
-
-
-    /* =====================================================
-       FILTERS
-    ===================================================== */
-
-    function applyFilters() {
-
-        const search =
-            (
-                searchInput?.value ||
-                ""
-            )
-            .trim()
-            .toLowerCase();
-
-        const selectedStatus =
-            statusFilter?.value ||
-            "all";
-
-        const selectedVerification =
-            verificationFilter?.value ||
-            "all";
-
-
-        filteredUsers =
-            allUsers.filter(function (user) {
-
-                const id =
-                    String(
-                        getUserId(user)
-                    ).toLowerCase();
-
-                const name =
-                    String(
-                        getUserName(user)
-                    ).toLowerCase();
-
-                const email =
-                    String(
-                        getUserEmail(user)
-                    ).toLowerCase();
-
-                const status =
-                    getUserStatus(user);
-
-                const verification =
-                    getVerificationStatus(user);
-
-
-                const matchesSearch =
-                    !search ||
-                    name.includes(search) ||
-                    email.includes(search) ||
-                    id.includes(search);
-
-
-                const matchesStatus =
-                    selectedStatus === "all" ||
-                    status === selectedStatus;
-
-
-                const matchesVerification =
-                    selectedVerification === "all" ||
-                    verification === selectedVerification;
-
-
-                return (
-                    matchesSearch &&
-                    matchesStatus &&
-                    matchesVerification
-                );
-
-            });
-
-
-        currentPage = 1;
-
-        renderUsers();
-
-    }
-
-
-    /* =====================================================
-       RENDER USERS
-    ===================================================== */
-
-    function renderUsers() {
-
-        if (!tableBody) {
-            return;
-        }
-
-        tableBody.innerHTML = "";
-
-        if (!filteredUsers.length) {
-
-            if (pagination) {
-                pagination.hidden = true;
-            }
-
-            showEmptyState();
-
-            return;
-
-        }
-
-
-        hideEmptyState();
-
-
-        const start =
-            (currentPage - 1) *
-            usersPerPage;
-
-        const end =
-            start +
-            usersPerPage;
-
-        const pageUsers =
-            filteredUsers.slice(
-                start,
-                end
-            );
-
-
-        pageUsers.forEach(
-            function (user) {
-
-                const row =
-                    createUserRow(user);
-
-                tableBody.appendChild(row);
-
-            }
-        );
-
-
-        renderPagination();
-
-    }
-
-
-    /* =====================================================
-       CREATE USER ROW
-    ===================================================== */
-
-    function createUserRow(user) {
-
-        const row =
-            document.createElement("tr");
-
-
-        const userId =
-            getUserId(user);
-
-        const name =
-            getUserName(user);
-
-        const email =
-            getUserEmail(user);
-
-        const status =
-            getUserStatus(user);
-
-        const verification =
-            getVerificationStatus(user);
-
-        const balance =
-            getUserBalance(user);
-
-        const createdAt =
-            getCreatedAt(user);
-
-        const lastActivity =
-            getLastActivity(user);
-
-        const detailsUrl =
-            getUserDetailsUrl(user);
-
-
-        row.innerHTML = `
-
-            <td>
-
-                <div class="users-user-cell">
-
-                    <div
-                        class="users-user-avatar"
-                        aria-hidden="true"
-                    >
-                        ${escapeHtml(
-                            name
-                                .charAt(0)
-                                .toUpperCase()
-                        )}
+                    <div class="users-empty-icon">
+                        ♙
                     </div>
 
-                    <div class="users-user-info">
 
-                        <strong>
-                            ${escapeHtml(name)}
-                        </strong>
+                    <h3>
+                        لا توجد بيانات مستخدمين
+                    </h3>
 
-                        <span>
-                            ${escapeHtml(email)}
-                        </span>
 
-                    </div>
+                    <p>
+                        سيتم عرض المستخدمين بعد ربط النظام بمصدر البيانات.
+                    </p>
+
 
                 </div>
 
             </td>
 
-
-            <td dir="ltr">
-
-                ${escapeHtml(userId || "—")}
-
-            </td>
-
-
-            <td>
-
-                <span
-                    class="users-status ${getStatusClass(status)}"
-                >
-
-                    ${escapeHtml(
-                        getStatusLabel(status)
-                    )}
-
-                </span>
-
-            </td>
-
-
-            <td>
-
-                <span
-                    class="users-verification ${
-                        verification === "verified"
-                            ? "verified"
-                            : "unverified"
-                    }"
-                >
-
-                    ${escapeHtml(
-                        getVerificationLabel(
-                            verification
-                        )
-                    )}
-
-                </span>
-
-            </td>
-
-
-            <td dir="ltr">
-
-                ${formatCurrency(
-                    balance
-                )}
-
-            </td>
-
-
-            <td>
-
-                ${formatDate(
-                    createdAt
-                )}
-
-            </td>
-
-
-            <td>
-
-                ${formatDate(
-                    lastActivity
-                )}
-
-            </td>
-
-
-            <td>
-
-                <a
-                    href="${escapeHtml(detailsUrl)}"
-                    class="admin-btn admin-btn-secondary users-details-button"
-                    aria-label="عرض تفاصيل ${escapeHtml(name)}"
-                >
-                    تفاصيل المستخدم
-                </a>
-
-            </td>
+        </tr>
 
         `;
 
 
-        return row;
-
-    }
+        updatePagination();
 
 
-    /* =====================================================
-       STATISTICS
-    ===================================================== */
-
-    function updateStatistics() {
-
-        const total =
-            allUsers.length;
-
-        const active =
-            allUsers.filter(function (user) {
-
-                return (
-                    getUserStatus(user) ===
-                    "active"
-                );
-
-            }).length;
-
-        const pending =
-            allUsers.filter(function (user) {
-
-                return (
-                    getUserStatus(user) ===
-                    "pending"
-                );
-
-            }).length;
-
-        const suspended =
-            allUsers.filter(function (user) {
-
-                const status =
-                    getUserStatus(user);
-
-                return (
-                    status === "suspended" ||
-                    status === "blocked"
-                );
-
-            }).length;
-
-
-        if (totalUsersElement) {
-
-            totalUsersElement.textContent =
-                formatNumber(total);
-
-        }
-
-        if (activeUsersElement) {
-
-            activeUsersElement.textContent =
-                formatNumber(active);
-
-        }
-
-        if (pendingUsersElement) {
-
-            pendingUsersElement.textContent =
-                formatNumber(pending);
-
-        }
-
-        if (suspendedUsersElement) {
-
-            suspendedUsersElement.textContent =
-                formatNumber(suspended);
-
-        }
-
-    }
-   /* =====================================================
-   PAGINATION
-===================================================== */
-
-function renderPagination() {
-
-    if (!pagination) {
         return;
+
     }
 
 
-    const totalPages =
-        Math.ceil(
-            filteredUsers.length /
-            usersPerPage
+
+
+
+    usersState.filteredUsers.forEach(
+        function (user) {
+
+
+            const row =
+                createUserRow(user);
+
+
+
+            tbody.appendChild(row);
+
+
+        }
+    );
+
+
+
+    updatePagination();
+
+
+}
+
+
+
+
+
+
+
+/*
+=========================================================
+CREATE USER ROW
+=========================================================
+*/
+
+
+function createUserRow(user) {
+
+
+    const tr =
+        document.createElement(
+            "tr"
         );
 
 
-    if (totalPages <= 1) {
 
-        pagination.hidden = true;
+    tr.innerHTML = `
 
+
+<td>
+
+
+<div class="user-cell">
+
+
+<div class="user-avatar">
+
+${escapeHTML(
+    getInitial(user.name)
+)}
+
+</div>
+
+
+
+<div class="user-info">
+
+
+<strong>
+
+${escapeHTML(
+    user.name || "—"
+)}
+
+</strong>
+
+
+<span>
+
+${escapeHTML(
+    user.email || "—"
+)}
+
+</span>
+
+
+
+</div>
+
+
+</div>
+
+
+</td>
+
+
+
+
+
+<td>
+
+<span class="user-id">
+
+#${escapeHTML(
+    user.id || "—"
+)}
+
+</span>
+
+
+</td>
+
+
+
+
+
+<td>
+
+
+<span class="user-status ${getStatusClass(user.status)}">
+
+${escapeHTML(
+    user.status || "—"
+)}
+
+</span>
+
+
+</td>
+
+
+
+
+
+<td>
+
+
+<span class="user-verification">
+
+
+${escapeHTML(
+    user.verification || "—"
+)}
+
+
+</span>
+
+
+</td>
+
+
+
+
+
+<td>
+
+
+<strong class="user-balance">
+
+${escapeHTML(
+    user.balance || "—"
+)}
+
+</strong>
+
+
+</td>
+
+
+
+
+
+<td>
+
+${escapeHTML(
+    user.created_at || "—"
+)}
+
+</td>
+
+
+
+
+
+<td>
+
+${escapeHTML(
+    user.last_activity || "—"
+)}
+
+</td>
+
+
+
+
+
+<td>
+
+
+<a
+
+href="user-details.html?id=${encodeURIComponent(user.id)}"
+
+class="user-view-button"
+
+>
+
+عرض
+
+</a>
+
+
+</td>
+
+
+`;
+
+
+
+    return tr;
+
+
+}
+
+
+
+
+
+
+
+/*
+=========================================================
+SEARCH
+=========================================================
+*/
+
+
+function setupSearch() {
+
+
+    const input =
+        document.getElementById(
+            "userSearch"
+        );
+
+
+
+    if (!input) {
         return;
+    }
+
+
+
+    input.addEventListener(
+        "input",
+        function () {
+
+
+            applyFilters();
+
+
+        }
+    );
+
+
+}
+/*
+=========================================================
+FILTERS
+=========================================================
+*/
+
+
+function setupFilters() {
+
+
+    const status =
+        document.getElementById(
+            "userStatusFilter"
+        );
+
+
+    const verification =
+        document.getElementById(
+            "verificationFilter"
+        );
+
+
+
+    if (status) {
+
+        status.addEventListener(
+            "change",
+            applyFilters
+        );
 
     }
 
 
-    pagination.hidden = false;
 
+    if (verification) {
 
-    if (paginationInfo) {
-
-        paginationInfo.textContent =
-            `صفحة ${currentPage} من ${totalPages}`;
+        verification.addEventListener(
+            "change",
+            applyFilters
+        );
 
     }
 
 
-    if (paginationButtons) {
-
-        paginationButtons.innerHTML = "";
+}
 
 
-        for (
-            let page = 1;
-            page <= totalPages;
-            page++
-        ) {
-
-            const button =
-                document.createElement("button");
 
 
-            button.type = "button";
-
-            button.className =
-                "users-page-button";
 
 
-            if (
-                page === currentPage
-            ) {
 
-                button.classList.add(
-                    "active"
+function applyFilters() {
+
+
+    const search =
+        document.getElementById(
+            "userSearch"
+        );
+
+
+
+    const status =
+        document.getElementById(
+            "userStatusFilter"
+        );
+
+
+
+    const verification =
+        document.getElementById(
+            "verificationFilter"
+        );
+
+
+
+
+    const searchValue =
+        search
+        ? search.value
+            .trim()
+            .toLowerCase()
+        : "";
+
+
+
+    const statusValue =
+        status
+        ? status.value
+        : "all";
+
+
+
+    const verificationValue =
+        verification
+        ? verification.value
+        : "all";
+
+
+
+
+
+    usersState.filteredUsers =
+        usersState.users.filter(
+            function (user) {
+
+
+
+                const name =
+                    String(
+                        user.name || ""
+                    )
+                    .toLowerCase();
+
+
+
+                const email =
+                    String(
+                        user.email || ""
+                    )
+                    .toLowerCase();
+
+
+
+                const id =
+                    String(
+                        user.id || ""
+                    )
+                    .toLowerCase();
+
+
+
+
+                const matchesSearch =
+
+                    !searchValue ||
+
+                    name.includes(searchValue) ||
+
+                    email.includes(searchValue) ||
+
+                    id.includes(searchValue);
+
+
+
+
+
+                const matchesStatus =
+
+                    statusValue === "all" ||
+
+                    user.status === statusValue;
+
+
+
+
+
+                const matchesVerification =
+
+                    verificationValue === "all" ||
+
+                    user.verification === verificationValue;
+
+
+
+
+
+                return (
+
+                    matchesSearch &&
+
+                    matchesStatus &&
+
+                    matchesVerification
+
                 );
 
+
             }
+        );
 
 
-            button.textContent =
-                page;
+
+    usersState.currentPage = 1;
 
 
-            button.addEventListener(
-                "click",
-                function () {
+    renderUsers();
 
-                    currentPage = page;
+
+}
+
+
+
+
+
+
+
+
+/*
+=========================================================
+REFRESH
+=========================================================
+*/
+
+
+function setupRefresh() {
+
+
+    const button =
+        document.getElementById(
+            "refreshUsers"
+        );
+
+
+
+    if (!button) {
+        return;
+    }
+
+
+
+    button.addEventListener(
+        "click",
+        function () {
+
+
+            clearUsersPage();
+
+
+        }
+    );
+
+
+}
+
+
+
+
+
+
+
+
+/*
+=========================================================
+PAGINATION
+=========================================================
+*/
+
+
+function setupPagination() {
+
+
+    const previous =
+        document.getElementById(
+            "previousPage"
+        );
+
+
+
+    const next =
+        document.getElementById(
+            "nextPage"
+        );
+
+
+
+    if (previous) {
+
+
+        previous.addEventListener(
+            "click",
+            function () {
+
+
+                if (
+                    usersState.currentPage > 1
+                ) {
+
+                    usersState.currentPage--;
 
                     renderUsers();
 
                 }
-            );
 
 
-            paginationButtons.appendChild(
-                button
-            );
+            }
+        );
 
-        }
 
     }
+
+
+
+
+
+
+    if (next) {
+
+
+        next.addEventListener(
+            "click",
+            function () {
+
+
+                usersState.currentPage++;
+
+
+                renderUsers();
+
+
+            }
+        );
+
+
+    }
+
 
 }
 
 
-/* =====================================================
-   EMPTY STATE
-===================================================== */
 
-function showEmptyState(
-    title = "لا توجد بيانات مستخدمين",
-    message = "لا توجد بيانات مستخدمين متاحة حاليًا."
+
+
+
+
+function updatePagination() {
+
+
+    setText(
+        "usersFrom",
+        "0"
+    );
+
+
+    setText(
+        "usersTo",
+        "0"
+    );
+
+
+    setText(
+        "usersTotal",
+        "0"
+    );
+
+
+    setText(
+        "currentPage",
+        usersState.currentPage
+    );
+
+
+}
+/*
+=========================================================
+API PLACEHOLDER
+=========================================================
+
+لاحقًا عند ربط قاعدة البيانات:
+
+سيتم استبدال هذه الدالة بـ:
+
+fetch()
+أو
+Axios
+
+لجلب المستخدمين الحقيقيين.
+
+=========================================================
+*/
+
+
+async function loadUsersFromAPI() {
+
+
+    /*
+    
+    مثال مستقبلي:
+
+    const response =
+        await fetch("/api/users");
+
+
+    const data =
+        await response.json();
+
+
+    usersState.users = data;
+
+
+    usersState.filteredUsers = data;
+
+
+    renderUsers();
+
+
+    */
+
+
+    clearUsersPage();
+
+
+}
+
+
+
+
+
+
+
+/*
+=========================================================
+HELPERS
+=========================================================
+*/
+
+
+function setText(
+    id,
+    value
 ) {
 
-    if (!emptyState) {
+
+    const element =
+        document.getElementById(id);
+
+
+
+    if (!element) {
+
         return;
-    }
-
-
-    const heading =
-        emptyState.querySelector("h3");
-
-    const paragraph =
-        emptyState.querySelector("p");
-
-
-    if (heading) {
-
-        heading.textContent =
-            title;
 
     }
 
 
-    if (paragraph) {
 
-        paragraph.textContent =
-            message;
-
-    }
-
-
-    emptyState.style.display =
-        "flex";
+    element.textContent =
+        value ?? "";
 
 }
 
 
 
-function hideEmptyState() {
-
-    if (!emptyState) {
-        return;
-    }
 
 
-    emptyState.style.display =
-        "none";
-
-}
 
 
-/* =====================================================
-   LOADING
-===================================================== */
-
-function setLoadingState(
-    loading
+function getInitial(
+    name
 ) {
 
-    if (!tableBody) {
-        return;
-    }
 
+    if (!name) {
 
-    if (loading) {
-
-        tableBody.innerHTML = `
-
-            <tr>
-
-                <td
-                    colspan="8"
-                    style="text-align:center"
-                >
-
-                    جاري تحميل المستخدمين...
-
-                </td>
-
-            </tr>
-
-        `;
+        return "?";
 
     }
 
-}
 
+    return String(name)
+        .trim()
+        .charAt(0)
+        .toUpperCase();
 
-/* =====================================================
-   EVENTS
-===================================================== */
-
-
-if (searchInput) {
-
-    searchInput.addEventListener(
-        "input",
-        function () {
-
-            applyFilters();
-
-        }
-    );
 
 }
 
 
-if (statusFilter) {
-
-    statusFilter.addEventListener(
-        "change",
-        function () {
-
-            applyFilters();
-
-        }
-    );
-
-}
 
 
-if (verificationFilter) {
-
-    verificationFilter.addEventListener(
-        "change",
-        function () {
-
-            applyFilters();
-
-        }
-    );
-
-}
 
 
-if (refreshButton) {
 
-    refreshButton.addEventListener(
-        "click",
-        function () {
-
-            loadUsers();
-
-        }
-    );
-
-}
+function getStatusClass(
+    status
+) {
 
 
-/* =====================================================
-   START
-===================================================== */
+    switch (status) {
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
 
-        loadUsers();
+        case "active":
+
+            return "active";
+
+
+
+        case "pending":
+
+            return "pending";
+
+
+
+        case "suspended":
+
+            return "suspended";
+
+
+
+        default:
+
+            return "";
 
     }
-);
 
 
-})();
+}
+
+
+
+
+
+
+
+function escapeHTML(
+    value
+) {
+
+
+    return String(value ?? "")
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+
+}
+
+
+
+
+
+
+})();   
