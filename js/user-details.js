@@ -1,874 +1,906 @@
 /* =========================================================
-   VALORA ADMIN
-   USER DETAILS + REFERRALS
-========================================================= */
-
-(function () {
-
-    "use strict";
+   VALORA ADMIN — USER DETAILS
+   ========================================================= */
 
 
-    /* =====================================================
-       CONFIG
-    ===================================================== */
-
-    const API_BASE_URL = "";
-
-    const USER_API_ENDPOINT = "/api/users";
-
-    const REFERRALS_ENDPOINT = "/referrals";
+/* =========================================================
+   PAGE HEADER
+   ========================================================= */
 
 
-    /* =====================================================
-       HELPERS
-    ===================================================== */
+.user-details-header {
 
-    function getUserId() {
+    display: flex;
 
-        const params =
-            new URLSearchParams(
-                window.location.search
-            );
+    align-items: center;
 
-        return (
-            params.get("id") ||
-            params.get("userId") ||
-            params.get("user_id")
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-bottom: 22px;
+
+}
+
+
+.user-details-heading {
+
+    min-width: 0;
+
+}
+
+
+
+.user-details-title {
+
+    margin: 0;
+
+    color: var(--va-text);
+
+    font-size: 26px;
+
+    font-weight: 800;
+
+}
+
+
+
+.user-details-description {
+
+    margin: 6px 0 0;
+
+    color: var(--va-text-muted);
+
+    font-size: 13px;
+
+}
+
+
+
+
+
+/* =========================================================
+   USER PROFILE CARD
+   ========================================================= */
+
+
+.user-profile-card {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    padding: 22px;
+
+    margin-bottom: 18px;
+
+    background: var(--va-surface);
+
+    border: 1px solid var(--va-border);
+
+    border-radius: var(--va-radius-lg);
+
+    box-shadow: var(--va-shadow-sm);
+
+}
+
+
+
+.user-profile-avatar {
+
+    width: 72px;
+
+    height: 72px;
+
+    flex: 0 0 72px;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--va-gold-light),
+            var(--va-gold-dark)
         );
+
+    color: #080808;
+
+    font-size: 28px;
+
+    font-weight: 800;
+
+}
+
+
+
+.user-profile-info {
+
+    min-width: 0;
+
+}
+
+
+
+.user-profile-name {
+
+    margin: 0;
+
+    color: var(--va-text);
+
+    font-size: 20px;
+
+    font-weight: 800;
+
+}
+
+
+
+.user-profile-email {
+
+    margin: 5px 0 0;
+
+    color: var(--va-text-muted);
+
+    font-size: 13px;
+
+}
+
+
+
+.user-profile-id {
+
+    display: inline-flex;
+
+    margin-top: 8px;
+
+    padding: 4px 10px;
+
+    border-radius: 999px;
+
+    background: rgba(255,255,255,0.04);
+
+    border: 1px solid var(--va-border);
+
+    color: var(--va-text-soft);
+
+    font-size: 12px;
+
+}
+
+
+
+
+
+/* =========================================================
+   STATUS BADGES
+   ========================================================= */
+
+
+.user-details-status {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-height: 28px;
+
+    padding: 0 12px;
+
+    border-radius: 999px;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+}
+
+
+
+.user-details-status.active {
+
+    background: var(--va-success-soft);
+
+    color: var(--va-success);
+
+}
+
+
+
+.user-details-status.pending {
+
+    background: var(--va-warning-soft);
+
+    color: var(--va-warning);
+
+}
+
+
+
+.user-details-status.suspended {
+
+    background: var(--va-danger-soft);
+
+    color: var(--va-danger);
+
+}
+/* =========================================================
+   USER INFORMATION GRID
+   ========================================================= */
+
+
+.user-info-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 14px;
+
+    margin-bottom: 18px;
+
+}
+
+
+
+.user-info-card {
+
+    padding: 18px;
+
+    background: var(--va-surface);
+
+    border: 1px solid var(--va-border);
+
+    border-radius: var(--va-radius-md);
+
+    box-shadow: var(--va-shadow-sm);
+
+}
+
+
+
+.user-info-label {
+
+    margin: 0 0 8px;
+
+    color: var(--va-text-muted);
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+}
+
+
+
+.user-info-value {
+
+    margin: 0;
+
+    color: var(--va-text);
+
+    font-size: 18px;
+
+    font-weight: 800;
+
+}
+
+
+
+
+
+/* =========================================================
+   BALANCE BOX
+   ========================================================= */
+
+
+.user-balance-box {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 16px;
+
+    padding: 22px;
+
+    margin-bottom: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(212,175,55,0.12),
+            rgba(212,175,55,0.03)
+        );
+
+    border: 1px solid rgba(212,175,55,0.20);
+
+    border-radius: var(--va-radius-lg);
+
+}
+
+
+
+.user-balance-title {
+
+    margin: 0;
+
+    color: var(--va-text-muted);
+
+    font-size: 12px;
+
+}
+
+
+
+.user-balance-value {
+
+    margin: 6px 0 0;
+
+    color: var(--va-gold-light);
+
+    font-size: 30px;
+
+    font-weight: 900;
+
+}
+
+
+
+.user-balance-currency {
+
+    color: var(--va-text-soft);
+
+    font-size: 14px;
+
+}
+
+
+
+
+
+/* =========================================================
+   DETAILS LAYOUT
+   ========================================================= */
+
+
+.user-details-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        minmax(300px, 360px);
+
+    gap: 18px;
+
+    align-items: start;
+
+}
+
+
+
+.user-details-card {
+
+    background: var(--va-surface);
+
+    border: 1px solid var(--va-border);
+
+    border-radius: var(--va-radius-lg);
+
+    overflow: hidden;
+
+}
+
+
+
+.user-details-card-header {
+
+    padding: 18px 20px;
+
+    border-bottom:
+
+        1px solid var(--va-border);
+
+}
+
+
+
+.user-details-card-title {
+
+    margin: 0;
+
+    color: var(--va-text);
+
+    font-size: 15px;
+
+    font-weight: 800;
+
+}
+
+
+
+.user-details-card-description {
+
+    margin: 5px 0 0;
+
+    color: var(--va-text-muted);
+
+    font-size: 11px;
+
+}
+
+
+
+.user-details-card-body {
+
+    padding: 20px;
+
+}
+/* =========================================================
+   USER DATA LIST
+   ========================================================= */
+
+
+.user-data-list {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 0;
+
+}
+
+
+
+.user-data-row {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding: 14px 0;
+
+    border-bottom:
+
+        1px solid var(--va-border);
+
+}
+
+
+
+.user-data-row:last-child {
+
+    border-bottom: 0;
+
+}
+
+
+
+.user-data-label {
+
+    color: var(--va-text-muted);
+
+    font-size: 12px;
+
+}
+
+
+
+.user-data-value {
+
+    color: var(--va-text);
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+}
+
+
+
+
+
+/* =========================================================
+   USER ACTIONS
+   ========================================================= */
+
+
+.user-actions {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+}
+
+
+
+.user-action-btn {
+
+    min-height: 40px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 0 16px;
+
+    border-radius: var(--va-radius-sm);
+
+    border: 1px solid var(--va-border);
+
+    background: rgba(255,255,255,0.03);
+
+    color: var(--va-text);
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+
+        background var(--va-transition),
+
+        border-color var(--va-transition),
+
+        color var(--va-transition);
+
+}
+
+
+
+.user-action-btn:hover {
+
+    background: rgba(255,255,255,0.07);
+
+    border-color: var(--va-border-strong);
+
+}
+
+
+
+.user-action-btn.gold {
+
+    background: var(--va-gold);
+
+    color: #080808;
+
+    border-color: var(--va-gold);
+
+}
+
+
+
+.user-action-btn.gold:hover {
+
+    background: var(--va-gold-light);
+
+}
+
+
+
+
+
+.user-action-btn.danger {
+
+    background: var(--va-danger-soft);
+
+    color: var(--va-danger);
+
+    border-color: rgba(228,92,92,0.25);
+
+}
+
+
+
+
+
+/* =========================================================
+   TRANSACTIONS TABLE
+   ========================================================= */
+
+
+.user-transactions {
+
+    width: 100%;
+
+    overflow-x: auto;
+
+}
+
+
+
+.user-transactions table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+}
+
+
+
+.user-transactions th {
+
+    padding: 12px;
+
+    text-align: right;
+
+    color: var(--va-text-muted);
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    border-bottom:
+
+        1px solid var(--va-border);
+
+}
+
+
+
+.user-transactions td {
+
+    padding: 14px 12px;
+
+    color: var(--va-text-soft);
+
+    font-size: 12px;
+
+    border-bottom:
+
+        1px solid var(--va-border);
+
+}
+
+
+
+.user-transactions tr:last-child td {
+
+    border-bottom: 0;
+
+}
+
+
+
+
+
+/* =========================================================
+   ACTIVITY TIMELINE
+   ========================================================= */
+
+
+.user-timeline {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 16px;
+
+}
+
+
+
+.user-timeline-item {
+
+    position: relative;
+
+    display: flex;
+
+    gap: 12px;
+
+}
+
+
+
+.user-timeline-dot {
+
+    width: 10px;
+
+    height: 10px;
+
+    flex: 0 0 10px;
+
+    margin
+   /* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+
+@media (max-width: 1100px) {
+
+
+    .user-info-grid {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
 
     }
 
 
-    function getElement(id) {
+    .user-details-grid {
 
-        return document.getElementById(id);
-
-    }
-
-
-    function setText(id, value) {
-
-        const element =
-            getElement(id);
-
-        if (!element) {
-            return;
-        }
-
-        element.textContent =
-            value !== undefined &&
-            value !== null &&
-            value !== ""
-                ? value
-                : "—";
+        grid-template-columns:
+            minmax(0, 1fr);
 
     }
 
 
-    function escapeHtml(value) {
+}
 
-        if (
-            value === undefined ||
-            value === null
-        ) {
-            return "";
-        }
 
-        return String(value)
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
 
-    }
 
 
-    function formatNumber(value) {
+@media (max-width: 768px) {
 
-        const number =
-            Number(value);
 
-        if (!Number.isFinite(number)) {
-            return "—";
-        }
+    .user-details-header {
 
-        return new Intl.NumberFormat(
-            "ar-SA",
-            {
-                maximumFractionDigits: 2
-            }
-        ).format(number);
+        flex-direction: column;
 
-    }
+        align-items: stretch;
 
-
-    function formatCurrency(
-        value,
-        currency = "USD"
-    ) {
-
-        const number =
-            Number(value);
-
-        if (!Number.isFinite(number)) {
-            return "—";
-        }
-
-        try {
-
-            return new Intl.NumberFormat(
-                "ar-SA",
-                {
-                    style: "currency",
-                    currency: currency,
-                    maximumFractionDigits: 2
-                }
-            ).format(number);
-
-        } catch(error) {
-
-            return (
-                formatNumber(number)
-                +
-                " "
-                +
-                currency
-            );
-
-        }
-
-    }
-
-
-    function formatDate(value) {
-
-        if (!value) {
-            return "—";
-        }
-
-
-        const date =
-            new Date(value);
-
-
-        if (
-            Number.isNaN(
-                date.getTime()
-            )
-        ) {
-
-            return value;
-
-        }
-
-
-        return new Intl.DateTimeFormat(
-            "ar-SA",
-            {
-                dateStyle: "medium",
-                timeStyle: "short"
-            }
-        ).format(date);
-
-    }
-
-
-    /* =====================================================
-       STATUS
-    ===================================================== */
-
-    function getStatusText(status) {
-
-        const statuses = {
-
-            active: "نشط",
-
-            pending: "بانتظار التحقق",
-
-            suspended: "موقوف",
-
-            blocked: "محظور",
-
-            inactive: "غير نشط"
-
-        };
-
-
-        return (
-            statuses[status]
-            ||
-            status
-            ||
-            "—"
-        );
-
-    }
-
-
-    function getVerificationText(value) {
-
-        if (
-            value === true ||
-            value === 1 ||
-            value === "true" ||
-            value === "verified"
-        ) {
-
-            return "موثق";
-
-        }
-
-
-        if (
-            value === false ||
-            value === 0 ||
-            value === "false" ||
-            value === "unverified"
-        ) {
-
-            return "غير موثق";
-
-        }
-
-
-        return value || "—";
-
-    }
-
-
-    /* =====================================================
-       RENDER USER
-    ===================================================== */
-
-    function renderUser(user) {
-
-        if (!user) {
-            return;
-        }
-
-
-        const fullName =
-            user.fullName ||
-            user.name ||
-            "—";
-
-
-        const email =
-            user.email ||
-            "—";
-
-
-        const id =
-            user.id ||
-            user.userId ||
-            user._id ||
-            "—";
-
-
-        setText(
-            "userName",
-            fullName
-        );
-
-
-        setText(
-            "userEmail",
-            email
-        );
-
-
-        setText(
-            "userId",
-            id
-        );
-
-
-        setText(
-            "detailFullName",
-            fullName
-        );
-
-
-        setText(
-            "detailEmail",
-            email
-        );
-
-
-        setText(
-            "detailUserId",
-            id
-        );
-
-
-        const avatar =
-            getElement("userAvatar");
-
-
-        if (avatar) {
-
-            avatar.textContent =
-                fullName
-                !== "—"
-                    ? fullName
-                        .charAt(0)
-                        .toUpperCase()
-                    : "—";
-
-        }
-
-
-        const status =
-            user.status ||
-            "active";
-
-
-        setText(
-            "userStatus",
-            getStatusText(status)
-        );
-
-
-        setText(
-            "userBalance",
-            formatCurrency(
-                user.balance
-            )
-        );
-
-
-        setText(
-            "userDeposits",
-            formatCurrency(
-                user.totalDeposits ||
-                user.deposits
-            )
-        );
-
-
-        setText(
-            "userWithdrawals",
-            formatCurrency(
-                user.totalWithdrawals ||
-                user.withdrawals
-            )
-        );
-
-
-        setText(
-            "userTransactions",
-            formatNumber(
-                user.transactionCount
-            )
-        );
-
-
-        setText(
-            "detailCreatedAt",
-            formatDate(
-                user.createdAt
-            )
-        );
-
-
-        setText(
-            "detailLastActivity",
-            formatDate(
-                user.lastActivity
-            )
-        );
-
-
-        setText(
-            "detailVerification",
-            getVerificationText(
-                user.verified
-            )
-        );
-
-
-        setText(
-            "emailVerified",
-            getVerificationText(
-                user.emailVerified
-            )
-        );
-
-
-        setText(
-            "lastLogin",
-            formatDate(
-                user.lastLogin
-            )
-        );
-
-
-        setText(
-            "lastIp",
-            user.lastIp
-        );
-
-
-        renderTransactions(
-            user.transactions || []
-        );
-
-
-        renderActivity(
-            user.activities || []
-        );
-
-    }
-
-
-    /* =====================================================
-       LOAD USER API
-    ===================================================== */
-
-    async function loadUser() {
-
-        const userId =
-            getUserId();
-
-
-        if (!userId) {
-
-            showError(
-                "لم يتم تحديد رقم المستخدم"
-            );
-
-            return;
-
-        }
-
-
-        try {
-
-            const response =
-                await fetch(
-                    API_BASE_URL +
-                    USER_API_ENDPOINT +
-                    "/" +
-                    encodeURIComponent(userId),
-                    {
-                        credentials:
-                            "include"
-                    }
-                );
-
-
-            if (!response.ok) {
-
-                throw new Error(
-                    response.status
-                );
-
-            }
-
-
-            const data =
-                await response.json();
-
-
-            const user =
-                data.user ||
-                data.data ||
-                data;
-
-
-            renderUser(user);
-
-
-            loadUserReferrals(userId);
-
-
-        } catch(error) {
-
-            console.error(
-                "User details error",
-                error
-            );
-
-
-            showError(
-                "تعذر تحميل بيانات المستخدم"
-            );
-
-        }
-
-    }
-       /* =====================================================
-       TRANSACTIONS
-    ===================================================== */
-
-    function renderTransactions(transactions) {
-
-        const body =
-            getElement(
-                "userTransactionsBody"
-            );
-
-        const empty =
-            getElement(
-                "userTransactionsEmpty"
-            );
-
-
-        if (!body) {
-            return;
-        }
-
-
-        body.innerHTML = "";
-
-
-        if (
-            !Array.isArray(transactions) ||
-            transactions.length === 0
-        ) {
-
-            if (empty) {
-                empty.style.display = "";
-            }
-
-            return;
-
-        }
-
-
-        if (empty) {
-            empty.style.display = "none";
-        }
-
-
-        transactions.forEach(function(transaction){
-
-            const row =
-                document.createElement("tr");
-
-
-            row.innerHTML = `
-
-                <td>
-                    ${escapeHtml(
-                        transaction.type ||
-                        "—"
-                    )}
-                </td>
-
-                <td dir="ltr">
-                    ${escapeHtml(
-                        formatCurrency(
-                            transaction.amount
-                        )
-                    )}
-                </td>
-
-                <td>
-                    ${escapeHtml(
-                        getStatusText(
-                            transaction.status
-                        )
-                    )}
-                </td>
-
-                <td>
-                    ${escapeHtml(
-                        formatDate(
-                            transaction.createdAt
-                        )
-                    )}
-                </td>
-
-                <td dir="ltr">
-                    ${escapeHtml(
-                        transaction.id ||
-                        "—"
-                    )}
-                </td>
-
-            `;
-
-
-            body.appendChild(row);
-
-        });
+        gap: 12px;
 
     }
 
 
 
-    /* =====================================================
-       ACTIVITY
-    ===================================================== */
+    .user-details-title {
 
-    function renderActivity(activities) {
-
-        const container =
-            getElement(
-                "userActivityList"
-            );
-
-
-        if (!container) {
-            return;
-        }
-
-
-        if (
-            !Array.isArray(activities) ||
-            activities.length === 0
-        ) {
-
-            return;
-
-        }
-
-
-        container.innerHTML = "";
-
-
-        activities.forEach(function(activity){
-
-            const item =
-                document.createElement("div");
-
-
-            item.className =
-                "user-details-activity-item";
-
-
-            item.innerHTML = `
-
-                <strong>
-                    ${escapeHtml(
-                        activity.title ||
-                        activity.action ||
-                        "نشاط"
-                    )}
-                </strong>
-
-
-                <p>
-                    ${escapeHtml(
-                        activity.description ||
-                        ""
-                    )}
-                </p>
-
-
-                <time>
-                    ${escapeHtml(
-                        formatDate(
-                            activity.createdAt
-                        )
-                    )}
-                </time>
-
-            `;
-
-
-            container.appendChild(item);
-
-        });
+        font-size: 22px;
 
     }
 
 
 
-    /* =====================================================
-       REFERRALS
-       المستخدمون الذين دعاهم هذا المستخدم
-    ===================================================== */
+    .user-profile-card {
 
-    async function loadUserReferrals(userId) {
+        flex-direction: column;
 
+        align-items: flex-start;
 
-        const body =
-            getElement(
-                "userReferralsBody"
-            );
+        text-align: right;
 
+    }
 
-        const empty =
-            getElement(
-                "userReferralsEmpty"
-            );
 
 
-        if (!body) {
-            return;
-        }
+    .user-profile-avatar {
 
+        width: 60px;
 
-        try {
+        height: 60px;
 
+        flex-basis: 60px;
 
-            const response =
-                await fetch(
-                    API_BASE_URL +
-                    USER_API_ENDPOINT +
-                    "/" +
-                    encodeURIComponent(userId) +
-                    REFERRALS_ENDPOINT,
-                    {
-                        credentials:
-                            "include"
-                    }
-                );
+        font-size: 22px;
 
+    }
 
-            if (!response.ok) {
 
-                throw new Error(
-                    response.status
-                );
 
-            }
+    .user-info-grid {
 
+        grid-template-columns:
 
-            const data =
-                await response.json();
+            minmax(0, 1fr);
 
+    }
 
-            const referrals =
-                data.users ||
-                data.data ||
-                data.referrals ||
-                [];
 
 
-            body.innerHTML = "";
+    .user-balance-box {
 
+        flex-direction: column;
 
-            if (
-                !Array.isArray(referrals) ||
-                referrals.length === 0
-            ) {
+        align-items: flex-start;
 
+    }
 
-                if (empty) {
 
-                    empty.style.display =
-                        "block";
 
-                }
+    .user-balance-value {
 
+        font-size: 24px;
 
-                return;
+    }
 
-            }
 
 
+    .user-details-card-body {
 
-            if (empty) {
+        padding: 16px;
 
-                empty.style.display =
-                    "none";
+    }
 
-            }
 
 
+    .user-data-row {
 
-            referrals.forEach(function(user){
+        flex-direction: column;
 
+        align-items: flex-start;
 
-                const row =
-                    document.createElement("tr");
+        gap: 6px;
 
+    }
 
 
-                row.innerHTML = `
 
+    .user-actions {
 
-                    <td>
+        width: 100%;
 
-                        <strong>
-                            ${escapeHtml(
-                                user.name ||
-                                user.fullName ||
-                                "—"
-                            )}
-                        </strong>
+    }
 
 
-                        <br>
 
+    .user-action-btn {
 
-                        <small>
-                            ${escapeHtml(
-                                user.email ||
-                                ""
-                            )}
-                        </small>
+        width: 100%;
 
-                    </td>
+    }
 
 
+}
 
-                    <td dir="ltr">
 
-                        ${escapeHtml(
-                            user.id ||
-                            user.userId ||
-                            "—"
-                        )}
 
-                    </td>
 
 
+@media (max-width: 420px) {
 
-                    <td>
 
-                        ${escapeHtml(
-                            formatCurrency(
-                                user.balance
-                            )
-                        )}
+    .user-profile-name {
 
-                    </td>
+        font-size: 17px;
 
+    }
 
 
-                    <td>
 
-                        ${escapeHtml(
-                            formatDate(
-                                user.createdAt
-                            )
-                        )}
+    .user-details-card-header {
 
-                    </td>
+        padding: 15px;
 
+    }
 
 
-                    <td>
 
-                        ${escapeHtml(
-                            getStatusText(
-                                user.status
-                            )
-                        )}
+    .user-details-card-body {
 
-                    </td>
+        padding: 14px;
 
+    }
 
-                `;
 
 
-
-                body.appendChild(row);
-
-
-
-            });
-
-
-
-        }
-        catch(error) {
-
-
-            console.error(
-               
+           }
