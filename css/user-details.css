@@ -1,0 +1,283 @@
+.user-details-profile {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    padding:25px;
+    margin-bottom:20px;
+}
+
+
+.user-details-profile-main {
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+
+.user-details-avatar {
+
+    width:80px;
+    height:80px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:
+    linear-gradient(
+        135deg,
+        #d4af37,
+        #8b6b16
+    );
+
+    color:#000;
+
+    font-size:32px;
+    font-weight:900;
+}
+
+
+
+.user-details-name {
+
+    font-size:26px;
+    margin:0;
+
+}
+
+
+
+.user-details-email {
+
+    margin-top:8px;
+    color:#aaa;
+
+}
+
+
+.user-details-id {
+
+    margin-top:8px;
+    color:#d4af37;
+
+}
+
+
+
+.user-details-stats-grid {
+
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(4,1fr);
+
+    gap:15px;
+
+    margin-bottom:25px;
+
+}
+
+
+
+.user-details-stat-card {
+
+
+    background:#111;
+
+    border:1px solid #252525;
+
+    border-radius:14px;
+
+    padding:20px;
+
+}
+
+
+
+.user-details-stat-label {
+
+    color:#999;
+
+    font-size:13px;
+
+}
+
+
+.user-details-stat-value {
+
+    margin-top:10px;
+
+    font-size:22px;
+
+    color:#d4af37;
+
+}
+
+
+
+.user-details-grid {
+
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(2,1fr);
+
+    gap:20px;
+
+}
+
+
+
+.user-details-info-list {
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+
+
+.user-details-info-row {
+
+
+    display:flex;
+
+    justify-content:space-between;
+
+    padding:15px 0;
+
+    border-bottom:
+    1px solid #222;
+
+}
+
+
+
+.user-details-info-row span {
+
+    color:#999;
+
+}
+
+
+.user-details-info-row strong {
+
+    color:white;
+
+}
+
+
+
+
+
+.user-details-table-wrapper {
+
+    overflow-x:auto;
+
+}
+
+
+
+.user-details-table {
+
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+
+
+.user-details-table th {
+
+
+    text-align:right;
+
+    padding:15px;
+
+    color:#aaa;
+
+    border-bottom:
+    1px solid #333;
+
+}
+
+
+
+.user-details-table td {
+
+
+    padding:15px;
+
+    border-bottom:
+    1px solid #222;
+
+}
+
+
+
+
+
+@media(max-width:900px){
+
+
+.user-details-stats-grid{
+
+grid-template-columns:
+repeat(2,1fr);
+
+}
+
+
+
+.user-details-grid{
+
+grid-template-columns:
+1fr;
+
+}
+
+
+
+}
+
+
+
+@media(max-width:600px){
+
+
+.user-details-profile{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+}
+
+
+
+.user-details-stats-grid{
+
+grid-template-columns:
+1fr;
+
+}
+
+
+.user-details-info-row{
+
+flex-direction:column;
+
+gap:8px;
+
+}
+
+
+}
