@@ -136,47 +136,25 @@ function loadUserDetails() {
 
 
 
-        referrals:
+],
 
-        [
+referrals: [
 
-            {
+    {
+        id: "2001",
+        name: "محمد علي",
+        balance: 120,
+        created_at: "2026-02-01"
+    },
 
-                id:"1002",
+    {
+        id: "2002",
+        name: "سارة أحمد",
+        balance: 300,
+        created_at: "2026-02-05"
+    }
 
-                name:"محمد علي",
-
-                email:"mohamed@test.com",
-
-                balance:300,
-
-                created_at:"2026-02-01",
-
-                status:"active"
-
-            },
-
-
-            {
-
-                id:"1003",
-
-                name:"سارة أحمد",
-
-                email:"sara@test.com",
-
-                balance:700,
-
-                created_at:"2026-02-05",
-
-                status:"active"
-
-            }
-
-
-        ],
-
-
+]
 
         operations:
 
@@ -295,7 +273,10 @@ function renderUser(user) {
         user.transactions
     );
 
-
+setText(
+    "userReferralsCount",
+    user.referrals.length
+);
 
     setText(
         "userAvatar",
