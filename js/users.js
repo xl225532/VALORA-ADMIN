@@ -108,29 +108,7 @@ function clearUsersPage() {
     */
 
 
-    usersState.users = [
 
-        {
-
-            id: "1001",
-
-            name: "أحمد محمد",
-
-            email: "ahmed@test.com",
-
-            status: "active",
-
-            verification: "verified",
-
-            balance: "$500",
-
-            created_at: "2026-01-01",
-
-            last_activity: "اليوم"
-
-        }
-
-    ];
 
 
 
