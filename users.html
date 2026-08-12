@@ -19,10 +19,6 @@
 
     <style>
 
-        /* ==========================================
-           صفحة المستخدمين
-        ========================================== */
-
         .page-title {
             display: flex;
             align-items: center;
@@ -41,9 +37,6 @@
             color: #888;
             font-size: 13px;
         }
-
-
-        /* إحصائيات المستخدمين */
 
         .user-stats {
             display: grid;
@@ -70,9 +63,6 @@
             color: #d4af37;
             font-size: 23px;
         }
-
-
-        /* شريط البحث */
 
         .search-panel {
             background: #111;
@@ -127,9 +117,6 @@
             font-weight: bold;
             cursor: pointer;
         }
-
-
-        /* جدول المستخدمين */
 
         .users-panel {
             background: #111;
@@ -188,16 +175,10 @@
             background: #151515;
         }
 
-
-        /* UID */
-
         .uid {
             color: #d4af37;
             font-weight: bold;
         }
-
-
-        /* حالة الحساب */
 
         .status {
             display: inline-block;
@@ -219,9 +200,6 @@
             border: 1px solid rgba(233, 75, 75, 0.20);
         }
 
-
-        /* زر التفاصيل */
-
         .view-button {
             display: inline-flex;
             align-items: center;
@@ -241,17 +219,11 @@
             color: #000;
         }
 
-
-        /* لا توجد بيانات */
-
         .empty-row {
             text-align: center !important;
             padding: 45px !important;
             color: #666 !important;
         }
-
-
-        /* الهاتف */
 
         @media (max-width: 800px) {
 
@@ -289,12 +261,9 @@
 <div class="admin-layout">
 
 
-    <!-- ==========================================
-         القائمة الجانبية
-    =========================================== -->
+    <!-- القائمة الجانبية -->
 
     <aside class="sidebar">
-
 
         <div class="logo">
 
@@ -307,12 +276,10 @@
 
         <nav>
 
-
             <a href="dashboard.html">
                 🏠
                 <span>لوحة التحكم</span>
             </a>
-
 
             <a
                 href="users.html"
@@ -322,48 +289,40 @@
                 <span>المستخدمون</span>
             </a>
 
-
             <a href="deposits.html">
                 💰
                 <span>الإيداعات</span>
             </a>
-
 
             <a href="withdrawals.html">
                 💸
                 <span>السحوبات</span>
             </a>
 
-
             <a href="trade-codes.html">
                 🔐
                 <span>أكواد الصفقات</span>
             </a>
-
 
             <a href="notifications.html">
                 🔔
                 <span>الإشعارات</span>
             </a>
 
-
             <a href="messages.html">
                 💬
                 <span>الرسائل</span>
             </a>
-
 
             <a href="verification.html">
                 🪪
                 <span>التحقق من الهوية</span>
             </a>
 
-
             <a href="settings.html">
                 ⚙️
                 <span>الإعدادات</span>
             </a>
-
 
         </nav>
 
@@ -375,19 +334,14 @@
             تسجيل الخروج
         </button>
 
-
     </aside>
 
 
 
-    <!-- ==========================================
-         المحتوى الرئيسي
-    =========================================== -->
+    <!-- المحتوى -->
 
     <main class="content">
 
-
-        <!-- العنوان -->
 
         <div class="page-title">
 
@@ -407,9 +361,7 @@
 
 
 
-        <!-- ==========================================
-             إحصائيات
-        =========================================== -->
+        <!-- الإحصائيات -->
 
         <section class="user-stats">
 
@@ -470,9 +422,7 @@
 
 
 
-        <!-- ==========================================
-             البحث
-        =========================================== -->
+        <!-- البحث -->
 
         <section class="search-panel">
 
@@ -484,7 +434,7 @@
                     type="text"
                     id="userSearch"
                     class="search-input"
-                    placeholder="ابحث بواسطة UID أو البريد أو كود الدعوة..."
+                    placeholder="ابحث بواسطة UID أو البريد أو كود الدعوة أو الهاتف..."
                 >
 
 
@@ -524,9 +474,7 @@
 
 
 
-        <!-- ==========================================
-             جدول المستخدمين
-        =========================================== -->
+        <!-- جدول المستخدمين -->
 
         <section class="users-panel">
 
@@ -554,41 +502,23 @@
 
                         <tr>
 
-                            <th>
-                                UID
-                            </th>
+                            <th>UID</th>
 
-                            <th>
-                                البريد الإلكتروني
-                            </th>
+                            <th>البريد الإلكتروني</th>
 
-                            <th>
-                                رقم الهاتف
-                            </th>
+                            <th>رقم الهاتف</th>
 
-                            <th>
-                                الرصيد
-                            </th>
+                            <th>الرصيد</th>
 
-                            <th>
-                                الإيداع
-                            </th>
+                            <th>الإيداع</th>
 
-                            <th>
-                                الدعوات
-                            </th>
+                            <th>الدعوات</th>
 
-                            <th>
-                                الأعضاء النشطون
-                            </th>
+                            <th>الأعضاء النشطون</th>
 
-                            <th>
-                                الحالة
-                            </th>
+                            <th>الحالة</th>
 
-                            <th>
-                                الإدارة
-                            </th>
+                            <th>الإدارة</th>
 
                         </tr>
 
@@ -597,7 +527,6 @@
 
                     <tbody id="usersTableBody">
 
-
                         <tr>
 
                             <td
@@ -605,12 +534,11 @@
                                 class="empty-row"
                             >
 
-                                لا توجد بيانات مستخدمين حالياً
+                                جاري تحميل المستخدمين...
 
                             </td>
 
                         </tr>
-
 
                     </tbody>
 
@@ -632,42 +560,31 @@
 
 
 <!-- ==========================================
-     JavaScript
+     ملفات JavaScript
 ========================================== -->
 
 <script src="js/admin.js"></script>
 
+<script src="js/admin-users.js"></script>
+
 
 <script>
 
-    protectAdminPage();
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
 
+            if (
+                typeof protectAdminPage === "function"
+            ) {
 
-    /*
-     * البحث
-     * سنربطه لاحقاً ببيانات المستخدمين الحقيقية.
-     */
+                protectAdminPage();
 
-    function searchUsers() {
+            }
 
-        const search =
-            document
-                .getElementById("userSearch")
-                .value
-                .trim();
+        }
+    );
 
-        const status =
-            document
-                .getElementById("userStatus")
-                .value;
-
-
-        console.log("بحث:", search);
-
-        console.log("الحالة:", status);
-
-    }
-<script src="js/admin-users.js"></script>
 </script>
 
 
