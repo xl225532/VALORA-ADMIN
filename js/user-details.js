@@ -1,6 +1,6 @@
 /* =========================================================
    VALORA ADMIN
-   USER DETAILS
+   USER DETAILS + REFERRALS
 ========================================================= */
 
 (function () {
@@ -16,6 +16,8 @@
 
     const USER_API_ENDPOINT = "/api/users";
 
+    const REFERRALS_ENDPOINT = "/referrals";
+
 
     /* =====================================================
        HELPERS
@@ -23,7 +25,10 @@
 
     function getUserId() {
 
-        const params = new URLSearchParams(window.location.search);
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
 
         return (
             params.get("id") ||
@@ -43,7 +48,8 @@
 
     function setText(id, value) {
 
-        const element = getElement(id);
+        const element =
+            getElement(id);
 
         if (!element) {
             return;
@@ -61,7 +67,10 @@
 
     function escapeHtml(value) {
 
-        if (value === undefined || value === null) {
+        if (
+            value === undefined ||
+            value === null
+        ) {
             return "";
         }
 
@@ -77,22 +86,30 @@
 
     function formatNumber(value) {
 
-        const number = Number(value);
+        const number =
+            Number(value);
 
         if (!Number.isFinite(number)) {
             return "—";
         }
 
-        return new Intl.NumberFormat("ar-SA", {
-            maximumFractionDigits: 2
-        }).format(number);
+        return new Intl.NumberFormat(
+            "ar-SA",
+            {
+                maximumFractionDigits: 2
+            }
+        ).format(number);
 
     }
 
 
-    function formatCurrency(value, currency = "USD") {
+    function formatCurrency(
+        value,
+        currency = "USD"
+    ) {
 
-        const number = Number(value);
+        const number =
+            Number(value);
 
         if (!Number.isFinite(number)) {
             return "—";
@@ -100,15 +117,24 @@
 
         try {
 
-            return new Intl.NumberFormat("ar-SA", {
-                style: "currency",
-                currency: currency,
-                maximumFractionDigits: 2
-            }).format(number);
+            return new Intl.NumberFormat(
+                "ar-SA",
+                {
+                    style: "currency",
+                    currency: currency,
+                    maximumFractionDigits: 2
+                }
+            ).format(number);
 
-        } catch (error) {
+        } catch(error) {
 
-            return formatNumber(number) + " " + currency;
+            return (
+                formatNumber(number)
+                +
+                " "
+                +
+                currency
+            );
 
         }
 
@@ -121,16 +147,29 @@
             return "—";
         }
 
-        const date = new Date(value);
 
-        if (Number.isNaN(date.getTime())) {
+        const date =
+            new Date(value);
+
+
+        if (
+            Number.isNaN(
+                date.getTime()
+            )
+        ) {
+
             return value;
+
         }
 
-        return new Intl.DateTimeFormat("ar-SA", {
-            dateStyle: "medium",
-            timeStyle: "short"
-        }).format(date);
+
+        return new Intl.DateTimeFormat(
+            "ar-SA",
+            {
+                dateStyle: "medium",
+                timeStyle: "short"
+            }
+        ).format(date);
 
     }
 
@@ -151,15 +190,18 @@
 
             blocked: "محظور",
 
-            inactive: "غير نشط",
-
-            verified: "موثق",
-
-            unverified: "غير موثق"
+            inactive: "غير نشط"
 
         };
 
-        return statuses[status] || status || "—";
+
+        return (
+            statuses[status]
+            ||
+            status
+            ||
+            "—"
+        );
 
     }
 
@@ -172,8 +214,11 @@
             value === "true" ||
             value === "verified"
         ) {
+
             return "موثق";
+
         }
+
 
         if (
             value === false ||
@@ -181,8 +226,11 @@
             value === "false" ||
             value === "unverified"
         ) {
+
             return "غير موثق";
+
         }
+
 
         return value || "—";
 
@@ -190,7 +238,7 @@
 
 
     /* =====================================================
-       PROFILE
+       RENDER USER
     ===================================================== */
 
     function renderUser(user) {
@@ -203,16 +251,11 @@
         const fullName =
             user.fullName ||
             user.name ||
-            (
-                user.firstName || user.lastName
-                    ? `${user.firstName || ""} ${user.lastName || ""}`.trim()
-                    : "—"
-            );
+            "—";
 
 
         const email =
             user.email ||
-            user.emailAddress ||
             "—";
 
 
@@ -223,94 +266,74 @@
             "—";
 
 
+        setText(
+            "userName",
+            fullName
+        );
+
+
+        setText(
+            "userEmail",
+            email
+        );
+
+
+        setText(
+            "userId",
+            id
+        );
+
+
+        setText(
+            "detailFullName",
+            fullName
+        );
+
+
+        setText(
+            "detailEmail",
+            email
+        );
+
+
+        setText(
+            "detailUserId",
+            id
+        );
+
+
         const avatar =
-            user.avatar ||
-            user.image ||
-            user.profileImage ||
-            "";
-
-
-        /* =================================================
-           PROFILE IDENTITY
-        ================================================= */
-
-        setText("userName", fullName);
-
-        setText("userEmail", email);
-
-        setText("userId", id);
-
-        setText("detailFullName", fullName);
-
-        setText("detailEmail", email);
-
-        setText("detailUserId", id);
-
-
-        /* =================================================
-           AVATAR
-        ================================================= */
-
-        const avatarElement =
             getElement("userAvatar");
 
-        if (avatarElement) {
 
-            if (avatar) {
+        if (avatar) {
 
-                avatarElement.innerHTML =
-                    `<img src="${escapeHtml(avatar)}" alt="">`;
-
-            } else {
-
-                avatarElement.textContent =
-                    fullName !== "—"
-                        ? fullName.charAt(0).toUpperCase()
-                        : "—";
-
-            }
+            avatar.textContent =
+                fullName
+                !== "—"
+                    ? fullName
+                        .charAt(0)
+                        .toUpperCase()
+                    : "—";
 
         }
 
 
-        /* =================================================
-           STATUS
-        ================================================= */
-
-        const statusElement =
-            getElement("userStatus");
-
-        if (statusElement) {
-
-            const status =
-                user.status ||
-                user.accountStatus ||
-                "—";
-
-            statusElement.textContent =
-                getStatusText(status);
-
-            statusElement.dataset.status =
-                status;
-
-        }
+        const status =
+            user.status ||
+            "active";
 
 
-        /* =================================================
-           BALANCE
-        ================================================= */
-
-        const currency =
-            user.currency ||
-            user.balanceCurrency ||
-            "USD";
+        setText(
+            "userStatus",
+            getStatusText(status)
+        );
 
 
         setText(
             "userBalance",
             formatCurrency(
-                user.balance,
-                currency
+                user.balance
             )
         );
 
@@ -318,9 +341,8 @@
         setText(
             "userDeposits",
             formatCurrency(
-                user.totalDeposits ??
-                user.deposits,
-                currency
+                user.totalDeposits ||
+                user.deposits
             )
         );
 
@@ -328,9 +350,8 @@
         setText(
             "userWithdrawals",
             formatCurrency(
-                user.totalWithdrawals ??
-                user.withdrawals,
-                currency
+                user.totalWithdrawals ||
+                user.withdrawals
             )
         );
 
@@ -338,23 +359,15 @@
         setText(
             "userTransactions",
             formatNumber(
-                user.transactionCount ??
-                user.transactionsCount ??
-                user.transactions?.length
+                user.transactionCount
             )
         );
 
 
-        /* =================================================
-           ACCOUNT INFORMATION
-        ================================================= */
-
         setText(
             "detailCreatedAt",
             formatDate(
-                user.createdAt ||
-                user.registeredAt ||
-                user.registrationDate
+                user.createdAt
             )
         );
 
@@ -362,9 +375,7 @@
         setText(
             "detailLastActivity",
             formatDate(
-                user.lastActivity ||
-                user.lastActiveAt ||
-                user.updatedAt
+                user.lastActivity
             )
         );
 
@@ -372,91 +383,136 @@
         setText(
             "detailVerification",
             getVerificationText(
-                user.verified ??
-                user.isVerified ??
-                user.verificationStatus
+                user.verified
             )
         );
 
-
-        /* =================================================
-           SECURITY
-        ================================================= */
 
         setText(
             "emailVerified",
             getVerificationText(
-                user.emailVerified ??
-                user.isEmailVerified
+                user.emailVerified
             )
-        );
-
-
-        setText(
-            "twoFactorStatus",
-            (
-                user.twoFactorEnabled ??
-                user.isTwoFactorEnabled
-            )
-                ? "مفعّل"
-                : "غير مفعّل"
         );
 
 
         setText(
             "lastLogin",
             formatDate(
-                user.lastLogin ||
-                user.lastLoginAt
+                user.lastLogin
             )
         );
 
 
         setText(
             "lastIp",
-            user.lastIp ||
-            user.lastIP ||
-            user.lastLoginIp ||
-            "—"
+            user.lastIp
         );
 
-
-        /* =================================================
-           TRANSACTIONS
-        ================================================= */
 
         renderTransactions(
-            user.transactions ||
-            user.recentTransactions ||
-            []
+            user.transactions || []
         );
 
 
-        /* =================================================
-           ACTIVITY
-        ================================================= */
-
         renderActivity(
-            user.activities ||
-            user.activity ||
-            user.activityLog ||
-            []
+            user.activities || []
         );
 
     }
 
 
     /* =====================================================
+       LOAD USER API
+    ===================================================== */
+
+    async function loadUser() {
+
+        const userId =
+            getUserId();
+
+
+        if (!userId) {
+
+            showError(
+                "لم يتم تحديد رقم المستخدم"
+            );
+
+            return;
+
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    API_BASE_URL +
+                    USER_API_ENDPOINT +
+                    "/" +
+                    encodeURIComponent(userId),
+                    {
+                        credentials:
+                            "include"
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    response.status
+                );
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            const user =
+                data.user ||
+                data.data ||
+                data;
+
+
+            renderUser(user);
+
+
+            loadUserReferrals(userId);
+
+
+        } catch(error) {
+
+            console.error(
+                "User details error",
+                error
+            );
+
+
+            showError(
+                "تعذر تحميل بيانات المستخدم"
+            );
+
+        }
+
+    }
+       /* =====================================================
        TRANSACTIONS
     ===================================================== */
 
     function renderTransactions(transactions) {
 
         const body =
-            getElement("userTransactionsBody");
+            getElement(
+                "userTransactionsBody"
+            );
 
         const empty =
-            getElement("userTransactionsEmpty");
+            getElement(
+                "userTransactionsEmpty"
+            );
 
 
         if (!body) {
@@ -486,77 +542,49 @@
         }
 
 
-        transactions.forEach(function (transaction) {
+        transactions.forEach(function(transaction){
 
             const row =
                 document.createElement("tr");
 
 
-            const type =
-                transaction.type ||
-                transaction.operation ||
-                transaction.transactionType ||
-                "—";
-
-
-            const amount =
-                transaction.amount ??
-                transaction.value;
-
-
-            const status =
-                transaction.status ||
-                "—";
-
-
-            const date =
-                transaction.createdAt ||
-                transaction.date ||
-                transaction.timestamp;
-
-
-            const transactionId =
-                transaction.id ||
-                transaction.transactionId ||
-                transaction._id ||
-                "—";
-
-
-            const currency =
-                transaction.currency ||
-                "USD";
-
-
             row.innerHTML = `
 
                 <td>
-                    ${escapeHtml(type)}
+                    ${escapeHtml(
+                        transaction.type ||
+                        "—"
+                    )}
                 </td>
 
                 <td dir="ltr">
                     ${escapeHtml(
                         formatCurrency(
-                            amount,
-                            currency
+                            transaction.amount
                         )
                     )}
                 </td>
 
                 <td>
                     ${escapeHtml(
-                        getStatusText(status)
+                        getStatusText(
+                            transaction.status
+                        )
                     )}
                 </td>
 
                 <td>
                     ${escapeHtml(
-                        formatDate(date)
+                        formatDate(
+                            transaction.createdAt
+                        )
                     )}
                 </td>
 
                 <td dir="ltr">
                     ${escapeHtml(
-                        transactionId
+                        transaction.id ||
+                        "—"
                     )}
                 </td>
 
@@ -570,6 +598,7 @@
     }
 
 
+
     /* =====================================================
        ACTIVITY
     ===================================================== */
@@ -577,7 +606,9 @@
     function renderActivity(activities) {
 
         const container =
-            getElement("userActivityList");
+            getElement(
+                "userActivityList"
+            );
 
 
         if (!container) {
@@ -598,59 +629,40 @@
         container.innerHTML = "";
 
 
-        activities.forEach(function (activity) {
+        activities.forEach(function(activity){
 
             const item =
                 document.createElement("div");
+
 
             item.className =
                 "user-details-activity-item";
 
 
-            const title =
-                activity.title ||
-                activity.action ||
-                activity.type ||
-                "نشاط";
-
-
-            const description =
-                activity.description ||
-                activity.details ||
-                "";
-
-
-            const date =
-                activity.createdAt ||
-                activity.date ||
-                activity.timestamp;
-
-
             item.innerHTML = `
 
-                <div
-                    class="user-details-activity-content"
-                >
+                <strong>
+                    ${escapeHtml(
+                        activity.title ||
+                        activity.action ||
+                        "نشاط"
+                    )}
+                </strong>
 
-                    <strong>
-                        ${escapeHtml(title)}
-                    </strong>
 
-                    ${
-                        description
-                            ? `
-                                <p>
-                                    ${escapeHtml(description)}
-                                </p>
-                              `
-                            : ""
-                    }
+                <p>
+                    ${escapeHtml(
+                        activity.description ||
+                        ""
+                    )}
+                </p>
 
-                </div>
 
                 <time>
                     ${escapeHtml(
-                        formatDate(date)
+                        formatDate(
+                            activity.createdAt
+                        )
                     )}
                 </time>
 
@@ -664,38 +676,45 @@
     }
 
 
+
     /* =====================================================
-       API
+       REFERRALS
+       المستخدمون الذين دعاهم هذا المستخدم
     ===================================================== */
 
-    async function loadUser() {
-
-        const userId =
-            getUserId();
+    async function loadUserReferrals(userId) {
 
 
-        if (!userId) {
-
-            showError(
-                "لم يتم تحديد رقم المستخدم."
+        const body =
+            getElement(
+                "userReferralsBody"
             );
 
-            return;
 
+        const empty =
+            getElement(
+                "userReferralsEmpty"
+            );
+
+
+        if (!body) {
+            return;
         }
 
 
         try {
 
+
             const response =
                 await fetch(
-                    `${API_BASE_URL}${USER_API_ENDPOINT}/${encodeURIComponent(userId)}`,
+                    API_BASE_URL +
+                    USER_API_ENDPOINT +
+                    "/" +
+                    encodeURIComponent(userId) +
+                    REFERRALS_ENDPOINT,
                     {
-                        method: "GET",
-                        headers: {
-                            "Accept": "application/json"
-                        },
-                        credentials: "include"
+                        credentials:
+                            "include"
                     }
                 );
 
@@ -703,7 +722,7 @@
             if (!response.ok) {
 
                 throw new Error(
-                    `HTTP ${response.status}`
+                    response.status
                 );
 
             }
@@ -713,117 +732,143 @@
                 await response.json();
 
 
-            const user =
-                data.user ||
+            const referrals =
+                data.users ||
                 data.data ||
-                data;
+                data.referrals ||
+                [];
 
 
-            renderUser(user);
+            body.innerHTML = "";
 
 
-        } catch (error) {
-
-            console.error(
-                "User details error:",
-                error
-            );
+            if (
+                !Array.isArray(referrals) ||
+                referrals.length === 0
+            ) {
 
 
-            showError(
-                "تعذر تحميل بيانات المستخدم."
-            );
+                if (empty) {
 
-        }
-
-    }
-
-
-    /* =====================================================
-       ERROR
-    ===================================================== */
-
-    function showError(message) {
-
-        const elements = [
-
-            "userName",
-            "userEmail",
-            "userId",
-            "userBalance",
-            "userDeposits",
-            "userWithdrawals",
-            "userTransactions"
-
-        ];
-
-
-        elements.forEach(function (id) {
-
-            setText(id, "—");
-
-        });
-
-
-        const name =
-            getElement("userName");
-
-        if (name) {
-            name.textContent = message;
-        }
-
-    }
-
-
-    /* =====================================================
-       BACK BUTTON
-    ===================================================== */
-
-    function setupBackButton() {
-
-        const buttons =
-            document.querySelectorAll(
-                'a[href="users.html"]'
-            );
-
-
-        buttons.forEach(function (button) {
-
-            button.addEventListener(
-                "click",
-                function () {
-
-                    if (
-                        window.history.length > 1
-                    ) {
-
-                        // نترك الرابط يعمل بشكل طبيعي
-                        // ولا نمنع الانتقال.
-
-                    }
+                    empty.style.display =
+                        "block";
 
                 }
-            );
-
-        });
-
-    }
 
 
-    /* =====================================================
-       INIT
-    ===================================================== */
+                return;
 
-    document.addEventListener(
-        "DOMContentLoaded",
-        function () {
+            }
 
-            setupBackButton();
 
-            loadUser();
+
+            if (empty) {
+
+                empty.style.display =
+                    "none";
+
+            }
+
+
+
+            referrals.forEach(function(user){
+
+
+                const row =
+                    document.createElement("tr");
+
+
+
+                row.innerHTML = `
+
+
+                    <td>
+
+                        <strong>
+                            ${escapeHtml(
+                                user.name ||
+                                user.fullName ||
+                                "—"
+                            )}
+                        </strong>
+
+
+                        <br>
+
+
+                        <small>
+                            ${escapeHtml(
+                                user.email ||
+                                ""
+                            )}
+                        </small>
+
+                    </td>
+
+
+
+                    <td dir="ltr">
+
+                        ${escapeHtml(
+                            user.id ||
+                            user.userId ||
+                            "—"
+                        )}
+
+                    </td>
+
+
+
+                    <td>
+
+                        ${escapeHtml(
+                            formatCurrency(
+                                user.balance
+                            )
+                        )}
+
+                    </td>
+
+
+
+                    <td>
+
+                        ${escapeHtml(
+                            formatDate(
+                                user.createdAt
+                            )
+                        )}
+
+                    </td>
+
+
+
+                    <td>
+
+                        ${escapeHtml(
+                            getStatusText(
+                                user.status
+                            )
+                        )}
+
+                    </td>
+
+
+                `;
+
+
+
+                body.appendChild(row);
+
+
+
+            });
+
+
 
         }
-    );
+        catch(error) {
 
 
-})();
+            console.error(
+               
