@@ -1,8 +1,8 @@
-/* ==========================================
-   VALORA ADMIN
-   MAIN ADMIN STYLE
-   BLACK & GOLD
-========================================== */
+/* =========================================================
+   VALORA ADMIN PANEL
+   GLOBAL ADMIN LAYOUT
+   Black & Gold
+========================================================= */
 
 * {
     margin: 0;
@@ -10,128 +10,86 @@
     box-sizing: border-box;
 }
 
-:root {
-    --gold: #d4af37;
-    --gold-light: #f1d77a;
-    --gold-dark: #9c7614;
-
-    --bg: #050505;
-    --sidebar: #0b0b0b;
-    --card: #111111;
-    --card-light: #151515;
-
-    --border: rgba(212, 175, 55, 0.20);
-
-    --white: #ffffff;
-    --text: #dddddd;
-    --muted: #888888;
-
-    --green: #31c56b;
-    --red: #e94b4b;
+html {
+    min-height: 100%;
 }
-
-
-/* ==========================================
-   BODY
-========================================== */
 
 body {
     min-height: 100vh;
-
-    background:
-        radial-gradient(
-            circle at top left,
-            rgba(212, 175, 55, 0.08),
-            transparent 30%
-        ),
-        var(--bg);
-
-    color: var(--white);
-
-    font-family:
-        Arial,
-        Tahoma,
-        sans-serif;
-
-    overflow-x: hidden;
+    background: #070707;
+    color: #ffffff;
+    font-family: Arial, Tahoma, sans-serif;
+    direction: rtl;
 }
 
-
-/* ==========================================
-   ADMIN LAYOUT
-========================================== */
+/* =========================================================
+   MAIN LAYOUT
+========================================================= */
 
 .admin-layout {
     min-height: 100vh;
-    width: 100%;
+    display: flex;
+    background: #070707;
 }
 
-
-/* ==========================================
+/* =========================================================
    SIDEBAR
-========================================== */
+========================================================= */
 
 .sidebar {
     position: fixed;
-
     top: 0;
     right: 0;
 
     width: 260px;
     height: 100vh;
 
-    padding: 25px 15px;
+    background: #0d0d0d;
 
-    background: var(--sidebar);
+    border-left: 1px solid rgba(212, 175, 55, 0.18);
 
-    border-left:
-        1px solid var(--border);
+    padding: 24px 16px;
 
     overflow-y: auto;
 
     z-index: 1000;
 }
 
-
-/* ==========================================
+/* =========================================================
    LOGO
-========================================== */
+========================================================= */
 
 .logo {
     text-align: center;
 
-    padding-bottom: 25px;
+    padding-bottom: 24px;
 
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 
-    border-bottom:
-        1px solid rgba(212, 175, 55, 0.12);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.12);
 }
 
 .logo h2 {
-    color: var(--gold);
+    color: #d4af37;
 
-    font-size: 30px;
+    font-size: 28px;
 
     font-weight: 800;
 
     letter-spacing: 3px;
+
+    margin-bottom: 6px;
 }
 
 .logo span {
-    display: block;
-
-    margin-top: 6px;
-
-    color: var(--muted);
+    color: #777;
 
     font-size: 12px;
 }
 
-
-/* ==========================================
-   SIDEBAR MENU
-========================================== */
+/* =========================================================
+   NAVIGATION
+========================================================= */
 
 .sidebar nav {
     display: flex;
@@ -148,166 +106,166 @@ body {
 
     gap: 12px;
 
+    width: 100%;
+
     min-height: 48px;
 
     padding: 12px 14px;
 
-    color: var(--text);
+    color: #bdbdbd;
 
     text-decoration: none;
 
-    border-radius: 10px;
-
-    border:
-        1px solid transparent;
+    border-radius: 11px;
 
     font-size: 14px;
 
-    transition: 0.2s ease;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
 }
 
 .sidebar nav a:hover {
-    background:
-        rgba(212, 175, 55, 0.08);
+    background: rgba(212, 175, 55, 0.08);
 
-    color: var(--gold-light);
+    color: #ffffff;
 
-    border-color:
-        rgba(212, 175, 55, 0.15);
+    transform: translateX(-2px);
 }
 
 .sidebar nav a.active {
     background:
         linear-gradient(
             135deg,
-            var(--gold),
-            var(--gold-dark)
+            #d4af37,
+            #a77c12
         );
 
     color: #050505;
 
-    font-weight: bold;
+    font-weight: 700;
 
-    border-color: var(--gold);
+    box-shadow:
+        0 7px 20px rgba(212, 175, 55, 0.12);
 }
 
-
-/* ==========================================
+/* =========================================================
    LOGOUT
-========================================== */
+========================================================= */
 
-.sidebar button {
+.sidebar > button {
     width: 100%;
+
+    height: 46px;
 
     margin-top: 25px;
 
-    padding: 13px;
+    border: 1px solid rgba(212, 175, 55, 0.25);
 
-    border: 1px solid
-        rgba(212, 175, 55, 0.18);
+    border-radius: 11px;
 
-    border-radius: 10px;
+    background: rgba(212, 175, 55, 0.10);
 
-    background: #151515;
-
-    color: var(--text);
+    color: #d4af37;
 
     font-size: 14px;
 
-    font-weight: bold;
+    font-weight: 700;
 
     cursor: pointer;
 
     transition: 0.2s ease;
 }
 
-.sidebar button:hover {
-    background: var(--gold);
+.sidebar > button:hover {
+    background: #d4af37;
 
-    color: #000;
+    color: #050505;
 }
 
-
-/* ==========================================
+/* =========================================================
    MAIN CONTENT
-========================================== */
+========================================================= */
 
 .content {
+    width: calc(100% - 260px);
+
     min-height: 100vh;
 
     margin-right: 260px;
 
-    padding: 25px;
+    padding: 30px;
+
+    background:
+        radial-gradient(
+            circle at 80% 0%,
+            rgba(212, 175, 55, 0.045),
+            transparent 28%
+        ),
+        #070707;
 }
 
+/* =========================================================
+   PAGE HEADER
+========================================================= */
 
-/* ==========================================
-   HEADER
-========================================== */
-
-.header {
+.page-title {
     display: flex;
 
     align-items: center;
 
     justify-content: space-between;
 
-    gap: 20px;
-
-    width: 100%;
-
-    padding: 22px 25px;
-
-    margin-bottom: 22px;
-
-    background: var(--card);
-
-    border:
-        1px solid var(--border);
-
-    border-radius: 16px;
+    margin-bottom: 24px;
 }
 
-.header h1 {
-    color: var(--gold);
+.page-title h1 {
+    color: #d4af37;
 
-    font-size: 26px;
+    font-size: 28px;
 
     font-weight: 800;
+
+    margin-bottom: 7px;
 }
 
-.header p {
-    margin-top: 6px;
-
-    color: var(--muted);
+.page-title p {
+    color: #777;
 
     font-size: 13px;
 }
 
-.admin-badge {
-    padding: 9px 16px;
+/* =========================================================
+   GENERAL PANEL
+========================================================= */
 
-    border-radius: 30px;
+.panel {
+    background: #111111;
 
-    background:
-        rgba(212, 175, 55, 0.10);
+    border: 1px solid rgba(212, 175, 55, 0.16);
 
-    border:
-        1px solid rgba(212, 175, 55, 0.30);
+    border-radius: 16px;
 
-    color: var(--gold-light);
+    padding: 22px;
 
-    font-size: 12px;
+    margin-bottom: 20px;
 
-    font-weight: bold;
-
-    white-space: nowrap;
+    box-shadow:
+        0 12px 35px rgba(0, 0, 0, 0.25);
 }
 
+.panel h2 {
+    color: #d4af37;
 
-/* ==========================================
-   STATISTICS
-========================================== */
+    font-size: 18px;
+
+    margin-bottom: 18px;
+}
+
+/* =========================================================
+   STAT CARDS
+========================================================= */
 
 .stats {
     display: grid;
@@ -317,226 +275,350 @@ body {
 
     gap: 16px;
 
-    width: 100%;
-
     margin-bottom: 22px;
 }
 
 .stat-card {
-    min-width: 0;
+    position: relative;
+
+    background: #111111;
+
+    border: 1px solid rgba(212, 175, 55, 0.16);
+
+    border-radius: 16px;
 
     padding: 20px;
 
-    background: var(--card);
-
-    border:
-        1px solid var(--border);
-
-    border-radius: 16px;
-
     overflow: hidden;
+}
+
+.stat-card::after {
+    content: "";
+
+    position: absolute;
+
+    width: 90px;
+    height: 90px;
+
+    left: -35px;
+    bottom: -40px;
+
+    border-radius: 50%;
+
+    background: rgba(212, 175, 55, 0.035);
 }
 
 .stat-card h3 {
+    color: #777;
+
+    font-size: 12px;
+
     margin-bottom: 12px;
-
-    color: var(--muted);
-
-    font-size: 13px;
-
-    font-weight: normal;
 }
 
 .stat-card strong {
-    display: block;
+    color: #d4af37;
 
-    color: var(--gold);
-
-    font-size: 25px;
+    font-size: 27px;
 
     font-weight: 800;
-
-    word-break: break-word;
 }
 
+/* =========================================================
+   TABLE CONTAINER
+========================================================= */
 
-/* ==========================================
-   PANELS
-========================================== */
+.users-panel,
+.table-panel {
+    background: #111111;
 
-.panel {
-    width: 100%;
-
-    margin-bottom: 20px;
-
-    padding: 22px;
-
-    background: var(--card);
-
-    border:
-        1px solid var(--border);
+    border: 1px solid rgba(212, 175, 55, 0.16);
 
     border-radius: 16px;
 
     overflow: hidden;
 }
 
-.panel h2 {
-    margin-bottom: 18px;
+/* =========================================================
+   TABLE HEADER
+========================================================= */
 
-    color: var(--gold);
+.users-header,
+.table-header {
+    display: flex;
 
-    font-size: 18px;
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding: 20px;
+
+    border-bottom: 1px solid #222;
 }
 
+.users-header h2,
+.table-header h2 {
+    color: #d4af37;
 
-/* ==========================================
-   USER INFO BOXES
-========================================== */
-
-.user-info {
-    display: grid;
-
-    grid-template-columns:
-        repeat(4, minmax(0, 1fr));
-
-    gap: 12px;
-
-    width: 100%;
+    font-size: 17px;
 }
 
-.user-info div {
-    min-width: 0;
+.users-header span,
+.table-header span {
+    color: #666;
 
-    padding: 15px;
-
-    background: #090909;
-
-    border:
-        1px solid #222;
-
-    border-radius: 10px;
+    font-size: 12px;
 }
 
-.user-info span {
-    display: block;
+/* =========================================================
+   TABLE SCROLL
+========================================================= */
 
-    margin-bottom: 7px;
-
-    color: var(--muted);
-
-    font-size: 11px;
-}
-
-.user-info strong {
-    color: var(--white);
-
-    font-size: 14px;
-
-    word-break: break-word;
-}
-
-
-/* ==========================================
-   TABLE WRAPPER
-========================================== */
-
+.users-table-wrapper,
 .table-wrapper {
     width: 100%;
 
     overflow-x: auto;
 
-    border-radius: 10px;
+    -webkit-overflow-scrolling: touch;
 }
 
-
-/* ==========================================
+/* =========================================================
    TABLE
-========================================== */
+========================================================= */
 
+.users-table,
 .admin-table {
     width: 100%;
 
-    min-width: 700px;
-
     border-collapse: collapse;
 
-    background: #090909;
+    min-width: 900px;
 }
 
+.users-table th,
 .admin-table th {
-    padding: 14px;
+    background: #181818;
 
-    background: #171717;
+    color: #d4af37;
 
-    color: var(--gold);
-
-    font-size: 13px;
-
-    font-weight: bold;
+    padding: 15px 12px;
 
     text-align: right;
+
+    font-size: 12px;
+
+    font-weight: 700;
 
     white-space: nowrap;
 }
 
+.users-table td,
 .admin-table td {
-    padding: 14px;
+    padding: 15px 12px;
 
-    color: var(--text);
+    border-bottom: 1px solid #202020;
 
-    font-size: 13px;
+    color: #d4d4d4;
 
-    text-align: right;
-
-    border-bottom:
-        1px solid #202020;
+    font-size: 12px;
 
     white-space: nowrap;
 }
 
-.admin-table tbody tr:hover {
-    background: #141414;
+.users-table tbody tr,
+.admin-table tbody tr {
+    transition: 0.2s ease;
 }
 
+.users-table tbody tr:hover,
+.admin-table tbody tr:hover {
+    background: #151515;
+}
 
-/* ==========================================
-   GENERAL BUTTON
-========================================== */
+/* =========================================================
+   SEARCH
+========================================================= */
 
-.btn {
+.search-panel {
+    background: #111111;
+
+    border: 1px solid rgba(212, 175, 55, 0.16);
+
+    border-radius: 16px;
+
+    padding: 18px;
+
+    margin-bottom: 20px;
+}
+
+.search-row {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        180px
+        110px;
+
+    gap: 10px;
+}
+
+.search-input,
+.filter-select {
+    width: 100%;
+
+    height: 48px;
+
+    background: #090909;
+
+    border: 1px solid #292929;
+
+    border-radius: 10px;
+
+    color: #ffffff;
+
+    padding: 0 14px;
+
+    outline: none;
+
+    font-size: 13px;
+}
+
+.search-input:focus,
+.filter-select:focus {
+    border-color: #d4af37;
+
+    box-shadow:
+        0 0 0 3px rgba(212, 175, 55, 0.06);
+}
+
+.search-button {
+    height: 48px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #d4af37,
+            #9c7614
+        );
+
+    color: #050505;
+
+    font-weight: 800;
+
+    cursor: pointer;
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+button {
+    font-family: inherit;
+}
+
+.view-button {
     display: inline-flex;
 
     align-items: center;
 
     justify-content: center;
 
-    min-height: 40px;
+    padding: 7px 12px;
 
-    padding: 9px 17px;
+    border-radius: 8px;
 
-    border: 0;
+    background: rgba(212, 175, 55, 0.08);
 
-    border-radius: 9px;
+    border: 1px solid rgba(212, 175, 55, 0.25);
 
-    background:
-        linear-gradient(
-            135deg,
-            var(--gold),
-            var(--gold-dark)
-        );
+    color: #d4af37;
 
-    color: #000;
+    text-decoration: none;
 
-    font-weight: bold;
+    font-size: 11px;
 
-    cursor: pointer;
+    transition: 0.2s ease;
 }
 
+.view-button:hover {
+    background: #d4af37;
 
-/* ==========================================
+    color: #000000;
+}
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.status {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 5px 10px;
+
+    border-radius: 20px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+.status.active {
+    color: #31c56b;
+
+    background: rgba(49, 197, 107, 0.10);
+
+    border: 1px solid rgba(49, 197, 107, 0.20);
+}
+
+.status.blocked {
+    color: #e94b4b;
+
+    background: rgba(233, 75, 75, 0.10);
+
+    border: 1px solid rgba(233, 75, 75, 0.20);
+}
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.empty-row {
+    text-align: center !important;
+
+    padding: 45px !important;
+
+    color: #666 !important;
+}
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
+input,
+textarea,
+select {
+    font-family: inherit;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #555;
+}
+
+/* =========================================================
    MOBILE
-========================================== */
+========================================================= */
 
 @media (max-width: 900px) {
 
@@ -545,9 +627,11 @@ body {
     }
 
     .content {
+        width: calc(100% - 220px);
+
         margin-right: 220px;
 
-        padding: 18px;
+        padding: 20px;
     }
 
     .stats {
@@ -555,38 +639,70 @@ body {
             repeat(2, minmax(0, 1fr));
     }
 
-    .user-info {
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-    }
 }
 
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
 
-@media (max-width: 650px) {
+@media (max-width: 700px) {
+
+    .admin-layout {
+        display: block;
+    }
+
+    /*
+       القائمة تتحول إلى شريط سفلي/علوي صغير
+       بدلاً من أن تغطي محتوى الصفحة.
+    */
 
     .sidebar {
-        position: relative;
+        position: fixed;
+
+        top: 0;
+        right: 0;
+        left: 0;
 
         width: 100%;
 
         height: auto;
 
-        padding: 15px;
+        max-height: 125px;
 
-        border-left: 0;
+        padding: 10px 12px;
+
+        overflow: hidden;
+
+        border-left: none;
 
         border-bottom:
-            1px solid var(--border);
+            1px solid rgba(212, 175, 55, 0.18);
     }
 
     .logo {
-        padding-bottom: 15px;
+        display: flex;
 
-        margin-bottom: 15px;
+        align-items: center;
+
+        justify-content: space-between;
+
+        padding: 0;
+
+        margin: 0 4px 9px;
+
+        border: none;
     }
 
     .logo h2 {
-        font-size: 25px;
+        font-size: 20px;
+
+        letter-spacing: 2px;
+
+        margin: 0;
+    }
+
+    .logo span {
+        font-size: 10px;
     }
 
     .sidebar nav {
@@ -594,23 +710,35 @@ body {
 
         flex-direction: row;
 
+        gap: 7px;
+
+        width: 100%;
+
         overflow-x: auto;
 
-        gap: 7px;
+        padding-bottom: 3px;
     }
 
     .sidebar nav a {
-        min-width: 120px;
+        flex: 0 0 auto;
+
+        width: auto;
+
+        min-width: 95px;
+
+        min-height: 38px;
 
         justify-content: center;
 
-        white-space: nowrap;
+        padding: 8px 10px;
 
-        margin: 0;
+        font-size: 11px;
+
+        gap: 5px;
     }
 
-    .sidebar button {
-        margin-top: 15px;
+    .sidebar > button {
+        display: none;
     }
 
     .content {
@@ -618,32 +746,56 @@ body {
 
         margin-right: 0;
 
-        padding: 12px;
+        padding: 20px 12px;
+
+        padding-top: 150px;
     }
 
-    .header {
-        align-items: flex-start;
-
-        flex-direction: column;
-
-        padding: 18px;
-    }
-
-    .header h1 {
-        font-size: 22px;
+    .page-title h1 {
+        font-size: 23px;
     }
 
     .stats {
+        grid-template-columns: 1fr 1fr;
+
+        gap: 10px;
+    }
+
+    .stat-card {
+        padding: 15px;
+    }
+
+    .stat-card strong {
+        font-size: 22px;
+    }
+
+    .search-row {
         grid-template-columns: 1fr;
-
-        gap: 12px;
     }
 
-    .user-info {
+    .users-header,
+    .table-header {
+        padding: 15px;
+    }
+
+}
+
+/* =========================================================
+   VERY SMALL PHONES
+========================================================= */
+
+@media (max-width: 420px) {
+
+    .stats {
         grid-template-columns: 1fr;
     }
 
-    .panel {
-        padding: 16px;
+    .content {
+        padding-left: 10px;
+
+        padding-right: 10px;
+
+        padding-top: 145px;
     }
-  }
+
+   }
