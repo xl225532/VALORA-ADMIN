@@ -1491,3 +1491,73 @@ img {
         animation-iteration-count: 1 !important;
     }
    }
+/* =========================================================
+   VALORA — ICON & GOLD FIX
+   ========================================================= */
+
+/* Header icons */
+.admin-icon-button {
+    color: var(--va-gold-light);
+    background: var(--va-surface-2);
+    border-color: rgba(212, 175, 55, 0.18);
+}
+
+.admin-icon-button:hover {
+    color: var(--va-gold-light);
+    background: var(--va-gold-soft);
+    border-color: rgba(212, 175, 55, 0.35);
+}
+
+/* Notification icon */
+.admin-notification-button > span:first-child {
+    color: var(--va-gold-light);
+    font-size: 16px;
+    line-height: 1;
+}
+
+/* Admin A button */
+.admin-admin-button {
+    color: #080808;
+    background:
+        linear-gradient(
+            135deg,
+            var(--va-gold-light),
+            var(--va-gold-dark)
+        );
+    border-color: rgba(212, 175, 55, 0.45);
+
+    font-weight: 800;
+}
+
+.admin-admin-button:hover {
+    color: #080808;
+    background:
+        linear-gradient(
+            135deg,
+            #f0d978,
+            var(--va-gold)
+        );
+}
+
+/* Gold for active navigation */
+.admin-nav-link.active {
+    color: var(--va-gold-light);
+}
+
+.admin-nav-link.active .admin-nav-icon {
+    color: var(--va-gold-light);
+}
+
+/* Gold refresh icon */
+#refreshDashboard span {
+    color: var(--va-gold-light);
+}
+
+/* Gold quick-action icons */
+.admin-content-actions .admin-btn {
+    color: var(--va-text-soft);
+}
+
+.admin-content-actions .admin-btn:hover {
+    color: var(--va-gold-light);
+}
