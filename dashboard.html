@@ -1,76 +1,491 @@
-<main class="dashboard-content">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 
-    <div class="page-title">
-        <h1>لوحة التحكم</h1>
-        <p>مرحباً بك في لوحة إدارة VALORA</p>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>لوحة التحكم - VALORA ADMIN</title>
+
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Admin Layout -->
+    <link rel="stylesheet" href="admin-layout.css">
+</head>
+
+<body>
+
+<div class="admin-layout">
+
+    <!-- =====================================================
+         SIDEBAR
+         ===================================================== -->
+
+    <aside class="admin-sidebar" id="adminSidebar">
+
+        <!-- Logo -->
+        <div class="sidebar-logo">
+            <div class="logo-text">VALORA</div>
+        </div>
+
+
+        <!-- Navigation -->
+        <nav class="sidebar-nav">
+
+            <!-- Main -->
+            <div class="nav-section">
+
+                <div class="nav-section-title">
+                    الرئيسية
+                </div>
+
+                <a href="dashboard.html" class="nav-item active">
+                    <span class="nav-icon">⌂</span>
+                    <span class="nav-label">لوحة التحكم</span>
+                </a>
+
+            </div>
+
+
+            <!-- Management -->
+            <div class="nav-section">
+
+                <div class="nav-section-title">
+                    الإدارة
+                </div>
+
+                <a href="users.html" class="nav-item">
+                    <span class="nav-icon">♙</span>
+                    <span class="nav-label">المستخدمون</span>
+                </a>
+
+                <a href="deposits.html" class="nav-item">
+                    <span class="nav-icon">◈</span>
+                    <span class="nav-label">الإيداعات</span>
+                </a>
+
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">▣</span>
+                    <span class="nav-label">العمليات</span>
+                </a>
+
+            </div>
+
+
+            <!-- Database -->
+            <div class="nav-section">
+
+                <div class="nav-section-title">
+                    قاعدة البيانات
+                </div>
+
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">▤</span>
+                    <span class="nav-label">الجداول</span>
+                </a>
+
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">⌘</span>
+                    <span class="nav-label">العلاقات</span>
+                </a>
+
+            </div>
+
+
+            <!-- System -->
+            <div class="nav-section">
+
+                <div class="nav-section-title">
+                    النظام
+                </div>
+
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">⚙</span>
+                    <span class="nav-label">الإعدادات</span>
+                </a>
+
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">▤</span>
+                    <span class="nav-label">سجل العمليات</span>
+                </a>
+
+            </div>
+
+        </nav>
+
+
+        <!-- Sidebar User -->
+        <div class="sidebar-footer">
+
+            <div class="sidebar-user">
+
+                <div class="sidebar-user-avatar">
+                    A
+                </div>
+
+                <div class="sidebar-user-info">
+
+                    <div class="sidebar-user-name">
+                        Admin
+                    </div>
+
+                    <div class="sidebar-user-role">
+                        مدير النظام
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- Sidebar Overlay -->
+    <div
+        class="sidebar-overlay"
+        id="sidebarOverlay">
     </div>
 
-    <div class="stats-grid">
 
-        <div class="stat-card">
-            <div class="stat-title">إجمالي المستخدمين</div>
-            <div class="stat-number">1,245</div>
-        </div>
+    <!-- =====================================================
+         MAIN
+         ===================================================== -->
 
-        <div class="stat-card">
-            <div class="stat-title">الإيداعات</div>
-            <div class="stat-number">320</div>
-        </div>
+    <div class="admin-main">
 
-        <div class="stat-card">
-            <div class="stat-title">العمليات اليوم</div>
-            <div class="stat-number">89</div>
-        </div>
 
-        <div class="stat-card">
-            <div class="stat-title">الحالة</div>
-            <div class="stat-number online">متصل</div>
-        </div>
+        <!-- =================================================
+             HEADER
+             ================================================= -->
+
+        <header class="admin-header">
+
+            <div class="header-right">
+
+                <!-- Mobile Menu -->
+                <button
+                    class="sidebar-toggle"
+                    id="sidebarToggle"
+                    type="button">
+
+                    ☰
+
+                </button>
+
+                <div class="header-title">
+                    VALORA
+                    <span>ADMIN</span>
+                </div>
+
+            </div>
+
+
+            <div class="header-left">
+
+                <!-- Notifications -->
+                <button
+                    class="header-action notification-button"
+                    type="button">
+
+                    🔔
+
+                    <span class="notification-badge">
+                        3
+                    </span>
+
+                </button>
+
+
+                <!-- Account -->
+                <button
+                    class="header-action"
+                    type="button">
+
+                    👤
+
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             DASHBOARD CONTENT
+             ================================================= -->
+
+        <main class="dashboard-content">
+
+
+            <!-- Page Title -->
+            <div class="page-title">
+
+                <h1>
+                    لوحة التحكم
+                </h1>
+
+                <p>
+                    مرحباً بك في لوحة إدارة VALORA
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 STATISTICS
+                 ================================================= -->
+
+            <div class="stats-grid">
+
+
+                <!-- Users -->
+                <div class="stat-card">
+
+                    <div class="stat-title">
+                        إجمالي المستخدمين
+                    </div>
+
+                    <div class="stat-number">
+                        1,245
+                    </div>
+
+                    <div class="stat-footer positive">
+                        ↑ 12% هذا الشهر
+                    </div>
+
+                </div>
+
+
+                <!-- Deposits -->
+                <div class="stat-card">
+
+                    <div class="stat-title">
+                        إجمالي الإيداعات
+                    </div>
+
+                    <div class="stat-number">
+                        320
+                    </div>
+
+                    <div class="stat-footer positive">
+                        ↑ 8% هذا الشهر
+                    </div>
+
+                </div>
+
+
+                <!-- Operations -->
+                <div class="stat-card">
+
+                    <div class="stat-title">
+                        العمليات اليوم
+                    </div>
+
+                    <div class="stat-number">
+                        89
+                    </div>
+
+                    <div class="stat-footer">
+                        آخر تحديث منذ دقائق
+                    </div>
+
+                </div>
+
+
+                <!-- System -->
+                <div class="stat-card">
+
+                    <div class="stat-title">
+                        حالة النظام
+                    </div>
+
+                    <div class="stat-number online">
+                        ● متصل
+                    </div>
+
+                    <div class="stat-footer">
+                        جميع الخدمات تعمل
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 DASHBOARD PANELS
+                 ================================================= -->
+
+            <div class="dashboard-row">
+
+
+                <!-- Recent Activity -->
+                <div class="panel">
+
+                    <h3>
+                        آخر النشاطات
+                    </h3>
+
+
+                    <div class="activity-item">
+
+                        <span>
+                            مستخدم جديد
+                        </span>
+
+                        <span>
+                            منذ 5 دقائق
+                        </span>
+
+                    </div>
+
+
+                    <div class="activity-item">
+
+                        <span>
+                            إيداع جديد
+                        </span>
+
+                        <span>
+                            منذ 12 دقيقة
+                        </span>
+
+                    </div>
+
+
+                    <div class="activity-item">
+
+                        <span>
+                            تعديل بيانات مستخدم
+                        </span>
+
+                        <span>
+                            منذ 20 دقيقة
+                        </span>
+
+                    </div>
+
+
+                    <div class="activity-item">
+
+                        <span>
+                            تسجيل دخول مدير
+                        </span>
+
+                        <span>
+                            منذ 35 دقيقة
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- System Status -->
+                <div class="panel">
+
+                    <h3>
+                        حالة النظام
+                    </h3>
+
+
+                    <div class="system-item">
+
+                        <span>
+                            Database
+                        </span>
+
+                        <span class="status-online">
+                            ● Online
+                        </span>
+
+                    </div>
+
+
+                    <div class="system-item">
+
+                        <span>
+                            API Server
+                        </span>
+
+                        <span class="status-online">
+                            ● Online
+                        </span>
+
+                    </div>
+
+
+                    <div class="system-item">
+
+                        <span>
+                            Storage
+                        </span>
+
+                        <span class="status-online">
+                            ● Online
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </main>
 
     </div>
 
-    <div class="dashboard-row">
+</div>
 
-        <div class="panel">
-            <h3>آخر النشاطات</h3>
 
-            <div class="activity-item">
-                <span>مستخدم جديد</span>
-                <span>منذ 5 دقائق</span>
-            </div>
+<!-- =========================================================
+     SIDEBAR SCRIPT
+     ========================================================= -->
 
-            <div class="activity-item">
-                <span>إيداع جديد</span>
-                <span>منذ 12 دقيقة</span>
-            </div>
+<script>
 
-            <div class="activity-item">
-                <span>تعديل بيانات</span>
-                <span>منذ 20 دقيقة</span>
-            </div>
+    const sidebar = document.getElementById("adminSidebar");
+    const sidebarToggle = document.getElementById("sidebarToggle");
+    const sidebarOverlay = document.getElementById("sidebarOverlay");
 
-        </div>
 
-        <div class="panel">
-            <h3>حالة النظام</h3>
+    if (sidebarToggle) {
 
-            <div class="system-item">
-                <span>Database</span>
-                <span class="status-online">● Online</span>
-            </div>
+        sidebarToggle.addEventListener("click", function () {
 
-            <div class="system-item">
-                <span>API Server</span>
-                <span class="status-online">● Online</span>
-            </div>
+            sidebar.classList.toggle("open");
 
-            <div class="system-item">
-                <span>Storage</span>
-                <span class="status-online">● Online</span>
-            </div>
+            sidebarOverlay.classList.toggle("active");
 
-        </div>
+        });
 
-    </div>
+    }
 
-</main>
+
+    if (sidebarOverlay) {
+
+        sidebarOverlay.addEventListener("click", function () {
+
+            sidebar.classList.remove("open");
+
+            sidebarOverlay.classList.remove("active");
+
+        });
+
+    }
+
+</script>
+
+</body>
+
+</html>
