@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta name="theme-color" content="#070707">
+
     <meta
         name="description"
         content="VALORA Administration — إدارة المستخدمين"
@@ -13,7 +14,10 @@
 
     <title>VALORA ADMIN — المستخدمون</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
 
     <link
         rel="preconnect"
@@ -26,15 +30,24 @@
         rel="stylesheet"
     >
 
-    <link rel="stylesheet" href="css/admin-layout.css">
-    <link rel="stylesheet" href="css/users.css">
+    <link
+        rel="stylesheet"
+        href="css/admin-layout.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/users.css"
+    >
 </head>
+
 
 <body>
 
 <div class="admin-app">
 
     <div class="admin-layout">
+
 
         <!-- =================================================
              MOBILE OVERLAY
@@ -85,6 +98,7 @@
             <!-- Navigation -->
 
             <nav class="admin-nav">
+
 
                 <!-- الرئيسية -->
 
@@ -455,6 +469,7 @@
 
                 <div class="admin-header-right">
 
+
                     <!-- Notifications -->
 
                     <button
@@ -570,6 +585,9 @@
                     aria-label="إحصائيات المستخدمين"
                 >
 
+
+                    <!-- Total Users -->
+
                     <article class="users-stat-card">
 
                         <div class="users-stat-icon">
@@ -582,14 +600,19 @@
                                 إجمالي المستخدمين
                             </p>
 
-                            <h3 class="users-stat-value">
-                                1,248
+                            <h3
+                                class="users-stat-value"
+                                id="totalUsers"
+                            >
+                                —
                             </h3>
 
                         </div>
 
                     </article>
 
+
+                    <!-- Active Users -->
 
                     <article class="users-stat-card">
 
@@ -603,14 +626,19 @@
                                 المستخدمون النشطون
                             </p>
 
-                            <h3 class="users-stat-value">
-                                1,126
+                            <h3
+                                class="users-stat-value"
+                                id="activeUsers"
+                            >
+                                —
                             </h3>
 
                         </div>
 
                     </article>
 
+
+                    <!-- Pending Users -->
 
                     <article class="users-stat-card">
 
@@ -624,14 +652,19 @@
                                 بانتظار التحقق
                             </p>
 
-                            <h3 class="users-stat-value">
-                                47
+                            <h3
+                                class="users-stat-value"
+                                id="pendingUsers"
+                            >
+                                —
                             </h3>
 
                         </div>
 
                     </article>
 
+
+                    <!-- Suspended Users -->
 
                     <article class="users-stat-card">
 
@@ -645,8 +678,11 @@
                                 الحسابات الموقوفة
                             </p>
 
-                            <h3 class="users-stat-value">
-                                75
+                            <h3
+                                class="users-stat-value"
+                                id="suspendedUsers"
+                            >
+                                —
                             </h3>
 
                         </div>
@@ -674,7 +710,7 @@
                             </h2>
 
                             <p class="admin-card-description">
-                                جميع الحسابات المسجلة في النظام
+                                الحسابات المسجلة في النظام
                             </p>
 
                         </div>
@@ -685,6 +721,9 @@
                     <!-- Filters -->
 
                     <div class="users-filters">
+
+
+                        <!-- Search -->
 
                         <div class="users-search">
 
@@ -705,6 +744,8 @@
 
                         </div>
 
+
+                        <!-- Status Filter -->
 
                         <div class="users-filter">
 
@@ -741,6 +782,8 @@
                         </div>
 
 
+                        <!-- Verification Filter -->
+
                         <div class="users-filter">
 
                             <label
@@ -774,7 +817,9 @@
                     </div>
 
 
-                    <!-- Table -->
+                    <!-- =================================================
+                         USERS TABLE
+                    ================================================== -->
 
                     <div class="users-table-wrapper">
 
@@ -821,442 +866,17 @@
                             </thead>
 
 
+                            <!--
+
+                                لا توجد بيانات ثابتة هنا.
+
+                                سيتم إنشاء صفوف المستخدمين
+                                لاحقًا بواسطة users.js
+                                من مصدر بيانات حقيقي.
+
+                            -->
+
                             <tbody id="usersTableBody">
-
-
-                                <!-- USER 1 -->
-
-                                <tr>
-
-                                    <td>
-
-                                        <div class="user-cell">
-
-                                            <div class="user-avatar">
-                                                M
-                                            </div>
-
-                                            <div class="user-info">
-
-                                                <strong>
-                                                    محمد أحمد
-                                                </strong>
-
-                                                <span>
-                                                    mohammed@example.com
-                                                </span>
-
-                                            </div>
-
-                                        </div>
-
-                                    </td>
-
-
-                                    <td>
-                                        <span class="user-id">
-                                            #USR-10001
-                                        </span>
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="user-status active">
-                                            نشط
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="user-verification verified">
-                                            موثق
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <strong class="user-balance">
-                                            $12,450.00
-                                        </strong>
-
-                                    </td>
-
-
-                                    <td>
-                                        12 يناير 2026
-                                    </td>
-
-
-                                    <td>
-                                        منذ 5 دقائق
-                                    </td>
-
-
-                                    <td>
-
-                                        <a
-                                            href="user-details.html?id=USR-10001"
-                                            class="user-view-button"
-                                        >
-                                            عرض
-                                        </a>
-
-                                    </td>
-
-                                </tr>
-
-
-                                <!-- USER 2 -->
-
-                                <tr>
-
-                                    <td>
-
-                                        <div class="user-cell">
-
-                                            <div class="user-avatar">
-                                                A
-                                            </div>
-
-                                            <div class="user-info">
-
-                                                <strong>
-                                                    أحمد علي
-                                                </strong>
-
-                                                <span>
-                                                    ahmed@example.com
-                                                </span>
-
-                                            </div>
-
-                                        </div>
-
-                                    </td>
-
-
-                                    <td>
-                                        <span class="user-id">
-                                            #USR-10002
-                                        </span>
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="user-status active">
-                                            نشط
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="user-verification verified">
-                                            موثق
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <strong class="user-balance">
-                                            $8,720.50
-                                        </strong>
-
-                                    </td>
-
-
-                                    <td>
-                                        18 يناير 2026
-                                    </td>
-
-
-                                    <td>
-                                        منذ 18 دقيقة
-                                    </td>
-
-
-                                    <td>
-
-                                        <a
-                                            href="user-details.html?id=USR-10002"
-                                            class="user-view-button"
-                                        >
-                                            عرض
-                                        </a>
-
-                                    </td>
-
-                                </tr>
-
-
-                                <!-- USER 3 -->
-
-                                <tr>
-
-                                    <td>
-
-                                        <div class="user-cell">
-
-                                            <div class="user-avatar">
-                                                S
-                                            </div>
-
-                                            <div class="user-info">
-
-                                                <strong>
-                                                    سارة خالد
-                                                </strong>
-
-                                                <span>
-                                                    sara@example.com
-                                                </span>
-
-                                            </div>
-
-                                        </div>
-
-                                    </td>
-
-
-                                    <td>
-                                        <span class="user-id">
-                                            #USR-10003
-                                        </span>
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="user-status pending">
-                                            بانتظار التحقق
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="user-verification unverified">
-                                            غير موثق
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <strong class="user-balance">
-                                            $2,150.00
-                                        </strong>
-
-                                    </td>
-
-
-                                    <td>
-                                        24 يناير 2026
-                                    </td>
-
-
-                                    <td>
-                                        منذ ساعة
-                                    </td>
-
-
-                                    <td>
-
-                                        <a
-                                            href="user-details.html?id=USR-10003"
-                                            class="user-view-button"
-                                        >
-                                            عرض
-                                        </a>
-
-                                    </td>
-
-                                </tr>
-
-
-                                <!-- USER 4 -->
-
-                                <tr>
-
-                                    <td>
-
-                                        <div class="user-cell">
-
-                                            <div class="user-avatar">
-                                                K
-                                            </div>
-
-                                            <div class="user-info">
-
-                                                <strong>
-                                                    كريم حسن
-                                                </strong>
-
-                                                <span>
-                                                    karim@example.com
-                                                </span>
-
-                                            </div>
-
-                                        </div>
-
-                                    </td>
-
-
-                                    <td>
-                                        <span class="user-id">
-                                            #USR-10004
-                                        </span>
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="user-status suspended">
-                                            موقوف
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="user-verification verified">
-                                            موثق
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <strong class="user-balance">
-                                            $450.00
-                                        </strong>
-
-                                    </td>
-
-
-                                    <td>
-                                        02 فبراير 2026
-                                    </td>
-
-
-                                    <td>
-                                        منذ 3 أيام
-                                    </td>
-
-
-                                    <td>
-
-                                        <a
-                                            href="user-details.html?id=USR-10004"
-                                            class="user-view-button"
-                                        >
-                                            عرض
-                                        </a>
-
-                                    </td>
-
-                                </tr>
-
-
-                                <!-- USER 5 -->
-
-                                <tr>
-
-                                    <td>
-
-                                        <div class="user-cell">
-
-                                            <div class="user-avatar">
-                                                N
-                                            </div>
-
-                                            <div class="user-info">
-
-                                                <strong>
-                                                    نور محمود
-                                                </strong>
-
-                                                <span>
-                                                    nour@example.com
-                                                </span>
-
-                                            </div>
-
-                                        </div>
-
-                                    </td>
-
-
-                                    <td>
-                                        <span class="user-id">
-                                            #USR-10005
-                                        </span>
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="user-status active">
-                                            نشط
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="user-verification verified">
-                                            موثق
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <strong class="user-balance">
-                                            $18,900.75
-                                        </strong>
-
-                                    </td>
-
-
-                                    <td>
-                                        08 فبراير 2026
-                                    </td>
-
-
-                                    <td>
-                                        منذ 12 دقيقة
-                                    </td>
-
-
-                                    <td>
-
-                                        <a
-                                            href="user-details.html?id=USR-10005"
-                                            class="user-view-button"
-                                        >
-                                            عرض
-                                        </a>
-
-                                    </td>
-
-                                </tr>
 
                             </tbody>
 
@@ -1265,87 +885,55 @@
                     </div>
 
 
-                    <!-- Empty State -->
+                    <!-- =================================================
+                         EMPTY STATE
+                    ================================================== -->
 
                     <div
                         class="users-empty"
                         id="usersEmpty"
-                        hidden
                     >
 
-                        <div class="users-empty-icon">
+                        <div
+                            class="users-empty-icon"
+                            aria-hidden="true"
+                        >
                             ♙
                         </div>
 
                         <h3>
-                            لا توجد نتائج
+                            لا توجد بيانات مستخدمين
                         </h3>
 
                         <p>
-                            لم يتم العثور على مستخدمين يطابقون البحث أو الفلاتر المحددة.
+                            لا توجد بيانات مستخدمين متاحة حاليًا.
+                            ستظهر الحسابات هنا بعد الاتصال بمصدر البيانات.
                         </p>
 
                     </div>
 
 
-                    <!-- Pagination -->
+                    <!-- =================================================
+                         PAGINATION
+                    ================================================== -->
 
-                    <div class="users-pagination">
+                    <div
+                        class="users-pagination"
+                        id="usersPagination"
+                        hidden
+                    >
 
-                        <div class="users-pagination-info">
-                            عرض <strong>1–5</strong> من <strong>1,248</strong> مستخدم
+                        <div
+                            class="users-pagination-info"
+                            id="usersPaginationInfo"
+                        >
                         </div>
 
 
-                        <div class="users-pagination-buttons">
-
-                            <button
-                                type="button"
-                                class="users-page-button"
-                                disabled
-                            >
-                                السابق
-                            </button>
-
-                            <button
-                                type="button"
-                                class="users-page-button active"
-                            >
-                                1
-                            </button>
-
-                            <button
-                                type="button"
-                                class="users-page-button"
-                            >
-                                2
-                            </button>
-
-                            <button
-                                type="button"
-                                class="users-page-button"
-                            >
-                                3
-                            </button>
-
-                            <span class="users-pagination-dots">
-                                ...
-                            </span>
-
-                            <button
-                                type="button"
-                                class="users-page-button"
-                            >
-                                250
-                            </button>
-
-                            <button
-                                type="button"
-                                class="users-page-button"
-                            >
-                                التالي
-                            </button>
-
+                        <div
+                            class="users-pagination-buttons"
+                            id="usersPaginationButtons"
+                        >
                         </div>
 
                     </div>
@@ -1369,4 +957,5 @@
 <script src="js/users.js"></script>
 
 </body>
-  </html>
+
+                                </html>
