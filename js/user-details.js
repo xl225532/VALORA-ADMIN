@@ -1,57 +1,53 @@
 /* =========================================================
-   VALORA ADMIN — USER DETAILS
+   VALORA ADMIN — USER DETAILS JS
    ========================================================= */
+
+(function () {
+
+"use strict";
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    initUserDetails
+);
+
 
 
 /* =========================================================
-   PAGE HEADER
-   ========================================================= */
+   STATE
+========================================================= */
 
 
-.user-details-header {
+const userDetailsState = {
 
-    display: flex;
+    id: null,
 
-    align-items: center;
+    user: null
 
-    justify-content: space-between;
-
-    gap: 20px;
-
-    margin-bottom: 22px;
-
-}
-
-
-.user-details-heading {
-
-    min-width: 0;
-
-}
+};
 
 
 
-.user-details-title {
-
-    margin: 0;
-
-    color: var(--va-text);
-
-    font-size: 26px;
-
-    font-weight: 800;
-
-}
 
 
+/* =========================================================
+   INIT
+========================================================= */
 
-.user-details-description {
 
-    margin: 6px 0 0;
+function initUserDetails() {
 
-    color: var(--va-text-muted);
 
-    font-size: 13px;
+    userDetailsState.id =
+        getUserIdFromURL();
+
+
+    loadUserDetails();
+
+
+    setupBalanceEdit();
+
 
 }
 
@@ -60,116 +56,102 @@
 
 
 /* =========================================================
-   USER PROFILE CARD
-   ========================================================= */
+   GET USER ID
+========================================================= */
 
 
-.user-profile-card {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 18px;
-
-    padding: 22px;
-
-    margin-bottom: 18px;
-
-    background: var(--va-surface);
-
-    border: 1px solid var(--va-border);
-
-    border-radius: var(--va-radius-lg);
-
-    box-shadow: var(--va-shadow-sm);
-
-}
+function getUserIdFromURL() {
 
 
-
-.user-profile-avatar {
-
-    width: 72px;
-
-    height: 72px;
-
-    flex: 0 0 72px;
-
-    display: grid;
-
-    place-items: center;
-
-    border-radius: 50%;
-
-    background:
-        linear-gradient(
-            135deg,
-            var(--va-gold-light),
-            var(--va-gold-dark)
+    const params =
+        new URLSearchParams(
+            window.location.search
         );
 
-    color: #080808;
 
-    font-size: 28px;
+    return params.get("id");
 
-    font-weight: 800;
 
 }
 
 
 
-.user-profile-info {
-
-    min-width: 0;
-
-}
 
 
 
-.user-profile-name {
-
-    margin: 0;
-
-    color: var(--va-text);
-
-    font-size: 20px;
-
-    font-weight: 800;
-
-}
+/* =========================================================
+   LOAD USER
+========================================================= */
 
 
-
-.user-profile-email {
-
-    margin: 5px 0 0;
-
-    color: var(--va-text-muted);
-
-    font-size: 13px;
-
-}
+function loadUserDetails() {
 
 
+    /*
+        لاحقًا هنا API
 
-.user-profile-id {
+        fetch(
+          "/api/users/" + id
+        )
 
-    display: inline-flex;
+    */
 
-    margin-top: 8px;
 
-    padding: 4px 10px;
+    const demoUser = {
 
-    border-radius: 999px;
 
-    background: rgba(255,255,255,0.04);
+        id:
+            userDetailsState.id || "—",
 
-    border: 1px solid var(--va-border);
 
-    color: var(--va-text-soft);
+        name:
+            "مستخدم جديد",
 
-    font-size: 12px;
+
+        email:
+            "user@example.com",
+
+
+        status:
+            "active",
+
+
+        balance:
+            500,
+
+
+        deposits:
+            1000,
+
+
+        withdrawals:
+            200,
+
+
+        profits:
+            150,
+
+
+        transactions:
+            12,
+
+
+        referrals:
+            []
+
+    };
+
+
+
+    userDetailsState.user =
+        demoUser;
+
+
+
+    renderUser(
+        demoUser
+    );
+
 
 }
 
@@ -178,118 +160,102 @@
 
 
 /* =========================================================
-   STATUS BADGES
-   ========================================================= */
+   RENDER USER
+========================================================= */
 
 
-.user-details-status {
-
-    display: inline-flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    min-height: 28px;
-
-    padding: 0 12px;
-
-    border-radius: 999px;
-
-    font-size: 12px;
-
-    font-weight: 700;
-
-}
+function renderUser(user) {
 
 
-
-.user-details-status.active {
-
-    background: var(--va-success-soft);
-
-    color: var(--va-success);
-
-}
+    setText(
+        "userName",
+        user.name
+    );
 
 
-
-.user-details-status.pending {
-
-    background: var(--va-warning-soft);
-
-    color: var(--va-warning);
-
-}
+    setText(
+        "userEmail",
+        user.email
+    );
 
 
-
-.user-details-status.suspended {
-
-    background: var(--va-danger-soft);
-
-    color: var(--va-danger);
-
-}
-/* =========================================================
-   USER INFORMATION GRID
-   ========================================================= */
+    setText(
+        "userId",
+        "#" + user.id
+    );
 
 
-.user-info-grid {
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(4, minmax(0, 1fr));
-
-    gap: 14px;
-
-    margin-bottom: 18px;
-
-}
+    setText(
+        "userBalance",
+        formatMoney(user.balance)
+    );
 
 
-
-.user-info-card {
-
-    padding: 18px;
-
-    background: var(--va-surface);
-
-    border: 1px solid var(--va-border);
-
-    border-radius: var(--va-radius-md);
-
-    box-shadow: var(--va-shadow-sm);
-
-}
+    setText(
+        "userDeposits",
+        formatMoney(user.deposits)
+    );
 
 
+    setText(
+        "userWithdrawals",
+        formatMoney(user.withdrawals)
+    );
 
-.user-info-label {
 
-    margin: 0 0 8px;
+    setText(
+        "userTransactions",
+        user.transactions
+    );
 
-    color: var(--va-text-muted);
 
-    font-size: 11px;
+    setText(
+        "detailFullName",
+        user.name
+    );
 
-    font-weight: 600;
 
-}
+    setText(
+        "detailEmail",
+        user.email
+    );
+
+
+    setText(
+        "detailUserId",
+        user.id
+    );
+
+
+    setText(
+        "detailVerification",
+        "غير متحقق"
+    );
+
+
+    setText(
+        "emailVerified",
+        "نعم"
+    );
+
+
+    setText(
+        "twoFactorStatus",
+        "غير مفعل"
+    );
+
+
+    setText(
+        "userAvatar",
+        getInitial(user.name)
+    );
 
 
 
-.user-info-value {
+    renderReferrals(
+        user.referrals
+    );
 
-    margin: 0;
-
-    color: var(--va-text);
-
-    font-size: 18px;
-
-    font-weight: 800;
 
 }
 
@@ -298,458 +264,210 @@
 
 
 /* =========================================================
-   BALANCE BOX
-   ========================================================= */
+   REFERRALS
+========================================================= */
 
 
-.user-balance-box {
+function renderReferrals(
+    referrals
+) {
 
-    display: flex;
 
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 16px;
-
-    padding: 22px;
-
-    margin-bottom: 18px;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(212,175,55,0.12),
-            rgba(212,175,55,0.03)
+    const body =
+        document.getElementById(
+            "userReferralsBody"
         );
 
-    border: 1px solid rgba(212,175,55,0.20);
 
-    border-radius: var(--va-radius-lg);
+    if (!body) {
+        return;
+    }
+
+
+    body.innerHTML = "";
+
+
+
+    if (
+        !referrals ||
+        referrals.length === 0
+    ) {
+
+        return;
+
+    }
+
+
+
+    referrals.forEach(
+        function (person) {
+
+
+            const row =
+                document.createElement(
+                    "tr"
+                );
+
+
+            row.innerHTML = `
+
+
+<td>
+${escapeHTML(person.name)}
+</td>
+
+
+<td>
+${escapeHTML(person.id)}
+</td>
+
+
+<td>
+${formatMoney(person.balance)}
+</td>
+
+
+<td>
+${escapeHTML(person.created_at)}
+</td>
+
+
+<td>
+
+<a
+href="user-details.html?id=${encodeURIComponent(person.id)}"
+class="user-view-button"
+>
+عرض
+</a>
+
+</td>
+
+
+`;
+
+
+            body.appendChild(row);
+
+
+        }
+    );
+
 
 }
 
 
-
-.user-balance-title {
-
-    margin: 0;
-
-    color: var(--va-text-muted);
-
-    font-size: 12px;
-
-}
-
-
-
-.user-balance-value {
-
-    margin: 6px 0 0;
-
-    color: var(--va-gold-light);
-
-    font-size: 30px;
-
-    font-weight: 900;
-
-}
-
-
-
-.user-balance-currency {
-
-    color: var(--va-text-soft);
-
-    font-size: 14px;
-
-}
 
 
 
 
 
 /* =========================================================
-   DETAILS LAYOUT
-   ========================================================= */
+   BALANCE EDIT
+========================================================= */
 
 
-.user-details-grid {
+function setupBalanceEdit() {
 
-    display: grid;
 
-    grid-template-columns:
-        minmax(0, 1fr)
-        minmax(300px, 360px);
+    const button =
+        document.getElementById(
+            "addBalanceButton"
+        );
 
-    gap: 18px;
 
-    align-items: start;
+    if (!button) {
+        return;
+    }
+
+
+
+
+    button.addEventListener(
+        "click",
+        function () {
+
+
+            const input =
+                document.getElementById(
+                    "balanceAmount"
+                );
+
+
+            if (!input) {
+                return;
+            }
+
+
+
+            const amount =
+                Number(
+                    input.value
+                );
+
+
+
+            if (
+                isNaN(amount)
+                ||
+                amount <= 0
+            ) {
+
+                return;
+
+            }
+
+
+
+            userDetailsState.user.balance += amount;
+
+
+
+            setText(
+                "userBalance",
+                formatMoney(
+                    userDetailsState.user.balance
+                )
+            );
+
+
+            input.value = "";
+
+
+        }
+    );
+
 
 }
 
-
-
-.user-details-card {
-
-    background: var(--va-surface);
-
-    border: 1px solid var(--va-border);
-
-    border-radius: var(--va-radius-lg);
-
-    overflow: hidden;
-
-}
-
-
-
-.user-details-card-header {
-
-    padding: 18px 20px;
-
-    border-bottom:
-
-        1px solid var(--va-border);
-
-}
-
-
-
-.user-details-card-title {
-
-    margin: 0;
-
-    color: var(--va-text);
-
-    font-size: 15px;
-
-    font-weight: 800;
-
-}
-
-
-
-.user-details-card-description {
-
-    margin: 5px 0 0;
-
-    color: var(--va-text-muted);
-
-    font-size: 11px;
-
-}
-
-
-
-.user-details-card-body {
-
-    padding: 20px;
-
-}
-/* =========================================================
-   USER DATA LIST
-   ========================================================= */
-
-
-.user-data-list {
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 0;
-
-}
-
-
-
-.user-data-row {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 15px;
-
-    padding: 14px 0;
-
-    border-bottom:
-
-        1px solid var(--va-border);
-
-}
-
-
-
-.user-data-row:last-child {
-
-    border-bottom: 0;
-
-}
-
-
-
-.user-data-label {
-
-    color: var(--va-text-muted);
-
-    font-size: 12px;
-
-}
-
-
-
-.user-data-value {
-
-    color: var(--va-text);
-
-    font-size: 13px;
-
-    font-weight: 700;
-
-}
 
 
 
 
 
 /* =========================================================
-   USER ACTIONS
-   ========================================================= */
+   HELPERS
+========================================================= */
 
 
-.user-actions {
+function setText(
+    id,
+    value
+) {
 
-    display: flex;
 
-    flex-wrap: wrap;
+    const element =
+        document.getElementById(id);
 
-    gap: 10px;
 
-}
 
-
-
-.user-action-btn {
-
-    min-height: 40px;
-
-    display: inline-flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 8px;
-
-    padding: 0 16px;
-
-    border-radius: var(--va-radius-sm);
-
-    border: 1px solid var(--va-border);
-
-    background: rgba(255,255,255,0.03);
-
-    color: var(--va-text);
-
-    font-size: 13px;
-
-    font-weight: 700;
-
-    cursor: pointer;
-
-    transition:
-
-        background var(--va-transition),
-
-        border-color var(--va-transition),
-
-        color var(--va-transition);
-
-}
-
-
-
-.user-action-btn:hover {
-
-    background: rgba(255,255,255,0.07);
-
-    border-color: var(--va-border-strong);
-
-}
-
-
-
-.user-action-btn.gold {
-
-    background: var(--va-gold);
-
-    color: #080808;
-
-    border-color: var(--va-gold);
-
-}
-
-
-
-.user-action-btn.gold:hover {
-
-    background: var(--va-gold-light);
-
-}
-
-
-
-
-
-.user-action-btn.danger {
-
-    background: var(--va-danger-soft);
-
-    color: var(--va-danger);
-
-    border-color: rgba(228,92,92,0.25);
-
-}
-
-
-
-
-
-/* =========================================================
-   TRANSACTIONS TABLE
-   ========================================================= */
-
-
-.user-transactions {
-
-    width: 100%;
-
-    overflow-x: auto;
-
-}
-
-
-
-.user-transactions table {
-
-    width: 100%;
-
-    border-collapse: collapse;
-
-}
-
-
-
-.user-transactions th {
-
-    padding: 12px;
-
-    text-align: right;
-
-    color: var(--va-text-muted);
-
-    font-size: 11px;
-
-    font-weight: 700;
-
-    border-bottom:
-
-        1px solid var(--va-border);
-
-}
-
-
-
-.user-transactions td {
-
-    padding: 14px 12px;
-
-    color: var(--va-text-soft);
-
-    font-size: 12px;
-
-    border-bottom:
-
-        1px solid var(--va-border);
-
-}
-
-
-
-.user-transactions tr:last-child td {
-
-    border-bottom: 0;
-
-}
-
-
-
-
-
-/* =========================================================
-   ACTIVITY TIMELINE
-   ========================================================= */
-
-
-.user-timeline {
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 16px;
-
-}
-
-
-
-.user-timeline-item {
-
-    position: relative;
-
-    display: flex;
-
-    gap: 12px;
-
-}
-
-
-
-.user-timeline-dot {
-
-    width: 10px;
-
-    height: 10px;
-
-    flex: 0 0 10px;
-
-    margin
-   /* =========================================================
-   RESPONSIVE
-   ========================================================= */
-
-
-@media (max-width: 1100px) {
-
-
-    .user-info-grid {
-
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-
+    if (!element) {
+        return;
     }
 
 
-    .user-details-grid {
-
-        grid-template-columns:
-            minmax(0, 1fr);
-
-    }
+    element.textContent =
+        value ?? "—";
 
 
 }
@@ -758,116 +476,37 @@
 
 
 
-@media (max-width: 768px) {
+function formatMoney(
+    value
+) {
 
 
-    .user-details-header {
+    return (
+        Number(value || 0)
+        .toLocaleString()
+        +
+        " USDT"
+    );
 
-        flex-direction: column;
 
-        align-items: stretch;
+}
 
-        gap: 12px;
 
+
+
+function getInitial(
+    name
+) {
+
+
+    if (!name) {
+        return "?";
     }
 
 
-
-    .user-details-title {
-
-        font-size: 22px;
-
-    }
-
-
-
-    .user-profile-card {
-
-        flex-direction: column;
-
-        align-items: flex-start;
-
-        text-align: right;
-
-    }
-
-
-
-    .user-profile-avatar {
-
-        width: 60px;
-
-        height: 60px;
-
-        flex-basis: 60px;
-
-        font-size: 22px;
-
-    }
-
-
-
-    .user-info-grid {
-
-        grid-template-columns:
-
-            minmax(0, 1fr);
-
-    }
-
-
-
-    .user-balance-box {
-
-        flex-direction: column;
-
-        align-items: flex-start;
-
-    }
-
-
-
-    .user-balance-value {
-
-        font-size: 24px;
-
-    }
-
-
-
-    .user-details-card-body {
-
-        padding: 16px;
-
-    }
-
-
-
-    .user-data-row {
-
-        flex-direction: column;
-
-        align-items: flex-start;
-
-        gap: 6px;
-
-    }
-
-
-
-    .user-actions {
-
-        width: 100%;
-
-    }
-
-
-
-    .user-action-btn {
-
-        width: 100%;
-
-    }
+    return name
+        .charAt(0)
+        .toUpperCase();
 
 
 }
@@ -876,31 +515,43 @@
 
 
 
-@media (max-width: 420px) {
+function escapeHTML(
+    value
+) {
 
 
-    .user-profile-name {
+    return String(value ?? "")
 
-        font-size: 17px;
+        .replace(
+            /&/g,
+            "&amp;"
+        )
 
-    }
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+
+}
 
 
 
-    .user-details-card-header {
-
-        padding: 15px;
-
-    }
 
 
-
-    .user-details-card-body {
-
-        padding: 14px;
-
-    }
-
-
-
-           }
+})();
