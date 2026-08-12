@@ -1,132 +1,22 @@
-/*
-=========================================================
-VALORA ADMIN
-DASHBOARD
-=========================================================
-
-هذا الملف مسؤول عن:
-
-- إحصائيات Dashboard
-- النشاطات الأخيرة
-- حالة الخدمات
-- الإيداعات المعلقة
-- عداد الإشعارات
-- زر تحديث البيانات
-- Demo Data فقط
-
-ملاحظة:
-لا توجد قاعدة بيانات أو API في هذه المرحلة.
-عند الربط لاحقًا سنستبدل مصدر البيانات فقط.
-=========================================================
-*/
-
 (function () {
     "use strict";
 
-
     /*
-    =====================================================
-    DEMO DATA
-    =====================================================
+    =========================================================
+    VALORA ADMIN — DASHBOARD
+    =========================================================
+
+    المرحلة الحالية:
+    - واجهة الإدارة فقط.
+    - لا توجد قاعدة بيانات مرتبطة بعد.
+    - لا يتم إنشاء أو عرض أي بيانات وهمية.
+    - الخانات تبقى فارغة حتى يتم الربط الحقيقي.
+
+    لاحقًا:
+    سيتم استبدال القيم الفارغة ببيانات API / Database حقيقية.
+    =========================================================
     */
 
-    const DASHBOARD_DATA = {
-
-        statistics: {
-            users: 12842,
-            usersGrowth: "+8.4% هذا الشهر",
-
-            deposits: "$284,650",
-            depositsGrowth: "+12.6% هذا الشهر",
-
-            transactions: 1842,
-            transactionsMeta: "خلال آخر 24 ساعة",
-
-            systemStatus: "متصل"
-        },
-
-
-        pendingDeposits: 7,
-
-
-        notifications: 4,
-
-
-        services: {
-            database: {
-                status: "operational",
-                label: "متصل"
-            },
-
-            api: {
-                status: "operational",
-                label: "متصل"
-            },
-
-            storage: {
-                status: "operational",
-                label: "متصل"
-            }
-        },
-
-
-        activities: [
-
-            {
-                id: 1,
-                type: "deposit",
-                title: "تم تسجيل إيداع جديد",
-                description: "المستخدم VA-10482 أضاف إيداعًا بقيمة $2,500",
-                time: "منذ 5 دقائق",
-                status: "success"
-            },
-
-            {
-                id: 2,
-                type: "user",
-                title: "مستخدم جديد",
-                description: "تم إنشاء حساب جديد برقم VA-10483",
-                time: "منذ 12 دقيقة",
-                status: "info"
-            },
-
-            {
-                id: 3,
-                type: "withdrawal",
-                title: "طلب سحب جديد",
-                description: "طلب سحب بقيمة $850 يحتاج إلى مراجعة",
-                time: "منذ 24 دقيقة",
-                status: "warning"
-            },
-
-            {
-                id: 4,
-                type: "verification",
-                title: "طلب تحقق جديد",
-                description: "المستخدم VA-10391 أرسل مستندات التحقق",
-                time: "منذ 38 دقيقة",
-                status: "info"
-            },
-
-            {
-                id: 5,
-                type: "trade",
-                title: "عملية تداول مكتملة",
-                description: "تم تنفيذ عملية تداول للمستخدم VA-10274",
-                time: "منذ ساعة",
-                status: "success"
-            }
-
-        ]
-
-    };
-
-
-    /*
-    =====================================================
-    INITIALIZATION
-    =====================================================
-    */
 
     document.addEventListener(
         "DOMContentLoaded",
@@ -137,108 +27,112 @@ DASHBOARD
     function initDashboard() {
 
         /*
-        -------------------------------------------------
-        نتأكد أن الصفحة هي Dashboard
-        -------------------------------------------------
+        لا نضع أي بيانات تجريبية هنا.
+
+        الصفحة نفسها تحتوي على القيم الافتراضية:
+        —
+        جاري الفحص
+        لا توجد بيانات
+
+        وعند الربط مع قاعدة البيانات سنقوم بتحديثها
+        من المصدر الحقيقي.
         */
 
-        if (!document.getElementById("usersCount")) {
-            return;
-        }
-
-
-        renderDashboard();
+        clearDashboardData();
 
         setupRefreshButton();
 
         setupActivityButton();
-
-        updateServicesStatus();
     }
 
 
     /*
-    =====================================================
-    RENDER DASHBOARD
-    =====================================================
+    =========================================================
+    CLEAR DASHBOARD
+    =========================================================
     */
 
-    function renderDashboard() {
+    function clearDashboardData() {
 
-        renderStatistics();
+        /*
+        الإحصائيات
+        */
 
-        renderActivities();
+        setText("usersCount", "—");
+        setText("usersGrowth", "—");
 
-        renderPendingDeposits();
+        setText("depositsCount", "—");
+        setText("depositsGrowth", "—");
 
-        renderNotifications();
+        setText("transactionsCount", "—");
+        setText("transactionsMeta", "—");
 
-        updateServicesStatus();
+        setText("systemStatus", "—");
+
+
+        /*
+        الخدمات
+
+        لا نقول "متصل" أو "غير متصل"
+        لأننا لم نربط قاعدة البيانات/API بعد.
+        */
+
+        setText(
+            "databaseStatus",
+            "غير مرتبط"
+        );
+
+        setText(
+            "apiStatus",
+            "غير مرتبط"
+        );
+
+        setText(
+            "storageStatus",
+            "غير مرتبط"
+        );
+
+
+        updateStatusClasses();
+
+
+        /*
+        الإشعارات
+
+        لا يوجد مصدر حقيقي بعد.
+        لذلك لا نعرض رقمًا.
+        */
+
+        clearNotificationCount();
+
+
+        /*
+        الإيداعات المعلقة
+
+        لا يوجد مصدر حقيقي بعد.
+        لذلك نخفي العداد.
+        */
+
+        clearPendingDeposits();
+
+
+        /*
+        النشاطات
+
+        لا نضع نشاطات وهمية.
+        */
+
+        renderEmptyActivities();
     }
 
 
     /*
-    =====================================================
-    STATISTICS
-    =====================================================
+    =========================================================
+    EMPTY ACTIVITIES
+    =========================================================
     */
 
-    function renderStatistics() {
-
-        setText(
-            "usersCount",
-            formatNumber(
-                DASHBOARD_DATA.statistics.users
-            )
-        );
-
-
-        setText(
-            "usersGrowth",
-            DASHBOARD_DATA.statistics.usersGrowth
-        );
-
-
-        setText(
-            "depositsCount",
-            DASHBOARD_DATA.statistics.deposits
-        );
-
-
-        setText(
-            "depositsGrowth",
-            DASHBOARD_DATA.statistics.depositsGrowth
-        );
-
-
-        setText(
-            "transactionsCount",
-            formatNumber(
-                DASHBOARD_DATA.statistics.transactions
-            )
-        );
-
-
-        setText(
-            "transactionsMeta",
-            DASHBOARD_DATA.statistics.transactionsMeta
-        );
-
-
-        setText(
-            "systemStatus",
-            DASHBOARD_DATA.statistics.systemStatus
-        );
-    }
-
-
-    /*
-    =====================================================
-    ACTIVITIES
-    =====================================================
-    */
-
-    function renderActivities() {
+    function renderEmptyActivities() {
 
         const container =
             document.getElementById(
@@ -251,149 +145,23 @@ DASHBOARD
         }
 
 
-        const activities =
-            DASHBOARD_DATA.activities;
-
-
-        if (!activities.length) {
-
-            container.innerHTML = createEmptyState(
-                "لا توجد نشاطات",
-                "لم يتم تسجيل أي نشاطات حديثة."
-            );
-
-            return;
-        }
-
-
-        container.innerHTML =
-            activities
-                .map(createActivityHTML)
-                .join("");
-    }
-
-
-    /*
-    =====================================================
-    ACTIVITY HTML
-    =====================================================
-    */
-
-    function createActivityHTML(activity) {
-
-        const icon =
-            getActivityIcon(
-                activity.type
-            );
-
-
-        const statusClass =
-            getActivityStatusClass(
-                activity.status
-            );
-
-
-        const statusLabel =
-            getActivityStatusLabel(
-                activity.status
-            );
-
-
-        return `
-            <div
-                class="dashboard-activity"
-                data-activity-id="${escapeHTML(activity.id)}"
-                style="
-                    display:flex;
-                    align-items:flex-start;
-                    gap:12px;
-                    padding:14px 0;
-                    border-bottom:1px solid var(--va-border);
-                "
-            >
+        container.innerHTML = `
+            <div class="admin-empty">
 
                 <div
-                    class="dashboard-activity-icon"
-                    style="
-                        width:38px;
-                        height:38px;
-                        flex:0 0 38px;
-                        display:grid;
-                        place-items:center;
-                        border-radius:10px;
-                        background:rgba(212,175,55,.08);
-                        color:var(--va-gold-light);
-                        font-size:15px;
-                    "
+                    class="admin-empty-icon"
                     aria-hidden="true"
                 >
-                    ${icon}
+                    ◌
                 </div>
 
+                <h3 class="admin-empty-title">
+                    لا توجد بيانات بعد
+                </h3>
 
-                <div
-                    style="
-                        min-width:0;
-                        flex:1;
-                    "
-                >
-
-                    <div
-                        style="
-                            display:flex;
-                            align-items:center;
-                            justify-content:space-between;
-                            gap:10px;
-                        "
-                    >
-
-                        <strong
-                            style="
-                                color:var(--va-text);
-                                font-size:12px;
-                                font-weight:700;
-                            "
-                        >
-                            ${escapeHTML(activity.title)}
-                        </strong>
-
-
-                        <span
-                            style="
-                                color:var(--va-text-muted);
-                                font-size:9px;
-                                white-space:nowrap;
-                            "
-                        >
-                            ${escapeHTML(activity.time)}
-                        </span>
-
-                    </div>
-
-
-                    <p
-                        style="
-                            margin:4px 0 0;
-                            color:var(--va-text-muted);
-                            font-size:10px;
-                            line-height:1.7;
-                        "
-                    >
-                        ${escapeHTML(activity.description)}
-                    </p>
-
-
-                    <span
-                        class="admin-status ${statusClass}"
-                        style="
-                            display:inline-flex;
-                            margin-top:7px;
-                        "
-                    >
-                        ${escapeHTML(statusLabel)}
-                    </span>
-
-                </div>
+                <p class="admin-empty-description">
+                    ستظهر آخر النشاطات هنا بعد ربط لوحة التحكم بقاعدة البيانات.
+                </p>
 
             </div>
         `;
@@ -401,119 +169,53 @@ DASHBOARD
 
 
     /*
-    =====================================================
-    ACTIVITY ICONS
-    =====================================================
+    =========================================================
+    STATUS
+    =========================================================
     */
 
-    function getActivityIcon(type) {
+    function updateStatusClasses() {
 
-        const icons = {
-
-            deposit: "＋",
-
-            withdrawal: "−",
-
-            user: "♙",
-
-            verification: "✓",
-
-            trade: "↔",
-
-            default: "•"
-
-        };
+        const statusIds = [
+            "databaseStatus",
+            "apiStatus",
+            "storageStatus"
+        ];
 
 
-        return icons[type] || icons.default;
-    }
+        statusIds.forEach(function (id) {
+
+            const element =
+                document.getElementById(id);
 
 
-    /*
-    =====================================================
-    ACTIVITY STATUS
-    =====================================================
-    */
-
-    function getActivityStatusClass(status) {
-
-        const classes = {
-
-            success: "admin-status-success",
-
-            warning: "admin-status-warning",
-
-            danger: "admin-status-danger",
-
-            info: "admin-status-info"
-
-        };
+            if (!element) {
+                return;
+            }
 
 
-        return classes[status] || "admin-status-info";
-    }
-
-
-    function getActivityStatusLabel(status) {
-
-        const labels = {
-
-            success: "مكتمل",
-
-            warning: "مراجعة مطلوبة",
-
-            danger: "مشكلة",
-
-            info: "معلومات"
-
-        };
-
-
-        return labels[status] || "معلومات";
-    }
-
-
-    /*
-    =====================================================
-    PENDING DEPOSITS
-    =====================================================
-    */
-
-    function renderPendingDeposits() {
-
-        const element =
-            document.getElementById(
-                "pendingDepositsCount"
+            element.classList.remove(
+                "admin-status-success",
+                "admin-status-warning",
+                "admin-status-danger",
+                "admin-status-info"
             );
 
 
-        if (!element) {
-            return;
-        }
-
-
-        const count =
-            Number(
-                DASHBOARD_DATA.pendingDeposits
-            ) || 0;
-
-
-        element.textContent =
-            formatNumber(count);
-
-
-        element.hidden =
-            count <= 0;
+            element.classList.add(
+                "admin-status-info"
+            );
+        });
     }
 
 
     /*
-    =====================================================
+    =========================================================
     NOTIFICATIONS
-    =====================================================
+    =========================================================
     */
 
-    function renderNotifications() {
+    function clearNotificationCount() {
 
         const element =
             document.getElementById(
@@ -526,62 +228,23 @@ DASHBOARD
         }
 
 
-        const count =
-            Number(
-                DASHBOARD_DATA.notifications
-            ) || 0;
+        element.textContent = "";
 
-
-        element.textContent =
-            formatNumber(count);
-
-
-        /*
-        إذا كان العنصر يدعم hidden،
-        نخفيه عندما لا توجد إشعارات.
-        */
-
-        if ("hidden" in element) {
-            element.hidden = count <= 0;
-        }
+        element.hidden = true;
     }
 
 
     /*
-    =====================================================
-    SERVICES STATUS
-    =====================================================
+    =========================================================
+    PENDING DEPOSITS
+    =========================================================
     */
 
-    function updateServicesStatus() {
-
-        updateService(
-            "databaseStatus",
-            DASHBOARD_DATA.services.database
-        );
-
-
-        updateService(
-            "apiStatus",
-            DASHBOARD_DATA.services.api
-        );
-
-
-        updateService(
-            "storageStatus",
-            DASHBOARD_DATA.services.storage
-        );
-    }
-
-
-    function updateService(
-        elementId,
-        service
-    ) {
+    function clearPendingDeposits() {
 
         const element =
             document.getElementById(
-                elementId
+                "pendingDepositsCount"
             );
 
 
@@ -590,58 +253,23 @@ DASHBOARD
         }
 
 
-        element.textContent =
-            service.label;
+        element.textContent = "";
 
-
-        element.classList.remove(
-            "admin-status-success",
-            "admin-status-warning",
-            "admin-status-danger",
-            "admin-status-info"
-        );
-
-
-        const statusClass =
-            getServiceStatusClass(
-                service.status
-            );
-
-
-        element.classList.add(
-            statusClass
-        );
-    }
-
-
-    function getServiceStatusClass(status) {
-
-        const classes = {
-
-            operational:
-                "admin-status-success",
-
-            warning:
-                "admin-status-warning",
-
-            down:
-                "admin-status-danger",
-
-            info:
-                "admin-status-info"
-
-        };
-
-
-        return classes[status] ||
-            "admin-status-info";
+        element.hidden = true;
     }
 
 
     /*
-    =====================================================
-    REFRESH BUTTON
-    =====================================================
+    =========================================================
+    REFRESH
+    =========================================================
+
+    حاليًا زر التحديث لا يجلب بيانات،
+    لأنه لا يوجد API متصل بعد.
+
+    عندما نصل لمرحلة الربط:
+    سيتم وضع fetch / API هنا.
+    =========================================================
     */
 
     function setupRefreshButton() {
@@ -661,71 +289,21 @@ DASHBOARD
             "click",
             function () {
 
-                if (
-                    button.dataset.refreshing ===
-                    "true"
-                ) {
-                    return;
-                }
-
-
-                button.dataset.refreshing =
-                    "true";
-
-
-                const originalHTML =
-                    button.innerHTML;
-
-
-                button.disabled = true;
-
-
-                button.innerHTML = `
-                    <span
-                        aria-hidden="true"
-                        style="display:inline-block;"
-                    >
-                        ↻
-                    </span>
-                    جارٍ التحديث...
-                `;
-
-
                 /*
-                Demo mode:
-                لا يوجد API حاليًا،
-                لذلك نعيد رسم البيانات فقط.
+                لا نقوم بتوليد بيانات وهمية.
+                فقط نعيد الحالة الفارغة الحالية.
                 */
 
-                window.setTimeout(
-                    function () {
-
-                        renderDashboard();
-
-
-                        button.innerHTML =
-                            originalHTML;
-
-
-                        button.disabled =
-                            false;
-
-
-                        button.dataset.refreshing =
-                            "false";
-
-                    },
-                    350
-                );
+                clearDashboardData();
             }
         );
     }
 
 
     /*
-    =====================================================
+    =========================================================
     VIEW ALL ACTIVITY
-    =====================================================
+    =========================================================
     */
 
     function setupActivityButton() {
@@ -762,43 +340,9 @@ DASHBOARD
 
 
     /*
-    =====================================================
-    EMPTY STATE
-    =====================================================
-    */
-
-    function createEmptyState(
-        title,
-        description
-    ) {
-
-        return `
-            <div class="admin-empty">
-
-                <div
-                    class="admin-empty-icon"
-                    aria-hidden="true"
-                >
-                    ◌
-                </div>
-
-                <h3 class="admin-empty-title">
-                    ${escapeHTML(title)}
-                </h3>
-
-                <p class="admin-empty-description">
-                    ${escapeHTML(description)}
-                </p>
-
-            </div>
-        `;
-    }
-
-
-    /*
-    =====================================================
-    DOM HELPERS
-    =====================================================
+    =========================================================
+    HELPER
+    =========================================================
     */
 
     function setText(
@@ -820,40 +364,5 @@ DASHBOARD
         element.textContent =
             value ?? "";
     }
-
-
-    function formatNumber(value) {
-
-        const number =
-            Number(value);
-
-
-        if (!Number.isFinite(number)) {
-            return "0";
-        }
-
-
-        return new Intl.NumberFormat(
-            "en-US"
-        ).format(number);
-    }
-
-
-    /*
-    =====================================================
-    SECURITY
-    =====================================================
-    */
-
-    function escapeHTML(value) {
-
-        return String(value ?? "")
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-    }
-
 
 })();
