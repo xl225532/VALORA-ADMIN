@@ -1,6 +1,6 @@
 /* =========================================================
-   VALORA ADMIN — USER DETAILS JS
-   ========================================================= */
+   VALORA ADMIN — USER DETAILS
+========================================================= */
 
 (function () {
 
@@ -43,13 +43,16 @@ function initUserDetails() {
         getUserIdFromURL();
 
 
+
     loadUserDetails();
 
 
-    setupBalanceEdit();
+
+    createBalanceEditor();
 
 
 }
+
 
 
 
@@ -80,36 +83,27 @@ function getUserIdFromURL() {
 
 
 /* =========================================================
-   LOAD USER
+   DEMO USER DATA
 ========================================================= */
 
 
 function loadUserDetails() {
 
 
-    /*
-        لاحقًا هنا API
-
-        fetch(
-          "/api/users/" + id
-        )
-
-    */
-
 
     const demoUser = {
 
 
         id:
-            userDetailsState.id || "—",
+            userDetailsState.id || "1001",
 
 
         name:
-            "مستخدم جديد",
+            "أحمد محمد",
 
 
         email:
-            "user@example.com",
+            "ahmed@test.com",
 
 
         status:
@@ -121,7 +115,7 @@ function loadUserDetails() {
 
 
         deposits:
-            1000,
+            1200,
 
 
         withdrawals:
@@ -129,17 +123,102 @@ function loadUserDetails() {
 
 
         profits:
-            150,
+            350,
 
 
         transactions:
-            12,
+            18,
+
+
+
+        created_at:
+            "2026-01-01",
+
 
 
         referrals:
-            []
+
+        [
+
+            {
+
+                id:"1002",
+
+                name:"محمد علي",
+
+                email:"mohamed@test.com",
+
+                balance:300,
+
+                created_at:"2026-02-01",
+
+                status:"active"
+
+            },
+
+
+            {
+
+                id:"1003",
+
+                name:"سارة أحمد",
+
+                email:"sara@test.com",
+
+                balance:700,
+
+                created_at:"2026-02-05",
+
+                status:"active"
+
+            }
+
+
+        ],
+
+
+
+        operations:
+
+        [
+
+            {
+
+                type:"إيداع",
+
+                amount:500,
+
+                status:"مكتمل",
+
+                date:"2026-02-01",
+
+                id:"TX10001"
+
+            },
+
+
+            {
+
+                type:"ربح",
+
+                amount:150,
+
+                status:"مكتمل",
+
+                date:"2026-02-10",
+
+                id:"TX10002"
+
+            }
+
+
+        ]
+
+
 
     };
+
+
 
 
 
@@ -159,6 +238,8 @@ function loadUserDetails() {
 
 
 
+
+
 /* =========================================================
    RENDER USER
 ========================================================= */
@@ -173,16 +254,19 @@ function renderUser(user) {
     );
 
 
+
     setText(
         "userEmail",
         user.email
     );
 
 
+
     setText(
         "userId",
-        "#" + user.id
+        "UID #" + user.id
     );
+
 
 
     setText(
@@ -191,10 +275,12 @@ function renderUser(user) {
     );
 
 
+
     setText(
         "userDeposits",
         formatMoney(user.deposits)
     );
+
 
 
     setText(
@@ -203,46 +289,12 @@ function renderUser(user) {
     );
 
 
+
     setText(
         "userTransactions",
         user.transactions
     );
 
-
-    setText(
-        "detailFullName",
-        user.name
-    );
-
-
-    setText(
-        "detailEmail",
-        user.email
-    );
-
-
-    setText(
-        "detailUserId",
-        user.id
-    );
-
-
-    setText(
-        "detailVerification",
-        "غير متحقق"
-    );
-
-
-    setText(
-        "emailVerified",
-        "نعم"
-    );
-
-
-    setText(
-        "twoFactorStatus",
-        "غير مفعل"
-    );
 
 
     setText(
@@ -252,19 +304,76 @@ function renderUser(user) {
 
 
 
+    setText(
+        "detailFullName",
+        user.name
+    );
+
+
+
+    setText(
+        "detailEmail",
+        user.email
+    );
+
+
+
+    setText(
+        "detailUserId",
+        user.id
+    );
+
+
+
+    setText(
+        "detailCreatedAt",
+        user.created_at
+    );
+
+
+
+    setText(
+        "detailVerification",
+        "موثق"
+    );
+
+
+
+    setText(
+        "userStatus",
+        "نشط"
+    );
+
+
+
+    setText(
+        "emailVerified",
+        "نعم"
+    );
+
+
+
+    setText(
+        "twoFactorStatus",
+        "غير مفعل"
+    );
+
+
+
     renderReferrals(
         user.referrals
     );
 
 
+
+    renderTransactions(
+        user.operations
+    );
+
+
 }
-
-
-
-
-
-/* =========================================================
-   REFERRALS
+ /* =========================================================
+   REFERRALS TABLE
 ========================================================= */
 
 
@@ -284,6 +393,7 @@ function renderReferrals(
     }
 
 
+
     body.innerHTML = "";
 
 
@@ -300,7 +410,7 @@ function renderReferrals(
 
 
     referrals.forEach(
-        function (person) {
+        function(person){
 
 
             const row =
@@ -309,11 +419,21 @@ function renderReferrals(
                 );
 
 
+
             row.innerHTML = `
 
-
 <td>
+
+<strong>
 ${escapeHTML(person.name)}
+</strong>
+
+<br>
+
+<small>
+${escapeHTML(person.email)}
+</small>
+
 </td>
 
 
@@ -335,16 +455,20 @@ ${escapeHTML(person.created_at)}
 <td>
 
 <a
+
 href="user-details.html?id=${encodeURIComponent(person.id)}"
+
 class="user-view-button"
+
 >
 عرض
 </a>
 
+
 </td>
 
-
 `;
+
 
 
             body.appendChild(row);
@@ -362,76 +486,79 @@ class="user-view-button"
 
 
 
+
 /* =========================================================
-   BALANCE EDIT
+   TRANSACTIONS TABLE
 ========================================================= */
 
 
-function setupBalanceEdit() {
+function renderTransactions(
+    operations
+) {
 
 
-    const button =
+    const body =
         document.getElementById(
-            "addBalanceButton"
+            "userTransactionsBody"
         );
 
 
-    if (!button) {
+    if (!body) {
+
         return;
+
     }
 
 
 
-
-    button.addEventListener(
-        "click",
-        function () {
-
-
-            const input =
-                document.getElementById(
-                    "balanceAmount"
-                );
-
-
-            if (!input) {
-                return;
-            }
+    body.innerHTML = "";
 
 
 
-            const amount =
-                Number(
-                    input.value
+    operations.forEach(
+        function(item){
+
+
+
+            const row =
+                document.createElement(
+                    "tr"
                 );
 
 
 
-            if (
-                isNaN(amount)
-                ||
-                amount <= 0
-            ) {
+            row.innerHTML = `
 
-                return;
-
-            }
+<td>
+${escapeHTML(item.type)}
+</td>
 
 
-
-            userDetailsState.user.balance += amount;
-
-
-
-            setText(
-                "userBalance",
-                formatMoney(
-                    userDetailsState.user.balance
-                )
-            );
+<td>
+${formatMoney(item.amount)}
+</td>
 
 
-            input.value = "";
+<td>
+${escapeHTML(item.status)}
+</td>
+
+
+<td>
+${escapeHTML(item.date)}
+</td>
+
+
+<td>
+${escapeHTML(item.id)}
+</td>
+
+`;
+
+
+
+            body.appendChild(row);
+
 
 
         }
@@ -446,6 +573,194 @@ function setupBalanceEdit() {
 
 
 /* =========================================================
+   BALANCE EDITOR
+========================================================= */
+
+
+function createBalanceEditor(){
+
+
+    const container =
+        document.querySelector(
+            ".user-details-stats-grid"
+        );
+
+
+
+    if(!container){
+
+        return;
+
+    }
+
+
+
+    const box =
+        document.createElement(
+            "section"
+        );
+
+
+    box.className =
+        "admin-card";
+
+
+
+    box.style.marginTop =
+        "20px";
+
+
+
+    box.innerHTML = `
+
+<div class="admin-card-header">
+
+<h2 class="admin-card-title">
+
+تعديل الرصيد يدوياً
+
+</h2>
+
+</div>
+
+
+<div class="admin-card-body">
+
+
+<div style="display:flex;gap:10px;align-items:center">
+
+
+<input
+
+id="balanceAmount"
+
+type="number"
+
+placeholder="أدخل المبلغ"
+
+style="padding:10px;border-radius:8px;border:1px solid #444"
+
+>
+
+
+<button
+
+id="addBalanceButton"
+
+class="admin-btn admin-btn-primary"
+
+>
+
+إضافة
+
+</button>
+
+
+</div>
+
+
+</div>
+
+`;
+
+
+
+    container.after(box);
+
+
+
+    setupBalanceEdit();
+
+
+}
+
+
+
+
+
+
+
+
+function setupBalanceEdit(){
+
+
+    const button =
+        document.getElementById(
+            "addBalanceButton"
+        );
+
+
+    const input =
+        document.getElementById(
+            "balanceAmount"
+        );
+
+
+
+    if(!button || !input){
+
+        return;
+
+    }
+
+
+
+
+    button.addEventListener(
+        "click",
+        function(){
+
+
+            const amount =
+                Number(
+                    input.value
+                );
+
+
+
+            if(
+                !amount ||
+                amount <=0
+            ){
+
+                return;
+
+            }
+
+
+
+            userDetailsState.user.balance += amount;
+
+
+
+            setText(
+
+                "userBalance",
+
+                formatMoney(
+                    userDetailsState.user.balance
+                )
+
+            );
+
+
+
+            input.value="";
+
+
+        }
+    );
+
+
+}
+
+
+
+
+
+
+
+/* =========================================================
    HELPERS
 ========================================================= */
 
@@ -453,16 +768,16 @@ function setupBalanceEdit() {
 function setText(
     id,
     value
-) {
-
+){
 
     const element =
         document.getElementById(id);
 
 
+    if(!element){
 
-    if (!element) {
         return;
+
     }
 
 
@@ -476,40 +791,51 @@ function setText(
 
 
 
+
 function formatMoney(
     value
-) {
-
+){
 
     return (
+
         Number(value || 0)
+
         .toLocaleString()
+
         +
+
         " USDT"
+
     );
 
-
 }
+
 
 
 
 
 function getInitial(
     name
-) {
+){
 
+    if(!name){
 
-    if (!name) {
         return "?";
+
     }
 
 
-    return name
-        .charAt(0)
-        .toUpperCase();
+    return String(name)
+
+    .trim()
+
+    .charAt(0)
+
+    .toUpperCase();
 
 
 }
+
 
 
 
@@ -517,35 +843,19 @@ function getInitial(
 
 function escapeHTML(
     value
-) {
-
+){
 
     return String(value ?? "")
 
-        .replace(
-            /&/g,
-            "&amp;"
-        )
+    .replace(/&/g,"&amp;")
 
-        .replace(
-            /</g,
-            "&lt;"
-        )
+    .replace(/</g,"&lt;")
 
-        .replace(
-            />/g,
-            "&gt;"
-        )
+    .replace(/>/g,"&gt;")
 
-        .replace(
-            /"/g,
-            "&quot;"
-        )
+    .replace(/"/g,"&quot;")
 
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+    .replace(/'/g,"&#039;");
 
 
 }
@@ -554,4 +864,4 @@ function escapeHTML(
 
 
 
-})();
+})();  
