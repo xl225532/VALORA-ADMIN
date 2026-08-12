@@ -1,631 +1,829 @@
 /* =========================================================
-   VALORA ADMIN — USER DETAILS
-   ========================================================= */
-
-"use strict";
-
-
-/* =========================================================
-   CONFIG
+   VALORA ADMIN
+   USER DETAILS
 ========================================================= */
 
-// غيّر هذا المسار فقط إذا كان API المستخدمين لديك في مسار مختلف.
-const USER_DETAILS_API = "/api/users";
+(function () {
 
+    "use strict";
 
-/* =========================================================
-   HELPERS
-========================================================= */
 
-function getUserId() {
-    const params = new URLSearchParams(window.location.search);
+    /* =====================================================
+       CONFIG
+    ===================================================== */
 
-    return (
-        params.get("id") ||
-        params.get("userId") ||
-        params.get("user_id")
-    );
-}
+    const API_BASE_URL = "";
 
+    const USER_API_ENDPOINT = "/api/users";
 
-function setText(id, value) {
-    const element = document.getElementById(id);
 
-    if (!element) return;
+    /* =====================================================
+       HELPERS
+    ===================================================== */
 
-    element.textContent =
-        value === null ||
-        value === undefined ||
-        value === ""
-            ? "—"
-            : String(value);
-}
+    function getUserId() {
 
+        const params = new URLSearchParams(window.location.search);
 
-function formatNumber(value) {
-    const number = Number(value);
-
-    if (!Number.isFinite(number)) {
-        return "—";
-    }
-
-    return new Intl.NumberFormat("ar-SA", {
-        maximumFractionDigits: 2
-    }).format(number);
-}
-
-
-function formatDate(value) {
-    if (!value) {
-        return "—";
-    }
-
-    const date = new Date(value);
-
-    if (Number.isNaN(date.getTime())) {
-        return value;
-    }
-
-    return new Intl.DateTimeFormat("ar-SA", {
-        dateStyle: "medium",
-        timeStyle: "short"
-    }).format(date);
-}
-
-
-function getInitials(name) {
-    if (!name) {
-        return "—";
-    }
-
-    const words = String(name)
-        .trim()
-        .split(/\s+/)
-        .filter(Boolean);
-
-    if (!words.length) {
-        return "—";
-    }
-
-    if (words.length === 1) {
-        return words[0].charAt(0).toUpperCase();
-    }
-
-    return (
-        words[0].charAt(0) +
-        words[words.length - 1].charAt(0)
-    ).toUpperCase();
-}
-
-
-/* =========================================================
-   STATUS
-========================================================= */
-
-function setUserStatus(status) {
-    const element = document.getElementById("userStatus");
-
-    if (!element) return;
-
-    const value = String(status || "")
-        .toLowerCase()
-        .trim();
-
-    element.className = "user-status";
-
-    if (
-        value === "active" ||
-        value === "enabled" ||
-        value === "verified"
-    ) {
-        element.classList.add("success");
-        element.textContent = "نشط";
-        return;
-    }
-
-    if (
-        value === "blocked" ||
-        value === "banned" ||
-        value === "disabled"
-    ) {
-        element.classList.add("danger");
-        element.textContent = "محظور";
-        return;
-    }
-
-    if (
-        value === "pending" ||
-        value === "pending_verification"
-    ) {
-        element.classList.add("warning");
-        element.textContent = "قيد المراجعة";
-        return;
-    }
-
-    element.classList.add("info");
-
-    element.textContent =
-        status || "غير معروف";
-}
-
-
-/* =========================================================
-   BOOLEAN STATUS
-========================================================= */
-
-function formatBoolean(value) {
-    if (
-        value === true ||
-        value === 1 ||
-        value === "1" ||
-        value === "true"
-    ) {
-        return "مفعّل";
-    }
-
-    if (
-        value === false ||
-        value === 0 ||
-        value === "0" ||
-        value === "false"
-    ) {
-        return "غير مفعّل";
-    }
-
-    return "—";
-}
-
-
-/* =========================================================
-   RENDER USER
-========================================================= */
-
-function renderUser(user) {
-
-    const name =
-        user.name ||
-        user.full_name ||
-        user.fullName ||
-        "—";
-
-    const email =
-        user.email ||
-        "—";
-
-    const id =
-        user.id ||
-        user.user_id ||
-        user.userId ||
-        "—";
-
-
-    /* Profile */
-
-    setText("userAvatar", getInitials(name));
-    setText("userName", name);
-    setText("userEmail", email);
-    setText("userId", id);
-
-    setUserStatus(
-        user.status ||
-        user.account_status
-    );
-
-
-    /* Statistics */
-
-    setText(
-        "userBalance",
-        formatNumber(
-            user.balance ??
-            user.current_balance
-        )
-    );
-
-    setText(
-        "userDeposits",
-        formatNumber(
-            user.total_deposits ??
-            user.deposits
-        )
-    );
-
-    setText(
-        "userWithdrawals",
-        formatNumber(
-            user.total_withdrawals ??
-            user.withdrawals
-        )
-    );
-
-    setText(
-        "userTransactions",
-        user.transaction_count ??
-        user.transactions_count ??
-        user.transactions?.length
-    );
-
-
-    /* Account information */
-
-    setText(
-        "detailFullName",
-        name
-    );
-
-    setText(
-        "detailEmail",
-        email
-    );
-
-    setText(
-        "detailUserId",
-        id
-    );
-
-    setText(
-        "detailCreatedAt",
-        formatDate(
-            user.created_at ||
-            user.createdAt ||
-            user.registration_date
-        )
-    );
-
-    setText(
-        "detailLastActivity",
-        formatDate(
-            user.last_activity ||
-            user.lastActivity
-        )
-    );
-
-    setText(
-        "detailVerification",
-        formatBoolean(
-            user.verified ??
-            user.is_verified ??
-            user.email_verified
-        )
-    );
-
-
-    /* Security */
-
-    setText(
-        "emailVerified",
-        formatBoolean(
-            user.email_verified ??
-            user.emailVerified
-        )
-    );
-
-    setText(
-        "twoFactorStatus",
-        formatBoolean(
-            user.two_factor_enabled ??
-            user.twoFactorEnabled ??
-            user.two_factor
-        )
-    );
-
-    setText(
-        "lastLogin",
-        formatDate(
-            user.last_login ||
-            user.lastLogin
-        )
-    );
-
-    setText(
-        "lastIp",
-        user.last_ip ||
-        user.lastIp
-    );
-
-
-    /* Transactions */
-
-    renderTransactions(
-        user.transactions ||
-        user.recent_transactions ||
-        []
-    );
-
-
-    /* Activity */
-
-    renderActivity(
-        user.activity ||
-        user.activities ||
-        []
-    );
-}
-
-
-/* =========================================================
-   TRANSACTIONS
-========================================================= */
-
-function renderTransactions(transactions) {
-
-    const body =
-        document.getElementById(
-            "userTransactionsBody"
+        return (
+            params.get("id") ||
+            params.get("userId") ||
+            params.get("user_id")
         );
 
-    const empty =
-        document.getElementById(
-            "userTransactionsEmpty"
-        );
+    }
 
-    if (!body) return;
 
-    body.innerHTML = "";
+    function getElement(id) {
 
-    if (
-        !Array.isArray(transactions) ||
-        transactions.length === 0
-    ) {
-        if (empty) {
-            empty.style.display = "flex";
+        return document.getElementById(id);
+
+    }
+
+
+    function setText(id, value) {
+
+        const element = getElement(id);
+
+        if (!element) {
+            return;
         }
 
-        return;
-    }
+        element.textContent =
+            value !== undefined &&
+            value !== null &&
+            value !== ""
+                ? value
+                : "—";
 
-    if (empty) {
-        empty.style.display = "none";
-    }
-
-
-    transactions.forEach(transaction => {
-
-        const row =
-            document.createElement("tr");
-
-        const type =
-            transaction.type ||
-            transaction.transaction_type ||
-            "—";
-
-        const amount =
-            transaction.amount ?? "—";
-
-        const status =
-            transaction.status ||
-            "—";
-
-        const date =
-            transaction.created_at ||
-            transaction.date;
-
-        const transactionId =
-            transaction.id ||
-            transaction.transaction_id ||
-            "—";
-
-
-        row.innerHTML = `
-            <td>${escapeHtml(type)}</td>
-            <td>${escapeHtml(formatNumber(amount))}</td>
-            <td>${escapeHtml(status)}</td>
-            <td>${escapeHtml(formatDate(date))}</td>
-            <td dir="ltr">${escapeHtml(transactionId)}</td>
-        `;
-
-        body.appendChild(row);
-    });
-}
-
-
-/* =========================================================
-   ACTIVITY
-========================================================= */
-
-function renderActivity(activities) {
-
-    const container =
-        document.getElementById(
-            "userActivityList"
-        );
-
-    if (!container) return;
-
-    container.innerHTML = "";
-
-
-    if (
-        !Array.isArray(activities) ||
-        activities.length === 0
-    ) {
-
-        container.innerHTML = `
-            <div class="user-details-empty">
-
-                <div
-                    class="user-details-empty-icon"
-                    aria-hidden="true"
-                >
-                    ◌
-                </div>
-
-                <h3>
-                    لا توجد بيانات
-                </h3>
-
-                <p>
-                    لا توجد أنشطة مسجلة لهذا المستخدم.
-                </p>
-
-            </div>
-        `;
-
-        return;
     }
 
 
-    activities.forEach(activity => {
+    function escapeHtml(value) {
 
-        const item =
-            document.createElement("div");
+        if (value === undefined || value === null) {
+            return "";
+        }
 
-        item.className =
-            "user-details-activity-item";
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
 
 
-        const title =
-            activity.title ||
-            activity.action ||
-            activity.type ||
-            "نشاط";
+    function formatNumber(value) {
 
-        const description =
-            activity.description ||
+        const number = Number(value);
+
+        if (!Number.isFinite(number)) {
+            return "—";
+        }
+
+        return new Intl.NumberFormat("ar-SA", {
+            maximumFractionDigits: 2
+        }).format(number);
+
+    }
+
+
+    function formatCurrency(value, currency = "USD") {
+
+        const number = Number(value);
+
+        if (!Number.isFinite(number)) {
+            return "—";
+        }
+
+        try {
+
+            return new Intl.NumberFormat("ar-SA", {
+                style: "currency",
+                currency: currency,
+                maximumFractionDigits: 2
+            }).format(number);
+
+        } catch (error) {
+
+            return formatNumber(number) + " " + currency;
+
+        }
+
+    }
+
+
+    function formatDate(value) {
+
+        if (!value) {
+            return "—";
+        }
+
+        const date = new Date(value);
+
+        if (Number.isNaN(date.getTime())) {
+            return value;
+        }
+
+        return new Intl.DateTimeFormat("ar-SA", {
+            dateStyle: "medium",
+            timeStyle: "short"
+        }).format(date);
+
+    }
+
+
+    /* =====================================================
+       STATUS
+    ===================================================== */
+
+    function getStatusText(status) {
+
+        const statuses = {
+
+            active: "نشط",
+
+            pending: "بانتظار التحقق",
+
+            suspended: "موقوف",
+
+            blocked: "محظور",
+
+            inactive: "غير نشط",
+
+            verified: "موثق",
+
+            unverified: "غير موثق"
+
+        };
+
+        return statuses[status] || status || "—";
+
+    }
+
+
+    function getVerificationText(value) {
+
+        if (
+            value === true ||
+            value === 1 ||
+            value === "true" ||
+            value === "verified"
+        ) {
+            return "موثق";
+        }
+
+        if (
+            value === false ||
+            value === 0 ||
+            value === "false" ||
+            value === "unverified"
+        ) {
+            return "غير موثق";
+        }
+
+        return value || "—";
+
+    }
+
+
+    /* =====================================================
+       PROFILE
+    ===================================================== */
+
+    function renderUser(user) {
+
+        if (!user) {
+            return;
+        }
+
+
+        const fullName =
+            user.fullName ||
+            user.name ||
+            (
+                user.firstName || user.lastName
+                    ? `${user.firstName || ""} ${user.lastName || ""}`.trim()
+                    : "—"
+            );
+
+
+        const email =
+            user.email ||
+            user.emailAddress ||
+            "—";
+
+
+        const id =
+            user.id ||
+            user.userId ||
+            user._id ||
+            "—";
+
+
+        const avatar =
+            user.avatar ||
+            user.image ||
+            user.profileImage ||
             "";
 
-        const date =
-            activity.created_at ||
-            activity.date;
+
+        /* =================================================
+           PROFILE IDENTITY
+        ================================================= */
+
+        setText("userName", fullName);
+
+        setText("userEmail", email);
+
+        setText("userId", id);
+
+        setText("detailFullName", fullName);
+
+        setText("detailEmail", email);
+
+        setText("detailUserId", id);
 
 
-        item.innerHTML = `
-            <div>
-                <strong>
-                    ${escapeHtml(title)}
-                </strong>
+        /* =================================================
+           AVATAR
+        ================================================= */
 
-                ${
-                    description
-                        ? `<p>${escapeHtml(description)}</p>`
-                        : ""
-                }
-            </div>
+        const avatarElement =
+            getElement("userAvatar");
 
-            <time>
-                ${escapeHtml(formatDate(date))}
-            </time>
-        `;
+        if (avatarElement) {
 
-        container.appendChild(item);
-    });
-}
+            if (avatar) {
 
+                avatarElement.innerHTML =
+                    `<img src="${escapeHtml(avatar)}" alt="">`;
 
-/* =========================================================
-   HTML SAFETY
-========================================================= */
+            } else {
 
-function escapeHtml(value) {
+                avatarElement.textContent =
+                    fullName !== "—"
+                        ? fullName.charAt(0).toUpperCase()
+                        : "—";
 
-    return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-}
+            }
+
+        }
 
 
-/* =========================================================
-   LOAD USER
-========================================================= */
+        /* =================================================
+           STATUS
+        ================================================= */
 
-async function loadUserDetails() {
+        const statusElement =
+            getElement("userStatus");
 
-    const userId = getUserId();
+        if (statusElement) {
 
-    if (!userId) {
-        console.error(
-            "User ID is missing from the URL."
-        );
+            const status =
+                user.status ||
+                user.accountStatus ||
+                "—";
+
+            statusElement.textContent =
+                getStatusText(status);
+
+            statusElement.dataset.status =
+                status;
+
+        }
+
+
+        /* =================================================
+           BALANCE
+        ================================================= */
+
+        const currency =
+            user.currency ||
+            user.balanceCurrency ||
+            "USD";
+
 
         setText(
-            "userName",
-            "لم يتم تحديد المستخدم"
+            "userBalance",
+            formatCurrency(
+                user.balance,
+                currency
+            )
         );
 
-        return;
+
+        setText(
+            "userDeposits",
+            formatCurrency(
+                user.totalDeposits ??
+                user.deposits,
+                currency
+            )
+        );
+
+
+        setText(
+            "userWithdrawals",
+            formatCurrency(
+                user.totalWithdrawals ??
+                user.withdrawals,
+                currency
+            )
+        );
+
+
+        setText(
+            "userTransactions",
+            formatNumber(
+                user.transactionCount ??
+                user.transactionsCount ??
+                user.transactions?.length
+            )
+        );
+
+
+        /* =================================================
+           ACCOUNT INFORMATION
+        ================================================= */
+
+        setText(
+            "detailCreatedAt",
+            formatDate(
+                user.createdAt ||
+                user.registeredAt ||
+                user.registrationDate
+            )
+        );
+
+
+        setText(
+            "detailLastActivity",
+            formatDate(
+                user.lastActivity ||
+                user.lastActiveAt ||
+                user.updatedAt
+            )
+        );
+
+
+        setText(
+            "detailVerification",
+            getVerificationText(
+                user.verified ??
+                user.isVerified ??
+                user.verificationStatus
+            )
+        );
+
+
+        /* =================================================
+           SECURITY
+        ================================================= */
+
+        setText(
+            "emailVerified",
+            getVerificationText(
+                user.emailVerified ??
+                user.isEmailVerified
+            )
+        );
+
+
+        setText(
+            "twoFactorStatus",
+            (
+                user.twoFactorEnabled ??
+                user.isTwoFactorEnabled
+            )
+                ? "مفعّل"
+                : "غير مفعّل"
+        );
+
+
+        setText(
+            "lastLogin",
+            formatDate(
+                user.lastLogin ||
+                user.lastLoginAt
+            )
+        );
+
+
+        setText(
+            "lastIp",
+            user.lastIp ||
+            user.lastIP ||
+            user.lastLoginIp ||
+            "—"
+        );
+
+
+        /* =================================================
+           TRANSACTIONS
+        ================================================= */
+
+        renderTransactions(
+            user.transactions ||
+            user.recentTransactions ||
+            []
+        );
+
+
+        /* =================================================
+           ACTIVITY
+        ================================================= */
+
+        renderActivity(
+            user.activities ||
+            user.activity ||
+            user.activityLog ||
+            []
+        );
+
     }
 
 
-    try {
+    /* =====================================================
+       TRANSACTIONS
+    ===================================================== */
 
-        const response =
-            await fetch(
-                `${USER_DETAILS_API}/${encodeURIComponent(userId)}`,
-                {
-                    method: "GET",
-                    headers: {
-                        "Accept": "application/json"
-                    },
-                    credentials: "include"
-                }
-            );
+    function renderTransactions(transactions) {
+
+        const body =
+            getElement("userTransactionsBody");
+
+        const empty =
+            getElement("userTransactionsEmpty");
 
 
-        if (!response.ok) {
-            throw new Error(
-                `HTTP ${response.status}`
-            );
+        if (!body) {
+            return;
         }
 
 
-        const result =
-            await response.json();
+        body.innerHTML = "";
 
 
-        /*
-         * يدعم:
-         * { user: {...} }
-         * أو
-         * { data: {...} }
-         * أو
-         * {...}
-         */
+        if (
+            !Array.isArray(transactions) ||
+            transactions.length === 0
+        ) {
 
-        const user =
-            result.user ||
-            result.data ||
-            result;
+            if (empty) {
+                empty.style.display = "";
+            }
 
+            return;
 
-        if (!user || typeof user !== "object") {
-            throw new Error(
-                "Invalid user response."
-            );
         }
 
 
-        renderUser(user);
+        if (empty) {
+            empty.style.display = "none";
+        }
 
-    } catch (error) {
 
-        console.error(
-            "Failed to load user details:",
-            error
-        );
+        transactions.forEach(function (transaction) {
 
-        setText(
+            const row =
+                document.createElement("tr");
+
+
+            const type =
+                transaction.type ||
+                transaction.operation ||
+                transaction.transactionType ||
+                "—";
+
+
+            const amount =
+                transaction.amount ??
+                transaction.value;
+
+
+            const status =
+                transaction.status ||
+                "—";
+
+
+            const date =
+                transaction.createdAt ||
+                transaction.date ||
+                transaction.timestamp;
+
+
+            const transactionId =
+                transaction.id ||
+                transaction.transactionId ||
+                transaction._id ||
+                "—";
+
+
+            const currency =
+                transaction.currency ||
+                "USD";
+
+
+            row.innerHTML = `
+
+                <td>
+                    ${escapeHtml(type)}
+                </td>
+
+                <td dir="ltr">
+                    ${escapeHtml(
+                        formatCurrency(
+                            amount,
+                            currency
+                        )
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        getStatusText(status)
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        formatDate(date)
+                    )}
+                </td>
+
+                <td dir="ltr">
+                    ${escapeHtml(
+                        transactionId
+                    )}
+                </td>
+
+            `;
+
+
+            body.appendChild(row);
+
+        });
+
+    }
+
+
+    /* =====================================================
+       ACTIVITY
+    ===================================================== */
+
+    function renderActivity(activities) {
+
+        const container =
+            getElement("userActivityList");
+
+
+        if (!container) {
+            return;
+        }
+
+
+        if (
+            !Array.isArray(activities) ||
+            activities.length === 0
+        ) {
+
+            return;
+
+        }
+
+
+        container.innerHTML = "";
+
+
+        activities.forEach(function (activity) {
+
+            const item =
+                document.createElement("div");
+
+            item.className =
+                "user-details-activity-item";
+
+
+            const title =
+                activity.title ||
+                activity.action ||
+                activity.type ||
+                "نشاط";
+
+
+            const description =
+                activity.description ||
+                activity.details ||
+                "";
+
+
+            const date =
+                activity.createdAt ||
+                activity.date ||
+                activity.timestamp;
+
+
+            item.innerHTML = `
+
+                <div
+                    class="user-details-activity-content"
+                >
+
+                    <strong>
+                        ${escapeHtml(title)}
+                    </strong>
+
+                    ${
+                        description
+                            ? `
+                                <p>
+                                    ${escapeHtml(description)}
+                                </p>
+                              `
+                            : ""
+                    }
+
+                </div>
+
+                <time>
+                    ${escapeHtml(
+                        formatDate(date)
+                    )}
+                </time>
+
+            `;
+
+
+            container.appendChild(item);
+
+        });
+
+    }
+
+
+    /* =====================================================
+       API
+    ===================================================== */
+
+    async function loadUser() {
+
+        const userId =
+            getUserId();
+
+
+        if (!userId) {
+
+            showError(
+                "لم يتم تحديد رقم المستخدم."
+            );
+
+            return;
+
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_BASE_URL}${USER_API_ENDPOINT}/${encodeURIComponent(userId)}`,
+                    {
+                        method: "GET",
+                        headers: {
+                            "Accept": "application/json"
+                        },
+                        credentials: "include"
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    `HTTP ${response.status}`
+                );
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            const user =
+                data.user ||
+                data.data ||
+                data;
+
+
+            renderUser(user);
+
+
+        } catch (error) {
+
+            console.error(
+                "User details error:",
+                error
+            );
+
+
+            showError(
+                "تعذر تحميل بيانات المستخدم."
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       ERROR
+    ===================================================== */
+
+    function showError(message) {
+
+        const elements = [
+
             "userName",
-            "تعذر تحميل بيانات المستخدم"
-        );
-
-        setText(
             "userEmail",
-            "تحقق من اتصال API"
-        );
+            "userId",
+            "userBalance",
+            "userDeposits",
+            "userWithdrawals",
+            "userTransactions"
+
+        ];
+
+
+        elements.forEach(function (id) {
+
+            setText(id, "—");
+
+        });
+
+
+        const name =
+            getElement("userName");
+
+        if (name) {
+            name.textContent = message;
+        }
+
     }
-}
 
 
-/* =========================================================
-   INITIALIZE
-========================================================= */
+    /* =====================================================
+       BACK BUTTON
+    ===================================================== */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-        loadUserDetails();
+    function setupBackButton() {
+
+        const buttons =
+            document.querySelectorAll(
+                'a[href="users.html"]'
+            );
+
+
+        buttons.forEach(function (button) {
+
+            button.addEventListener(
+                "click",
+                function () {
+
+                    if (
+                        window.history.length > 1
+                    ) {
+
+                        // نترك الرابط يعمل بشكل طبيعي
+                        // ولا نمنع الانتقال.
+
+                    }
+
+                }
+            );
+
+        });
+
     }
-);
+
+
+    /* =====================================================
+       INIT
+    ===================================================== */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            setupBackButton();
+
+            loadUser();
+
+        }
+    );
+
+
+})();
