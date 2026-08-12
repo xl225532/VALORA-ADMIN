@@ -1,1017 +1,1019 @@
-/* ==========================================
-   VALORA ADMIN
-   USERS SYSTEM
-========================================== */
-
-"use strict";
-
-
-const VALORA_ADMIN_USERS_KEY =
-    "VALORA_ADMIN_USERS";
+/* =========================================================
+   VALORA ADMIN PANEL
+   GLOBAL LAYOUT
+   Black & Gold
+========================================================= */
 
 
-/* ==========================================
-   إنشاء UID
-========================================== */
+/* =========================================================
+   RESET
+========================================================= */
 
-function generateAdminUID() {
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-    const random =
-        Math.floor(
-            100000 +
-            Math.random() * 900000
+
+/* =========================================================
+   ROOT
+========================================================= */
+
+:root {
+
+    --admin-black: #050505;
+    --admin-dark: #0b0b0b;
+    --admin-card: #111111;
+    --admin-card-light: #151515;
+
+    --admin-gold: #d4af37;
+    --admin-gold-light: #f0d778;
+    --admin-gold-dark: #9b7717;
+
+    --admin-border: rgba(212, 175, 55, 0.18);
+
+    --admin-text: #ffffff;
+    --admin-text-soft: #cfcfcf;
+    --admin-muted: #858585;
+
+    --admin-sidebar-width: 270px;
+
+    --admin-radius: 16px;
+
+}
+
+
+/* =========================================================
+   BODY
+========================================================= */
+
+body {
+
+    margin: 0;
+
+    min-height: 100vh;
+
+    background:
+        radial-gradient(
+            circle at 20% 10%,
+            rgba(212, 175, 55, 0.045),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #050505,
+            #090909
         );
 
-    return "VA" + random;
+    color: var(--admin-text);
+
+    font-family:
+        Arial,
+        Tahoma,
+        sans-serif;
 
 }
 
 
-/* ==========================================
-   إنشاء كود دعوة
-========================================== */
+/* =========================================================
+   MAIN ADMIN LAYOUT
+========================================================= */
 
-function generateReferralCode() {
+.admin-layout {
 
-    const chars =
-        "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    width: 100%;
 
-    let code = "VA";
+    min-height: 100vh;
 
-    for (let i = 0; i < 6; i++) {
-
-        code +=
-            chars[
-                Math.floor(
-                    Math.random() *
-                    chars.length
-                )
-            ];
-
-    }
-
-    return code;
+    display: flex;
 
 }
 
 
-/* ==========================================
-   إنشاء مستخدم
-========================================== */
+/* =========================================================
+   SIDEBAR
+========================================================= */
 
-function createDemoUser() {
+.admin-sidebar {
 
-    return {
+    width: var(--admin-sidebar-width);
 
-        uid:
-            generateAdminUID(),
+    height: 100vh;
 
-        referralCode:
-            generateReferralCode(),
+    position: fixed;
 
-        email:
-            "member@valora.com",
+    top: 0;
 
-        phone:
-            "0500000000",
+    right: 0;
 
-        balance:
-            0,
+    z-index: 1000;
 
-        totalDeposit:
-            0,
-
-        hasDeposit:
-            false,
-
-        invitedCount:
-            0,
-
-        activeMembers:
-            0,
-
-        status:
-            "active",
-
-        verificationStatus:
-            "unverified",
-
-        createdAt:
-            new Date().toISOString(),
-
-        lastLogin:
-            null,
-
-        deposits: [],
-
-        withdrawals: [],
-
-        trades: [],
-
-        profits: [],
-
-        referrals: [],
-
-        messages: [],
-
-        notifications: []
-
-    };
-
-}
-
-
-/* ==========================================
-   جلب المستخدمين
-========================================== */
-
-function getAdminUsers() {
-
-    const saved =
-        localStorage.getItem(
-            VALORA_ADMIN_USERS_KEY
+    background:
+        linear-gradient(
+            180deg,
+            #0d0d0d,
+            #080808
         );
 
+    border-left:
+        1px solid
+        var(--admin-border);
 
-    if (!saved) {
+    display: flex;
 
-        return [];
+    flex-direction: column;
 
-    }
+    overflow-y: auto;
 
-
-    try {
-
-        const users =
-            JSON.parse(saved);
-
-
-        return Array.isArray(users)
-            ? users
-            : [];
-
-    } catch (error) {
-
-        console.error(
-            "خطأ في بيانات المستخدمين:",
-            error
-        );
-
-        return [];
-
-    }
+    overflow-x: hidden;
 
 }
 
 
-/* ==========================================
-   حفظ المستخدمين
-========================================== */
+/* =========================================================
+   SIDEBAR SCROLLBAR
+========================================================= */
 
-function saveAdminUsers(users) {
+.admin-sidebar::-webkit-scrollbar {
 
-    if (!Array.isArray(users)) {
+    width: 5px;
 
-        return false;
+}
 
-    }
+.admin-sidebar::-webkit-scrollbar-track {
+
+    background: #080808;
+
+}
+
+.admin-sidebar::-webkit-scrollbar-thumb {
+
+    background: #3b3014;
+
+    border-radius: 10px;
+
+}
 
 
-    localStorage.setItem(
+/* =========================================================
+   BRAND
+========================================================= */
 
-        VALORA_ADMIN_USERS_KEY,
+.admin-brand {
 
-        JSON.stringify(users)
+    padding: 28px 20px 24px;
 
+    text-align: center;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,0.05);
+
+}
+
+
+.admin-brand-logo {
+
+    width: 58px;
+
+    height: 58px;
+
+    margin: 0 auto 12px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border:
+        1px solid
+        var(--admin-gold);
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(212,175,55,0.14),
+            transparent 70%
+        );
+
+    color: var(--admin-gold);
+
+    font-size: 23px;
+
+    font-weight: 800;
+
+}
+
+
+.admin-brand-title {
+
+    color: var(--admin-gold);
+
+    font-size: 23px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+}
+
+
+.admin-brand-subtitle {
+
+    margin-top: 5px;
+
+    color: var(--admin-muted);
+
+    font-size: 11px;
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.admin-nav {
+
+    padding: 20px 13px;
+
+    flex: 1;
+
+}
+
+
+.admin-nav-title {
+
+    color: #555;
+
+    font-size: 10px;
+
+    padding: 0 12px 10px;
+
+    letter-spacing: 1px;
+
+}
+
+
+/* =========================================================
+   NAV ITEM
+========================================================= */
+
+.admin-nav a {
+
+    width: 100%;
+
+    min-height: 48px;
+
+    margin-bottom: 6px;
+
+    padding: 11px 13px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    border-radius: 11px;
+
+    color: var(--admin-text-soft);
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+
+}
+
+
+.admin-nav a:hover {
+
+    background:
+        rgba(212,175,55,0.08);
+
+    color: var(--admin-gold-light);
+
+}
+
+
+/* =========================================================
+   ACTIVE PAGE
+========================================================= */
+
+.admin-nav a.active {
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--admin-gold),
+            var(--admin-gold-dark)
+        );
+
+    color: #050505;
+
+    font-weight: 700;
+
+    box-shadow:
+        0 7px 20px
+        rgba(212,175,55,0.10);
+
+}
+
+
+.admin-nav a.active:hover {
+
+    color: #050505;
+
+}
+
+
+/* =========================================================
+   NAV ICON
+========================================================= */
+
+.admin-nav-icon {
+
+    width: 25px;
+
+    min-width: 25px;
+
+    height: 25px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 17px;
+
+}
+
+
+/* =========================================================
+   NAV TEXT
+========================================================= */
+
+.admin-nav-text {
+
+    flex: 1;
+
+}
+
+
+/* =========================================================
+   NOTIFICATION COUNT
+========================================================= */
+
+.admin-nav-count {
+
+    min-width: 20px;
+
+    height: 20px;
+
+    padding: 0 6px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 20px;
+
+    background: #25200e;
+
+    color: var(--admin-gold);
+
+    font-size: 10px;
+
+}
+
+
+.admin-nav a.active .admin-nav-count {
+
+    background: rgba(0,0,0,0.18);
+
+    color: #000;
+
+}
+
+
+/* =========================================================
+   SIDEBAR FOOTER
+========================================================= */
+
+.admin-sidebar-footer {
+
+    padding: 15px;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,0.05);
+
+}
+
+
+/* =========================================================
+   ADMIN ACCOUNT
+========================================================= */
+
+.admin-account {
+
+    padding: 11px;
+
+    margin-bottom: 10px;
+
+    border-radius: 11px;
+
+    background: #111;
+
+    border:
+        1px solid
+        rgba(255,255,255,0.05);
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+}
+
+
+.admin-account-avatar {
+
+    width: 35px;
+
+    height: 35px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: var(--admin-gold);
+
+    color: #000;
+
+    font-weight: 800;
+
+    font-size: 13px;
+
+}
+
+
+.admin-account-info {
+
+    overflow: hidden;
+
+}
+
+
+.admin-account-name {
+
+    color: #fff;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+}
+
+
+.admin-account-role {
+
+    margin-top: 3px;
+
+    color: #777;
+
+    font-size: 10px;
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+.admin-logout {
+
+    width: 100%;
+
+    min-height: 43px;
+
+    border: 1px solid
+        rgba(255,255,255,0.07);
+
+    border-radius: 10px;
+
+    background: #121212;
+
+    color: #aaa;
+
+    cursor: pointer;
+
+    font-size: 12px;
+
+    transition: 0.2s;
+
+}
+
+
+.admin-logout:hover {
+
+    background:
+        rgba(220,60,60,0.08);
+
+    border-color:
+        rgba(220,60,60,0.25);
+
+    color: #ff7777;
+
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
+
+.admin-main {
+
+    width: calc(
+        100% - var(--admin-sidebar-width)
     );
 
+    min-height: 100vh;
 
-    return true;
+    margin-right: var(--admin-sidebar-width);
 
-}
-
-
-/* ==========================================
-   إضافة مستخدم
-========================================== */
-
-function addAdminUser(user) {
-
-    if (!user) {
-
-        return false;
-
-    }
-
-
-    const users =
-        getAdminUsers();
-
-
-    const exists =
-        users.some(
-            existing =>
-                existing.uid === user.uid
-        );
-
-
-    if (exists) {
-
-        return false;
-
-    }
-
-
-    users.push(user);
-
-
-    saveAdminUsers(users);
-
-
-    return true;
+    padding: 28px;
 
 }
 
 
-/* ==========================================
-   إنشاء عضو تجريبي
-========================================== */
+/* =========================================================
+   TOP BAR
+========================================================= */
 
-function createFirstDemoUser() {
+.admin-topbar {
 
-    const users =
-        getAdminUsers();
+    min-height: 68px;
 
+    margin-bottom: 25px;
 
-    if (users.length > 0) {
+    padding: 14px 20px;
 
-        return;
+    background:
+        rgba(17,17,17,0.92);
 
-    }
+    border:
+        1px solid
+        var(--admin-border);
 
+    border-radius: var(--admin-radius);
 
-    const demoUser =
-        createDemoUser();
+    display: flex;
 
+    align-items: center;
 
-    addAdminUser(
-        demoUser
-    );
+    justify-content: space-between;
 
-}
-
-
-/* ==========================================
-   البحث عن مستخدم
-========================================== */
-
-function findAdminUser(searchValue) {
-
-    const search =
-        String(searchValue || "")
-            .trim()
-            .toLowerCase();
-
-
-    if (!search) {
-
-        return null;
-
-    }
-
-
-    const users =
-        getAdminUsers();
-
-
-    return users.find(user => {
-
-        return (
-
-            String(user.uid || "")
-                .toLowerCase()
-                .includes(search)
-
-            ||
-
-            String(user.email || "")
-                .toLowerCase()
-                .includes(search)
-
-            ||
-
-            String(user.phone || "")
-                .toLowerCase()
-                .includes(search)
-
-            ||
-
-            String(user.referralCode || "")
-                .toLowerCase()
-                .includes(search)
-
-        );
-
-    }) || null;
+    gap: 20px;
 
 }
 
 
-/* ==========================================
-   تحديث المستخدم
-========================================== */
+/* =========================================================
+   TOPBAR TITLE
+========================================================= */
 
-function updateAdminUser(uid, updates) {
+.admin-topbar-title {
 
-    const users =
-        getAdminUsers();
+    color: #fff;
 
+    font-size: 20px;
 
-    const index =
-        users.findIndex(
-            user =>
-                user.uid === uid
-        );
-
-
-    if (index === -1) {
-
-        return false;
-
-    }
-
-
-    users[index] = {
-
-        ...users[index],
-
-        ...updates
-
-    };
-
-
-    saveAdminUsers(users);
-
-
-    return true;
+    font-weight: 700;
 
 }
 
 
-/* ==========================================
-   إحصائيات المستخدمين
-========================================== */
+.admin-topbar-subtitle {
 
-function getAdminUserStats() {
+    margin-top: 4px;
 
-    const users =
-        getAdminUsers();
+    color: var(--admin-muted);
 
-
-    const totalUsers =
-        users.length;
-
-
-    const activeUsers =
-        users.filter(
-            user =>
-                user.status === "active"
-        ).length;
-
-
-    const depositUsers =
-        users.filter(
-            user =>
-                Number(
-                    user.totalDeposit || 0
-                ) > 0
-        ).length;
-
-
-    const today =
-        new Date()
-            .toISOString()
-            .split("T")[0];
-
-
-    const todayUsers =
-        users.filter(user => {
-
-            return String(
-                user.createdAt || ""
-            ).startsWith(today);
-
-        }).length;
-
-
-    return {
-
-        totalUsers,
-
-        activeUsers,
-
-        depositUsers,
-
-        todayUsers
-
-    };
+    font-size: 11px;
 
 }
 
 
-/* ==========================================
-   أهلية الصفقات
-========================================== */
+/* =========================================================
+   TOPBAR ADMIN BADGE
+========================================================= */
 
-function getUserTradeEligibility(user) {
+.admin-topbar-badge {
 
-    if (!user) {
+    padding: 8px 14px;
 
-        return {
+    border-radius: 30px;
 
-            trade1: false,
-            trade2: false,
-            trade3: false,
-            trade4: false,
-            trade5: false
+    background:
+        rgba(212,175,55,0.10);
 
-        };
+    border:
+        1px solid
+        rgba(212,175,55,0.22);
 
-    }
+    color: var(--admin-gold);
 
+    font-size: 11px;
 
-    const deposit =
-        Number(
-            user.totalDeposit || 0
-        );
-
-
-    const activeMembers =
-        Number(
-            user.activeMembers || 0
-        );
-
-
-    const hasDeposit =
-        deposit > 0;
-
-
-    const has500Deposit =
-        deposit >= 500;
-
-
-    const has20ActiveMembers =
-        activeMembers >= 20;
-
-
-    return {
-
-        trade1:
-            hasDeposit,
-
-        trade2:
-            hasDeposit,
-
-        trade3:
-            hasDeposit,
-
-        trade4:
-            has500Deposit,
-
-        trade5:
-            has20ActiveMembers
-
-    };
+    white-space: nowrap;
 
 }
 
 
-/* ==========================================
-   حماية النص
-========================================== */
+/* =========================================================
+   PAGE CONTAINER
+========================================================= */
 
-function escapeAdminHTML(value) {
+.admin-page {
 
-    return String(value ?? "")
+    width: 100%;
 
-        .replace(
-            /&/g,
-            "&amp;"
-        )
+    max-width: 1600px;
 
-        .replace(
-            /</g,
-            "&lt;"
-        )
-
-        .replace(
-            />/g,
-            "&gt;"
-        )
-
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+    margin: 0 auto;
 
 }
 
 
-/* ==========================================
-   إنشاء صف المستخدم
-========================================== */
+/* =========================================================
+   CARDS
+========================================================= */
 
-function createUserRow(user) {
+.admin-card {
 
-    const row =
-        document.createElement("tr");
+    background:
+        var(--admin-card);
 
+    border:
+        1px solid
+        var(--admin-border);
 
-    const balance =
-        Number(
-            user.balance || 0
-        );
+    border-radius:
+        var(--admin-radius);
 
-
-    const deposit =
-        Number(
-            user.totalDeposit || 0
-        );
-
-
-    const status =
-        user.status === "active";
-
-
-    row.innerHTML = `
-
-        <td>
-
-            <span class="uid">
-
-                ${escapeAdminHTML(
-                    user.uid
-                )}
-
-            </span>
-
-        </td>
-
-
-        <td>
-
-            ${escapeAdminHTML(
-                user.email
-            )}
-
-        </td>
-
-
-        <td>
-
-            ${escapeAdminHTML(
-                user.phone || "-"
-            )}
-
-        </td>
-
-
-        <td>
-
-            ${balance.toFixed(2)}
-
-        </td>
-
-
-        <td>
-
-            ${deposit.toFixed(2)}
-
-        </td>
-
-
-        <td>
-
-            ${Number(
-                user.invitedCount || 0
-            )}
-
-        </td>
-
-
-        <td>
-
-            ${Number(
-                user.activeMembers || 0
-            )}
-
-        </td>
-
-
-        <td>
-
-            <span
-                class="status ${
-                    status
-                        ? "active"
-                        : "blocked"
-                }"
-            >
-
-                ${
-                    status
-                        ? "نشط"
-                        : "محظور"
-                }
-
-            </span>
-
-        </td>
-
-
-        <td>
-
-            <a
-                href="user-details.html?uid=${encodeURIComponent(
-                    user.uid
-                )}"
-                class="view-button"
-            >
-
-                عرض التفاصيل
-
-            </a>
-
-        </td>
-
-    `;
-
-
-    return row;
+    padding: 22px;
 
 }
 
 
-/* ==========================================
-   عرض المستخدمين
-========================================== */
+.admin-card + .admin-card {
 
-function renderAdminUsers(users) {
-
-    const tableBody =
-        document.getElementById(
-            "usersTableBody"
-        );
-
-
-    const count =
-        document.getElementById(
-            "usersCount"
-        );
-
-
-    if (!tableBody) {
-
-        return;
-
-    }
-
-
-    tableBody.innerHTML = "";
-
-
-    if (!users.length) {
-
-        tableBody.innerHTML = `
-
-            <tr>
-
-                <td
-                    colspan="9"
-                    class="empty-row"
-                >
-
-                    لا توجد بيانات مستخدمين
-
-                </td>
-
-            </tr>
-
-        `;
-
-
-        if (count) {
-
-            count.textContent =
-                "0 مستخدم";
-
-        }
-
-
-        return;
-
-    }
-
-
-    users.forEach(user => {
-
-        tableBody.appendChild(
-            createUserRow(user)
-        );
-
-    });
-
-
-    if (count) {
-
-        count.textContent =
-            `${users.length} مستخدم`;
-
-    }
+    margin-top: 20px;
 
 }
 
 
-/* ==========================================
-   تحديث الإحصائيات
-========================================== */
+/* =========================================================
+   CARD HEADER
+========================================================= */
 
-function updateUserStatistics() {
+.admin-card-header {
 
-    const stats =
-        getAdminUserStats();
+    display: flex;
 
+    align-items: center;
 
-    const total =
-        document.getElementById(
-            "totalUsers"
-        );
+    justify-content: space-between;
 
+    gap: 15px;
 
-    const active =
-        document.getElementById(
-            "activeUsers"
-        );
+    margin-bottom: 20px;
 
+    padding-bottom: 15px;
 
-    const deposits =
-        document.getElementById(
-            "depositUsers"
-        );
-
-
-    const today =
-        document.getElementById(
-            "todayUsers"
-        );
-
-
-    if (total) {
-
-        total.textContent =
-            stats.totalUsers;
-
-    }
-
-
-    if (active) {
-
-        active.textContent =
-            stats.activeUsers;
-
-    }
-
-
-    if (deposits) {
-
-        deposits.textContent =
-            stats.depositUsers;
-
-    }
-
-
-    if (today) {
-
-        today.textContent =
-            stats.todayUsers;
-
-    }
+    border-bottom:
+        1px solid
+        rgba(255,255,255,0.05);
 
 }
 
 
-/* ==========================================
-   تحميل الصفحة
-========================================== */
+.admin-card-title {
 
-function loadAdminUsers() {
+    color: var(--admin-gold);
 
-    /*
-        هذه هي النقطة التي كانت ناقصة.
-        إنشاء العضو التجريبي عند أول تشغيل.
-    */
+    font-size: 16px;
 
-    createFirstDemoUser();
-
-
-    const users =
-        getAdminUsers();
-
-
-    renderAdminUsers(
-        users
-    );
-
-
-    updateUserStatistics();
+    font-weight: 700;
 
 }
 
 
-/* ==========================================
-   البحث والفلترة
-========================================== */
+.admin-card-description {
 
-function searchUsers() {
+    margin-top: 4px;
 
-    const searchInput =
-        document.getElementById(
-            "userSearch"
-        );
+    color: var(--admin-muted);
 
-
-    const statusSelect =
-        document.getElementById(
-            "userStatus"
-        );
-
-
-    const search =
-        searchInput
-            ? searchInput.value
-                .trim()
-                .toLowerCase()
-            : "";
-
-
-    const selectedStatus =
-        statusSelect
-            ? statusSelect.value
-            : "all";
-
-
-    const users =
-        getAdminUsers();
-
-
-    const filtered =
-        users.filter(user => {
-
-
-            const matchesSearch =
-
-                !search
-
-                ||
-
-                String(
-                    user.uid || ""
-                )
-                    .toLowerCase()
-                    .includes(search)
-
-                ||
-
-                String(
-                    user.email || ""
-                )
-                    .toLowerCase()
-                    .includes(search)
-
-                ||
-
-                String(
-                    user.phone || ""
-                )
-                    .toLowerCase()
-                    .includes(search)
-
-                ||
-
-                String(
-                    user.referralCode || ""
-                )
-                    .toLowerCase()
-                    .includes(search);
-
-
-            const matchesStatus =
-
-                selectedStatus === "all"
-
-                ||
-
-                user.status ===
-                    selectedStatus;
-
-
-            return (
-                matchesSearch &&
-                matchesStatus
-            );
-
-        });
-
-
-    renderAdminUsers(
-        filtered
-    );
+    font-size: 11px;
 
 }
 
 
-/* ==========================================
-   التشغيل
-========================================== */
+/* =========================================================
+   GRID
+========================================================= */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
+.admin-grid {
 
-        loadAdminUsers();
+    display: grid;
 
+    gap: 18px;
 
-        const searchInput =
-            document.getElementById(
-                "userSearch"
-            );
+}
 
 
-        const statusSelect =
-            document.getElementById(
-                "userStatus"
-            );
+.admin-grid-2 {
+
+    grid-template-columns:
+        repeat(2, minmax(0,1fr));
+
+}
 
 
-        if (searchInput) {
+.admin-grid-3 {
 
-            searchInput.addEventListener(
-                "input",
-                searchUsers
-            );
+    grid-template-columns:
+        repeat(3, minmax(0,1fr));
 
-        }
+}
 
 
-        if (statusSelect) {
+.admin-grid-4 {
 
-            statusSelect.addEventListener(
-                "change",
-                searchUsers
-            );
+    grid-template-columns:
+        repeat(4, minmax(0,1fr));
 
-        }
-
-    }
-);
+}
 
 
-/* ==========================================
-   إتاحة النظام للصفحات الأخرى
-========================================== */
+/* =========================================================
+   STAT CARD
+========================================================= */
 
-window.VALORA_ADMIN_USERS = {
+.admin-stat {
 
-    get:
-        getAdminUsers,
+    background:
+        var(--admin-card);
 
-    save:
-        saveAdminUsers,
+    border:
+        1px solid
+        var(--admin-border);
 
-    add:
-        addAdminUser,
+    border-radius:
+        var(--admin-radius);
 
-    find:
-        findAdminUser,
+    padding: 20px;
 
-    update:
-        updateAdminUser,
+}
 
-    stats:
-        getAdminUserStats,
 
-    tradeEligibility:
-        getUserTradeEligibility,
+.admin-stat-label {
 
-    createDemo:
-        createDemoUser,
+    color: var(--admin-muted);
 
-    createFirstDemo:
-        createFirstDemoUser
+    font-size: 11px;
 
-};
+    margin-bottom: 9px;
+
+}
+
+
+.admin-stat-value {
+
+    color: var(--admin-gold);
+
+    font-size: 26px;
+
+    font-weight: 800;
+
+}
+
+
+/* =========================================================
+   TABLE CONTAINER
+========================================================= */
+
+.admin-table-container {
+
+    width: 100%;
+
+    overflow-x: auto;
+
+    border:
+        1px solid
+        var(--admin-border);
+
+    border-radius:
+        var(--admin-radius);
+
+    background:
+        var(--admin-card);
+
+}
+
+
+.admin-table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 800px;
+
+}
+
+
+.admin-table th {
+
+    padding: 15px;
+
+    background:
+        #171717;
+
+    color:
+        var(--admin-gold);
+
+    text-align: right;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+
+}
+
+
+.admin-table td {
+
+    padding: 14px 15px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,0.05);
+
+    color: #d0d0d0;
+
+    font-size: 12px;
+
+    white-space: nowrap;
+
+}
+
+
+.admin-table tbody tr:hover {
+
+    background:
+        rgba(212,175,55,0.025);
+
+}
+
+
+.admin-table tbody tr:last-child td {
+
+    border-bottom: none;
+
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.admin-button {
+
+    min-height: 40px;
+
+    padding: 0 16px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--admin-gold),
+            var(--admin-gold-dark)
+        );
+
+    color: #000;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+}
+
+
+.admin-button:hover {
+
+    opacity: 0.88;
+
+}
+
+
+.admin-button-secondary {
+
+    background: #181818;
+
+    border:
+        1px solid
+        rgba(255,255,255,0.08);
+
+    color: #ccc;
+
+}
+
+
+/* =========================================================
+   MOBILE MENU BUTTON
+========================================================= */
+
+.admin-mobile-menu {
+
+    display: none;
+
+    width: 42px;
+
+    height: 42px;
+
+    border: 1px solid
+        var(--admin-border);
+
+    border-radius: 10px;
+
+    background: #111;
+
+    color: var(--admin-gold);
+
+    cursor: pointer;
+
+    font-size: 19px;
+
+}
+
+
+/* =========================================================
+   SIDEBAR OVERLAY
+========================================================= */
+
+.admin-overlay {
+
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 900;
+
+    background:
+        rgba(0,0,0,0.65);
+
+    backdrop-filter:
+        blur(2px);
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    :root {
+
+        --admin-sidebar-width: 
