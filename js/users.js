@@ -384,9 +384,6 @@
             const data =
                 await response.json();
 
-            /*
-             * دعم أكثر من شكل للاستجابة
-             */
 
             if (Array.isArray(data)) {
 
@@ -409,6 +406,7 @@
                 allUsers = [];
 
             }
+
 
             updateStatistics();
 
@@ -616,10 +614,11 @@
         const lastActivity =
             getLastActivity(user);
 
+        const detailsUrl =
+            getUserDetailsUrl(user);
+
 
         row.innerHTML = `
-
-            <!-- USER -->
 
             <td>
 
@@ -653,16 +652,12 @@
             </td>
 
 
-            <!-- USER ID -->
-
             <td dir="ltr">
 
                 ${escapeHtml(userId || "—")}
 
             </td>
 
-
-            <!-- STATUS -->
 
             <td>
 
@@ -678,8 +673,6 @@
 
             </td>
 
-
-            <!-- VERIFICATION -->
 
             <td>
 
@@ -700,3 +693,391 @@
                 </span>
 
             </td>
+
+
+            <td dir="ltr">
+
+                ${formatCurrency(
+                    balance
+                )}
+
+            </td>
+
+
+            <td>
+
+                ${formatDate(
+                    createdAt
+                )}
+
+            </td>
+
+
+            <td>
+
+                ${formatDate(
+                    lastActivity
+                )}
+
+            </td>
+
+
+            <td>
+
+                <a
+                    href="${escapeHtml(detailsUrl)}"
+                    class="admin-btn admin-btn-secondary users-details-button"
+                    aria-label="عرض تفاصيل ${escapeHtml(name)}"
+                >
+                    تفاصيل المستخدم
+                </a>
+
+            </td>
+
+        `;
+
+
+        return row;
+
+    }
+
+
+    /* =====================================================
+       STATISTICS
+    ===================================================== */
+
+    function updateStatistics() {
+
+        const total =
+            allUsers.length;
+
+        const active =
+            allUsers.filter(function (user) {
+
+                return (
+                    getUserStatus(user) ===
+                    "active"
+                );
+
+            }).length;
+
+        const pending =
+            allUsers.filter(function (user) {
+
+                return (
+                    getUserStatus(user) ===
+                    "pending"
+                );
+
+            }).length;
+
+        const suspended =
+            allUsers.filter(function (user) {
+
+                const status =
+                    getUserStatus(user);
+
+                return (
+                    status === "suspended" ||
+                    status === "blocked"
+                );
+
+            }).length;
+
+
+        if (totalUsersElement) {
+
+            totalUsersElement.textContent =
+                formatNumber(total);
+
+        }
+
+        if (activeUsersElement) {
+
+            activeUsersElement.textContent =
+                formatNumber(active);
+
+        }
+
+        if (pendingUsersElement) {
+
+            pendingUsersElement.textContent =
+                formatNumber(pending);
+
+        }
+
+        if (suspendedUsersElement) {
+
+            suspendedUsersElement.textContent =
+                formatNumber(suspended);
+
+        }
+
+    }
+   /* =====================================================
+   PAGINATION
+===================================================== */
+
+function renderPagination() {
+
+    if (!pagination) {
+        return;
+    }
+
+
+    const totalPages =
+        Math.ceil(
+            filteredUsers.length /
+            usersPerPage
+        );
+
+
+    if (totalPages <= 1) {
+
+        pagination.hidden = true;
+
+        return;
+
+    }
+
+
+    pagination.hidden = false;
+
+
+    if (paginationInfo) {
+
+        paginationInfo.textContent =
+            `صفحة ${currentPage} من ${totalPages}`;
+
+    }
+
+
+    if (paginationButtons) {
+
+        paginationButtons.innerHTML = "";
+
+
+        for (
+            let page = 1;
+            page <= totalPages;
+            page++
+        ) {
+
+            const button =
+                document.createElement("button");
+
+
+            button.type = "button";
+
+            button.className =
+                "users-page-button";
+
+
+            if (
+                page === currentPage
+            ) {
+
+                button.classList.add(
+                    "active"
+                );
+
+            }
+
+
+            button.textContent =
+                page;
+
+
+            button.addEventListener(
+                "click",
+                function () {
+
+                    currentPage = page;
+
+                    renderUsers();
+
+                }
+            );
+
+
+            paginationButtons.appendChild(
+                button
+            );
+
+        }
+
+    }
+
+}
+
+
+/* =====================================================
+   EMPTY STATE
+===================================================== */
+
+function showEmptyState(
+    title = "لا توجد بيانات مستخدمين",
+    message = "لا توجد بيانات مستخدمين متاحة حاليًا."
+) {
+
+    if (!emptyState) {
+        return;
+    }
+
+
+    const heading =
+        emptyState.querySelector("h3");
+
+    const paragraph =
+        emptyState.querySelector("p");
+
+
+    if (heading) {
+
+        heading.textContent =
+            title;
+
+    }
+
+
+    if (paragraph) {
+
+        paragraph.textContent =
+            message;
+
+    }
+
+
+    emptyState.style.display =
+        "flex";
+
+}
+
+
+
+function hideEmptyState() {
+
+    if (!emptyState) {
+        return;
+    }
+
+
+    emptyState.style.display =
+        "none";
+
+}
+
+
+/* =====================================================
+   LOADING
+===================================================== */
+
+function setLoadingState(
+    loading
+) {
+
+    if (!tableBody) {
+        return;
+    }
+
+
+    if (loading) {
+
+        tableBody.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="8"
+                    style="text-align:center"
+                >
+
+                    جاري تحميل المستخدمين...
+
+                </td>
+
+            </tr>
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   EVENTS
+===================================================== */
+
+
+if (searchInput) {
+
+    searchInput.addEventListener(
+        "input",
+        function () {
+
+            applyFilters();
+
+        }
+    );
+
+}
+
+
+if (statusFilter) {
+
+    statusFilter.addEventListener(
+        "change",
+        function () {
+
+            applyFilters();
+
+        }
+    );
+
+}
+
+
+if (verificationFilter) {
+
+    verificationFilter.addEventListener(
+        "change",
+        function () {
+
+            applyFilters();
+
+        }
+    );
+
+}
+
+
+if (refreshButton) {
+
+    refreshButton.addEventListener(
+        "click",
+        function () {
+
+            loadUsers();
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   START
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        loadUsers();
+
+    }
+);
+
+
+})();
