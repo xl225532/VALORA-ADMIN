@@ -1,11 +1,12 @@
 /* =========================================================
-   VALORA ADMIN — DEPOSITS JS
-   واجهة تجريبية مؤقتة — جاهزة للربط مع API لاحقًا
+   VALORA ADMIN — DEPOSITS
+   واجهة الإيداعات — جاهزة للربط مع API لاحقًا
 ========================================================= */
 
 (function () {
 
     "use strict";
+
 
     document.addEventListener(
         "DOMContentLoaded",
@@ -14,272 +15,241 @@
 
 
     /* =====================================================
+       STATE
+    ===================================================== */
+
+    const depositsState = {
+
+        deposits: [],
+
+        search: "",
+
+        period: "all"
+
+    };
+
+
+    /* =====================================================
        INIT
     ===================================================== */
 
     function initDeposits() {
 
-        renderDeposits();
+        setupEvents();
+
+        render();
 
     }
 
 
     /* =====================================================
-       DEMO DATA
-       سيتم حذفها عند ربط قاعدة البيانات الحقيقية
+       EVENTS
     ===================================================== */
 
-    const demoDeposits = [
+    function setupEvents() {
 
-        {
-            user: "—",
-            uid: "—",
-            amount: 0,
-            network: "—",
-            txid: "—",
-            date: "لا توجد إيداعات",
-            status: "—"
+        const search =
+            document.getElementById(
+                "depositSearch"
+            );
+
+
+        const period =
+            document.getElementById(
+                "depositPeriod"
+            );
+
+
+        const refresh =
+            document.getElementById(
+                "refreshDeposits"
+            );
+
+
+        if (search) {
+
+            search.addEventListener(
+                "input",
+                function () {
+
+                    depositsState.search =
+                        this.value
+                            .trim()
+                            .toLowerCase();
+
+                    render();
+
+                }
+            );
+
         }
 
-    ];
+
+        if (period) {
+
+            period.addEventListener(
+                "change",
+                function () {
+
+                    depositsState.period =
+                        this.value;
+
+                    render();
+
+                }
+            );
+
+        }
+
+
+        if (refresh) {
+
+            refresh.addEventListener(
+                "click",
+                function () {
+
+                    render();
+
+                    showRefreshState();
+
+                }
+            );
+
+        }
+
+    }
 
 
     /* =====================================================
        RENDER
     ===================================================== */
 
-    function renderDeposits() {
+    function render() {
 
-        const body =
-            document.getElementById(
-                "depositsBody"
-            );
+        const deposits =
+            getFilteredDeposits();
 
 
-        if (!body) {
-            return;
-        }
+        renderStatistics(
+            deposits
+        );
 
 
-        body.innerHTML = "";
-
-
-        /*
-         * حاليًا لا نعرض أعضاء وهميين.
-         * الجدول يبقى فارغًا حتى يصل إيداع حقيقي.
-         */
-
-        if (
-            !demoDeposits ||
-            demoDeposits.length === 0
-        ) {
-
-            renderEmptyState(body);
-
-            return;
-
-        }
-
-
-        /*
-         * إذا كانت البيانات مجرد حالة فارغة،
-         * نعرض رسالة واضحة بدل بيانات وهمية.
-         */
-
-        if (
-            demoDeposits.length === 1 &&
-            demoDeposits[0].amount === 0
-        ) {
-
-            renderEmptyState(body);
-
-            return;
-
-        }
-
-
-        demoDeposits.forEach(
-            function (deposit) {
-
-                const row =
-                    document.createElement("tr");
-
-
-                row.innerHTML = `
-
-                    <td>
-
-                        <div class="deposit-user">
-
-                            <strong>
-                                ${escapeHTML(deposit.user)}
-                            </strong>
-
-                            <span>
-                                UID: ${escapeHTML(deposit.uid)}
-                            </span>
-
-                        </div>
-
-                    </td>
-
-
-                    <td dir="ltr">
-                        ${escapeHTML(deposit.uid)}
-                    </td>
-
-
-                    <td>
-
-                        <strong class="deposit-amount">
-                            ${formatMoney(deposit.amount)}
-                        </strong>
-
-                    </td>
-
-
-                    <td>
-
-                        <span class="deposit-network">
-                            ${escapeHTML(deposit.network)}
-                        </span>
-
-                    </td>
-
-
-                    <td>
-
-                        <div
-                            class="deposit-txid"
-                            title="${escapeHTML(deposit.txid)}"
-                        >
-                            ${escapeHTML(deposit.txid)}
-                        </div>
-
-                    </td>
-
-
-                    <td>
-                        ${escapeHTML(deposit.date)}
-                    </td>
-
-
-                    <td>
-
-                        <span class="deposit-status">
-                            ${escapeHTML(deposit.status)}
-                        </span>
-
-                    </td>
-
-                `;
-
-
-                body.appendChild(row);
-
-            }
+        renderTable(
+            deposits
         );
 
     }
 
 
     /* =====================================================
-       EMPTY STATE
+       FILTER
     ===================================================== */
 
-    function renderEmptyState(body) {
+    function getFilteredDeposits() {
 
-        const row =
-            document.createElement("tr");
-
-
-        row.innerHTML = `
-
-            <td
-                colspan="7"
-                style="
-                    text-align:center;
-                    padding:55px 20px;
-                    color:var(--va-text-muted);
-                "
-            >
-
-                <div
-                    style="
-                        font-size:28px;
-                        margin-bottom:10px;
-                    "
-                >
-                    ＋
-                </div>
+        let result =
+            depositsState.deposits.slice();
 
 
-                <strong
-                    style="
-                        display:block;
-                        color:var(--va-text);
-                        margin-bottom:6px;
-                    "
-                >
-                    لا توجد إيداعات
-                </strong>
+        const search =
+            depositsState.search;
 
 
-                <span>
-                    ستظهر الإيداعات هنا تلقائيًا بعد وصولها وتأكيدها من الشبكة.
-                </span>
+        if (search) {
 
-            </td>
+            result =
+                result.filter(
+                    function (deposit) {
 
-        `;
+                        return (
 
+                            String(
+                                deposit.user
+                            )
+                            .toLowerCase()
+                            .includes(search)
 
-        body.appendChild(row);
+                            ||
 
-    }
+                            String(
+                                deposit.uid
+                            )
+                            .toLowerCase()
+                            .includes(search)
 
+                            ||
 
-    /* =====================================================
-       MONEY
-    ===================================================== */
+                            String(
+                                deposit.txid
+                            )
+                            .toLowerCase()
+                            .includes(search)
 
-    function formatMoney(value) {
+                        );
 
-        return (
-            Number(value || 0)
-                .toLocaleString(
-                    "en-US",
-                    {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
                     }
-                )
-            +
-            " USDT"
-        );
+                );
+
+        }
+
+
+        if (
+            depositsState.period !==
+            "all"
+        ) {
+
+            result =
+                result.filter(
+                    function (deposit) {
+
+                        return matchesPeriod(
+                            deposit.date,
+                            depositsState.period
+                        );
+
+                    }
+                );
+
+        }
+
+
+        return result;
 
     }
 
 
     /* =====================================================
-       ESCAPE HTML
+       PERIOD
     ===================================================== */
 
-    function escapeHTML(value) {
+    function matchesPeriod(
+        dateValue,
+        period
+    ) {
 
-        return String(value ?? "")
-
-            .replace(/&/g, "&amp;")
-
-            .replace(/</g, "&lt;")
-
-            .replace(/>/g, "&gt;")
-
-            .replace(/"/g, "&quot;")
-
-            .replace(/'/g, "&#039;");
-
-    }
+        if (!dateValue) {
+            return false;
+        }
 
 
-})();
+        const date =
+            new Date(dateValue);
+
+
+        if (
+            Number.isNaN(
+                date.getTime()
+            )
+        ) {
+
+            return false;
+
+        }
+
+
+        const now =
+            new Date();
+
+
+        if (period === "today
