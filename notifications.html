@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>VALORA ADMIN — الإشعارات</title>
+
+
+<link
+href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap"
+rel="stylesheet">
+
+
+<link rel="stylesheet" href="css/admin-layout.css">
+
+<link rel="stylesheet" href="css/notifications.css">
+
+
+</head>
+
+
+<body>
+
+
+<div class="admin-app">
+
+
+<div class="admin-layout">
+
+
+
+<!-- SIDEBAR -->
+
+<aside class="admin-sidebar">
+
+
+<div class="admin-brand">
+
+<div class="admin-brand-mark">
+V
+</div>
+
+
+<div>
+
+<h1 class="admin-brand-title">
+VALORA
+</h1>
+
+
+<p class="admin-brand-subtitle">
+Admin Panel
+</p>
+
+</div>
+
+
+</div>
+
+
+
+
+
+<nav class="admin-nav">
+
+
+<div class="admin-nav-section">
+الإدارة
+</div>
+
+
+<ul class="admin-nav-list">
+
+
+<li class="admin-nav-item">
+
+<a
+href="users.html"
+class="admin-nav-link"
+>
+
+<span class="admin-nav-icon">
+♙
+</span>
+
+المستخدمون
+
+</a>
+
+</li>
+
+
+
+
+<li class="admin-nav-item">
+
+<a
+href="notifications.html"
+class="admin-nav-link active"
+>
+
+
+<span class="admin-nav-icon">
+◉
+</span>
+
+
+الإشعارات
+
+
+</a>
+
+
+</li>
+
+
+
+</ul>
+
+
+
+</nav>
+
+
+</aside>
+
+
+
+
+
+<!-- MAIN -->
+
+
+<section class="admin-main">
+
+
+<header class="admin-header">
+
+
+<div class="admin-page-heading">
+
+
+<h2 class="admin-page-title">
+الإشعارات
+</h2>
+
+
+<p class="admin-page-description">
+إرسال إشعارات من الإدارة إلى المستخدمين
+</p>
+
+
+</div>
+
+
+</header>
+<main class="admin-content">
+
+
+            <!-- PAGE ACTIONS -->
+
+            <div class="admin-content-header">
+
+                <div>
+
+                    <h1 class="admin-page-title">
+                        إرسال إشعار
+                    </h1>
+
+                    <p class="admin-page-description">
+                        أرسل رسالة إلى جميع المستخدمين أو إلى فئة محددة.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- NOTIFICATION FORM -->
+
+            <section class="admin-card notification-compose-card">
+
+
+                <div class="admin-card-header">
+
+                    <div>
+
+                        <h2 class="admin-card-title">
+                            إنشاء إشعار جديد
+                        </h2>
+
+                        <p class="admin-card-description">
+                            اختر المستلمين ثم اكتب محتوى الإشعار.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="admin-card-body">
+
+
+                    <!-- RECIPIENT TYPE -->
+
+                    <div class="notification-field">
+
+
+                        <label
+                            class="notification-label"
+                            for="notificationTarget"
+                        >
+                            المستلمون
+                        </label>
+
+
+                        <select
+                            id="notificationTarget"
+                            class="notification-input"
+                        >
+
+                            <option value="all">
+                                جميع المستخدمين
+                            </option>
+
+                            <option value="deposited">
+                                المستخدمون الذين لديهم إيداع
+                            </option>
+
+                            <option value="no-deposit">
+                                المستخدمون الذين ليس لديهم إيداع
+                            </option>
+
+                            <option value="selected">
+                                تحديد مستخدمين يدويًا
+                            </option>
+
+                        </select>
+
+
+                    </div>
+
+
+
+                    <!-- SELECTED USERS -->
+
+                    <div
+                        class="notification-field"
+                        id="selectedUsersField"
+                        hidden
+                    >
+
+
+                        <label class="notification-label">
+
+                            اختر المستخدمين
+
+                        </label>
+
+
+                        <div class="notification-users-box">
+
+
+                            <label class="notification-user-option">
+
+                                <input
+                                    type="checkbox"
+                                    name="notificationUsers"
+                                    value="1001"
+                                >
+
+                                <span>
+
+                                    <strong>
+                                        أحمد محمد
+                                    </strong>
+
+                                    <small>
+                                        ahmed@test.com — #1001
+                                    </small>
+
+                                </span>
+
+                            </label>
+
+
+
+                            <label class="notification-user-option">
+
+                                <input
+                                    type="checkbox"
+                                    name="notificationUsers"
+                                    value="1002"
+                                >
+
+                                <span>
+
+                                    <strong>
+                                        مستخدم تجريبي
+                                    </strong>
+
+                                    <small>
+                                        user@example.com — #1002
+                                    </small>
+
+                                </span>
+
+                            </label>
+
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- TITLE -->
+
+                    <div class="notification-field">
+
+
+                        <label
+                            class="notification-label"
+                            for="notificationTitle"
+                        >
+                            عنوان الإشعار
+                        </label>
+
+
+                        <input
+                            type="text"
+                            id="notificationTitle"
+                            class="notification-input"
+                            placeholder="مثال: تحديث مهم في حسابك"
+                            maxlength="120"
+                        >
+
+
+                    </div>
+
+
+
+                    <!-- MESSAGE -->
+
+                    <div class="notification-field">
+
+
+                        <label
+                            class="notification-label"
+                            for="notificationMessage"
+                        >
+                            نص الإشعار
+                        </label>
+
+
+                        <textarea
+                            id="notificationMessage"
+                            class="notification-textarea"
+                            rows="6"
+                            placeholder="اكتب نص الإشعار هنا..."
+                            maxlength="1000"
+                        ></textarea>
+
+
+                        <div class="notification-character-count">
+
+                            <span id="notificationCharacterCount">
+                                0
+                            </span>
+
+                            / 1000
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- PREVIEW -->
+
+                    <div class="notification-preview">
+
+
+                        <div class="notification-preview-label">
+                            معاينة الإشعار
+                        </div>
+
+
+                        <div class="notification-preview-card">
+
+
+                            <div class="notification-preview-icon">
+                                ◉
+                            </div>
+
+
+                            <div class="notification-preview-content">
+
+
+                                <strong
+                                    id="previewTitle"
+                                >
+                                    عنوان الإشعار
+                                </strong>
+
+
+                                <p
+                                    id="previewMessage"
+                                >
+                                    سيظهر نص الإشعار هنا.
+                                </p>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- ACTIONS -->
+
+                    <div class="notification-actions">
+
+
+                        <button
+                            type="button"
+                            class="admin-btn admin-btn-secondary"
+                            id="clearNotification"
+                        >
+                            مسح
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="admin-btn admin-btn-primary"
+                            id="sendNotification"
+                        >
+                            إرسال الإشعار
+                        </button>
+
+
+                    </div>
+
+
+                    <!-- RESULT MESSAGE -->
+
+                    <div
+                        id="notificationResult"
+                        class="notification-result"
+                        hidden
+                    ></div>
+
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- SENT NOTIFICATIONS -->
+
+            <section class="admin-card notification-history-card">
+
+
+                <div class="admin-card-header">
+
+                    <div>
+
+                        <h2 class="admin-card-title">
+                            سجل الإشعارات
+                        </h2>
+
+                        <p class="admin-card-description">
+                            الإشعارات التي تم إرسالها من لوحة الإدارة.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="admin-card-body">
+
+
+                    <div
+                        class="notification-history"
+                        id="notificationHistory"
+                    >
+
+
+                        <div class="notification-history-empty">
+
+                            <div class="notification-history-icon">
+                                ◉
+                            </div>
+
+
+                            <h3>
+                                لا توجد إشعارات مرسلة
+                            </h3>
+
+
+                            <p>
+                                ستظهر الإشعارات التي يتم إرسالها هنا.
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+
+        </main>
+
+
+    </section>
+
+
+</div>
+
+
+</div>
+
+
+
+<script src="js/admin.js"></script>
+
+<script src="js/notifications.js"></script>
+
+
+</body>
+
+</html>
