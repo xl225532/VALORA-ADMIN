@@ -32,7 +32,9 @@ rel="stylesheet">
 
 
 
-<!-- SIDEBAR -->
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
 
 <aside class="admin-sidebar">
 
@@ -49,6 +51,7 @@ V
 <h1 class="admin-brand-title">
 VALORA
 </h1>
+
 
 <p class="admin-brand-subtitle">
 Admin Panel
@@ -78,8 +81,13 @@ Admin Panel
 href="users.html"
 class="admin-nav-link"
 >
+
+<span class="admin-nav-icon">
 ♙
+</span>
+
 المستخدمون
+
 </a>
 
 </li>
@@ -92,8 +100,13 @@ class="admin-nav-link"
 href="deposits.html"
 class="admin-nav-link active"
 >
+
+<span class="admin-nav-icon">
 ＋
+</span>
+
 الإيداعات
+
 </a>
 
 </li>
@@ -103,11 +116,16 @@ class="admin-nav-link active"
 <li class="admin-nav-item">
 
 <a
-href="withdrawals.html"
+href="notifications.html"
 class="admin-nav-link"
 >
-−
-السحوبات
+
+<span class="admin-nav-icon">
+◉
+</span>
+
+الإشعارات
+
 </a>
 
 </li>
@@ -117,11 +135,35 @@ class="admin-nav-link"
 <li class="admin-nav-item">
 
 <a
-href="transactions.html"
+href="messages.html"
 class="admin-nav-link"
 >
-⇄
-العمليات
+
+<span class="admin-nav-icon">
+▱
+</span>
+
+الدعم
+
+</a>
+
+</li>
+
+
+
+<li class="admin-nav-item">
+
+<a
+href="trade-codes.html"
+class="admin-nav-link"
+>
+
+<span class="admin-nav-icon">
+#
+</span>
+
+أكواد التداول
+
 </a>
 
 </li>
@@ -140,8 +182,9 @@ class="admin-nav-link"
 
 
 
-<!-- MAIN -->
-
+<!-- =====================================================
+     MAIN
+===================================================== -->
 
 <section class="admin-main">
 
@@ -157,7 +200,7 @@ class="admin-nav-link"
 
 
 <p class="admin-page-description">
-مراقبة الإيداعات التلقائية القادمة من الشبكة
+مراقبة الإيداعات التي تصل تلقائيًا من الشبكة
 </p>
 
 
@@ -174,6 +217,10 @@ class="admin-nav-link"
 
 
 
+<!-- =====================================================
+     PAGE HEADER
+===================================================== -->
+
 <div class="admin-content-header">
 
 
@@ -185,9 +232,54 @@ class="admin-nav-link"
 
 
 <p class="admin-page-description">
-الإيداعات يتم إضافتها تلقائيًا بعد تأكيد الشبكة.
+لا توجد إجراءات قبول أو رفض. تتم معالجة الإيداعات تلقائيًا.
 </p>
 
+</div>
+
+
+<button
+type="button"
+id="refreshDeposits"
+class="admin-btn admin-btn-secondary"
+>
+
+تحديث
+
+</button>
+
+
+</div>
+
+
+
+
+
+<!-- =====================================================
+     STATISTICS
+===================================================== -->
+
+<section class="deposit-stats-grid">
+
+
+<div class="deposit-stat-card">
+
+
+<div class="deposit-stat-icon">
+＋
+</div>
+
+
+<div class="deposit-stat-content">
+
+<span>
+إجمالي الإيداعات
+</span>
+
+
+<strong id="totalDepositAmount">
+0 USDT
+</strong>
 
 </div>
 
@@ -198,7 +290,214 @@ class="admin-nav-link"
 
 
 
-<section class="admin-card">
+<div class="deposit-stat-card">
+
+
+<div class="deposit-stat-icon">
+◉
+</div>
+
+
+<div class="deposit-stat-content">
+
+<span>
+إيداعات اليوم
+</span>
+
+
+<strong id="todayDepositAmount">
+0 USDT
+</strong>
+
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="deposit-stat-card">
+
+
+<div class="deposit-stat-icon">
+#
+</div>
+
+
+<div class="deposit-stat-content">
+
+<span>
+عدد العمليات
+</span>
+
+
+<strong id="depositCount">
+0
+</strong>
+
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="deposit-stat-card">
+
+
+<div class="deposit-stat-icon">
+✓
+</div>
+
+
+<div class="deposit-stat-content">
+
+<span>
+آخر إيداع
+</span>
+
+
+<strong id="lastDepositTime">
+—
+</strong>
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+<!-- =====================================================
+     FILTERS
+===================================================== -->
+
+<section class="admin-card deposit-filter-card">
+
+
+<div class="admin-card-body">
+
+
+<div class="deposit-filters">
+
+
+<div class="deposit-search">
+
+
+<label for="depositSearch">
+بحث
+</label>
+
+
+<input
+type="search"
+id="depositSearch"
+placeholder="اسم المستخدم، UID أو TXID..."
+autocomplete="off"
+>
+
+
+</div>
+
+
+
+
+<div class="deposit-date-filter">
+
+
+<label for="depositPeriod">
+الفترة
+</label>
+
+
+<select id="depositPeriod">
+
+
+<option value="all">
+كل الإيداعات
+</option>
+
+
+<option value="today">
+اليوم
+</option>
+
+
+<option value="week">
+هذا الأسبوع
+</option>
+
+
+<option value="month">
+هذا الشهر
+</option>
+
+
+</select>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+<!-- =====================================================
+     DEPOSITS TABLE
+===================================================== -->
+
+<section class="admin-card deposit-table-card">
+
+
+<div class="admin-card-header">
+
+
+<div>
+
+<h2 class="admin-card-title">
+الإيداعات الواردة
+</h2>
+
+
+<p class="admin-card-description">
+الإيداعات المؤكدة تظهر هنا تلقائيًا.
+</p>
+
+</div>
+
+
+<div
+id="depositTableStatus"
+class="deposit-table-status"
+>
+
+لا توجد بيانات
+
+</div>
+
+
+</div>
+
+
+
 
 
 <div class="admin-card-body">
@@ -240,14 +539,13 @@ TXID
 
 
 <th>
-التاريخ
+وقت الإيداع
 </th>
 
 
 <th>
 الحالة
 </th>
-
 
 </tr>
 
@@ -272,6 +570,51 @@ TXID
 
 </section>
 
+
+
+
+
+<!-- =====================================================
+     INFORMATION
+===================================================== -->
+
+<section class="admin-card deposit-info-card">
+
+
+<div class="admin-card-body">
+
+
+<div class="deposit-info">
+
+
+<div class="deposit-info-icon">
+✓
+</div>
+
+
+<div>
+
+<strong>
+الإيداعات تلقائية
+</strong>
+
+
+<p>
+عند وصول التحويل وتأكيده على الشبكة، يتم تسجيل الإيداع
+وإضافة المبلغ إلى رصيد المستخدم تلقائيًا عند ربط النظام
+بقاعدة البيانات وقارئ الشبكة.
+</p>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</section>
 
 
 
