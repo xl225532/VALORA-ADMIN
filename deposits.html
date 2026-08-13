@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>VALORA ADMIN — الإيداعات</title>
+
+
+<link
+href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap"
+rel="stylesheet">
+
+
+<link rel="stylesheet" href="css/admin-layout.css">
+
+<link rel="stylesheet" href="css/deposits.css">
+
+
+</head>
+
+
+<body>
+
+
+<div class="admin-app">
+
+<div class="admin-layout">
+
+
+
+<!-- SIDEBAR -->
+
+<aside class="admin-sidebar">
+
+
+<div class="admin-brand">
+
+<div class="admin-brand-mark">
+V
+</div>
+
+
+<div>
+
+<h1 class="admin-brand-title">
+VALORA
+</h1>
+
+<p class="admin-brand-subtitle">
+Admin Panel
+</p>
+
+</div>
+
+</div>
+
+
+
+
+<nav class="admin-nav">
+
+
+<div class="admin-nav-section">
+الإدارة
+</div>
+
+
+<ul class="admin-nav-list">
+
+
+<li class="admin-nav-item">
+
+<a
+href="users.html"
+class="admin-nav-link"
+>
+♙
+المستخدمون
+</a>
+
+</li>
+
+
+
+<li class="admin-nav-item">
+
+<a
+href="deposits.html"
+class="admin-nav-link active"
+>
+＋
+الإيداعات
+</a>
+
+</li>
+
+
+
+<li class="admin-nav-item">
+
+<a
+href="withdrawals.html"
+class="admin-nav-link"
+>
+−
+السحوبات
+</a>
+
+</li>
+
+
+
+<li class="admin-nav-item">
+
+<a
+href="transactions.html"
+class="admin-nav-link"
+>
+⇄
+العمليات
+</a>
+
+</li>
+
+
+
+</ul>
+
+
+</nav>
+
+
+</aside>
+
+
+
+
+
+<!-- MAIN -->
+
+
+<section class="admin-main">
+
+
+<header class="admin-header">
+
+
+<div class="admin-page-heading">
+
+<h2 class="admin-page-title">
+الإيداعات
+</h2>
+
+
+<p class="admin-page-description">
+مراقبة الإيداعات التلقائية القادمة من الشبكة
+</p>
+
+
+</div>
+
+
+</header>
+
+
+
+
+
+<main class="admin-content">
+
+
+
+<div class="admin-content-header">
+
+
+<div>
+
+<h1 class="admin-page-title">
+سجل الإيداعات
+</h1>
+
+
+<p class="admin-page-description">
+الإيداعات يتم إضافتها تلقائيًا بعد تأكيد الشبكة.
+</p>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<section class="admin-card">
+
+
+<div class="admin-card-body">
+
+
+<div class="deposit-table-wrapper">
+
+
+<table class="deposit-table">
+
+
+<thead>
+
+<tr>
+
+<th>
+المستخدم
+</th>
+
+
+<th>
+UID
+</th>
+
+
+<th>
+المبلغ
+</th>
+
+
+<th>
+الشبكة
+</th>
+
+
+<th>
+TXID
+</th>
+
+
+<th>
+التاريخ
+</th>
+
+
+<th>
+الحالة
+</th>
+
+
+</tr>
+
+</thead>
+
+
+
+<tbody id="depositsBody">
+
+</tbody>
+
+
+
+</table>
+
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+
+
+</main>
+
+
+</section>
+
+
+</div>
+
+</div>
+
+
+
+
+<script src="js/admin.js"></script>
+
+<script src="js/deposits.js"></script>
+
+
+</body>
+
+</html>
