@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>VALORA ADMIN — أكواد التداول</title>
+
+
+<link
+href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap"
+rel="stylesheet">
+
+
+<link rel="stylesheet" href="css/admin-layout.css">
+
+<link rel="stylesheet" href="css/trade-codes.css">
+
+
+</head>
+
+
+<body>
+
+
+<div class="admin-app">
+
+<div class="admin-layout">
+
+
+
+<aside class="admin-sidebar">
+
+
+<div class="admin-brand">
+
+<div class="admin-brand-mark">
+V
+</div>
+
+
+<div>
+
+<h1 class="admin-brand-title">
+VALORA
+</h1>
+
+
+<p class="admin-brand-subtitle">
+Admin Panel
+</p>
+
+
+</div>
+
+
+</div>
+
+
+
+<nav class="admin-nav">
+
+
+<div class="admin-nav-section">
+الإدارة
+</div>
+
+
+<ul class="admin-nav-list">
+
+
+<li class="admin-nav-item">
+
+<a
+href="users.html"
+class="admin-nav-link"
+>
+♙
+المستخدمون
+</a>
+
+</li>
+
+
+
+<li class="admin-nav-item">
+
+<a
+href="notifications.html"
+class="admin-nav-link"
+>
+◉
+الإشعارات
+</a>
+
+</li>
+
+
+
+<li class="admin-nav-item">
+
+<a
+href="messages.html"
+class="admin-nav-link"
+>
+▱
+الدعم
+</a>
+
+</li>
+
+
+
+<li class="admin-nav-item">
+
+<a
+href="trade-codes.html"
+class="admin-nav-link active"
+>
+#
+أكواد التداول
+</a>
+
+</li>
+
+
+</ul>
+
+
+</nav>
+
+
+</aside>
+
+
+
+
+
+<section class="admin-main">
+
+
+<header class="admin-header">
+
+
+<div class="admin-page-heading">
+
+<h2 class="admin-page-title">
+أكواد التداول
+</h2>
+
+
+<p class="admin-page-description">
+إنشاء وإدارة أكواد التداول
+</p>
+
+
+</div>
+
+
+</header>
+
+
+
+
+
+<main class="admin-content">
+
+
+
+<div class="admin-content-header">
+
+
+<div>
+
+<h1 class="admin-page-title">
+إنشاء كود جديد
+</h1>
+
+
+<p class="admin-page-description">
+الكود صالح لمدة 15 دقيقة ويستخدم مرة واحدة.
+</p>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+<section class="admin-card">
+
+
+<div class="admin-card-body">
+
+
+
+<div class="trade-actions">
+
+
+<select id="tradeType">
+
+<option value="1">
+الصفقة الأولى
+</option>
+
+
+<option value="2">
+الصفقة الثانية
+</option>
+
+
+<option value="3">
+الصفقة الثالثة
+</option>
+
+
+<option value="4">
+الصفقة الرابعة
+</option>
+
+
+<option value="5">
+الصفقة الخامسة
+</option>
+
+
+</select>
+
+
+
+<button
+id="generateCode"
+class="admin-btn admin-btn-primary"
+>
+توليد كود جديد
+</button>
+
+
+</div>
+
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+<section class="admin-card">
+
+
+<div class="admin-card-header">
+
+<h2 class="admin-card-title">
+سجل الأكواد
+</h2>
+
+
+</div>
+
+
+
+<div class="admin-card-body">
+
+
+<div class="trade-table-wrapper">
+
+
+<table class="trade-table">
+
+
+<thead>
+
+<tr>
+
+<th>
+الكود
+</th>
+
+
+<th>
+الصفقة
+</th>
+
+
+<th>
+الصلاحية
+</th>
+
+
+<th>
+الحالة
+</th>
+
+
+<th>
+نسخ
+</th>
+
+
+</tr>
+
+
+</thead>
+
+
+
+<tbody id="tradeCodesBody">
+
+
+</tbody>
+
+
+
+</table>
+
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+
+
+</main>
+
+
+
+</section>
+
+
+
+</div>
+
+</div>
+
+
+
+
+
+<script src="js/admin.js"></script>
+
+<script src="js/trade-codes.js"></script>
+
+
+</body>
+
+</html>
