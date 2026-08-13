@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>VALORA ADMIN — الدعم</title>
+
+
+<link
+href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap"
+rel="stylesheet">
+
+
+<link rel="stylesheet" href="css/admin-layout.css">
+
+<link rel="stylesheet" href="css/messages.css">
+
+
+</head>
+
+
+<body>
+
+
+<div class="admin-app">
+
+<div class="admin-layout">
+
+
+
+<aside class="admin-sidebar">
+
+
+<div class="admin-brand">
+
+<div class="admin-brand-mark">
+V
+</div>
+
+
+<div>
+
+<h1 class="admin-brand-title">
+VALORA
+</h1>
+
+
+<p class="admin-brand-subtitle">
+Admin Panel
+</p>
+
+
+</div>
+
+
+</div>
+
+
+
+<nav class="admin-nav">
+
+
+<div class="admin-nav-section">
+الإدارة
+</div>
+
+
+<ul class="admin-nav-list">
+
+
+<li class="admin-nav-item">
+
+<a
+href="users.html"
+class="admin-nav-link"
+>
+
+♙
+المستخدمون
+
+</a>
+
+</li>
+
+
+
+<li class="admin-nav-item">
+
+<a
+href="notifications.html"
+class="admin-nav-link"
+>
+
+◉
+الإشعارات
+
+</a>
+
+</li>
+
+
+
+<li class="admin-nav-item">
+
+<a
+href="messages.html"
+class="admin-nav-link active"
+>
+
+▱
+الدعم
+
+</a>
+
+</li>
+
+
+
+</ul>
+
+
+</nav>
+
+
+</aside>
+
+
+
+
+
+<section class="admin-main">
+
+
+<header class="admin-header">
+
+<div class="admin-page-heading">
+
+<h2 class="admin-page-title">
+الدعم
+</h2>
+
+
+<p class="admin-page-description">
+رسائل المستخدمين والدعم المباشر
+</p>
+
+
+</div>
+
+
+</header>
+
+
+
+
+
+<main class="admin-content">
+
+
+
+<div class="messages-layout">
+
+
+
+<!-- USERS -->
+
+<section class="admin-card messages-users">
+
+
+<div class="admin-card-header">
+
+<h2 class="admin-card-title">
+المحادثات
+</h2>
+
+</div>
+
+
+
+<div
+id="messagesUsersList"
+class="messages-users-list"
+>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+<!-- CHAT -->
+
+
+<section class="admin-card messages-chat">
+
+
+<div
+class="chat-header"
+id="chatHeader"
+>
+
+اختر مستخدم لعرض المحادثة
+
+</div>
+
+
+
+
+<div
+class="chat-body"
+id="chatBody"
+>
+
+
+<div class="chat-empty">
+
+لا توجد محادثة محددة
+
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="chat-input-box">
+
+
+<textarea
+id="replyMessage"
+placeholder="اكتب الرد..."
+></textarea>
+
+
+
+<button
+id="sendReply"
+>
+إرسال
+</button>
+
+
+</div>
+
+
+
+</section>
+
+
+
+</div>
+
+
+
+
+
+</main>
+
+
+</section>
+
+
+
+</div>
+
+</div>
+
+
+
+<script src="js/admin.js"></script>
+
+<script src="js/messages.js"></script>
+
+
+</body>
+
+</html>
