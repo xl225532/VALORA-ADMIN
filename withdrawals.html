@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>VALORA ADMIN — السحوبات</title>
+
+<link
+href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap"
+rel="stylesheet">
+
+<link rel="stylesheet" href="css/admin-layout.css">
+
+<link rel="stylesheet" href="css/withdrawals.css">
+
+</head>
+
+
+<body>
+
+
+<div class="admin-app">
+
+<div class="admin-layout">
+
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="admin-sidebar">
+
+
+<div class="admin-brand">
+
+<div class="admin-brand-mark">
+V
+</div>
+
+
+<div>
+
+<h1 class="admin-brand-title">
+VALORA
+</h1>
+
+<p class="admin-brand-subtitle">
+Admin Panel
+</p>
+
+</div>
+
+</div>
+
+
+
+
+<nav class="admin-nav">
+
+
+<div class="admin-nav-section">
+الإدارة
+</div>
+
+
+<ul class="admin-nav-list">
+
+
+<li class="admin-nav-item">
+
+<a
+href="users.html"
+class="admin-nav-link"
+>
+
+<span class="admin-nav-icon">
+♙
+</span>
+
+المستخدمون
+
+</a>
+
+</li>
+
+
+
+<li class="admin-nav-item">
+
+<a
+href="notifications.html"
+class="admin-nav-link"
+>
+
+<span class="admin-nav-icon">
+◉
+</span>
+
+الإشعارات
+
+</a>
+
+</li>
+
+
+
+<li class="admin-nav-item">
+
+<a
+href="messages.html"
+class="admin-nav-link"
+>
+
+<span class="admin-nav-icon">
+▱
+</span>
+
+الدعم
+
+</a>
+
+</li>
+
+
+
+<li class="admin-nav-item">
+
+<a
+href="trade-codes.html"
+class="admin-nav-link"
+>
+
+<span class="admin-nav-icon">
+#
+</span>
+
+أكواد التداول
+
+</a>
+
+</li>
+
+
+
+<li class="admin-nav-item">
+
+<a
+href="deposits.html"
+class="admin-nav-link"
+>
+
+<span class="admin-nav-icon">
+＋
+</span>
+
+الإيداعات
+
+</a>
+
+</li>
+
+
+
+<li class="admin-nav-item">
+
+<a
+href="withdrawals.html"
+class="admin-nav-link active"
+>
+
+<span class="admin-nav-icon">
+−
+</span>
+
+السحوبات
+
+</a>
+
+</li>
+
+
+</ul>
+
+
+</nav>
+
+
+</aside>
+
+
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<section class="admin-main">
+
+
+<header class="admin-header">
+
+
+<div class="admin-page-heading">
+
+<h2 class="admin-page-title">
+السحوبات
+</h2>
+
+
+<p class="admin-page-description">
+إدارة ومراجعة طلبات السحب
+</p>
+
+</div>
+
+
+</header>
+
+
+
+
+
+<main class="admin-content">
+
+
+
+<!-- =====================================================
+     PAGE HEADER
+===================================================== -->
+
+<div class="admin-content-header">
+
+
+<div>
+
+<h1 class="admin-page-title">
+طلبات السحب
+</h1>
+
+
+<p class="admin-page-description">
+طلبات السحب القادمة من الموقع الرسمي تظهر هنا.
+</p>
+
+</div>
+
+
+<button
+type="button"
+id="refreshWithdrawals"
+class="admin-btn admin-btn-secondary withdrawals-refresh-button"
+>
+
+<span>
+↻
+</span>
+
+تحديث
+
+</button>
+
+
+</div>
+
+
+
+
+
+<!-- =====================================================
+     STATISTICS
+===================================================== -->
+
+<section class="withdrawals-stats-grid">
+
+
+
+<div class="withdrawals-stat-card">
+
+<div class="withdrawals-stat-icon">
+⏳
+</div>
+
+<div class="withdrawals-stat-content">
+
+<span>
+طلبات قيد الانتظار
+</span>
+
+<strong id="pendingWithdrawalsCount">
+0
+</strong>
+
+</div>
+
+</div>
+
+
+
+
+<div class="withdrawals-stat-card">
+
+<div class="withdrawals-stat-icon">
+◎
+</div>
+
+<div class="withdrawals-stat-content">
+
+<span>
+المبلغ المطلوب
+</span>
+
+<strong id="pendingWithdrawalsAmount">
+0 USDT
+</strong>
+
+</div>
+
+</div>
+
+
+
+
+<div class="withdrawals-stat-card">
+
+<div class="withdrawals-stat-icon">
+✓
+</div>
+
+<div class="withdrawals-stat
