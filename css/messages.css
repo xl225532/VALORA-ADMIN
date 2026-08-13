@@ -599,3 +599,72 @@
     }
 
 }
+/* =========================================================
+   FIX — USERS LIST SCROLL
+========================================================= */
+
+.messages-layout {
+    min-height: 0;
+}
+
+.messages-users {
+    min-height: 0;
+}
+
+.messages-users-list {
+    height: 600px;
+    max-height: 600px;
+
+    overflow-y: scroll !important;
+    overflow-x: hidden !important;
+
+    display: block;
+
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+}
+
+
+/* كل مستخدم يبقى داخل القائمة */
+
+.message-user-item {
+    width: 100%;
+    flex-shrink: 0;
+}
+
+
+/* شريط التمرير */
+
+.messages-users-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.messages-users-list::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.03);
+}
+
+.messages-users-list::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.25);
+    border-radius: 10px;
+}
+
+.messages-users-list::-webkit-scrollbar-thumb:hover {
+    background: rgba(255,255,255,0.40);
+}
+
+
+/* الهاتف */
+
+@media (max-width: 768px) {
+
+    .messages-users-list {
+        height: 450px;
+        max-height: 450px;
+
+        overflow-y: scroll !important;
+        overflow-x: hidden !important;
+
+        touch-action: pan-y;
+    }
+
+}
