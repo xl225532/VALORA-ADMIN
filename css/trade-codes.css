@@ -1,273 +1,1060 @@
 /* =========================================================
    VALORA ADMIN — TRADE CODES
+   COMPLETE STYLESHEET
 ========================================================= */
 
 
-.trade-actions {
+/* =========================================================
+   PAGE
+========================================================= */
 
-    display: flex;
+.trade-control-card,
+.trade-generated-card,
+.trade-rules-card {
 
-    gap: 12px;
-
-    align-items: center;
-
-    flex-wrap: wrap;
+    width: 100%;
 
 }
 
 
+/* =========================================================
+   TRADE CONTROL
+========================================================= */
 
-.trade-actions select {
-
-    min-width: 220px;
-
-    height: 44px;
-
-    padding: 0 14px;
-
-    border-radius: var(--va-radius-sm);
+.trade-control-card {
 
     border: 1px solid var(--va-border);
 
-    background:
-        rgba(255,255,255,0.03);
+    overflow: hidden;
+
+}
+
+
+.trade-control-card .admin-card-body {
+
+    padding: 24px;
+
+}
+
+
+/* =========================================================
+   TRADE FIELD
+========================================================= */
+
+.trade-field {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 9px;
+
+    margin-bottom: 22px;
+
+}
+
+
+.trade-field label {
 
     color: var(--va-text);
 
-    font-family: inherit;
+    font-size: 13px;
+
+    font-weight: 800;
+
+}
+
+
+.trade-field select {
+
+    width: 100%;
+
+    min-height: 48px;
+
+    padding: 0 14px;
+
+    border:
+        1px solid var(--va-border);
+
+    border-radius:
+        var(--va-radius-sm);
+
+    background:
+        rgba(255,255,255,0.035);
+
+    color:
+        var(--va-text);
+
+    font-family:
+        inherit;
 
     font-size: 13px;
 
     outline: none;
 
+    cursor: pointer;
+
+    transition:
+        border-color var(--va-transition),
+        background var(--va-transition);
+
 }
 
 
+.trade-field select:hover {
 
-.trade-actions select:focus {
+    background:
+        rgba(255,255,255,0.05);
+
+}
+
+
+.trade-field select:focus {
 
     border-color:
-        rgba(212,175,55,0.55);
+        rgba(212,175,55,0.65);
 
 }
 
 
+.trade-field select option {
 
+    background:
+        #111;
+
+    color:
+        #fff;
+
+}
+
+
+/* =========================================================
+   TRADE INFORMATION
+========================================================= */
+
+.trade-info-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 14px;
+
+    margin-bottom: 22px;
+
+}
+
+
+.trade-info-box {
+
+    min-height: 92px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 18px;
+
+    border:
+        1px solid var(--va-border);
+
+    border-radius:
+        var(--va-radius-sm);
+
+    background:
+        rgba(255,255,255,0.025);
+
+}
+
+
+.trade-info-box span {
+
+    color:
+        var(--va-text-muted);
+
+    font-size:
+        11px;
+
+    font-weight:
+        600;
+
+}
+
+
+.trade-info-box strong {
+
+    color:
+        var(--va-gold);
+
+    font-size:
+        20px;
+
+    font-weight:
+        800;
+
+}
+
+
+.trade-info-box:nth-child(2) strong,
+.trade-info-box:nth-child(3) strong {
+
+    color:
+        var(--va-text);
+
+    font-size:
+        16px;
+
+}
+
+
+/* =========================================================
+   GENERATE BUTTON
+========================================================= */
+
+.trade-generate-button {
+
+    width: 100%;
+
+    min-height: 50px;
+
+    font-size: 14px;
+
+    font-weight: 800;
+
+}
+
+
+/* =========================================================
+   GENERATED CODE
+========================================================= */
+
+.trade-generated-card {
+
+    margin-top: 20px;
+
+    border:
+        1px solid
+        rgba(212,175,55,0.30);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(212,175,55,0.055),
+            rgba(255,255,255,0.018)
+        );
+
+}
+
+
+.trade-generated-card[hidden] {
+
+    display: none;
+
+}
+
+
+.trade-generated-card .admin-card-body {
+
+    padding: 26px;
+
+}
+
+
+/* =========================================================
+   CODE DISPLAY
+========================================================= */
+
+.generated-code-box {
+
+    width: 100%;
+
+    margin: 0 0 20px;
+
+    padding: 26px;
+
+    border:
+        1px solid
+        rgba(212,175,55,0.25);
+
+    border-radius:
+        16px;
+
+    background:
+        rgba(0,0,0,0.20);
+
+    text-align:
+        center;
+
+}
+
+
+.generated-code-box h3 {
+
+    margin: 0 0 16px;
+
+    color:
+        var(--va-text);
+
+    font-size:
+        14px;
+
+    font-weight:
+        800;
+
+}
+
+
+.trade-code-display {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-height: 82px;
+
+    margin: 12px 0 20px;
+
+    padding: 15px 20px;
+
+    border:
+        1px dashed
+        rgba(212,175,55,0.55);
+
+    border-radius:
+        12px;
+
+    background:
+        rgba(212,175,55,0.055);
+
+    color:
+        var(--va-gold);
+
+    font-size:
+        clamp(24px, 4vw, 34px);
+
+    font-weight:
+        900;
+
+    letter-spacing:
+        5px;
+
+    direction:
+        ltr;
+
+    user-select:
+        all;
+
+}
+
+
+.generated-code-box p {
+
+    margin: 8px 0;
+
+    color:
+        var(--va-text-muted);
+
+    font-size:
+        12px;
+
+}
+
+
+.generated-code-box #codeTimer {
+
+    color:
+        var(--va-text);
+
+    font-size:
+        14px;
+
+    font-weight:
+        800;
+
+}
+
+
+/* =========================================================
+   COPY BUTTON
+========================================================= */
+
+#copyTradeCode {
+
+    min-width:
+        150px;
+
+    min-height:
+        44px;
+
+}
+
+
+#copyTradeCode:hover {
+
+    transform:
+        translateY(-1px);
+
+}
+
+
+/* =========================================================
+   COUNTDOWN
+========================================================= */
+
+.trade-countdown {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    margin-top: 18px;
+
+    padding: 14px;
+
+    border:
+        1px solid var(--va-border);
+
+    border-radius:
+        var(--va-radius-sm);
+
+    background:
+        rgba(255,255,255,0.025);
+
+}
+
+
+.trade-countdown span {
+
+    color:
+        var(--va-text-muted);
+
+    font-size:
+        12px;
+
+}
+
+
+.trade-countdown strong {
+
+    min-width:
+        72px;
+
+    color:
+        var(--va-gold);
+
+    font-size:
+        20px;
+
+    font-weight:
+        900;
+
+    font-variant-numeric:
+        tabular-nums;
+
+    direction:
+        ltr;
+
+}
+
+
+.trade-status {
+
+    margin-top:
+        12px;
+
+    text-align:
+        center;
+
+    color:
+        #55d88a;
+
+    font-size:
+        12px;
+
+    font-weight:
+        800;
+
+}
+
+
+.trade-status.expired {
+
+    color:
+        var(--va-danger);
+
+}
+
+
+/* =========================================================
+   RULES
+========================================================= */
+
+.trade-rules {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap:
+        12px;
+
+}
+
+
+.trade-rule {
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    gap:
+        7px;
+
+    min-height:
+        86px;
+
+    padding:
+        16px 18px;
+
+    border:
+        1px solid var(--va-border);
+
+    border-radius:
+        var(--va-radius-sm);
+
+    background:
+        rgba(255,255,255,0.025);
+
+}
+
+
+.trade-rule strong {
+
+    color:
+        var(--va-text);
+
+    font-size:
+        13px;
+
+    font-weight:
+        800;
+
+}
+
+
+.trade-rule span {
+
+    color:
+        var(--va-text-muted);
+
+    font-size:
+        11px;
+
+    line-height:
+        1.7;
+
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
 
 .trade-table-wrapper {
 
     width: 100%;
 
-    overflow-x: auto;
+    overflow-x:
+        auto;
+
+    overflow-y:
+        hidden;
+
+    border:
+        1px solid var(--va-border);
+
+    border-radius:
+        12px;
+
+    -webkit-overflow-scrolling:
+        touch;
 
 }
-
 
 
 .trade-table {
 
     width: 100%;
 
-    border-collapse: collapse;
+    min-width:
+        680px;
 
-    min-width: 650px;
+    border-collapse:
+        separate;
+
+    border-spacing:
+        0;
+
+    direction:
+        rtl;
 
 }
 
 
+.trade-table thead th {
 
-.trade-table th {
+    height:
+        52px;
 
-    text-align: right;
+    padding:
+        0 16px;
 
-    padding: 14px;
-
-    color: var(--va-text-muted);
-
-    font-size: 12px;
-
-    font-weight: 700;
+    background:
+        rgba(255,255,255,0.035);
 
     border-bottom:
         1px solid var(--va-border);
 
+    color:
+        var(--va-text-muted);
+
+    font-size:
+        11px;
+
+    font-weight:
+        800;
+
+    text-align:
+        right;
+
+    white-space:
+        nowrap;
+
 }
 
 
+.trade-table tbody td {
 
-.trade-table td {
+    height:
+        64px;
 
-    padding: 14px;
-
-    color: var(--va-text);
-
-    font-size: 13px;
+    padding:
+        12px 16px;
 
     border-bottom:
-        1px solid var(--va-border);
-
-}
-
-
-
-.trade-code {
-
-    font-family: monospace;
-
-    font-size: 14px;
-
-    font-weight: 800;
-
-    letter-spacing: 1px;
-
-    color:
-        var(--va-gold);
-
-}
-
-
-
-.trade-status {
-
-    display: inline-flex;
-
-    align-items: center;
-
-    padding: 5px 12px;
-
-    border-radius: 999px;
-
-    font-size: 11px;
-
-    font-weight: 800;
-
-}
-
-
-
-.trade-status.active {
-
-    background:
-        rgba(34,197,94,0.15);
-
-    color:
-        #22c55e;
-
-}
-
-
-
-.trade-status.used {
-
-    background:
-        rgba(212,175,55,0.15);
-
-    color:
-        var(--va-gold);
-
-}
-
-
-
-.trade-status.expired {
-
-    background:
-        rgba(239,68,68,0.15);
-
-    color:
-        #ef4444;
-
-}
-
-
-
-
-.trade-copy-button {
-
-    border: 0;
-
-    cursor: pointer;
-
-    padding: 7px 14px;
-
-    border-radius: 8px;
-
-    background:
-        rgba(255,255,255,0.06);
+        1px solid
+        rgba(255,255,255,0.055);
 
     color:
         var(--va-text);
 
-    font-family: inherit;
+    font-size:
+        12px;
 
-    font-size: 12px;
+    vertical-align:
+        middle;
 
 }
 
 
+.trade-table tbody tr {
 
-.trade-copy-button:hover {
+    transition:
+        background var(--va-transition);
+
+}
+
+
+.trade-table tbody tr:hover {
 
     background:
-        rgba(212,175,55,0.15);
+        rgba(255,255,255,0.025);
+
+}
+
+
+.trade-table tbody tr:last-child td {
+
+    border-bottom:
+        0;
+
+}
+
+
+/* =========================================================
+   CODE INSIDE TABLE
+========================================================= */
+
+.trade-table td:first-child {
+
+    direction:
+        ltr;
+
+    text-align:
+        right;
+
+}
+
+
+.trade-table td:first-child strong {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    min-height:
+        34px;
+
+    padding:
+        0 11px;
+
+    border-radius:
+        8px;
+
+    background:
+        rgba(212,175,55,0.08);
+
+    border:
+        1px solid
+        rgba(212,175,55,0.18);
+
+    color:
+        var(--va-gold);
+
+    font-size:
+        13px;
+
+    letter-spacing:
+        2px;
+
+}
+
+
+/* =========================================================
+   TABLE STATUS
+========================================================= */
+
+.trade-table td span {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    min-width:
+        65px;
+
+    min-height:
+        28px;
+
+    padding:
+        0 9px;
+
+    border-radius:
+        999px;
+
+    background:
+        rgba(255,255,255,0.055);
+
+    color:
+        var(--va-text-muted);
+
+    font-size:
+        10px;
+
+    font-weight:
+        800;
+
+}
+
+
+/* =========================================================
+   COPY BUTTON IN TABLE
+========================================================= */
+
+.trade-copy-btn {
+
+    min-height:
+        32px;
+
+    padding:
+        0 12px;
+
+    border:
+        1px solid var(--va-border);
+
+    border-radius:
+        7px;
+
+    background:
+        rgba(255,255,255,0.035);
+
+    color:
+        var(--va-text);
+
+    font-family:
+        inherit;
+
+    font-size:
+        10px;
+
+    font-weight:
+        800;
+
+    cursor:
+        pointer;
+
+    transition:
+        all var(--va-transition);
+
+}
+
+
+.trade-copy-btn:hover {
+
+    border-color:
+        rgba(212,175,55,0.45);
+
+    color:
+        var(--va-gold);
+
+    background:
+        rgba(212,175,55,0.07);
+
+}
+
+
+/* =========================================================
+   RESULT MESSAGE
+========================================================= */
+
+.trade-result {
+
+    margin-top:
+        18px;
+
+    padding:
+        13px 16px;
+
+    border-radius:
+        var(--va-radius-sm);
+
+    font-size:
+        12px;
+
+    font-weight:
+        700;
+
+    text-align:
+        center;
+
+}
+
+
+.trade-result[hidden] {
+
+    display:
+        none;
+
+}
+
+
+.trade-result.success {
+
+    border:
+        1px solid
+        rgba(65,210,125,0.25);
+
+    background:
+        rgba(65,210,125,0.07);
+
+    color:
+        #64df94;
+
+}
+
+
+.trade-result.error {
+
+    border:
+        1px solid
+        rgba(220,70,70,0.25);
+
+    background:
+        rgba(220,70,70,0.07);
+
+    color:
+        #ff7777;
+
+}
+
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+.trade-table-wrapper::-webkit-scrollbar {
+
+    height:
+        7px;
+
+}
+
+
+.trade-table-wrapper::-webkit-scrollbar-track {
+
+    background:
+        rgba(255,255,255,0.025);
+
+}
+
+
+.trade-table-wrapper::-webkit-scrollbar-thumb {
+
+    background:
+        rgba(255,255,255,0.20);
+
+    border-radius:
+        999px;
+
+}
+
+
+.trade-table-wrapper::-webkit-scrollbar-thumb:hover {
+
+    background:
+        rgba(212,175,55,0.40);
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 800px) {
+
+
+    .trade-info-grid {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .trade-info-box {
+
+        min-height:
+            72px;
+
+    }
+
+
+    .trade-rules {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .trade-code-display {
+
+        min-height:
+            70px;
+
+        font-size:
+            25px;
+
+        letter-spacing:
+            3px;
+
+    }
+
+
+    .generated-code-box {
+
+        padding:
+            20px 14px;
+
+    }
 
 }
 
 
 
-@media(max-width:700px){
+@media (max-width: 520px) {
 
 
-.trade-actions {
+    .trade-control-card .admin-card-body,
+    .trade-generated-card .admin-card-body {
 
-    flex-direction: column;
+        padding:
+            17px;
 
-    align-items: stretch;
-
-}
-
-
-.trade-actions select,
-.trade-actions button {
-
-    width: 100%;
-
-}
+    }
 
 
-}
-.generated-code-box{
+    .trade-code-display {
 
-margin-bottom:20px;
+        font-size:
+            21px;
 
-padding:25px;
+        letter-spacing:
+            2px;
 
-background:
-rgba(255,255,255,0.04);
+        overflow-x:
+            auto;
 
-border:
-1px solid var(--va-border);
-
-border-radius:
-16px;
-
-text-align:center;
-
-}
+    }
 
 
-.trade-code-display{
+    .trade-countdown {
 
-margin:20px 0;
+        flex-direction:
+            column;
 
-font-size:32px;
+        gap:
+            4px;
 
-font-weight:900;
+    }
 
-letter-spacing:5px;
 
-color:var(--va-gold);
+    #copyTradeCode {
 
-direction:ltr;
+        width:
+            100%;
 
-} 
+    }
+
+
+    .trade-table {
+
+        min-width:
+            620px;
+
+    }
+
+   }
