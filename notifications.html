@@ -1,1280 +1,553 @@
-/* =========================================================
-   VALORA ADMIN — NOTIFICATIONS
-   ========================================================= */
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 
-(function () {
+<head>
 
-    "use strict";
+<meta charset="UTF-8">
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    /* =====================================================
-       STATE
-    ===================================================== */
+<title>VALORA ADMIN — الإشعارات</title>
 
-    const notificationState = {
 
-        users: [],
+<link
+href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap"
+rel="stylesheet">
 
-        history: []
 
-    };
+<link rel="stylesheet" href="css/admin-layout.css">
 
+<link rel="stylesheet" href="css/notifications.css">
 
-    /* =====================================================
-       INIT
-    ===================================================== */
 
-    document.addEventListener(
-        "DOMContentLoaded",
-        initNotifications
-    );
+</head>
 
 
-    function initNotifications() {
+<body>
 
-        loadUsers();
 
-        setupTargetSelector();
+<div class="admin-app">
 
-        setupCharacterCounter();
 
-        setupPreview();
+<div class="admin-layout">
 
-        setupClearButton();
 
-        setupSendButton();
 
-        loadHistory();
+<!-- SIDEBAR -->
 
-        renderUsers();
+<aside class="admin-sidebar">
 
-    }
 
+<div class="admin-brand">
 
-    /* =====================================================
-       DEMO USERS
-       ===================================================== */
+<div class="admin-brand-mark">
+V
+</div>
 
-    function loadUsers() {
 
-        /*
-         * هذه بيانات مؤقتة للاختبار فقط.
-         * لاحقًا سيتم استبدالها ببيانات API.
-         */
+<div>
 
-        notificationState.users = [
+<h1 class="admin-brand-title">
+VALORA
+</h1>
 
-            {
-                id: "1001",
-                name: "أحمد محمد",
-                email: "ahmed@test.com",
-                balance: 500,
-                deposits: 1000
-            },
 
-            {
-                id: "1002",
-                name: "مستخدم تجريبي",
-                email: "user@example.com",
-                balance: 0,
-                deposits: 0
-            }
+<p class="admin-brand-subtitle">
+Admin Panel
+</p>
 
-        ];
+</div>
 
-    }
 
+</div>
 
-    /* =====================================================
-       TARGET SELECTOR
-    ===================================================== */
 
-    function setupTargetSelector() {
 
-        const target =
-            document.getElementById(
-                "notificationTarget"
-            );
 
 
-        if (!target) {
-            return;
-        }
+<nav class="admin-nav">
 
 
-        target.addEventListener(
-            "change",
-            function () {
+<div class="admin-nav-section">
+الإدارة
+</div>
 
-                renderUsers();
 
-                hideResult();
+<ul class="admin-nav-list">
 
-            }
-        );
 
-    }
+<li class="admin-nav-item">
 
+<a
+href="users.html"
+class="admin-nav-link"
+>
 
-    /* =====================================================
-       RENDER USERS
-    ===================================================== */
+<span class="admin-nav-icon">
+♙
+</span>
 
-    function renderUsers() {
+المستخدمون
 
-        const field =
-            document.getElementById(
-                "selectedUsersField"
-            );
+</a>
 
+</li>
 
-        if (!field) {
-            return;
-        }
 
 
-        const target =
-            document.getElementById(
-                "notificationTarget"
-            );
 
+<li class="admin-nav-item">
 
-        if (!target) {
-            return;
-        }
+<a
+href="notifications.html"
+class="admin-nav-link active"
+>
 
 
-        /*
-         * إخفاء جدول المستخدمين إذا لم يتم اختيار
-         * التحديد اليدوي.
-         */
+<span class="admin-nav-icon">
+◉
+</span>
 
-        if (target.value !== "selected") {
 
-            field.hidden = true;
+الإشعارات
 
-            return;
 
-        }
+</a>
 
 
-        field.hidden = false;
+</li>
 
 
-        /*
-         * البحث عن صندوق المستخدمين.
-         */
 
-        let box =
-            field.querySelector(
-                ".notification-users-box"
-            );
+</ul>
 
 
-        if (!box) {
 
-            box =
-                document.createElement(
-                    "div"
-                );
+</nav>
 
-            box.className =
-                "notification-users-box";
 
-            field.appendChild(box);
+</aside>
 
-        }
 
 
-        /*
-         * تنظيف المحتوى القديم.
-         */
 
-        box.innerHTML = "";
 
+<!-- MAIN -->
 
-        /*
-         * عنوان تحديد الكل.
-         */
 
-        const controls =
-            document.createElement(
-                "div"
-            );
+<section class="admin-main">
 
-        controls.className =
-            "notification-users-controls";
 
+<header class="admin-header">
 
-        controls.innerHTML = `
 
-            <label class="notification-select-all">
+<div class="admin-page-heading">
 
-                <input
-                    type="checkbox"
-                    id="selectAllNotificationUsers"
-                >
 
-                <span>
-                    تحديد جميع المستخدمين
-                </span>
+<h2 class="admin-page-title">
+الإشعارات
+</h2>
 
-            </label>
 
-            <span
-                class="notification-selected-count"
-                id="notificationSelectedCount"
-            >
-                0 مستخدم محدد
-            </span>
+<p class="admin-page-description">
+إرسال إشعارات من الإدارة إلى المستخدمين
+</p>
 
-        `;
 
+</div>
 
-        box.appendChild(controls);
 
+</header>
+<main class="admin-content">
 
-        /*
-         * قائمة المستخدمين.
-         */
 
-        const list =
-            document.createElement(
-                "div"
-            );
+            <!-- PAGE ACTIONS -->
 
-        list.className =
-            "notification-users-list";
+            <div class="admin-content-header">
 
+                <div>
 
-        box.appendChild(list);
+                    <h1 class="admin-page-title">
+                        إرسال إشعار
+                    </h1>
 
-
-        /*
-         * إذا لم توجد بيانات.
-         */
-
-        if (
-            notificationState.users.length === 0
-        ) {
-
-            list.innerHTML = `
-
-                <div class="notification-users-empty">
-
-                    لا يوجد مستخدمون متاحون حاليًا.
-
-                </div>
-
-            `;
-
-            return;
-
-        }
-
-
-        /*
-         * إنشاء صف لكل مستخدم.
-         */
-
-        notificationState.users.forEach(
-            function (user) {
-
-                const label =
-                    document.createElement(
-                        "label"
-                    );
-
-                label.className =
-                    "notification-user-option";
-
-
-                label.innerHTML = `
-
-                    <input
-                        type="checkbox"
-                        name="notificationUsers"
-                        value="${escapeHTML(user.id)}"
-                    >
-
-                    <span>
-
-                        <strong>
-                            ${escapeHTML(user.name)}
-                        </strong>
-
-                        <small>
-                            ${escapeHTML(user.email)}
-                            — #${escapeHTML(user.id)}
-                        </small>
-
-                    </span>
-
-                `;
-
-
-                list.appendChild(label);
-
-            }
-        );
-
-
-        setupUserSelection();
-
-    }
-
-
-    /* =====================================================
-       USER SELECTION
-    ===================================================== */
-
-    function setupUserSelection() {
-
-        const selectAll =
-            document.getElementById(
-                "selectAllNotificationUsers"
-            );
-
-
-        const checkboxes =
-            document.querySelectorAll(
-                'input[name="notificationUsers"]'
-            );
-
-
-        if (selectAll) {
-
-            selectAll.addEventListener(
-                "change",
-                function () {
-
-                    checkboxes.forEach(
-                        function (checkbox) {
-
-                            checkbox.checked =
-                                selectAll.checked;
-
-                        }
-                    );
-
-
-                    updateSelectedCount();
-
-                }
-            );
-
-        }
-
-
-        checkboxes.forEach(
-            function (checkbox) {
-
-                checkbox.addEventListener(
-                    "change",
-                    function () {
-
-                        updateSelectAllState();
-
-                        updateSelectedCount();
-
-                    }
-                );
-
-            }
-        );
-
-
-        updateSelectedCount();
-
-    }
-
-
-    /* =====================================================
-       UPDATE SELECT ALL
-    ===================================================== */
-
-    function updateSelectAllState() {
-
-        const selectAll =
-            document.getElementById(
-                "selectAllNotificationUsers"
-            );
-
-
-        const checkboxes =
-            document.querySelectorAll(
-                'input[name="notificationUsers"]'
-            );
-
-
-        if (
-            !selectAll ||
-            checkboxes.length === 0
-        ) {
-            return;
-        }
-
-
-        const checked =
-            document.querySelectorAll(
-                'input[name="notificationUsers"]:checked'
-            );
-
-
-        selectAll.checked =
-            checked.length === checkboxes.length;
-
-    }
-
-
-    /* =====================================================
-       SELECTED COUNT
-    ===================================================== */
-
-    function updateSelectedCount() {
-
-        const countElement =
-            document.getElementById(
-                "notificationSelectedCount"
-            );
-
-
-        if (!countElement) {
-            return;
-        }
-
-
-        const count =
-            document.querySelectorAll(
-                'input[name="notificationUsers"]:checked'
-            ).length;
-
-
-        countElement.textContent =
-            count + " مستخدم محدد";
-
-    }
-
-
-    /* =====================================================
-       CHARACTER COUNTER
-    ===================================================== */
-
-    function setupCharacterCounter() {
-
-        const textarea =
-            document.getElementById(
-                "notificationMessage"
-            );
-
-
-        const counter =
-            document.getElementById(
-                "notificationCharacterCount"
-            );
-
-
-        if (
-            !textarea ||
-            !counter
-        ) {
-            return;
-        }
-
-
-        function updateCounter() {
-
-            counter.textContent =
-                textarea.value.length;
-
-        }
-
-
-        textarea.addEventListener(
-            "input",
-            updateCounter
-        );
-
-
-        updateCounter();
-
-    }
-
-
-    /* =====================================================
-       LIVE PREVIEW
-    ===================================================== */
-
-    function setupPreview() {
-
-        const titleInput =
-            document.getElementById(
-                "notificationTitle"
-            );
-
-
-        const messageInput =
-            document.getElementById(
-                "notificationMessage"
-            );
-
-
-        const previewTitle =
-            document.getElementById(
-                "previewTitle"
-            );
-
-
-        const previewMessage =
-            document.getElementById(
-                "previewMessage"
-            );
-
-
-        if (titleInput) {
-
-            titleInput.addEventListener(
-                "input",
-                function () {
-
-                    if (!previewTitle) {
-                        return;
-                    }
-
-
-                    previewTitle.textContent =
-                        titleInput.value.trim()
-                        ||
-                        "عنوان الإشعار";
-
-                }
-            );
-
-        }
-
-
-        if (messageInput) {
-
-            messageInput.addEventListener(
-                "input",
-                function () {
-
-                    if (!previewMessage) {
-                        return;
-                    }
-
-
-                    previewMessage.textContent =
-                        messageInput.value.trim()
-                        ||
-                        "سيظهر نص الإشعار هنا.";
-
-                }
-            );
-
-        }
-
-    }
-
-
-    /* =====================================================
-       CLEAR
-    ===================================================== */
-
-    function setupClearButton() {
-
-        const button =
-            document.getElementById(
-                "clearNotification"
-            );
-
-
-        if (!button) {
-            return;
-        }
-
-
-        button.addEventListener(
-            "click",
-            function () {
-
-                clearNotificationForm();
-
-                showResult(
-                    "تم مسح بيانات الإشعار.",
-                    "success"
-                );
-
-            }
-        );
-
-    }
-
-
-    function clearNotificationForm() {
-
-        const title =
-            document.getElementById(
-                "notificationTitle"
-            );
-
-
-        const message =
-            document.getElementById(
-                "notificationMessage"
-            );
-
-
-        if (title) {
-            title.value = "";
-        }
-
-
-        if (message) {
-            message.value = "";
-        }
-
-
-        const checkboxes =
-            document.querySelectorAll(
-                'input[name="notificationUsers"]'
-            );
-
-
-        checkboxes.forEach(
-            function (checkbox) {
-
-                checkbox.checked = false;
-
-            }
-        );
-
-
-        const selectAll =
-            document.getElementById(
-                "selectAllNotificationUsers"
-            );
-
-
-        if (selectAll) {
-            selectAll.checked = false;
-        }
-
-
-        updateSelectedCount();
-
-
-        const counter =
-            document.getElementById(
-                "notificationCharacterCount"
-            );
-
-
-        if (counter) {
-            counter.textContent = "0";
-        }
-
-
-        const previewTitle =
-            document.getElementById(
-                "previewTitle"
-            );
-
-
-        const previewMessage =
-            document.getElementById(
-                "previewMessage"
-            );
-
-
-        if (previewTitle) {
-            previewTitle.textContent =
-                "عنوان الإشعار";
-        }
-
-
-        if (previewMessage) {
-            previewMessage.textContent =
-                "سيظهر نص الإشعار هنا.";
-        }
-
-    }
-
-
-    /* =====================================================
-       SEND
-    ===================================================== */
-
-    function setupSendButton() {
-
-        const button =
-            document.getElementById(
-                "sendNotification"
-            );
-
-
-        if (!button) {
-            return;
-        }
-
-
-        button.addEventListener(
-            "click",
-            sendNotification
-        );
-
-    }
-
-
-    function sendNotification() {
-
-        const target =
-            document.getElementById(
-                "notificationTarget"
-            );
-
-
-        const title =
-            document.getElementById(
-                "notificationTitle"
-            );
-
-
-        const message =
-            document.getElementById(
-                "notificationMessage"
-            );
-
-
-        if (
-            !target ||
-            !title ||
-            !message
-        ) {
-            return;
-        }
-
-
-        const titleValue =
-            title.value.trim();
-
-
-        const messageValue =
-            message.value.trim();
-
-
-        /*
-         * التحقق من العنوان.
-         */
-
-        if (!titleValue) {
-
-            showResult(
-                "يرجى كتابة عنوان الإشعار.",
-                "error"
-            );
-
-            title.focus();
-
-            return;
-
-        }
-
-
-        /*
-         * التحقق من الرسالة.
-         */
-
-        if (!messageValue) {
-
-            showResult(
-                "يرجى كتابة نص الإشعار.",
-                "error"
-            );
-
-            message.focus();
-
-            return;
-
-        }
-
-
-        /*
-         * المستخدمون المحددون يدويًا.
-         */
-
-        let selectedUsers = [];
-
-
-        if (
-            target.value === "selected"
-        ) {
-
-            const checked =
-                document.querySelectorAll(
-                    'input[name="notificationUsers"]:checked'
-                );
-
-
-            checked.forEach(
-                function (checkbox) {
-
-                    selectedUsers.push(
-                        checkbox.value
-                    );
-
-                }
-            );
-
-
-            if (
-                selectedUsers.length === 0
-            ) {
-
-                showResult(
-                    "يرجى اختيار مستخدم واحد على الأقل.",
-                    "error"
-                );
-
-                return;
-
-            }
-
-        }
-
-
-        /*
-         * تحديد عدد المستلمين.
-         */
-
-        let recipientCount = 0;
-
-
-        if (
-            target.value === "all"
-        ) {
-
-            recipientCount =
-                notificationState.users.length;
-
-        }
-
-
-        if (
-            target.value === "deposited"
-        ) {
-
-            recipientCount =
-                notificationState.users.filter(
-                    function (user) {
-
-                        return Number(
-                            user.deposits || 0
-                        ) > 0;
-
-                    }
-                ).length;
-
-        }
-
-
-        if (
-            target.value === "no-deposit"
-        ) {
-
-            recipientCount =
-                notificationState.users.filter(
-                    function (user) {
-
-                        return Number(
-                            user.deposits || 0
-                        ) <= 0;
-
-                    }
-                ).length;
-
-        }
-
-
-        if (
-            target.value === "selected"
-        ) {
-
-            recipientCount =
-                selectedUsers.length;
-
-        }
-
-
-        /*
-         * إنشاء سجل الإشعار.
-         */
-
-        const notification = {
-
-            id:
-                Date.now(),
-
-            title:
-                titleValue,
-
-            message:
-                messageValue,
-
-            target:
-                getTargetLabel(
-                    target.value
-                ),
-
-            recipientCount:
-                recipientCount,
-
-            date:
-                new Date().toLocaleString(
-                    "ar"
-                )
-
-        };
-
-
-        notificationState.history.unshift(
-            notification
-        );
-
-
-        saveHistory();
-
-
-        renderHistory();
-
-
-        showResult(
-            "تم إرسال الإشعار بنجاح إلى " +
-            recipientCount +
-            " مستخدم.",
-            "success"
-        );
-
-    }
-
-
-    /* =====================================================
-       TARGET LABEL
-    ===================================================== */
-
-    function getTargetLabel(
-        value
-    ) {
-
-        switch (value) {
-
-            case "all":
-
-                return "جميع المستخدمين";
-
-
-            case "deposited":
-
-                return "لديهم إيداع";
-
-
-            case "no-deposit":
-
-                return "ليس لديهم إيداع";
-
-
-            case "selected":
-
-                return "مستخدمون محددون";
-
-
-            default:
-
-                return "غير محدد";
-
-        }
-
-    }
-
-
-    /* =====================================================
-       RESULT MESSAGE
-    ===================================================== */
-
-    function showResult(
-        message,
-        type
-    ) {
-
-        const result =
-            document.getElementById(
-                "notificationResult"
-            );
-
-
-        if (!result) {
-            return;
-        }
-
-
-        result.hidden = false;
-
-
-        result.className =
-            "notification-result " +
-            (
-                type === "error"
-                    ? "error"
-                    : "success"
-            );
-
-
-        result.textContent =
-            message;
-
-    }
-
-
-    function hideResult() {
-
-        const result =
-            document.getElementById(
-                "notificationResult"
-            );
-
-
-        if (!result) {
-            return;
-        }
-
-
-        result.hidden = true;
-
-    }
-
-
-    /* =====================================================
-       HISTORY
-    ===================================================== */
-
-    function saveHistory() {
-
-        try {
-
-            localStorage.setItem(
-                "valora_notification_history",
-                JSON.stringify(
-                    notificationState.history
-                )
-            );
-
-        } catch (error) {
-
-            console.warn(
-                "تعذر حفظ سجل الإشعارات",
-                error
-            );
-
-        }
-
-    }
-
-
-    function loadHistory() {
-
-        try {
-
-            const saved =
-                localStorage.getItem(
-                    "valora_notification_history"
-                );
-
-
-            if (!saved) {
-
-                notificationState.history = [];
-
-                renderHistory();
-
-                return;
-
-            }
-
-
-            const data =
-                JSON.parse(saved);
-
-
-            if (
-                Array.isArray(data)
-            ) {
-
-                notificationState.history =
-                    data;
-
-            } else {
-
-                notificationState.history =
-                    [];
-
-            }
-
-        } catch (error) {
-
-            notificationState.history = [];
-
-        }
-
-
-        renderHistory();
-
-    }
-
-
-    /* =====================================================
-       RENDER HISTORY
-    ===================================================== */
-
-    function renderHistory() {
-
-        const container =
-            document.getElementById(
-                "notificationHistory"
-            );
-
-
-        if (!container) {
-            return;
-        }
-
-
-        if (
-            notificationState.history.length === 0
-        ) {
-
-            container.innerHTML = `
-
-                <div class="notification-history-empty">
-
-                    <div class="notification-history-icon">
-                        ◉
-                    </div>
-
-                    <h3>
-                        لا توجد إشعارات مرسلة
-                    </h3>
-
-                    <p>
-                        ستظهر الإشعارات التي يتم إرسالها هنا.
+                    <p class="admin-page-description">
+                        أرسل رسالة إلى جميع المستخدمين أو إلى فئة محددة.
                     </p>
 
                 </div>
 
-            `;
-
-            return;
-
-        }
+            </div>
 
 
-        container.innerHTML = "";
+
+            <!-- NOTIFICATION FORM -->
+
+            <section class="admin-card notification-compose-card">
 
 
-        notificationState.history.forEach(
-            function (item) {
+                <div class="admin-card-header">
 
-                const card =
-                    document.createElement(
-                        "div"
-                    );
+                    <div>
 
+                        <h2 class="admin-card-title">
+                            إنشاء إشعار جديد
+                        </h2>
 
-                card.className =
-                    "notification-history-item";
-
-
-                card.innerHTML = `
-
-                    <div class="notification-history-main">
-
-                        <h3>
-                            ${escapeHTML(item.title)}
-                        </h3>
-
-                        <p>
-                            ${escapeHTML(item.message)}
+                        <p class="admin-card-description">
+                            اختر المستلمين ثم اكتب محتوى الإشعار.
                         </p>
 
                     </div>
 
-                    <div class="notification-history-meta">
+                </div>
 
-                        <span>
-                            ${escapeHTML(item.target)}
-                        </span>
 
-                        <span>
-                            ${escapeHTML(
-                                String(item.recipientCount)
-                            )}
-                            مستخدم
-                        </span>
 
-                        <small>
-                            ${escapeHTML(item.date)}
-                        </small>
+                <div class="admin-card-body">
+
+
+                    <!-- RECIPIENT TYPE -->
+
+                    <div class="notification-field">
+
+
+                        <label
+                            class="notification-label"
+                            for="notificationTarget"
+                        >
+                            المستلمون
+                        </label>
+
+
+                        <select
+                            id="notificationTarget"
+                            class="notification-input"
+                        >
+
+                            <option value="all">
+                                جميع المستخدمين
+                            </option>
+
+                            <option value="deposited">
+                                المستخدمون الذين لديهم إيداع
+                            </option>
+
+                            <option value="no-deposit">
+                                المستخدمون الذين ليس لديهم إيداع
+                            </option>
+
+                            <option value="selected">
+                                تحديد مستخدمين يدويًا
+                            </option>
+
+                        </select>
+
 
                     </div>
 
-                `;
 
 
-                container.appendChild(card);
+                    <!-- SELECTED USERS -->
 
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       ESCAPE HTML
-    ===================================================== */
-
-    function escapeHTML(
-        value
-    ) {
-
-        return String(
-            value ?? ""
-        )
-
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-
-        .replace(
-            /</g,
-            "&lt;"
-        )
-
-        .replace(
-            />/g,
-            "&gt;"
-        )
-
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-
-        .replace(
-            /'/g,
-            "&#039;"
-        );
-
-    }
+                    <div
+                        class="notification-field"
+                        id="selectedUsersField"
+                        hidden
+                    >
 
 
-})();
+                        <label class="notification-label">
+
+                            اختر المستخدمين
+
+                        </label>
+
+
+                        <div class="notification-users-box">
+
+
+                            <label class="notification-user-option">
+
+                                <input
+                                    type="checkbox"
+                                    name="notificationUsers"
+                                    value="1001"
+                                >
+
+                                <span>
+
+                                    <strong>
+                                        أحمد محمد
+                                    </strong>
+
+                                    <small>
+                                        ahmed@test.com — #1001
+                                    </small>
+
+                                </span>
+
+                            </label>
+
+
+
+                            <label class="notification-user-option">
+
+                                <input
+                                    type="checkbox"
+                                    name="notificationUsers"
+                                    value="1002"
+                                >
+
+                                <span>
+
+                                    <strong>
+                                        مستخدم تجريبي
+                                    </strong>
+
+                                    <small>
+                                        user@example.com — #1002
+                                    </small>
+
+                                </span>
+
+                            </label>
+
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- TITLE -->
+
+                    <div class="notification-field">
+
+
+                        <label
+                            class="notification-label"
+                            for="notificationTitle"
+                        >
+                            عنوان الإشعار
+                        </label>
+
+
+                        <input
+                            type="text"
+                            id="notificationTitle"
+                            class="notification-input"
+                            placeholder="مثال: تحديث مهم في حسابك"
+                            maxlength="120"
+                        >
+
+
+                    </div>
+
+
+
+                    <!-- MESSAGE -->
+
+                    <div class="notification-field">
+
+
+                        <label
+                            class="notification-label"
+                            for="notificationMessage"
+                        >
+                            نص الإشعار
+                        </label>
+
+
+                        <textarea
+                            id="notificationMessage"
+                            class="notification-textarea"
+                            rows="6"
+                            placeholder="اكتب نص الإشعار هنا..."
+                            maxlength="1000"
+                        ></textarea>
+
+
+                        <div class="notification-character-count">
+
+                            <span id="notificationCharacterCount">
+                                0
+                            </span>
+
+                            / 1000
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- PREVIEW -->
+
+                    <div class="notification-preview">
+
+
+                        <div class="notification-preview-label">
+                            معاينة الإشعار
+                        </div>
+
+
+                        <div class="notification-preview-card">
+
+
+                            <div class="notification-preview-icon">
+                                ◉
+                            </div>
+
+
+                            <div class="notification-preview-content">
+
+
+                                <strong
+                                    id="previewTitle"
+                                >
+                                    عنوان الإشعار
+                                </strong>
+
+
+                                <p
+                                    id="previewMessage"
+                                >
+                                    سيظهر نص الإشعار هنا.
+                                </p>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- ACTIONS -->
+
+                    <div class="notification-actions">
+
+
+                        <button
+                            type="button"
+                            class="admin-btn admin-btn-secondary"
+                            id="clearNotification"
+                        >
+                            مسح
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="admin-btn admin-btn-primary"
+                            id="sendNotification"
+                        >
+                            إرسال الإشعار
+                        </button>
+
+
+                    </div>
+
+
+                    <!-- RESULT MESSAGE -->
+
+                    <div
+                        id="notificationResult"
+                        class="notification-result"
+                        hidden
+                    ></div>
+
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- SENT NOTIFICATIONS -->
+
+            <section class="admin-card notification-history-card">
+
+
+                <div class="admin-card-header">
+
+                    <div>
+
+                        <h2 class="admin-card-title">
+                            سجل الإشعارات
+                        </h2>
+
+                        <p class="admin-card-description">
+                            الإشعارات التي تم إرسالها من لوحة الإدارة.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="admin-card-body">
+
+
+                    <div
+                        class="notification-history"
+                        id="notificationHistory"
+                    >
+
+
+                        <div class="notification-history-empty">
+
+                            <div class="notification-history-icon">
+                                ◉
+                            </div>
+
+
+                            <h3>
+                                لا توجد إشعارات مرسلة
+                            </h3>
+
+
+                            <p>
+                                ستظهر الإشعارات التي يتم إرسالها هنا.
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+
+        </main>
+
+
+    </section>
+
+
+</div>
+
+
+</div>
+
+
+
+<script src="js/admin.js"></script>
+
+<script src="js/notifications.js"></script>
+
+
+</body>
+
+</html>
