@@ -1,6 +1,6 @@
 /* =========================================================
    VALORA ADMIN — SUPPORT MESSAGES
-   نظام دعم المستخدمين
+   WhatsApp-style conversations
    ========================================================= */
 
 (function () {
@@ -24,14 +24,11 @@
 
             {
                 id: "1",
-
                 userId: "1001",
-
                 name: "أحمد محمد",
-
                 email: "ahmed@test.com",
-
                 unread: 2,
+                lastActivity: 3,
 
                 messages: [
 
@@ -54,14 +51,11 @@
 
             {
                 id: "2",
-
                 userId: "1002",
-
                 name: "مستخدم تجريبي",
-
                 email: "user@example.com",
-
                 unread: 1,
+                lastActivity: 2,
 
                 messages: [
 
@@ -78,14 +72,11 @@
 
             {
                 id: "3",
-
                 userId: "1003",
-
                 name: "محمد علي",
-
                 email: "mohamed@test.com",
-
                 unread: 0,
+                lastActivity: 1,
 
                 messages: [
 
@@ -107,7 +98,11 @@
 
         ],
 
-        selectedConversation: null
+
+        selectedConversationId: null,
+
+
+        activityCounter: 3
 
     };
 
@@ -118,6 +113,8 @@
 
     function initMessages() {
 
+        sortConversations();
+
         renderUsersList();
 
         setupReply();
@@ -126,7 +123,28 @@
 
 
     /* =====================================================
-       RENDER USERS
+       SORT CONVERSATIONS
+       الأحدث دائمًا في الأعلى
+    ===================================================== */
+
+    function sortConversations() {
+
+        messagesState.conversations.sort(
+            function (a, b) {
+
+                return (
+                    b.lastActivity -
+                    a.lastActivity
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       RENDER USERS LIST
     ===================================================== */
 
     function renderUsersList() {
@@ -143,6 +161,9 @@
 
 
         list.innerHTML = "";
+
+
+        sortConversations();
 
 
         if (
@@ -170,6 +191,7 @@
             `;
 
             return;
+
         }
 
 
@@ -177,13 +199,28 @@
             function (conversation) {
 
                 const button =
-                    document.createElement("button");
+                    document.createElement(
+                        "button"
+                    );
 
 
                 button.type = "button";
 
+
                 button.className =
                     "message-user-item";
+
+
+                if (
+                    messagesState.selectedConversationId ===
+                    conversation.id
+                ) {
+
+                    button.classList.add(
+                        "active"
+                    );
+
+                }
 
 
                 button.dataset.id =
@@ -211,11 +248,13 @@
                             )}
                         </strong>
 
+
                         <span>
                             #${escapeHTML(
                                 conversation.userId
                             )}
                         </span>
+
 
                         <small>
                             ${escapeHTML(
@@ -228,17 +267,34 @@
                     </div>
 
 
-                    ${
-                        conversation.unread > 0
-                        ?
-                        `
-                        <span class="message-unread">
-                            ${conversation.unread}
+                    <div class="message-user-meta">
+
+                        <span class="message-time">
+
+                            ${escapeHTML(
+                                getLastMessageTime(
+                                    conversation
+                                )
+                            )}
+
                         </span>
-                        `
-                        :
-                        ""
-                    }
+
+
+                        ${
+                            conversation.unread > 0
+                            ?
+                            `
+                            <span class="message-unread">
+
+                                ${conversation.unread}
+
+                            </span>
+                            `
+                            :
+                            ""
+                        }
+
+                    </div>
 
                 `;
 
@@ -255,7 +311,9 @@
                 );
 
 
-                list.appendChild(button);
+                list.appendChild(
+                    button
+                );
 
             }
         );
@@ -284,16 +342,43 @@
         }
 
 
-        messagesState.selectedConversation =
-            conversation;
+        messagesState.selectedConversationId =
+            conversation.id;
 
+
+        /*
+        =============================================
+        عند فتح المحادثة:
+        الرسائل غير المقروءة تصبح صفر
+        =============================================
+        */
 
         conversation.unread = 0;
 
 
+        /*
+        =============================================
+        نخلي المحادثة المختارة في الأعلى
+        =============================================
+        */
+
+        messagesState.activityCounter++;
+
+
+        conversation.lastActivity =
+            messagesState.activityCounter;
+
+
+        sortConversations();
+
+
         renderUsersList();
 
-        renderChat(conversation);
+
+        renderChat(
+            conversation
+        );
+
 
     }
 
@@ -302,7 +387,9 @@
        RENDER CHAT
     ===================================================== */
 
-    function renderChat(conversation) {
+    function renderChat(
+        conversation
+    ) {
 
         const header =
             document.getElementById(
@@ -321,7 +408,11 @@
         }
 
 
-        /* HEADER */
+        /*
+        =============================================
+        HEADER
+        =============================================
+        */
 
         header.innerHTML = `
 
@@ -338,21 +429,29 @@
                 </div>
 
 
-                <div>
+                <div class="chat-user-header-info">
 
                     <strong>
+
                         ${escapeHTML(
                             conversation.name
                         )}
+
                     </strong>
 
+
                     <span>
+
                         ${escapeHTML(
                             conversation.email
                         )}
-                        — #${escapeHTML(
+
+                        —
+
+                        #${escapeHTML(
                             conversation.userId
                         )}
+
                     </span>
 
                 </div>
@@ -362,7 +461,11 @@
         `;
 
 
-        /* BODY */
+        /*
+        =============================================
+        BODY
+        =============================================
+        */
 
         body.innerHTML = "";
 
@@ -375,7 +478,9 @@
             body.innerHTML = `
 
                 <div class="chat-empty">
+
                     لا توجد رسائل
+
                 </div>
 
             `;
@@ -389,15 +494,24 @@
             function (message) {
 
                 const messageRow =
-                    document.createElement("div");
+                    document.createElement(
+                        "div"
+                    );
 
 
-                messageRow.className =
+                if (
                     message.sender === "admin"
-                    ?
-                    "chat-message chat-message-admin"
-                    :
-                    "chat-message chat-message-user";
+                ) {
+
+                    messageRow.className =
+                        "chat-message chat-message-admin";
+
+                } else {
+
+                    messageRow.className =
+                        "chat-message chat-message-user";
+
+                }
 
 
                 messageRow.innerHTML = `
@@ -410,10 +524,13 @@
                             )}
                         </p>
 
+
                         <small>
+
                             ${escapeHTML(
                                 message.time
                             )}
+
                         </small>
 
                     </div>
@@ -429,14 +546,26 @@
         );
 
 
-        body.scrollTop =
-            body.scrollHeight;
+        /*
+        =============================================
+        النزول إلى آخر رسالة
+        =============================================
+        */
+
+        requestAnimationFrame(
+            function () {
+
+                body.scrollTop =
+                    body.scrollHeight;
+
+            }
+        );
 
     }
 
 
     /* =====================================================
-       REPLY
+       REPLY SETUP
     ===================================================== */
 
     function setupReply() {
@@ -469,8 +598,8 @@
             function (event) {
 
                 /*
-                 Enter = إرسال
-                 Shift + Enter = سطر جديد
+                Enter = إرسال
+                Shift + Enter = سطر جديد
                 */
 
                 if (
@@ -522,8 +651,14 @@
         }
 
 
+        /*
+        =============================================
+        يجب اختيار مستخدم
+        =============================================
+        */
+
         if (
-            !messagesState.selectedConversation
+            !messagesState.selectedConversationId
         ) {
 
             alert(
@@ -534,6 +669,30 @@
 
         }
 
+
+        const conversation =
+            messagesState.conversations.find(
+                function (item) {
+
+                    return (
+                        item.id ===
+                        messagesState.selectedConversationId
+                    );
+
+                }
+            );
+
+
+        if (!conversation) {
+            return;
+        }
+
+
+        /*
+        =============================================
+        الوقت
+        =============================================
+        */
 
         const now =
             new Date();
@@ -549,29 +708,82 @@
             );
 
 
-        messagesState
-            .selectedConversation
-            .messages
-            .push({
+        /*
+        =============================================
+        إضافة الرسالة
+        =============================================
+        */
 
-                sender: "admin",
+        conversation.messages.push({
 
-                text: text,
+            sender: "admin",
 
-                time: time
+            text: text,
 
-            });
+            time: time
 
+        });
+
+
+        /*
+        =============================================
+        تحديث النشاط
+        =============================================
+        */
+
+        messagesState.activityCounter++;
+
+
+        conversation.lastActivity =
+            messagesState.activityCounter;
+
+
+        /*
+        =============================================
+        الرسالة أرسلت من الإدارة
+        لذلك لا نضع unread
+        =============================================
+        */
+
+        conversation.unread = 0;
+
+
+        /*
+        =============================================
+        تفريغ مربع الكتابة
+        =============================================
+        */
 
         input.value = "";
 
 
-        renderChat(
-            messagesState.selectedConversation
-        );
+        /*
+        =============================================
+        إعادة ترتيب المحادثات
+        =============================================
+        */
 
+        sortConversations();
+
+
+        /*
+        =============================================
+        إعادة رسم القائمة
+        =============================================
+        */
 
         renderUsersList();
+
+
+        /*
+        =============================================
+        إبقاء نفس المحادثة مفتوحة
+        =============================================
+        */
+
+        renderChat(
+            conversation
+        );
 
     }
 
@@ -601,6 +813,35 @@
 
 
         return last.text;
+
+    }
+
+
+    /* =====================================================
+       LAST MESSAGE TIME
+    ===================================================== */
+
+    function getLastMessageTime(
+        conversation
+    ) {
+
+        if (
+            !conversation.messages ||
+            conversation.messages.length === 0
+        ) {
+
+            return "";
+
+        }
+
+
+        const last =
+            conversation.messages[
+                conversation.messages.length - 1
+            ];
+
+
+        return last.time || "";
 
     }
 
