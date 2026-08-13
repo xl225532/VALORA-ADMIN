@@ -1,0 +1,429 @@
+/* =========================================================
+   VALORA ADMIN — NOTIFICATIONS
+   ========================================================= */
+
+
+/* =========================================================
+   COMPOSE CARD
+   ========================================================= */
+
+
+.notification-compose-card,
+.notification-history-card {
+
+    margin-bottom: 20px;
+
+}
+
+
+
+/* =========================================================
+   FIELDS
+   ========================================================= */
+
+
+.notification-field {
+
+    margin-bottom: 20px;
+
+}
+
+
+
+.notification-label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: var(--va-text);
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+}
+
+
+
+.notification-input,
+.notification-textarea {
+
+    width: 100%;
+
+    padding: 12px 14px;
+
+    background: rgba(255,255,255,0.03);
+
+    border: 1px solid var(--va-border);
+
+    border-radius: var(--va-radius-sm);
+
+    color: var(--va-text);
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    outline: none;
+
+    transition:
+
+        border-color var(--va-transition),
+
+        background var(--va-transition);
+
+}
+
+
+
+.notification-input:focus,
+.notification-textarea:focus {
+
+    border-color: var(--va-gold);
+
+    background: rgba(255,255,255,0.05);
+
+}
+
+
+
+.notification-textarea {
+
+    resize: vertical;
+
+    min-height: 130px;
+
+}
+
+
+
+
+/* =========================================================
+   SELECTED USERS
+   ========================================================= */
+
+
+.notification-users-box {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+    padding: 14px;
+
+    background: rgba(255,255,255,0.02);
+
+    border: 1px solid var(--va-border);
+
+    border-radius: var(--va-radius-md);
+
+}
+
+
+
+.notification-user-option {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 12px;
+
+    border-radius: var(--va-radius-sm);
+
+    cursor: pointer;
+
+    background: rgba(255,255,255,0.02);
+
+}
+
+
+
+.notification-user-option:hover {
+
+    background: rgba(255,255,255,0.05);
+
+}
+
+
+
+.notification-user-option input {
+
+    width: 16px;
+
+    height: 16px;
+
+}
+
+
+
+.notification-user-option span {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+
+}
+
+
+
+.notification-user-option strong {
+
+    color: var(--va-text);
+
+    font-size: 13px;
+
+}
+
+
+
+.notification-user-option small {
+
+    color: var(--va-text-muted);
+
+    font-size: 11px;
+
+}
+
+
+
+
+
+/* =========================================================
+   CHARACTER COUNT
+   ========================================================= */
+
+
+.notification-character-count {
+
+    margin-top: 8px;
+
+    text-align: left;
+
+    color: var(--va-text-muted);
+
+    font-size: 11px;
+
+}
+
+
+
+
+
+/* =========================================================
+   PREVIEW
+   ========================================================= */
+
+
+.notification-preview {
+
+    margin: 25px 0;
+
+}
+
+
+
+.notification-preview-label {
+
+    margin-bottom: 10px;
+
+    color: var(--va-text-muted);
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+}
+
+
+
+.notification-preview-card {
+
+    display: flex;
+
+    gap: 14px;
+
+    padding: 18px;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            rgba(212,175,55,0.12),
+            rgba(212,175,55,0.03)
+        );
+
+    border: 1px solid rgba(212,175,55,0.20);
+
+    border-radius: var(--va-radius-lg);
+
+}
+
+
+
+.notification-preview-icon {
+
+    width: 42px;
+
+    height: 42px;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius: 50%;
+
+    background: var(--va-gold);
+
+    color: #080808;
+
+    font-weight: 800;
+
+}
+
+
+
+.notification-preview-content strong {
+
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: var(--va-text);
+
+}
+
+
+
+.notification-preview-content p {
+
+    margin: 0;
+
+    color: var(--va-text-muted);
+
+    font-size: 13px;
+
+}
+
+
+
+
+/* =========================================================
+   ACTIONS
+   ========================================================= */
+
+
+.notification-actions {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 12px;
+
+}
+
+
+
+.notification-result {
+
+    margin-top: 18px;
+
+    padding: 12px;
+
+    border-radius: var(--va-radius-sm);
+
+    background: var(--va-success-soft);
+
+    color: var(--va-success);
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+}
+
+
+
+
+/* =========================================================
+   HISTORY
+   ========================================================= */
+
+
+.notification-history-empty {
+
+    padding: 40px 20px;
+
+    text-align: center;
+
+}
+
+
+
+.notification-history-icon {
+
+    font-size: 35px;
+
+    margin-bottom: 12px;
+
+    color: var(--va-gold);
+
+}
+
+
+
+.notification-history-empty h3 {
+
+    margin: 0 0 8px;
+
+    color: var(--va-text);
+
+}
+
+
+
+.notification-history-empty p {
+
+    margin: 0;
+
+    color: var(--va-text-muted);
+
+    font-size: 13px;
+
+}
+
+
+
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+
+@media(max-width:768px){
+
+
+    .notification-actions {
+
+        flex-direction: column;
+
+    }
+
+
+    .notification-actions button {
+
+        width:100%;
+
+    }
+
+
+}
