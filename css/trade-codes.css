@@ -1,0 +1,238 @@
+/* =========================================================
+   VALORA ADMIN — TRADE CODES
+========================================================= */
+
+
+.trade-actions {
+
+    display: flex;
+
+    gap: 12px;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+}
+
+
+
+.trade-actions select {
+
+    min-width: 220px;
+
+    height: 44px;
+
+    padding: 0 14px;
+
+    border-radius: var(--va-radius-sm);
+
+    border: 1px solid var(--va-border);
+
+    background:
+        rgba(255,255,255,0.03);
+
+    color: var(--va-text);
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    outline: none;
+
+}
+
+
+
+.trade-actions select:focus {
+
+    border-color:
+        rgba(212,175,55,0.55);
+
+}
+
+
+
+
+.trade-table-wrapper {
+
+    width: 100%;
+
+    overflow-x: auto;
+
+}
+
+
+
+.trade-table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 650px;
+
+}
+
+
+
+.trade-table th {
+
+    text-align: right;
+
+    padding: 14px;
+
+    color: var(--va-text-muted);
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    border-bottom:
+        1px solid var(--va-border);
+
+}
+
+
+
+.trade-table td {
+
+    padding: 14px;
+
+    color: var(--va-text);
+
+    font-size: 13px;
+
+    border-bottom:
+        1px solid var(--va-border);
+
+}
+
+
+
+.trade-code {
+
+    font-family: monospace;
+
+    font-size: 14px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+    color:
+        var(--va-gold);
+
+}
+
+
+
+.trade-status {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: 5px 12px;
+
+    border-radius: 999px;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+}
+
+
+
+.trade-status.active {
+
+    background:
+        rgba(34,197,94,0.15);
+
+    color:
+        #22c55e;
+
+}
+
+
+
+.trade-status.used {
+
+    background:
+        rgba(212,175,55,0.15);
+
+    color:
+        var(--va-gold);
+
+}
+
+
+
+.trade-status.expired {
+
+    background:
+        rgba(239,68,68,0.15);
+
+    color:
+        #ef4444;
+
+}
+
+
+
+
+.trade-copy-button {
+
+    border: 0;
+
+    cursor: pointer;
+
+    padding: 7px 14px;
+
+    border-radius: 8px;
+
+    background:
+        rgba(255,255,255,0.06);
+
+    color:
+        var(--va-text);
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+}
+
+
+
+.trade-copy-button:hover {
+
+    background:
+        rgba(212,175,55,0.15);
+
+}
+
+
+
+@media(max-width:700px){
+
+
+.trade-actions {
+
+    flex-direction: column;
+
+    align-items: stretch;
+
+}
+
+
+.trade-actions select,
+.trade-actions button {
+
+    width: 100%;
+
+}
+
+
+}
