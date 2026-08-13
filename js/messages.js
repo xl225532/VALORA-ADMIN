@@ -1,6 +1,6 @@
 /* =========================================================
-   VALORA ADMIN — MESSAGES
-   نظام محادثات الدعم
+   VALORA ADMIN — SUPPORT MESSAGES
+   نظام دعم المستخدمين
    ========================================================= */
 
 (function () {
@@ -73,6 +73,36 @@
 
                 ]
 
+            },
+
+
+            {
+                id: "3",
+
+                userId: "1003",
+
+                name: "محمد علي",
+
+                email: "mohamed@test.com",
+
+                unread: 0,
+
+                messages: [
+
+                    {
+                        sender: "user",
+                        text: "متى يتم تنفيذ عملية السحب؟",
+                        time: "09:45"
+                    },
+
+                    {
+                        sender: "admin",
+                        text: "سيتم مراجعة طلبك من فريق الدعم.",
+                        time: "09:50"
+                    }
+
+                ]
+
             }
 
         ],
@@ -88,24 +118,22 @@
 
     function initMessages() {
 
-        renderConversationList();
+        renderUsersList();
 
-        setupSendMessage();
-
-        setupMessageInput();
+        setupReply();
 
     }
 
 
     /* =====================================================
-       RENDER CONVERSATION LIST
+       RENDER USERS
     ===================================================== */
 
-    function renderConversationList() {
+    function renderUsersList() {
 
         const list =
             document.getElementById(
-                "messagesList"
+                "messagesUsersList"
             );
 
 
@@ -134,7 +162,7 @@
                     </h3>
 
                     <p>
-                        ستظهر هنا رسائل المستخدمين عند وصولها.
+                        ستظهر رسائل المستخدمين هنا.
                     </p>
 
                 </div>
@@ -148,23 +176,23 @@
         messagesState.conversations.forEach(
             function (conversation) {
 
-                const item =
+                const button =
                     document.createElement("button");
 
 
-                item.type = "button";
+                button.type = "button";
 
-                item.className =
-                    "message-conversation";
+                button.className =
+                    "message-user-item";
 
 
-                item.dataset.id =
+                button.dataset.id =
                     conversation.id;
 
 
-                item.innerHTML = `
+                button.innerHTML = `
 
-                    <div class="message-conversation-avatar">
+                    <div class="message-user-avatar">
 
                         ${escapeHTML(
                             getInitial(
@@ -175,7 +203,7 @@
                     </div>
 
 
-                    <div class="message-conversation-info">
+                    <div class="message-user-info">
 
                         <strong>
                             ${escapeHTML(
@@ -215,11 +243,11 @@
                 `;
 
 
-                item.addEventListener(
+                button.addEventListener(
                     "click",
                     function () {
 
-                        selectConversation(
+                        openConversation(
                             conversation.id
                         );
 
@@ -227,7 +255,7 @@
                 );
 
 
-                list.appendChild(item);
+                list.appendChild(button);
 
             }
         );
@@ -236,10 +264,10 @@
 
 
     /* =====================================================
-       SELECT CONVERSATION
+       OPEN CONVERSATION
     ===================================================== */
 
-    function selectConversation(id) {
+    function openConversation(id) {
 
         const conversation =
             messagesState.conversations.find(
@@ -263,106 +291,118 @@
         conversation.unread = 0;
 
 
-        renderConversationList();
+        renderUsersList();
 
-        renderConversation(conversation);
+        renderChat(conversation);
 
     }
 
 
     /* =====================================================
-       RENDER CONVERSATION
+       RENDER CHAT
     ===================================================== */
 
-    function renderConversation(conversation) {
-
-        const empty =
-            document.getElementById(
-                "messagesEmpty"
-            );
-
+    function renderChat(conversation) {
 
         const header =
             document.getElementById(
-                "messageUserName"
-            );
-
-
-        const email =
-            document.getElementById(
-                "messageUserEmail"
-            );
-
-
-        const userId =
-            document.getElementById(
-                "messageUserId"
+                "chatHeader"
             );
 
 
         const body =
             document.getElementById(
-                "messagesBody"
+                "chatBody"
             );
 
 
-        if (empty) {
-
-            empty.style.display = "none";
-
-        }
-
-
-        if (header) {
-
-            header.textContent =
-                conversation.name;
-
-        }
-
-
-        if (email) {
-
-            email.textContent =
-                conversation.email;
-
-        }
-
-
-        if (userId) {
-
-            userId.textContent =
-                "#" + conversation.userId;
-
-        }
-
-
-        if (!body) {
+        if (!header || !body) {
             return;
         }
 
 
+        /* HEADER */
+
+        header.innerHTML = `
+
+            <div class="chat-user-header">
+
+                <div class="chat-user-avatar">
+
+                    ${escapeHTML(
+                        getInitial(
+                            conversation.name
+                        )
+                    )}
+
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        ${escapeHTML(
+                            conversation.name
+                        )}
+                    </strong>
+
+                    <span>
+                        ${escapeHTML(
+                            conversation.email
+                        )}
+                        — #${escapeHTML(
+                            conversation.userId
+                        )}
+                    </span>
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        /* BODY */
+
         body.innerHTML = "";
+
+
+        if (
+            !conversation.messages ||
+            conversation.messages.length === 0
+        ) {
+
+            body.innerHTML = `
+
+                <div class="chat-empty">
+                    لا توجد رسائل
+                </div>
+
+            `;
+
+            return;
+
+        }
 
 
         conversation.messages.forEach(
             function (message) {
 
-                const row =
+                const messageRow =
                     document.createElement("div");
 
 
-                row.className =
+                messageRow.className =
                     message.sender === "admin"
                     ?
-                    "message-row message-row-admin"
+                    "chat-message chat-message-admin"
                     :
-                    "message-row message-row-user";
+                    "chat-message chat-message-user";
 
 
-                row.innerHTML = `
+                messageRow.innerHTML = `
 
-                    <div class="message-bubble">
+                    <div class="chat-message-bubble">
 
                         <p>
                             ${escapeHTML(
@@ -381,7 +421,9 @@
                 `;
 
 
-                body.appendChild(row);
+                body.appendChild(
+                    messageRow
+                );
 
             }
         );
@@ -394,35 +436,69 @@
 
 
     /* =====================================================
-       SEND MESSAGE
+       REPLY
     ===================================================== */
 
-    function setupSendMessage() {
+    function setupReply() {
 
         const button =
             document.getElementById(
-                "sendMessage"
+                "sendReply"
             );
 
 
-        if (!button) {
+        const input =
+            document.getElementById(
+                "replyMessage"
+            );
+
+
+        if (!button || !input) {
             return;
         }
 
 
         button.addEventListener(
             "click",
-            sendMessage
+            sendReply
+        );
+
+
+        input.addEventListener(
+            "keydown",
+            function (event) {
+
+                /*
+                 Enter = إرسال
+                 Shift + Enter = سطر جديد
+                */
+
+                if (
+                    event.key === "Enter" &&
+                    !event.shiftKey
+                ) {
+
+                    event.preventDefault();
+
+                    sendReply();
+
+                }
+
+            }
         );
 
     }
 
 
-    function sendMessage() {
+    /* =====================================================
+       SEND REPLY
+    ===================================================== */
+
+    function sendReply() {
 
         const input =
             document.getElementById(
-                "messageInput"
+                "replyMessage"
             );
 
 
@@ -436,7 +512,13 @@
 
 
         if (!text) {
+
+            alert(
+                "اكتب الرسالة أولاً."
+            );
+
             return;
+
         }
 
 
@@ -444,8 +526,8 @@
             !messagesState.selectedConversation
         ) {
 
-            showMessage(
-                "اختر محادثة أولاً."
+            alert(
+                "اختر مستخدمًا أولاً."
             );
 
             return;
@@ -484,84 +566,12 @@
         input.value = "";
 
 
-        updateCharacterCount();
-
-        renderConversation(
+        renderChat(
             messagesState.selectedConversation
         );
 
-    }
 
-
-    /* =====================================================
-       INPUT
-    ===================================================== */
-
-    function setupMessageInput() {
-
-        const input =
-            document.getElementById(
-                "messageInput"
-            );
-
-
-        if (!input) {
-            return;
-        }
-
-
-        input.addEventListener(
-            "input",
-            updateCharacterCount
-        );
-
-
-        input.addEventListener(
-            "keydown",
-            function (event) {
-
-                if (
-                    event.key === "Enter" &&
-                    !event.shiftKey
-                ) {
-
-                    event.preventDefault();
-
-                    sendMessage();
-
-                }
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       CHARACTER COUNT
-    ===================================================== */
-
-    function updateCharacterCount() {
-
-        const input =
-            document.getElementById(
-                "messageInput"
-            );
-
-
-        const counter =
-            document.getElementById(
-                "messageCharacterCount"
-            );
-
-
-        if (!input || !counter) {
-            return;
-        }
-
-
-        counter.textContent =
-            input.value.length;
+        renderUsersList();
 
     }
 
@@ -652,19 +662,6 @@
             /'/g,
             "&#039;"
         );
-
-    }
-
-
-    /* =====================================================
-       MESSAGE ALERT
-    ===================================================== */
-
-    function showMessage(
-        text
-    ) {
-
-        alert(text);
 
     }
 
