@@ -1,56 +1,43 @@
 /* =========================================================
    VALORA ADMIN — TRADE CODES
-   ========================================================= */
+========================================================= */
 
-(function () {
+(function(){
 
 "use strict";
 
 
 document.addEventListener(
-    "DOMContentLoaded",
-    initTradeCodes
+"DOMContentLoaded",
+initTradeCodes
 );
 
 
-
-const tradeState = {
-
-    codes: []
-
-};
-
-
+let activeCode = null;
+let timer = null;
 
 
 
 function initTradeCodes(){
 
 
-    loadSavedCodes();
+const button =
+document.getElementById("generateCode");
 
 
-    const button =
-        document.getElementById(
-            "generateCode"
-        );
+if(!button){
+return;
+}
 
 
-    if(button){
 
-        button.addEventListener(
-            "click",
-            generateTradeCode
-        );
-
-    }
-
-
-    renderCodes();
+button.addEventListener(
+"click",
+generateTradeCode
+);
 
 
 }
-
 
 
 
@@ -59,69 +46,25 @@ function initTradeCodes(){
 function generateTradeCode(){
 
 
-    const type =
-        document.getElementById(
-            "tradeType"
-        ).value;
+const type =
+document.getElementById("tradeType").value;
 
 
 
-    const code =
-        createCode();
+activeCode =
+createCode();
 
 
 
-    const item = {
-
-
-        id:
-            Date.now(),
-
-
-        code:
-            code,
-
-
-        trade:
-            type,
-
-
-        created:
-            new Date()
-                .getTime(),
-
-
-        expires:
-            new Date()
-                .getTime()
-            +
-            (15 * 60 * 1000),
-
-
-        used:
-            false
-
-
-    };
+showCode(activeCode,type);
 
 
 
-    tradeState.codes.unshift(
-        item
-    );
-
-
-    saveCodes();
-
-
-    renderCodes();
+startTimer();
 
 
 
 }
-
-
-
 
 
 
@@ -129,183 +72,119 @@ function generateTradeCode(){
 function createCode(){
 
 
-    const chars =
-        "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+const chars =
+"ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
 
-    let result =
-        "";
+let code="";
 
 
-    for(
-        let i = 0;
-        i < 8;
-        i++
-    ){
+for(let i=0;i<8;i++){
 
-        result +=
-            chars[
-                Math.floor(
-                    Math.random()
-                    *
-                    chars.length
-                )
-            ];
-
-    }
-
-
-    return result;
-
-
-}
-
-
-
-
-
-
-function renderCodes(){
-
-
-    const body =
-        document.getElementById(
-            "tradeCodesBody"
-        );
-
-
-    if(!body){
-        return;
-    }
-
-
-
-    body.innerHTML = "";
-
-
-
-    if(
-        tradeState.codes.length === 0
-    ){
-
-        body.innerHTML = `
-
-        <tr>
-
-        <td colspan="5">
-
-        لا توجد أكواد
-
-        </td>
-
-        </tr>
-
-        `;
-
-        return;
-
-    }
-
-
-
-
-
-    tradeState.codes.forEach(
-        function(item){
-
-
-            const expired =
-                Date.now()
-                >
-                item.expires;
-
-
-
-            const row =
-                document.createElement(
-                    "tr"
-                );
-
-
-
-            row.innerHTML = `
-
-
-<td dir="ltr">
-
-<strong>
-${item.code}
-</strong>
-
-</td>
-
-
-<td>
-
-الصفقة ${item.trade}
-
-</td>
-
-
-<td>
-
-${getRemaining(item.expires)}
-
-</td>
-
-
-<td>
-
-<span>
-
-${
-expired
-?
-"منتهي"
-:
-(
-item.used
-?
-"مستخدم"
-:
-"صالح"
+code +=
+chars[
+Math.floor(
+Math.random()*chars.length
 )
+];
+
 }
 
-</span>
 
-</td>
-
+return code;
 
 
-<td>
+}
 
-<button
-class="trade-copy-btn"
-data-code="${item.code}"
->
 
-نسخ
+
+
+
+function showCode(code,type){
+
+
+let box =
+document.getElementById(
+"generatedCodeBox"
+);
+
+
+
+if(!box){
+
+
+box =
+document.createElement("div");
+
+box.id =
+"generatedCodeBox";
+
+
+box.className =
+"generated-code-box";
+
+
+
+document
+.querySelector(".admin-content")
+.prepend(box);
+
+
+
+}
+
+
+
+box.innerHTML = `
+
+
+<h3>
+الكود الحالي
+</h3>
+
+
+<div class="trade-code-display">
+
+${code}
+
+</div>
+
+
+<p>
+الصفقة:
+${type}
+</p>
+
+
+<p id="codeTimer">
+الصلاحية: 15:00
+</p>
+
+
+<button id="copyTradeCode"
+class="admin-btn admin-btn-primary">
+
+نسخ الكود
 
 </button>
-
-</td>
 
 
 `;
 
 
 
-            body.appendChild(row);
 
+document
+.getElementById("copyTradeCode")
+.onclick =
+function(){
 
-        }
+navigator.clipboard.writeText(code);
 
-    );
+this.innerText="تم النسخ";
 
+};
 
-
-    setupCopyButtons();
 
 
 }
@@ -316,134 +195,84 @@ data-code="${item.code}"
 
 
 
-function getRemaining(time){
+function startTimer(){
 
 
-    const diff =
-        time
-        -
-        Date.now();
+let seconds = 15*60;
 
 
-
-    if(diff <= 0){
-
-        return "انتهت";
-
-    }
+clearInterval(timer);
 
 
 
-    const minutes =
-        Math.floor(
-            diff
-            /
-            60000
-        );
+timer =
+setInterval(
+function(){
+
+
+seconds--;
 
 
 
-    return minutes + " دقيقة";
+let min =
+Math.floor(seconds/60);
 
 
-}
-
-
-
-
+let sec =
+seconds%60;
 
 
 
-function setupCopyButtons(){
+const timerBox =
+document.getElementById(
+"codeTimer"
+);
 
 
-    document
-    .querySelectorAll(
-        ".trade-copy-btn"
-    )
-    .forEach(
-        function(button){
+
+if(timerBox){
 
 
-            button.addEventListener(
-                "click",
-                function(){
-
-
-                    navigator.clipboard.writeText(
-                        button.dataset.code
-                    );
-
-
-                    button.textContent =
-                        "تم النسخ";
-
-
-                    setTimeout(
-                        function(){
-
-                            button.textContent =
-                                "نسخ";
-
-                        },
-                        1500
-                    );
-
-
-                }
-            );
-
-
-        }
-    );
+timerBox.innerText =
+"الصلاحية: "
++
+String(min).padStart(2,"0")
++
+":"
++
+String(sec).padStart(2,"0");
 
 
 }
 
 
 
+if(seconds<=0){
+
+
+clearInterval(timer);
+
+
+activeCode=null;
 
 
 
+if(timerBox){
 
-function saveCodes(){
+timerBox.innerText =
+"انتهى الكود";
 
-
-    localStorage.setItem(
-
-        "valora_trade_codes",
-
-        JSON.stringify(
-            tradeState.codes
-        )
-
-    );
+}
 
 
 }
 
 
 
+},
+1000
+);
 
-
-function loadSavedCodes(){
-
-
-    const saved =
-        localStorage.getItem(
-            "valora_trade_codes"
-        );
-
-
-
-    if(saved){
-
-        tradeState.codes =
-            JSON.parse(
-                saved
-            );
-
-    }
 
 
 }
