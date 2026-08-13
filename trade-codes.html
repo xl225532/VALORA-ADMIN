@@ -5,35 +5,41 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
 <title>VALORA ADMIN — أكواد التداول</title>
 
+<link
+    href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap"
+    rel="stylesheet"
+>
 
 <link
-href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap"
-rel="stylesheet">
+    rel="stylesheet"
+    href="css/admin-layout.css"
+>
 
-
-<link rel="stylesheet" href="css/admin-layout.css">
-
-<link rel="stylesheet" href="css/trade-codes.css">
-
+<link
+    rel="stylesheet"
+    href="css/trade-codes.css"
+>
 
 </head>
 
 
 <body>
 
-
 <div class="admin-app">
 
 <div class="admin-layout">
 
 
+<!-- SIDEBAR -->
 
 <aside class="admin-sidebar">
-
 
 <div class="admin-brand">
 
@@ -41,109 +47,86 @@ rel="stylesheet">
 V
 </div>
 
-
 <div>
 
 <h1 class="admin-brand-title">
 VALORA
 </h1>
 
-
 <p class="admin-brand-subtitle">
 Admin Panel
 </p>
 
-
 </div>
 
-
 </div>
-
 
 
 <nav class="admin-nav">
-
 
 <div class="admin-nav-section">
 الإدارة
 </div>
 
-
 <ul class="admin-nav-list">
 
-
 <li class="admin-nav-item">
-
 <a
-href="users.html"
-class="admin-nav-link"
+    href="users.html"
+    class="admin-nav-link"
 >
 ♙
 المستخدمون
 </a>
-
 </li>
 
 
-
 <li class="admin-nav-item">
-
 <a
-href="notifications.html"
-class="admin-nav-link"
+    href="notifications.html"
+    class="admin-nav-link"
 >
 ◉
 الإشعارات
 </a>
-
 </li>
 
 
-
 <li class="admin-nav-item">
-
 <a
-href="messages.html"
-class="admin-nav-link"
+    href="messages.html"
+    class="admin-nav-link"
 >
 ▱
 الدعم
 </a>
-
 </li>
 
 
-
 <li class="admin-nav-item">
-
 <a
-href="trade-codes.html"
-class="admin-nav-link active"
+    href="trade-codes.html"
+    class="admin-nav-link active"
 >
 #
 أكواد التداول
 </a>
-
 </li>
-
 
 </ul>
 
-
 </nav>
-
 
 </aside>
 
 
 
-
+<!-- MAIN -->
 
 <section class="admin-main">
 
 
 <header class="admin-header">
-
 
 <div class="admin-page-heading">
 
@@ -151,213 +134,363 @@ class="admin-nav-link active"
 أكواد التداول
 </h2>
 
-
 <p class="admin-page-description">
-إنشاء وإدارة أكواد التداول
+إنشاء وإدارة أكواد الصفقات
 </p>
-
 
 </div>
 
-
 </header>
-
-
 
 
 
 <main class="admin-content">
 
 
-
 <div class="admin-content-header">
-
 
 <div>
 
 <h1 class="admin-page-title">
-إنشاء كود جديد
+التحكم بالصفقات
 </h1>
 
-
 <p class="admin-page-description">
-الكود صالح لمدة 15 دقيقة ويستخدم مرة واحدة.
+أنشئ كودًا للصفقة الحالية وشاركه مع المستخدمين.
 </p>
 
+</div>
 
 </div>
 
 
+
+<!-- TRADE CONTROL -->
+
+<section class="admin-card trade-control-card">
+
+
+<div class="admin-card-header">
+
+<div>
+
+<h2 class="admin-card-title">
+إنشاء صفقة
+</h2>
+
+<p class="admin-card-description">
+الكود صالح لمدة 15 دقيقة ويُستخدم مرة واحدة.
+</p>
+
 </div>
 
+</div>
 
-
-
-
-
-<section class="admin-card">
 
 
 <div class="admin-card-body">
 
 
+<div class="trade-field">
 
-<div class="trade-actions">
-
+<label for="tradeType">
+الصفقة
+</label>
 
 <select id="tradeType">
 
 <option value="1">
-الصفقة الأولى
+الصفقة الأولى — 2%
 </option>
-
 
 <option value="2">
-الصفقة الثانية
+الصفقة الثانية — 2%
 </option>
-
 
 <option value="3">
-الصفقة الثالثة
+الصفقة الثالثة — 2%
 </option>
-
 
 <option value="4">
-الصفقة الرابعة
+الصفقة الرابعة — 7% — إيداع 500+
 </option>
-
 
 <option value="5">
-الصفقة الخامسة
+الصفقة الخامسة — 7% — 20 عضو ناشط
 </option>
 
+<option value="bonus">
+صفقة تعويضية
+</option>
 
 </select>
+
+</div>
+
+
+
+<div class="trade-info-grid">
+
+
+<div class="trade-info-box">
+
+<span>
+نسبة الربح
+</span>
+
+<strong id="tradeProfit">
+2%
+</strong>
+
+</div>
+
+
+
+<div class="trade-info-box">
+
+<span>
+مدة الكود
+</span>
+
+<strong>
+15 دقيقة
+</strong>
+
+</div>
+
+
+
+<div class="trade-info-box">
+
+<span>
+الاستخدام
+</span>
+
+<strong>
+مرة واحدة
+</strong>
+
+</div>
+
+
+</div>
 
 
 
 <button
-id="generateCode"
-class="admin-btn admin-btn-primary"
+    type="button"
+    id="generateCode"
+    class="admin-btn admin-btn-primary trade-generate-button"
 >
-توليد كود جديد
+توليد كود الصفقة
 </button>
 
 
 </div>
 
+</section>
 
+
+
+<!-- GENERATED CODE -->
+
+<section
+    class="admin-card trade-generated-card"
+    id="generatedCodeCard"
+    hidden
+>
+
+
+<div class="admin-card-header">
+
+<div>
+
+<h2 class="admin-card-title">
+الكود الحالي
+</h2>
+
+<p class="admin-card-description">
+انسخ الكود وشاركه مع المستخدمين.
+</p>
 
 </div>
 
+</div>
+
+
+
+<div class="admin-card-body">
+
+
+<div class="trade-code-display">
+
+<span>
+كود الصفقة
+</span>
+
+<strong
+    id="generatedCode"
+    dir="ltr"
+>
+--------
+</strong>
+
+</div>
+
+
+
+<div class="trade-code-actions">
+
+<button
+    type="button"
+    id="copyTradeCode"
+    class="admin-btn admin-btn-primary"
+>
+نسخ الكود
+</button>
+
+</div>
+
+
+
+<div class="trade-countdown">
+
+<span>
+ينتهي خلال
+</span>
+
+<strong id="tradeCountdown">
+15:00
+</strong>
+
+</div>
+
+
+
+<div
+    id="tradeStatus"
+    class="trade-status"
+>
+الكود صالح
+</div>
+
+
+</div>
 
 </section>
 
 
 
-
-
+<!-- CURRENT RULES -->
 
 <section class="admin-card">
 
 
 <div class="admin-card-header">
 
+<div>
+
 <h2 class="admin-card-title">
-سجل الأكواد
+قواعد الصفقات
 </h2>
 
+<p class="admin-card-description">
+الأهلية التي سيتم تطبيقها عند الربط مع النظام الحقيقي.
+</p>
 
 </div>
 
+</div>
 
 
 <div class="admin-card-body">
 
 
-<div class="trade-table-wrapper">
+<div class="trade-rules">
 
 
-<table class="trade-table">
+<div class="trade-rule">
+
+<strong>
+الصفقات 1 — 3
+</strong>
+
+<span>
+للمستخدمين الناشطين — 2%
+</span>
+
+</div>
 
 
-<thead>
+<div class="trade-rule">
 
-<tr>
+<strong>
+الصفقة 4
+</strong>
 
-<th>
-الكود
-</th>
+<span>
+إيداع 500 USDT أو أكثر — 7%
+</span>
 
-
-<th>
-الصفقة
-</th>
-
-
-<th>
-الصلاحية
-</th>
+</div>
 
 
-<th>
-الحالة
-</th>
+<div class="trade-rule">
+
+<strong>
+الصفقة 5
+</strong>
+
+<span>
+20 عضوًا ناشطًا — 7%
+</span>
+
+</div>
 
 
-<th>
-نسخ
-</th>
+<div class="trade-rule">
 
+<strong>
+الصفقة التعويضية
+</strong>
 
-</tr>
+<span>
+تستخدمها الإدارة عند الحاجة
+</span>
 
-
-</thead>
-
-
-
-<tbody id="tradeCodesBody">
-
-
-</tbody>
-
-
-
-</table>
-
+</div>
 
 </div>
 
 
 </div>
-
 
 </section>
 
 
+
+<!-- NOTICE -->
+
+<div
+    id="tradeResult"
+    class="trade-result"
+    hidden
+></div>
 
 
 </main>
 
-
-
 </section>
 
-
-
 </div>
 
 </div>
-
-
 
 
 
 <script src="js/admin.js"></script>
 
 <script src="js/trade-codes.js"></script>
-
 
 </body>
 
