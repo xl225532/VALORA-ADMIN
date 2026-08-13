@@ -1,0 +1,560 @@
+/* =========================================================
+   VALORA ADMIN — MESSAGES / SUPPORT
+   ========================================================= */
+
+
+.messages-layout {
+
+    display: grid;
+
+    grid-template-columns:
+        320px
+        minmax(0, 1fr);
+
+    gap: 18px;
+
+    min-height: 620px;
+
+}
+
+
+
+
+
+/* =========================================================
+   USERS LIST
+   ========================================================= */
+
+
+.messages-users {
+
+    min-width: 0;
+
+    overflow: hidden;
+
+}
+
+
+.messages-users-list {
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+
+.message-user {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 15px;
+
+    border-bottom:
+        1px solid var(--va-border);
+
+    cursor: pointer;
+
+    transition:
+        background var(--va-transition),
+        border-color var(--va-transition);
+
+}
+
+
+.message-user:hover {
+
+    background:
+        rgba(255,255,255,0.04);
+
+}
+
+
+.message-user.active {
+
+    background:
+        rgba(212,175,55,0.10);
+
+    border-right:
+        3px solid var(--va-gold);
+
+}
+
+
+.message-user-avatar {
+
+    width: 42px;
+
+    height: 42px;
+
+    flex: 0 0 42px;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--va-gold-light),
+            var(--va-gold-dark)
+        );
+
+    color: #080808;
+
+    font-size: 16px;
+
+    font-weight: 800;
+
+}
+
+
+.message-user-info {
+
+    min-width: 0;
+
+    flex: 1;
+
+}
+
+
+.message-user-name {
+
+    margin: 0;
+
+    color: var(--va-text);
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+}
+
+
+.message-user-email {
+
+    margin: 3px 0 0;
+
+    color: var(--va-text-muted);
+
+    font-size: 11px;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+}
+
+
+.message-user-meta {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 8px;
+
+    margin-top: 5px;
+
+}
+
+
+.message-user-time {
+
+    color: var(--va-text-soft);
+
+    font-size: 10px;
+
+}
+
+
+.message-unread {
+
+    min-width: 20px;
+
+    height: 20px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 0 6px;
+
+    border-radius: 999px;
+
+    background: var(--va-danger);
+
+    color: #fff;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+}
+
+
+
+
+
+/* =========================================================
+   CHAT
+   ========================================================= */
+
+
+.messages-chat {
+
+    display: flex;
+
+    flex-direction: column;
+
+    min-width: 0;
+
+    overflow: hidden;
+
+}
+
+
+.chat-header {
+
+    min-height: 72px;
+
+    display: flex;
+
+    align-items: center;
+
+    padding: 18px 20px;
+
+    border-bottom:
+        1px solid var(--va-border);
+
+    color: var(--va-text);
+
+    font-size: 15px;
+
+    font-weight: 800;
+
+}
+
+
+.chat-body {
+
+    flex: 1;
+
+    min-height: 450px;
+
+    max-height: 520px;
+
+    overflow-y: auto;
+
+    padding: 22px;
+
+    background:
+        rgba(0,0,0,0.10);
+
+}
+
+
+.chat-empty {
+
+    height: 100%;
+
+    min-height: 400px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+    color: var(--va-text-muted);
+
+    font-size: 13px;
+
+}
+
+
+
+
+
+/* =========================================================
+   CHAT MESSAGES
+   ========================================================= */
+
+
+.chat-message {
+
+    display: flex;
+
+    margin-bottom: 16px;
+
+}
+
+
+.chat-message.user {
+
+    justify-content: flex-start;
+
+}
+
+
+.chat-message.admin {
+
+    justify-content: flex-end;
+
+}
+
+
+.chat-bubble {
+
+    max-width: 70%;
+
+    padding: 12px 15px;
+
+    border-radius: 14px;
+
+    font-size: 13px;
+
+    line-height: 1.7;
+
+}
+
+
+.chat-message.user .chat-bubble {
+
+    background:
+        rgba(255,255,255,0.06);
+
+    border:
+        1px solid var(--va-border);
+
+    color: var(--va-text);
+
+    border-bottom-right-radius: 4px;
+
+}
+
+
+.chat-message.admin .chat-bubble {
+
+    background:
+        var(--va-gold);
+
+    color: #080808;
+
+    border-bottom-left-radius: 4px;
+
+}
+
+
+.chat-message-time {
+
+    display: block;
+
+    margin-top: 5px;
+
+    font-size: 9px;
+
+    opacity: 0.65;
+
+}
+
+
+
+
+
+/* =========================================================
+   CHAT INPUT
+   ========================================================= */
+
+
+.chat-input-box {
+
+    display: flex;
+
+    align-items: flex-end;
+
+    gap: 10px;
+
+    padding: 15px;
+
+    border-top:
+        1px solid var(--va-border);
+
+}
+
+
+.chat-input-box textarea {
+
+    flex: 1;
+
+    min-height: 44px;
+
+    max-height: 120px;
+
+    resize: vertical;
+
+    padding: 11px 13px;
+
+    border:
+        1px solid var(--va-border);
+
+    border-radius:
+        var(--va-radius-sm);
+
+    background:
+        rgba(255,255,255,0.03);
+
+    color:
+        var(--va-text);
+
+    font-family:
+        inherit;
+
+    font-size: 13px;
+
+    outline: none;
+
+}
+
+
+.chat-input-box textarea:focus {
+
+    border-color:
+        rgba(212,175,55,0.55);
+
+}
+
+
+.chat-input-box button {
+
+    min-height: 44px;
+
+    padding: 0 20px;
+
+    border: 0;
+
+    border-radius:
+        var(--va-radius-sm);
+
+    background:
+        var(--va-gold);
+
+    color: #080808;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition:
+        background var(--va-transition);
+
+}
+
+
+.chat-input-box button:hover {
+
+    background:
+        var(--va-gold-light);
+
+}
+
+
+
+
+
+/* =========================================================
+   EMPTY USERS
+   ========================================================= */
+
+
+.messages-users-empty {
+
+    padding: 40px 20px;
+
+    text-align: center;
+
+    color: var(--va-text-muted);
+
+    font-size: 12px;
+
+}
+
+
+
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+
+@media (max-width: 900px) {
+
+    .messages-layout {
+
+        grid-template-columns:
+            260px
+            minmax(0, 1fr);
+
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .messages-layout {
+
+        grid-template-columns:
+            minmax(0, 1fr);
+
+    }
+
+
+    .messages-users {
+
+        max-height: 280px;
+
+    }
+
+
+    .chat-body {
+
+        min-height: 380px;
+
+    }
+
+
+    .chat-bubble {
+
+        max-width: 85%;
+
+    }
+
+}
