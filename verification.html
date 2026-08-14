@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>VALORA ADMIN — توثيق الهوية</title>
+
+
+    <!-- FONT -->
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- ADMIN LAYOUT -->
+
+    <link
+        rel="stylesheet"
+        href="css/admin-layout.css"
+    >
+
+
+    <!-- VERIFICATION -->
+
+    <link
+        rel="stylesheet"
+        href="css/verification.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="admin-app">
+
+<div class="admin-layout">
+
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="admin-sidebar">
+
+
+    <div class="admin-brand">
+
+        <div class="admin-brand-mark">
+            V
+        </div>
+
+
+        <div>
+
+            <h1 class="admin-brand-title">
+                VALORA
+            </h1>
+
+            <p class="admin-brand-subtitle">
+                Admin Panel
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <nav class="admin-nav">
+
+
+        <div class="admin-nav-section">
+            الإدارة
+        </div>
+
+
+        <ul class="admin-nav-list">
+
+
+            <!-- USERS -->
+
+            <li class="admin-nav-item">
+
+                <a
+                    href="users.html"
+                    class="admin-nav-link"
+                >
+
+                    <span class="admin-nav-icon">
+                        ♙
+                    </span>
+
+                    المستخدمون
+
+                </a>
+
+            </li>
+
+
+
+            <!-- VERIFICATION -->
+
+            <li class="admin-nav-item">
+
+                <a
+                    href="verification.html"
+                    class="admin-nav-link active"
+                >
+
+                    <span class="admin-nav-icon">
+                        ✓
+                    </span>
+
+                    توثيق الهوية
+
+                </a>
+
+            </li>
+
+
+
+            <!-- NOTIFICATIONS -->
+
+            <li class="admin-nav-item">
+
+                <a
+                    href="notifications.html"
+                    class="admin-nav-link"
+                >
+
+                    <span class="admin-nav-icon">
+                        ◉
+                    </span>
+
+                    الإشعارات
+
+                </a>
+
+            </li>
+
+
+
+            <!-- SUPPORT -->
+
+            <li class="admin-nav-item">
+
+                <a
+                    href="messages.html"
+                    class="admin-nav-link"
+                >
+
+                    <span class="admin-nav-icon">
+                        ▱
+                    </span>
+
+                    الدعم
+
+                </a>
+
+            </li>
+
+
+
+            <!-- TRADE CODES -->
+
+            <li class="admin-nav-item">
+
+                <a
+                    href="trade-codes.html"
+                    class="admin-nav-link"
+                >
+
+                    <span class="admin-nav-icon">
+                        #
+                    </span>
+
+                    أكواد التداول
+
+                </a>
+
+            </li>
+
+
+
+            <!-- DEPOSITS -->
+
+            <li class="admin-nav-item">
+
+                <a
+                    href="deposits.html"
+                    class="admin-nav-link"
+                >
+
+                    <span class="admin-nav-icon">
+                        ＋
+                    </span>
+
+                    الإيداعات
+
+                </a>
+
+            </li>
+
+
+
+            <!-- WITHDRAWALS -->
+
+            <li class="admin-nav-item">
+
+                <a
+                    href="withdrawals.html"
+                    class="admin-nav-link"
+                >
+
+                    <span class="admin-nav-icon">
+                        −
+                    </span>
+
+                    السحوبات
+
+                </a>
+
+            </li>
+
+
+        </ul>
+
+
+    </nav>
+
+
+</aside>
+
+
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<section class="admin-main">
+
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="admin-header">
+
+    <div class="admin-page-heading">
+
+        <h2 class="admin-page-title">
+            توثيق الهوية
+        </h2>
+
+        <p class="admin-page-description">
+            مراجعة طلبات توثيق الهوية والتحقق من المستندات.
+        </p>
+
+    </div>
+
+</header>
+
+
+
+
+
+<!-- =====================================================
+     CONTENT
+===================================================== -->
+
+<main class="admin-content">
+
+
+
+<!-- =====================================================
+     PAGE HEADER
+===================================================== -->
+
+<div class="admin-content-header">
+
+    <div>
+
+        <h1 class="admin-page-title">
+            طلبات توثيق الهوية
+        </h1>
+
+        <p class="admin-page-description">
+            راجع بيانات المستخدم وصورة الهوية وصورة السيلفي قبل اتخاذ القرار.
+        </p>
+
+    </div>
+
+
+    <div class="verification-header-actions">
+
+        <button
+            type="button"
+            id="refreshVerification"
+            class="admin-btn admin-btn-secondary"
+        >
+
+            ↻
+
+            تحديث
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+
+
+<!-- =====================================================
+     STATISTICS
+===================================================== -->
+
+<section class="verification-stats-grid">
+
+
+    <!-- PENDING -->
+
+    <div class="verification-stat-card">
+
+        <div class="verification-stat-icon">
+            ⏳
+        </div>
+
+        <div>
+
+            <span>
+                طلبات قيد المراجعة
+            </span>
+
+            <strong id="pendingVerificationCount">
+                0
+            </strong>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- APPROVED -->
+
+    <div class="verification-stat-card">
+
+        <div class="verification-stat-icon">
+            ✓
+        </div>
+
+        <div>
+
+            <span>
+                تم قبولها
+            </span>
+
+            <strong id="approvedVerificationCount">
+                0
+            </strong>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- REJECTED -->
+
+    <div class="verification-stat-card">
+
+        <div class="verification-stat-icon">
+            ×
+        </div>
+
+        <div>
+
+            <span>
+                تم رفضها
+            </span>
+
+            <strong id="rejectedVerificationCount">
+                0
+            </strong>
+
+        </div>
+
+    </div>
+
+
+</section>
+
+
+
+
+
+<!-- =====================================================
+     SEARCH
+===================================================== -->
+
+<section class="admin-card verification-filter-card">
+
+
+    <div class="admin-card-header">
+
+        <div>
+
+            <h2 class="admin-card-title">
+                البحث والتصفية
+            </h2>
+
+            <p class="admin-card-description">
+                ابحث باسم المستخدم أو البريد الإلكتروني أو UID.
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="admin-card-body">
+
+        <div class="verification-filters">
+
+
+            <!-- SEARCH -->
+
+            <div class="verification-search">
+
+                <label for="verificationSearch">
+                    البحث
+                </label>
+
+                <input
+                    type="search"
+                    id="verificationSearch"
+                    class="verification-input"
+                    placeholder="اسم المستخدم، البريد الإلكتروني أو UID..."
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+
+            <!-- STATUS -->
+
+            <div class="verification-filter">
+
+                <label for="verificationStatus">
+                    الحالة
+                </label>
+
+                <select
+                    id="verificationStatus"
+                    class="verification-input"
+                >
+
+                    <option value="all">
+                        كل الحالات
+                    </option>
+
+                    <option value="pending">
+                        قيد المراجعة
+                    </option>
+
+                    <option value="approved">
+                        مقبول
+                    </option>
+
+                    <option value="rejected">
+                        مرفوض
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <!-- SEARCH BUTTON -->
+
+            <div class="verification-filter-actions">
+
+                <button
+                    type="button"
+                    id="applyVerificationFilters"
+                    class="admin-btn admin-btn-primary"
+                >
+                    بحث
+                </button>
+
+
+                <button
+                    type="button"
+                    id="resetVerificationFilters"
+                    class="admin-btn admin-btn-secondary"
+                >
+                    إعادة ضبط
+                </button>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+
+
+<!-- =====================================================
+     REQUESTS TABLE
+===================================================== -->
+
+<section class="admin-card verification-table-card">
+
+
+    <div class="admin-card-header">
+
+        <div>
+
+            <h2 class="admin-card-title">
+                طلبات التوثيق
+            </h2>
+
+            <p class="admin-card-description">
+                اضغط على الطلب لعرض مستندات المستخدم.
+            </p>
+
+        </div>
+
+
+        <div
+            id="verificationResultCount"
+            class="verification-result-count"
+        >
+            0 طلب
+        </div>
+
+    </div>
+
+
+
+    <div class="admin-card-body">
+
+
+        <div class="verification-table-wrapper">
+
+
+            <table class="verification-table">
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            #
+                        </th>
+
+                        <th>
+                            المستخدم
+                        </th>
+
+                        <th>
+                            البريد الإلكتروني
+                        </th>
+
+                        <th>
+                            UID
+                        </th>
+
+                        <th>
+                            نوع الوثيقة
+                        </th>
+
+                        <th>
+                            تاريخ الطلب
+                        </th>
+
+                        <th>
+                            الحالة
+                        </th>
+
+                        <th>
+                            الإجراء
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+
+                <tbody id="verificationBody">
+
+
+                    <tr>
+
+                        <td
+                            colspan="8"
+                            class="verification-empty"
+                        >
+
+                            <div class="verification-empty-icon">
+                                ✓
+                            </div>
+
+                            <strong>
+                                لا توجد طلبات توثيق حاليًا
+                            </strong>
+
+                            <span>
+                                ستظهر طلبات التوثيق هنا عند إرسال المستخدم لها.
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+
+
+<!-- =====================================================
+     DETAILS
+===================================================== -->
+
+<section
+    class="admin-card verification-details-card"
+    id="verificationDetailsCard"
+    hidden
+>
+
+
+    <!-- DETAILS HEADER -->
+
+    <div class="admin-card-header">
+
+
+        <div>
+
+            <h2 class="admin-card-title">
+                مراجعة طلب التوثيق
+            </h2>
+
+            <p class="admin-card-description">
+                تحقق من بيانات المستخدم والمستندات المرفوعة.
+            </p>
+
+        </div>
+
+
+        <button
+            type="button"
+            id="closeVerificationDetails"
+            class="verification-close-button"
+        >
+            ×
+        </button>
+
+
+    </div>
+
+
+
+    <div class="admin-card-body">
+
+
+
+        <!-- =================================================
+             USER INFORMATION
+        ================================================= -->
+
+        <div class="verification-user-info">
+
+
+            <div class="verification-detail-item">
+
+                <span>
+                    اسم المستخدم
+                </span>
+
+                <strong id="verificationUserName">
+                    —
+                </strong>
+
+            </div>
+
+
+
+            <div class="verification-detail-item">
+
+                <span>
+                    البريد الإلكتروني
+                </span>
+
+                <strong
+                    id="verificationUserEmail"
+                    dir="ltr"
+                >
+                    —
+                </strong>
+
+            </div>
+
+
+
+            <div class="verification-detail-item">
+
+                <span>
+                    UID
+                </span>
+
+                <strong
+                    id="verificationUserUID"
+                    dir="ltr"
+                >
+                    —
+                </strong>
+
+            </div>
+
+
+
+            <div class="verification-detail-item">
+
+                <span>
+                    نوع الوثيقة
+                </span>
+
+                <strong id="verificationDocumentType">
+                    —
+                </strong>
+
+            </div>
+
+
+
+            <div class="verification-detail-item">
+
+                <span>
+                    تاريخ الطلب
+                </span>
+
+                <strong id="verificationRequestDate">
+                    —
+                </strong>
+
+            </div>
+
+
+
+            <div class="verification-detail-item">
+
+                <span>
+                    الحالة
+                </span>
+
+                <strong id="verificationCurrentStatus">
+                    —
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+
+
+
+        <!-- =================================================
+             DOCUMENTS
+        ================================================= -->
+
+        <div class="verification-documents-section">
+
+
+            <div class="verification-section-title">
+
+                <h3>
+                    المستندات
+                </h3>
+
+                <p>
+                    راجع الصور بعناية قبل قبول الطلب.
+                </p>
+
+            </div>
+
+
+
+            <div class="verification-images-grid">
+
+
+                <!-- ID -->
+
+                <div class="verification-image-card">
+
+
+                    <div class="verification-image-header">
+
+                        <h4>
+                            صورة الهوية
+                        </h4>
+
+                        <span>
+                            الوثيقة الرسمية
+                        </span>
+
+                    </div>
+
+
+                    <div class="verification-image-wrapper">
+
+
+                        <img
+                            id="verificationIdImage"
+                            src=""
+                            alt="صورة الهوية"
+                        >
+
+
+                        <div
+                            id="verificationIdPlaceholder"
+                            class="verification-image-placeholder"
+                        >
+
+                            لا توجد صورة هوية
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="verification-image-actions">
+
+                        <button
+                            type="button"
+                            id="openIdImage"
+                            class="admin-btn admin-btn-secondary"
+                        >
+                            فتح الصورة
+                        </button>
+
+                    </div>
+
+
+                </div>
+
+
+
+
+                <!-- SELFIE -->
+
+                <div class="verification-image-card">
+
+
+                    <div class="verification-image-header">
+
+                        <h4>
+                            صورة السيلفي
+                        </h4>
+
+                        <span>
+                            صورة التحقق
+                        </span>
+
+                    </div>
+
+
+                    <div class="verification-image-wrapper">
+
+
+                        <img
+                            id="verificationSelfieImage"
+                            src=""
+                            alt="صورة السيلفي"
+                        >
+
+
+                        <div
+                            id="verificationSelfiePlaceholder"
+                            class="verification-image-placeholder"
+                        >
+
+                            لا توجد صورة سيلفي
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="verification-image-actions">
+
+                        <button
+                            type="button"
+                            id="openSelfieImage"
+                            class="admin-btn admin-btn-secondary"
+                        >
+                            فتح الصورة
+                        </button>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+
+
+        <!-- =================================================
+             ADMIN NOTES
+        ================================================= -->
+
+        <div class="verification-notes-section">
+
+
+            <label for="verificationAdminNotes">
+                ملاحظات الإدارة
+            </label>
+
+
+            <textarea
+                id="verificationAdminNotes"
+                class="verification-notes-input"
+                rows="4"
+                placeholder="اكتب ملاحظة داخلية..."
+            ></textarea>
+
+
+        </div>
+
+
+
+
+
+        <!-- =================================================
+             ACTIONS
+        ================================================= -->
+
+        <div class="verification-details-actions">
+
+
+            <button
+                type="button"
+                id="approveVerification"
+                class="verification-approve-button"
+            >
+
+                ✓
+
+                قبول التوثيق
+
+            </button>
+
+
+
+            <button
+                type="button"
+                id="rejectVerification"
+                class="verification-reject-button"
+            >
+
+                ×
+
+                رفض التوثيق
+
+            </button>
+
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+
+
+<!-- =====================================================
+     IMAGE VIEWER
+===================================================== -->
+
+<div
+    id="verificationImageModal"
+    class="verification-image-modal"
+    hidden
+>
+
+
+    <div class="verification-image-modal-content">
+
+
+        <button
+            type="button"
+            id="closeVerificationImageModal"
+            class="verification-image-modal-close"
+        >
+            ×
+        </button>
+
+
+        <img
+            id="verificationModalImage"
+            src=""
+            alt="عرض المستند"
+        >
+
+
+    </div>
+
+
+</div>
+
+
+
+</main>
+
+</section>
+
+</div>
+
+</div>
+
+
+
+
+
+<!-- =====================================================
+     SCRIPT
+===================================================== -->
+
+<script
+    src="js/verification.js"
+></script>
+
+
+</body>
+
+          </html>
