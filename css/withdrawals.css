@@ -1,44 +1,47 @@
 /* =========================================================
    VALORA ADMIN — WITHDRAWALS
-   PREMIUM ADMIN UI
+   GOLD + BLACK THEME
 ========================================================= */
 
 :root {
-    --withdrawal-bg: #f5f7fb;
-    --withdrawal-card: #ffffff;
-    --withdrawal-border: #e5e9f2;
-    --withdrawal-text: #182230;
-    --withdrawal-muted: #748094;
+    --valora-black: #080808;
+    --valora-black-2: #111111;
+    --valora-black-3: #181818;
 
-    --withdrawal-primary: #315bea;
-    --withdrawal-primary-dark: #2448c7;
+    --valora-gold: #d4af37;
+    --valora-gold-light: #f0d875;
+    --valora-gold-dark: #a88416;
 
-    --withdrawal-success: #16a66a;
-    --withdrawal-success-dark: #0d8956;
+    --valora-text: #f5f5f5;
+    --valora-muted: #a9a9a9;
 
-    --withdrawal-danger: #e34b5f;
-    --withdrawal-danger-dark: #c9374a;
-
-    --withdrawal-warning: #d99a16;
-    --withdrawal-warning-bg: #fff7df;
-
-    --withdrawal-info: #3478d8;
-    --withdrawal-info-bg: #edf5ff;
-
-    --withdrawal-radius: 16px;
-    --withdrawal-small-radius: 10px;
-
-    --withdrawal-shadow:
-        0 8px 28px rgba(24, 34, 48, 0.07);
+    --valora-border: rgba(212, 175, 55, 0.25);
+    --valora-danger: #dc3545;
+    --valora-success: #20c997;
 }
-
 
 /* =========================================================
    PAGE
 ========================================================= */
 
+html,
+body {
+    background: var(--valora-black) !important;
+    color: var(--valora-text);
+}
+
+body {
+    min-height: 100vh;
+}
+
+/* لا تسمح لخلفية بيضاء من admin-layout بإظهار نفسها */
+
+.admin-app,
+.admin-layout,
+.admin-main,
 .admin-content {
-    background: var(--withdrawal-bg);
+    background: var(--valora-black) !important;
+    color: var(--valora-text);
 }
 
 
@@ -46,14 +49,42 @@
    HEADER
 ========================================================= */
 
-.withdrawals-header-actions {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.admin-header {
+    background: var(--valora-black-2) !important;
+    border-bottom: 1px solid var(--valora-border);
 }
 
-.withdrawals-refresh-button {
-    min-width: 110px;
+.admin-page-title {
+    color: var(--valora-gold) !important;
+}
+
+.admin-page-description {
+    color: var(--valora-muted) !important;
+}
+
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+.admin-card {
+    background: var(--valora-black-2) !important;
+    border: 1px solid var(--valora-border) !important;
+    color: var(--valora-text);
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.35);
+}
+
+.admin-card-header {
+    background: var(--valora-black-2);
+    border-bottom: 1px solid var(--valora-border);
+}
+
+.admin-card-title {
+    color: var(--valora-gold) !important;
+}
+
+.admin-card-description {
+    color: var(--valora-muted) !important;
 }
 
 
@@ -63,299 +94,250 @@
 
 .withdrawals-stats-grid {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
     gap: 16px;
-    margin-bottom: 22px;
+    margin-bottom: 24px;
 }
 
 .withdrawals-stat-card {
+    background: linear-gradient(
+        145deg,
+        var(--valora-black-2),
+        var(--valora-black-3)
+    ) !important;
+
+    border: 1px solid var(--valora-border);
+
+    border-radius: 14px;
+
+    padding: 20px;
+
     display: flex;
     align-items: center;
+
     gap: 14px;
 
-    min-height: 105px;
-    padding: 18px;
-
-    background: var(--withdrawal-card);
-    border: 1px solid var(--withdrawal-border);
-    border-radius: var(--withdrawal-radius);
-
-    box-shadow: var(--withdrawal-shadow);
-
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
-}
-
-.withdrawals-stat-card:hover {
-    transform: translateY(-2px);
-
     box-shadow:
-        0 12px 34px rgba(24, 34, 48, 0.1);
+        0 8px 25px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(212, 175, 55, 0.06);
 }
 
 .withdrawals-stat-icon {
-    width: 48px;
-    height: 48px;
+    width: 46px;
+    height: 46px;
 
-    flex: 0 0 48px;
+    border-radius: 12px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    border-radius: 13px;
+    background: rgba(212, 175, 55, 0.10);
 
-    background: #eef2ff;
+    border: 1px solid rgba(212, 175, 55, 0.25);
 
-    color: var(--withdrawal-primary);
+    color: var(--valora-gold);
 
-    font-size: 22px;
-    font-weight: 800;
+    font-size: 20px;
 }
 
 .withdrawals-stat-content {
     display: flex;
     flex-direction: column;
     gap: 5px;
-
-    min-width: 0;
 }
 
 .withdrawals-stat-content span {
-    color: var(--withdrawal-muted);
-
+    color: var(--valora-muted);
     font-size: 13px;
-    font-weight: 600;
 }
 
 .withdrawals-stat-content strong {
-    color: var(--withdrawal-text);
-
+    color: var(--valora-gold-light);
     font-size: 20px;
-    font-weight: 800;
-
-    direction: ltr;
-    text-align: right;
 }
 
 
 /* =========================================================
-   CARDS
+   INPUTS
 ========================================================= */
-
-.withdrawals-filter-card,
-.withdrawals-table-card,
-.withdrawal-details-card {
-    overflow: hidden;
-
-    margin-bottom: 22px;
-
-    background: var(--withdrawal-card);
-
-    border: 1px solid var(--withdrawal-border);
-
-    border-radius: var(--withdrawal-radius);
-
-    box-shadow: var(--withdrawal-shadow);
-}
-
-
-/* =========================================================
-   FILTERS
-========================================================= */
-
-.withdrawals-filters {
-    display: grid;
-
-    grid-template-columns:
-        minmax(240px, 2fr)
-        repeat(4, minmax(150px, 1fr))
-        auto;
-
-    gap: 14px;
-
-    align-items: end;
-}
-
-.withdrawals-search,
-.withdrawals-filter {
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-}
-
-.withdrawals-search label,
-.withdrawals-filter label {
-    color: var(--withdrawal-text);
-
-    font-size: 13px;
-    font-weight: 700;
-}
 
 .withdrawals-input {
     width: 100%;
-    min-height: 44px;
 
-    padding: 0 13px;
+    background: #0b0b0b !important;
+    color: #ffffff !important;
 
-    color: var(--withdrawal-text);
-    background: #fff;
+    border: 1px solid rgba(212, 175, 55, 0.25) !important;
 
-    border: 1px solid var(--withdrawal-border);
-    border-radius: 10px;
+    border-radius: 9px;
+
+    padding: 11px 13px;
 
     outline: none;
 
-    font-family: inherit;
-    font-size: 13px;
-
-    transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
+    transition: 0.2s ease;
 }
 
 .withdrawals-input:focus {
-    border-color: var(--withdrawal-primary);
+    border-color: var(--valora-gold) !important;
 
     box-shadow:
-        0 0 0 3px rgba(49, 91, 234, 0.11);
+        0 0 0 3px rgba(212, 175, 55, 0.10);
 }
 
-.withdrawals-filter-actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+.withdrawals-input::placeholder {
+    color: #777;
+}
+
+.withdrawals-filter label,
+.withdrawals-search label {
+    color: var(--valora-gold-light);
 }
 
 
 /* =========================================================
-   TABLE WRAPPER
+   BUTTONS
+========================================================= */
+
+.admin-btn {
+    border-radius: 9px !important;
+    font-family: inherit;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.admin-btn-primary {
+    background: linear-gradient(
+        135deg,
+        var(--valora-gold),
+        var(--valora-gold-dark)
+    ) !important;
+
+    color: #080808 !important;
+
+    border: none !important;
+
+    font-weight: 800;
+}
+
+.admin-btn-primary:hover {
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 8px 20px rgba(212, 175, 55, 0.20);
+}
+
+.admin-btn-secondary {
+    background: #171717 !important;
+
+    color: var(--valora-gold-light) !important;
+
+    border: 1px solid var(--valora-border) !important;
+}
+
+
+/* =========================================================
+   TABLE
 ========================================================= */
 
 .withdrawal-table-wrapper {
     width: 100%;
-
     overflow-x: auto;
 
-    border: 1px solid var(--withdrawal-border);
-    border-radius: 13px;
-
-    background: #fff;
+    background: #0a0a0a;
 }
 
 .withdrawal-table {
     width: 100%;
+    min-width: 1800px;
 
-    min-width: 1650px;
+    border-collapse: collapse;
 
-    border-collapse: separate;
-    border-spacing: 0;
-
-    font-size: 13px;
+    color: #eeeeee;
 }
 
-.withdrawal-table thead th {
-    position: sticky;
-    top: 0;
+.withdrawal-table thead {
+    background: #151515;
+}
 
-    z-index: 2;
+.withdrawal-table th {
+    color: var(--valora-gold-light);
 
-    padding: 14px 12px;
-
-    color: #5d687b;
-
-    background: #f8faff;
-
-    border-bottom: 1px solid var(--withdrawal-border);
-
-    font-size: 12px;
     font-weight: 800;
 
-    white-space: nowrap;
-}
-
-.withdrawal-table tbody td {
     padding: 14px 12px;
 
-    color: var(--withdrawal-text);
-
-    border-bottom: 1px solid #edf0f5;
-
-    vertical-align: middle;
+    border-bottom: 1px solid var(--valora-border);
 
     white-space: nowrap;
 }
 
-.withdrawal-table tbody tr:last-child td {
-    border-bottom: 0;
+.withdrawal-table td {
+    padding: 14px 12px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+
+    color: #e8e8e8;
+
+    white-space: nowrap;
 }
 
 .withdrawal-table tbody tr {
-    transition: background 0.18s ease;
+    background: #0d0d0d;
+
+    transition: 0.2s ease;
 }
 
 .withdrawal-table tbody tr:hover {
-    background: #fafbfe;
+    background: #171717;
+}
+
+.withdrawal-table td strong {
+    color: #ffffff;
 }
 
 
 /* =========================================================
-   WALLET CELL
+   WALLET
 ========================================================= */
 
 .withdrawal-wallet-cell {
     display: flex;
     align-items: center;
-    gap: 7px;
-
-    max-width: 260px;
+    gap: 8px;
 }
 
 .withdrawal-wallet-cell span {
-    display: block;
-
     max-width: 180px;
 
     overflow: hidden;
-
     text-overflow: ellipsis;
-
-    direction: ltr;
 }
 
+
+/* =========================================================
+   COPY
+========================================================= */
+
 .withdrawal-copy-button {
-    flex: 0 0 auto;
+    background: rgba(212, 175, 55, 0.08);
 
-    min-height: 32px;
+    color: var(--valora-gold-light);
 
-    padding: 0 10px;
+    border: 1px solid rgba(212, 175, 55, 0.25);
 
-    color: #4d5a70;
-    background: #f3f5f9;
+    border-radius: 7px;
 
-    border: 1px solid #e1e5ed;
-
-    border-radius: 8px;
+    padding: 6px 10px;
 
     cursor: pointer;
 
     font-family: inherit;
-    font-size: 11px;
-    font-weight: 700;
-
-    transition:
-        background 0.2s ease,
-        color 0.2s ease,
-        border-color 0.2s ease;
 }
 
 .withdrawal-copy-button:hover {
-    color: var(--withdrawal-primary);
-
-    background: #eef2ff;
-
-    border-color: #cfd8ff;
+    background: rgba(212, 175, 55, 0.18);
 }
 
 
@@ -365,70 +347,56 @@
 
 .withdrawal-status {
     display: inline-flex;
+
     align-items: center;
     justify-content: center;
 
-    min-width: 105px;
+    min-width: 95px;
 
-    min-height: 32px;
+    padding: 6px 10px;
 
-    padding: 5px 12px;
-
-    border-radius: 999px;
+    border-radius: 20px;
 
     font-size: 12px;
+
     font-weight: 800;
-
-    white-space: nowrap;
 }
 
+.status-pending {
+    color: #f0d875;
 
-/* PENDING */
+    background: rgba(212, 175, 55, 0.12);
 
-.withdrawal-status.status-pending {
-    color: #996b00;
-
-    background: #fff5d7;
-
-    border: 1px solid #f4dfa1;
+    border: 1px solid rgba(212, 175, 55, 0.25);
 }
 
+.status-processing {
+    color: #8ecbff;
 
-/* PROCESSING */
+    background: rgba(80, 150, 255, 0.10);
 
-.withdrawal-status.status-processing {
-    color: #2468b5;
-
-    background: #eaf4ff;
-
-    border: 1px solid #cce3fb;
+    border: 1px solid rgba(80, 150, 255, 0.25);
 }
 
+.status-completed {
+    color: #42d99b;
 
-/* COMPLETED */
+    background: rgba(32, 201, 151, 0.10);
 
-.withdrawal-status.status-completed {
-    color: #087b4b;
-
-    background: #e8f8f0;
-
-    border: 1px solid #c4ecd9;
+    border: 1px solid rgba(32, 201, 151, 0.25);
 }
 
+.status-rejected {
+    color: #ff6b6b;
 
-/* REJECTED */
+    background: rgba(220, 53, 69, 0.10);
 
-.withdrawal-status.status-rejected {
-    color: #b72f42;
-
-    background: #fff0f2;
-
-    border: 1px solid #f4cbd2;
+    border: 1px solid rgba(220, 53, 69, 0.25);
 }
 
 
 /* =========================================================
-   ACTIONS
+   ACTION BUTTONS
 ========================================================= */
 
 .withdrawal-actions {
@@ -437,23 +405,16 @@
     align-items: center;
 
     gap: 7px;
-
-    min-width: max-content;
 }
 
+.withdrawal-details-button,
+.withdrawal-approve-button,
+.withdrawal-reject-button {
+    border: none;
 
-/* BASE */
+    border-radius: 7px;
 
-.withdrawal-actions button {
-    min-height: 36px;
-
-    padding: 0 12px;
-
-    border-radius: 9px;
-
-    border: 1px solid transparent;
-
-    cursor: pointer;
+    padding: 8px 12px;
 
     font-family: inherit;
 
@@ -461,118 +422,61 @@
 
     font-weight: 800;
 
+    cursor: pointer;
+
+    transition: 0.2s ease;
+
     white-space: nowrap;
-
-    transition:
-        transform 0.16s ease,
-        box-shadow 0.16s ease,
-        background 0.16s ease,
-        border-color 0.16s ease;
-}
-
-.withdrawal-actions button:hover {
-    transform: translateY(-1px);
-}
-
-.withdrawal-actions button:active {
-    transform: translateY(0);
 }
 
 
 /* DETAILS */
 
 .withdrawal-details-button {
-    color: #40506a;
+    background: #222222;
 
-    background: #f3f5f9;
+    color: #ffffff;
 
-    border-color: #dfe4ec !important;
+    border: 1px solid #333333;
 }
 
 .withdrawal-details-button:hover {
-    color: var(--withdrawal-primary);
-
-    background: #edf1ff;
-
-    border-color: #ccd6ff !important;
-
-    box-shadow:
-        0 4px 12px rgba(49, 91, 234, 0.1);
+    background: #303030;
 }
 
 
-/* =========================================================
-   APPROVE BUTTON
-========================================================= */
+/* APPROVE */
 
 .withdrawal-approve-button {
-    color: #fff;
+    background: linear-gradient(
+        135deg,
+        #d4af37,
+        #a88416
+    );
 
-    background: var(--withdrawal-success);
-
-    border-color: var(--withdrawal-success) !important;
-
-    box-shadow:
-        0 4px 12px rgba(22, 166, 106, 0.18);
+    color: #080808;
 }
 
 .withdrawal-approve-button:hover {
-    background: var(--withdrawal-success-dark);
-
-    border-color: var(--withdrawal-success-dark) !important;
+    transform: translateY(-1px);
 
     box-shadow:
-        0 7px 17px rgba(22, 166, 106, 0.25);
+        0 6px 16px rgba(212, 175, 55, 0.20);
 }
 
 
-/* =========================================================
-   REJECT BUTTON
-========================================================= */
+/* REJECT */
 
 .withdrawal-reject-button {
-    color: var(--withdrawal-danger);
+    background: rgba(220, 53, 69, 0.12);
 
-    background: #fff;
+    color: #ff6b6b;
 
-    border-color: #f0c7ce !important;
+    border: 1px solid rgba(220, 53, 69, 0.30);
 }
 
 .withdrawal-reject-button:hover {
-    color: #fff;
-
-    background: var(--withdrawal-danger);
-
-    border-color: var(--withdrawal-danger) !important;
-
-    box-shadow:
-        0 7px 17px rgba(227, 75, 95, 0.2);
-}
-
-
-/* =========================================================
-   PROCESSING / COMPLETE BUTTON
-   يعمل إذا أضاف الـJS زرًا بهذه الـclasses
-========================================================= */
-
-.withdrawal-complete-button {
-    color: #fff;
-
-    background: var(--withdrawal-primary);
-
-    border-color: var(--withdrawal-primary) !important;
-
-    box-shadow:
-        0 4px 12px rgba(49, 91, 234, 0.2);
-}
-
-.withdrawal-complete-button:hover {
-    background: var(--withdrawal-primary-dark);
-
-    border-color: var(--withdrawal-primary-dark) !important;
-
-    box-shadow:
-        0 7px 18px rgba(49, 91, 234, 0.27);
+    background: rgba(220, 53, 69, 0.20);
 }
 
 
@@ -581,193 +485,91 @@
 ========================================================= */
 
 .withdrawals-empty {
-    padding: 60px 20px !important;
-
     text-align: center;
 
-    color: var(--withdrawal-muted);
+    padding: 60px 20px !important;
+
+    color: var(--valora-muted) !important;
 }
 
 .withdrawals-empty-icon {
-    width: 58px;
-    height: 58px;
+    width: 55px;
+    height: 55px;
+
+    margin: 0 auto 15px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    margin: 0 auto 13px;
-
-    color: #8994a8;
-
-    background: #f1f3f7;
-
     border-radius: 50%;
 
+    background: rgba(212, 175, 55, 0.08);
+
+    color: var(--valora-gold);
+
     font-size: 25px;
-    font-weight: 800;
 }
 
 .withdrawals-empty strong {
     display: block;
 
-    margin-bottom: 6px;
+    color: var(--valora-gold-light);
 
-    color: var(--withdrawal-text);
-
-    font-size: 15px;
+    margin-bottom: 8px;
 }
 
 .withdrawals-empty span {
-    display: block;
-
-    font-size: 13px;
+    color: #777;
 }
 
 
 /* =========================================================
-   RESULT COUNT
-========================================================= */
-
-.withdrawals-result-count {
-    display: inline-flex;
-    align-items: center;
-
-    min-height: 34px;
-
-    padding: 0 12px;
-
-    color: #536176;
-
-    background: #f3f5f9;
-
-    border: 1px solid var(--withdrawal-border);
-
-    border-radius: 999px;
-
-    font-size: 12px;
-    font-weight: 800;
-}
-
-
-/* =========================================================
-   DETAILS CARD
+   DETAILS
 ========================================================= */
 
 .withdrawal-details-card {
-    scroll-margin-top: 20px;
-
-    animation: withdrawalDetailsIn 0.25s ease;
+    margin-top: 24px;
 }
-
-@keyframes withdrawalDetailsIn {
-
-    from {
-        opacity: 0;
-
-        transform: translateY(8px);
-    }
-
-    to {
-        opacity: 1;
-
-        transform: translateY(0);
-    }
-
-}
-
-
-/* CLOSE */
-
-.withdrawal-close-button {
-    width: 38px;
-    height: 38px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    color: #657187;
-
-    background: #f3f5f9;
-
-    border: 1px solid var(--withdrawal-border);
-
-    border-radius: 10px;
-
-    cursor: pointer;
-
-    font-size: 22px;
-
-    line-height: 1;
-
-    transition:
-        color 0.2s ease,
-        background 0.2s ease;
-}
-
-.withdrawal-close-button:hover {
-    color: var(--withdrawal-danger);
-
-    background: #fff0f2;
-}
-
-
-/* =========================================================
-   DETAILS GRID
-========================================================= */
 
 .withdrawal-details-grid {
     display: grid;
 
     grid-template-columns:
-        repeat(3, minmax(0, 1fr));
+        repeat(2, minmax(0, 1fr));
 
-    gap: 14px;
+    gap: 15px;
 }
 
 .withdrawal-detail-item {
-    min-width: 0;
+    background: #0d0d0d;
+
+    border: 1px solid rgba(212, 175, 55, 0.12);
+
+    border-radius: 10px;
 
     padding: 15px;
-
-    background: #fafbfe;
-
-    border: 1px solid var(--withdrawal-border);
-
-    border-radius: 12px;
 }
 
 .withdrawal-detail-item > span {
     display: block;
 
-    margin-bottom: 7px;
-
-    color: var(--withdrawal-muted);
+    color: #888;
 
     font-size: 12px;
-    font-weight: 700;
+
+    margin-bottom: 7px;
 }
 
 .withdrawal-detail-item > strong {
-    display: block;
+    color: #f5f5f5;
 
-    overflow-wrap: anywhere;
-
-    color: var(--withdrawal-text);
-
-    font-size: 14px;
-    font-weight: 800;
+    word-break: break-word;
 }
 
 .withdrawal-detail-wide {
-    grid-column: span 3;
+    grid-column: 1 / -1;
 }
-
-
-/* =========================================================
-   WALLET DETAIL
-========================================================= */
 
 .withdrawal-wallet-detail {
     display: flex;
@@ -776,35 +578,7 @@
 
     gap: 10px;
 
-    width: 100%;
-}
-
-.withdrawal-wallet-detail strong {
-    flex: 1;
-
-    min-width: 0;
-
-    padding: 10px 12px;
-
-    color: #27364b;
-
-    background: #fff;
-
-    border: 1px solid var(--withdrawal-border);
-
-    border-radius: 9px;
-
-    overflow-wrap: anywhere;
-
-    font-size: 13px;
-
-    font-family:
-        ui-monospace,
-        SFMono-Regular,
-        Menlo,
-        Monaco,
-        Consolas,
-        monospace;
+    flex-wrap: wrap;
 }
 
 
@@ -815,270 +589,72 @@
 .withdrawals-notes-input {
     width: 100%;
 
-    padding: 12px;
-
     resize: vertical;
 
-    color: var(--withdrawal-text);
+    background: #090909;
 
-    background: #fff;
+    color: #ffffff;
 
-    border: 1px solid var(--withdrawal-border);
+    border: 1px solid rgba(212, 175, 55, 0.20);
 
-    border-radius: 10px;
+    border-radius: 9px;
 
-    outline: none;
+    padding: 12px;
 
     font-family: inherit;
 
-    font-size: 13px;
-
-    line-height: 1.7;
-
-    transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
+    outline: none;
 }
 
 .withdrawals-notes-input:focus {
-    border-color: var(--withdrawal-primary);
-
-    box-shadow:
-        0 0 0 3px rgba(49, 91, 234, 0.1);
+    border-color: var(--valora-gold);
 }
 
 
 /* =========================================================
-   DETAILS ACTIONS
+   CLOSE
 ========================================================= */
 
-.withdrawal-details-actions {
-    display: flex;
+.withdrawal-close-button {
+    width: 36px;
+    height: 36px;
 
-    align-items: center;
+    border-radius: 8px;
 
-    justify-content: flex-start;
+    background: #181818;
 
-    gap: 10px;
+    color: #ffffff;
 
-    margin-top: 20px;
-
-    padding-top: 18px;
-
-    border-top: 1px solid var(--withdrawal-border);
-}
-
-.withdrawal-details-actions button {
-    min-height: 42px;
-
-    padding: 0 18px;
-
-    border-radius: 10px;
-
-    font-family: inherit;
-
-    font-size: 13px;
-
-    font-weight: 800;
+    border: 1px solid #333;
 
     cursor: pointer;
 
-    transition:
-        transform 0.16s ease,
-        box-shadow 0.16s ease;
+    font-size: 20px;
 }
 
-.withdrawal-details-actions button:hover {
-    transform: translateY(-1px);
-}
-
-
-/* =========================================================
-   GENERIC BUTTONS
-========================================================= */
-
-.admin-btn {
-    min-height: 42px;
-
-    padding: 0 16px;
-
-    border-radius: 10px;
-
-    font-family: inherit;
-
-    font-size: 13px;
-
-    font-weight: 800;
-
-    cursor: pointer;
-
-    transition:
-        transform 0.16s ease,
-        box-shadow 0.16s ease,
-        background 0.16s ease;
-}
-
-.admin-btn:hover {
-    transform: translateY(-1px);
-}
-
-.admin-btn-primary {
-    color: #fff;
-
-    background: var(--withdrawal-primary);
-
-    border: 1px solid var(--withdrawal-primary);
-}
-
-.admin-btn-primary:hover {
-    background: var(--withdrawal-primary-dark);
-}
-
-.admin-btn-secondary {
-    color: #4f5d72;
-
-    background: #fff;
-
-    border: 1px solid var(--withdrawal-border);
-}
-
-.admin-btn-secondary:hover {
-    color: var(--withdrawal-primary);
-
-    background: #f7f9ff;
-
-    border-color: #cfd7f2;
+.withdrawal-close-button:hover {
+    color: var(--valora-gold);
+    border-color: var(--valora-gold);
 }
 
 
 /* =========================================================
-   RESPONSIVE — TABLET
+   RESPONSIVE
 ========================================================= */
 
-@media (max-width: 1200px) {
-
-    .withdrawals-stats-grid {
-        grid-template-columns:
-            repeat(3, minmax(0, 1fr));
-    }
-
-    .withdrawals-filters {
-        grid-template-columns:
-            repeat(3, minmax(0, 1fr));
-    }
-
-    .withdrawals-search {
-        grid-column: span 3;
-    }
-
-    .withdrawal-details-grid {
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-    }
-
-    .withdrawal-detail-wide {
-        grid-column: span 2;
-    }
-
-}
-
-
-/* =========================================================
-   RESPONSIVE — MOBILE
-========================================================= */
-
-@media (max-width: 760px) {
-
-    .withdrawals-stats-grid {
-        grid-template-columns:
-            repeat(1, minmax(0, 1fr));
-    }
-
-    .withdrawals-filters {
-        grid-template-columns: 1fr;
-    }
-
-    .withdrawals-search {
-        grid-column: span 1;
-    }
-
-    .withdrawals-filter-actions {
-        width: 100%;
-    }
-
-    .withdrawals-filter-actions .admin-btn {
-        flex: 1;
-    }
+@media (max-width: 900px) {
 
     .withdrawal-details-grid {
         grid-template-columns: 1fr;
     }
 
     .withdrawal-detail-wide {
-        grid-column: span 1;
+        grid-column: auto;
     }
 
-    .withdrawal-wallet-detail {
-        align-items: stretch;
-
+    .withdrawal-actions {
         flex-direction: column;
-    }
-
-    .withdrawal-wallet-detail .withdrawal-copy-button {
-        width: 100%;
-    }
-
-    .withdrawal-details-actions {
-        flex-direction: column;
-
         align-items: stretch;
-    }
-
-    .withdrawal-details-actions button {
-        width: 100%;
-    }
-
-    .withdrawals-header-actions {
-        width: 100%;
-    }
-
-    .withdrawals-refresh-button {
-        width: 100%;
-    }
-
-}
-
-
-/* =========================================================
-   ACCESSIBILITY
-========================================================= */
-
-.withdrawal-actions button:focus-visible,
-.withdrawal-copy-button:focus-visible,
-.withdrawal-close-button:focus-visible,
-.admin-btn:focus-visible {
-    outline: 3px solid rgba(49, 91, 234, 0.2);
-
-    outline-offset: 2px;
-}
-
-
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
-
-@media (prefers-reduced-motion: reduce) {
-
-    .withdrawals-stat-card,
-    .withdrawal-actions button,
-    .withdrawal-copy-button,
-    .admin-btn,
-    .withdrawal-close-button {
-        transition: none;
-    }
-
-    .withdrawal-details-card {
-        animation: none;
     }
 
    }
