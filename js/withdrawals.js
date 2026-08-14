@@ -7,10 +7,71 @@
 
 
 /* =========================================================
-   STATE
+   CONFIG
 ========================================================= */
 
-let withdrawals = [];
+const WITHDRAWAL_STATUS = {
+    PENDING: "pending",
+    PROCESSING: "processing",
+    COMPLETED: "completed",
+    REJECTED: "rejected"
+};
+
+
+/* =========================================================
+   DEMO DATA
+   طلب تجريبي للتأكد من ظهور الأزرار
+========================================================= */
+
+let withdrawals = [
+
+    {
+        id: "WD-DEMO-001",
+
+        userName: "أحمد محمد",
+
+        email: "ahmed@example.com",
+
+        uid: "VAL-10001",
+
+        amount: 150,
+
+        currency: "USDT",
+
+        balanceBefore: 650,
+
+        balanceAfter: 500,
+
+        wallet:
+            "TXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+
+        network: "TRC20",
+
+        fee: 1,
+
+        netAmount: 149,
+
+        date: "2026-08-14",
+
+        time: "10:30",
+
+        status: WITHDRAWAL_STATUS.PENDING,
+
+        txid: "",
+
+        notes: "",
+
+        createdAt:
+            "2026-08-14T10:30:00"
+
+    }
+
+];
+
+
+/* =========================================================
+   STATE
+========================================================= */
 
 let filteredWithdrawals = [];
 
@@ -21,96 +82,84 @@ let selectedWithdrawal = null;
    DOM
 ========================================================= */
 
-const withdrawalsBody =
+const bodyElement =
     document.getElementById("withdrawalsBody");
 
-const withdrawalDetailsCard =
-    document.getElementById("withdrawalDetailsCard");
-
-const closeWithdrawalDetails =
-    document.getElementById("closeWithdrawalDetails");
-
-const refreshWithdrawals =
-    document.getElementById("refreshWithdrawals");
-
-const withdrawalSearch =
+const searchInput =
     document.getElementById("withdrawalSearch");
 
-const withdrawalStatus =
+const statusSelect =
     document.getElementById("withdrawalStatus");
 
-const withdrawalNetwork =
+const networkSelect =
     document.getElementById("withdrawalNetwork");
 
-const withdrawalDateFrom =
+const dateFromInput =
     document.getElementById("withdrawalDateFrom");
 
-const withdrawalDateTo =
+const dateToInput =
     document.getElementById("withdrawalDateTo");
 
-const applyWithdrawalFilters =
-    document.getElementById("applyWithdrawalFilters");
-
-const resetWithdrawalFilters =
-    document.getElementById("resetWithdrawalFilters");
-
-const withdrawalsResultCount =
+const resultCount =
     document.getElementById("withdrawalsResultCount");
-
-const withdrawalDetailsActions =
-    document.getElementById("withdrawalDetailsActions");
-
-const approveWithdrawal =
-    document.getElementById("approveWithdrawal");
-
-const rejectWithdrawal =
-    document.getElementById("rejectWithdrawal");
-
-const copyWithdrawalWallet =
-    document.getElementById("copyWithdrawalWallet");
-
-const copyWithdrawalTxid =
-    document.getElementById("copyWithdrawalTxid");
-
-const withdrawalAdminNotes =
-    document.getElementById("withdrawalAdminNotes");
 
 
 /* =========================================================
-   INITIALIZATION
+   INIT
 ========================================================= */
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
 
-    hideWithdrawalActions();
+        bindEvents();
 
-    loadWithdrawals();
+        applyFilters();
 
-    setupEvents();
-
-});
+    }
+);
 
 
 /* =========================================================
    EVENTS
 ========================================================= */
 
-function setupEvents() {
+function bindEvents() {
 
 
-    if (refreshWithdrawals) {
+    const refreshButton =
+        document.getElementById("refreshWithdrawals");
 
-        refreshWithdrawals.addEventListener(
+
+    if (refreshButton) {
+
+        refreshButton.addEventListener(
             "click",
-            loadWithdrawals
+            function () {
+
+                applyFilters();
+
+                showMessage(
+                    "تم تحديث قائمة السحوبات",
+                    "success"
+                );
+
+            }
         );
 
     }
 
 
-    if (applyWithdrawalFilters) {
 
-        applyWithdrawalFilters.addEventListener(
+    const applyButton =
+        document.getElementById(
+            "applyWithdrawalFilters"
+        );
+
+
+    if (applyButton) {
+
+        applyButton.addEventListener(
             "click",
             applyFilters
         );
@@ -118,9 +167,16 @@ function setupEvents() {
     }
 
 
-    if (resetWithdrawalFilters) {
 
-        resetWithdrawalFilters.addEventListener(
+    const resetButton =
+        document.getElementById(
+            "resetWithdrawalFilters"
+        );
+
+
+    if (resetButton) {
+
+        resetButton.addEventListener(
             "click",
             resetFilters
         );
@@ -128,61 +184,144 @@ function setupEvents() {
     }
 
 
-    if (closeWithdrawalDetails) {
 
-        closeWithdrawalDetails.addEventListener(
-            "click",
-            closeDetails
-        );
+    if (searchInput) {
 
-    }
-
-
-    if (approveWithdrawal) {
-
-        approveWithdrawal.addEventListener(
-            "click",
-            approveSelectedWithdrawal
-        );
-
-    }
-
-
-    if (rejectWithdrawal) {
-
-        rejectWithdrawal.addEventListener(
-            "click",
-            rejectSelectedWithdrawal
-        );
-
-    }
-
-
-    if (copyWithdrawalWallet) {
-
-        copyWithdrawalWallet.addEventListener(
-            "click",
-            copyWallet
-        );
-
-    }
-
-
-    if (copyWithdrawalTxid) {
-
-        copyWithdrawalTxid.addEventListener(
-            "click",
-            copyTxid
-        );
-
-    }
-
-
-    if (withdrawalSearch) {
-
-        withdrawalSearch.addEventListener(
+        searchInput.addEventListener(
             "input",
             applyFilters
+        );
+
+    }
+
+
+
+    if (statusSelect) {
+
+        statusSelect.addEventListener(
+            "change",
+            applyFilters
+        );
+
+    }
+
+
+
+    if (networkSelect) {
+
+        networkSelect.addEventListener(
+            "change",
+            applyFilters
+        );
+
+    }
+
+
+
+    if (dateFromInput) {
+
+        dateFromInput.addEventListener(
+            "change",
+            applyFilters
+        );
+
+    }
+
+
+
+    if (dateToInput) {
+
+        dateToInput.addEventListener(
+            "change",
+            applyFilters
+        );
+
+    }
+
+
+
+    const closeDetails =
+        document.getElementById(
+            "closeWithdrawalDetails"
+        );
+
+
+    if (closeDetails) {
+
+        closeDetails.addEventListener(
+            "click",
+            closeWithdrawalDetails
+        );
+
+    }
+
+
+
+    const copyWallet =
+        document.getElementById(
+            "copyWithdrawalWallet"
+        );
+
+
+    if (copyWallet) {
+
+        copyWallet.addEventListener(
+            "click",
+            function () {
+
+                if (
+                    selectedWithdrawal &&
+                    selectedWithdrawal.wallet
+                ) {
+
+                    copyText(
+                        selectedWithdrawal.wallet
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+
+    const copyTxid =
+        document.getElementById(
+            "copyWithdrawalTxid"
+        );
+
+
+    if (copyTxid) {
+
+        copyTxid.addEventListener(
+            "click",
+            function () {
+
+                if (
+                    selectedWithdrawal &&
+                    selectedWithdrawal.txid
+                ) {
+
+                    copyText(
+                        selectedWithdrawal.txid
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+
+    if (bodyElement) {
+
+        bodyElement.addEventListener(
+            "click",
+            handleTableClick
         );
 
     }
@@ -191,31 +330,193 @@ function setupEvents() {
 
 
 /* =========================================================
-   LOAD WITHDRAWALS
+   FILTERS
 ========================================================= */
 
-function loadWithdrawals() {
+function applyFilters() {
 
-    /*
-     * هنا لاحقًا سيتم جلب البيانات من قاعدة البيانات / API.
-     *
-     * حاليًا لا توجد بيانات وهمية حتى لا تظهر طلبات
-     * غير حقيقية في لوحة الإدارة.
-     */
+    const search =
+        searchInput
+            ? searchInput.value
+                .trim()
+                .toLowerCase()
+            : "";
 
-    withdrawals = [];
 
-    filteredWithdrawals = [];
+    const status =
+        statusSelect
+            ? statusSelect.value
+            : "all";
 
-    selectedWithdrawal = null;
 
-    hideWithdrawalActions();
+    const network =
+        networkSelect
+            ? networkSelect.value
+            : "all";
 
-    closeDetails();
+
+    const dateFrom =
+        dateFromInput
+            ? dateFromInput.value
+            : "";
+
+
+    const dateTo =
+        dateToInput
+            ? dateToInput.value
+            : "";
+
+
+
+    filteredWithdrawals =
+        withdrawals.filter(
+            function (withdrawal) {
+
+
+                /* SEARCH */
+
+                if (search) {
+
+                    const searchable = [
+
+                        withdrawal.id,
+
+                        withdrawal.userName,
+
+                        withdrawal.email,
+
+                        withdrawal.uid,
+
+                        withdrawal.wallet,
+
+                        withdrawal.txid,
+
+                        withdrawal.network
+
+                    ]
+                    .join(" ")
+                    .toLowerCase();
+
+
+                    if (
+                        !searchable.includes(search)
+                    ) {
+
+                        return false;
+
+                    }
+
+                }
+
+
+
+                /* STATUS */
+
+                if (
+                    status !== "all" &&
+                    withdrawal.status !== status
+                ) {
+
+                    return false;
+
+                }
+
+
+
+                /* NETWORK */
+
+                if (
+                    network !== "all" &&
+                    withdrawal.network !== network
+                ) {
+
+                    return false;
+
+                }
+
+
+
+                /* DATE FROM */
+
+                if (
+                    dateFrom &&
+                    withdrawal.date < dateFrom
+                ) {
+
+                    return false;
+
+                }
+
+
+
+                /* DATE TO */
+
+                if (
+                    dateTo &&
+                    withdrawal.date > dateTo
+                ) {
+
+                    return false;
+
+                }
+
+
+
+                return true;
+
+            }
+        );
+
 
     renderWithdrawals();
 
     updateStatistics();
+
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+function resetFilters() {
+
+    if (searchInput) {
+
+        searchInput.value = "";
+
+    }
+
+
+    if (statusSelect) {
+
+        statusSelect.value = "all";
+
+    }
+
+
+    if (networkSelect) {
+
+        networkSelect.value = "all";
+
+    }
+
+
+    if (dateFromInput) {
+
+        dateFromInput.value = "";
+
+    }
+
+
+    if (dateToInput) {
+
+        dateToInput.value = "";
+
+    }
+
+
+    applyFilters();
 
 }
 
@@ -226,17 +527,20 @@ function loadWithdrawals() {
 
 function renderWithdrawals() {
 
-    if (!withdrawalsBody) {
+
+    if (!bodyElement) {
+
         return;
+
     }
 
 
-    withdrawalsBody.innerHTML = "";
 
+    if (
+        !filteredWithdrawals.length
+    ) {
 
-    if (!filteredWithdrawals.length) {
-
-        withdrawalsBody.innerHTML = `
+        bodyElement.innerHTML = `
 
             <tr>
 
@@ -250,11 +554,11 @@ function renderWithdrawals() {
                     </div>
 
                     <strong>
-                        لا توجد طلبات سحب حاليًا
+                        لا توجد طلبات سحب
                     </strong>
 
                     <span>
-                        ستظهر طلبات السحب هنا عند وصولها من الموقع الرسمي.
+                        لا توجد نتائج مطابقة للبحث الحالي.
                     </span>
 
                 </td>
@@ -263,34 +567,39 @@ function renderWithdrawals() {
 
         `;
 
-        updateResultCount();
+
+        updateResultCount(0);
 
         return;
+
     }
 
 
-    filteredWithdrawals.forEach(
-        (withdrawal, index) => {
 
-            const row =
-                createWithdrawalRow(
-                    withdrawal,
-                    index
-                );
+    bodyElement.innerHTML =
+        filteredWithdrawals
+            .map(
+                function (withdrawal, index) {
 
-            withdrawalsBody.appendChild(row);
+                    return createWithdrawalRow(
+                        withdrawal,
+                        index
+                    );
 
-        }
+                }
+            )
+            .join("");
+
+
+    updateResultCount(
+        filteredWithdrawals.length
     );
-
-
-    updateResultCount();
 
 }
 
 
 /* =========================================================
-   CREATE TABLE ROW
+   CREATE ROW
 ========================================================= */
 
 function createWithdrawalRow(
@@ -298,179 +607,161 @@ function createWithdrawalRow(
     index
 ) {
 
-    const tr =
-        document.createElement("tr");
 
-
-    tr.className =
-        "withdrawal-row";
-
-
-    tr.dataset.id =
-        withdrawal.id;
-
-
-    tr.innerHTML = `
-
-        <td>
-            ${index + 1}
-        </td>
-
-        <td>
-            ${escapeHTML(withdrawal.userName)}
-        </td>
-
-        <td>
-            ${escapeHTML(withdrawal.email)}
-        </td>
-
-        <td dir="ltr">
-            ${escapeHTML(withdrawal.uid)}
-        </td>
-
-        <td>
-            ${formatAmount(withdrawal.amount)}
-        </td>
-
-        <td>
-            ${escapeHTML(withdrawal.currency)}
-        </td>
-
-        <td>
-            ${formatAmount(withdrawal.balanceBefore)}
-        </td>
-
-        <td>
-            ${formatAmount(withdrawal.balanceAfter)}
-        </td>
-
-        <td
-            dir="ltr"
-            class="withdrawal-wallet-cell"
-        >
-            ${escapeHTML(withdrawal.wallet)}
-        </td>
-
-        <td>
-            ${escapeHTML(withdrawal.network)}
-        </td>
-
-        <td>
-            ${formatAmount(withdrawal.fee)}
-        </td>
-
-        <td>
-            ${formatAmount(withdrawal.netAmount)}
-        </td>
-
-        <td>
-            ${escapeHTML(withdrawal.date)}
-        </td>
-
-        <td>
-            ${escapeHTML(withdrawal.time)}
-        </td>
-
-        <td>
-            ${getStatusHTML(withdrawal.status)}
-        </td>
-
-        <td
-            dir="ltr"
-            class="withdrawal-txid-cell"
-        >
-            ${escapeHTML(withdrawal.txid || "—")}
-        </td>
-
-        <td>
-            ${escapeHTML(withdrawal.notes || "—")}
-        </td>
-
-        <td>
-
-            <button
-                type="button"
-                class="withdrawal-view-button"
-                data-withdrawal-id="${withdrawal.id}"
-            >
-                عرض
-            </button>
-
-        </td>
-
-    `;
-
-
-    const viewButton =
-        tr.querySelector(
-            ".withdrawal-view-button"
+    const actionButtons =
+        createActionButtons(
+            withdrawal
         );
-
-
-    if (viewButton) {
-
-        viewButton.addEventListener(
-            "click",
-            () => {
-
-                openWithdrawalDetails(
-                    withdrawal.id
-                );
-
-            }
-        );
-
-    }
-
-
-    return tr;
-
-}
-
-
-/* =========================================================
-   STATUS
-========================================================= */
-
-function getStatusHTML(status) {
-
-    const statuses = {
-
-        pending: {
-            text: "قيد الانتظار",
-            className: "pending"
-        },
-
-        processing: {
-            text: "قيد التنفيذ",
-            className: "processing"
-        },
-
-        completed: {
-            text: "مكتمل",
-            className: "completed"
-        },
-
-        rejected: {
-            text: "مرفوض",
-            className: "rejected"
-        }
-
-    };
-
-
-    const current =
-        statuses[status] ||
-        statuses.pending;
 
 
     return `
 
-        <span
-            class="withdrawal-status withdrawal-status-${current.className}"
-        >
-            ${current.text}
-        </span>
+        <tr data-withdrawal-id="${escapeHTML(
+            withdrawal.id
+        )}">
+
+            <td>
+                ${index + 1}
+            </td>
+
+
+            <td>
+                <strong>
+                    ${escapeHTML(
+                        withdrawal.userName
+                    )}
+                </strong>
+            </td>
+
+
+            <td dir="ltr">
+                ${escapeHTML(
+                    withdrawal.email
+                )}
+            </td>
+
+
+            <td dir="ltr">
+                ${escapeHTML(
+                    withdrawal.uid
+                )}
+            </td>
+
+
+            <td>
+                ${formatNumber(
+                    withdrawal.amount
+                )}
+            </td>
+
+
+            <td>
+                ${escapeHTML(
+                    withdrawal.currency
+                )}
+            </td>
+
+
+            <td>
+                ${formatNumber(
+                    withdrawal.balanceBefore
+                )}
+            </td>
+
+
+            <td>
+                ${formatNumber(
+                    withdrawal.balanceAfter
+                )}
+            </td>
+
+
+            <td
+                dir="ltr"
+                class="withdrawal-wallet-cell"
+            >
+                ${escapeHTML(
+                    withdrawal.wallet
+                )}
+            </td>
+
+
+            <td>
+                ${escapeHTML(
+                    withdrawal.network
+                )}
+            </td>
+
+
+            <td>
+                ${formatNumber(
+                    withdrawal.fee
+                )}
+            </td>
+
+
+            <td>
+                ${formatNumber(
+                    withdrawal.netAmount
+                )}
+            </td>
+
+
+            <td>
+                ${escapeHTML(
+                    withdrawal.date
+                )}
+            </td>
+
+
+            <td>
+                ${escapeHTML(
+                    withdrawal.time
+                )}
+            </td>
+
+
+            <td>
+                ${getStatusBadge(
+                    withdrawal.status
+                )}
+            </td>
+
+
+            <td
+                dir="ltr"
+                class="withdrawal-txid-cell"
+            >
+                ${withdrawal.txid
+                    ? escapeHTML(
+                        withdrawal.txid
+                    )
+                    : "—"
+                }
+            </td>
+
+
+            <td>
+                ${withdrawal.notes
+                    ? escapeHTML(
+                        withdrawal.notes
+                    )
+                    : "—"
+                }
+            </td>
+
+
+            <td>
+
+                <div class="withdrawal-actions">
+
+                    ${actionButtons}
+
+                </div>
+
+            </td>
+
+        </tr>
 
     `;
 
@@ -478,246 +769,183 @@ function getStatusHTML(status) {
 
 
 /* =========================================================
-   OPEN DETAILS
+   ACTION BUTTONS
 ========================================================= */
 
-function openWithdrawalDetails(id) {
+function createActionButtons(
+    withdrawal
+) {
+
+
+    let html = `
+
+        <button
+            type="button"
+            class="withdrawal-action-button withdrawal-view-button"
+            data-action="view"
+            data-id="${escapeHTML(
+                withdrawal.id
+            )}"
+        >
+            التفاصيل
+        </button>
+
+    `;
+
+
+
+    if (
+        withdrawal.status ===
+        WITHDRAWAL_STATUS.PENDING
+    ) {
+
+        html += `
+
+            <button
+                type="button"
+                class="withdrawal-action-button withdrawal-approve-button"
+                data-action="approve"
+                data-id="${escapeHTML(
+                    withdrawal.id
+                )}"
+            >
+                ✓ قبول السحب
+            </button>
+
+
+            <button
+                type="button"
+                class="withdrawal-action-button withdrawal-reject-button"
+                data-action="reject"
+                data-id="${escapeHTML(
+                    withdrawal.id
+                )}"
+            >
+                × رفض السحب
+            </button>
+
+        `;
+
+    }
+
+
+
+    if (
+        withdrawal.status ===
+        WITHDRAWAL_STATUS.PROCESSING
+    ) {
+
+        html += `
+
+            <button
+                type="button"
+                class="withdrawal-action-button withdrawal-complete-button"
+                data-action="complete"
+                data-id="${escapeHTML(
+                    withdrawal.id
+                )}"
+            >
+                ✓ تأكيد التحويل
+            </button>
+
+        `;
+
+    }
+
+
+
+    return html;
+
+}
+
+
+/* =========================================================
+   TABLE CLICK HANDLER
+========================================================= */
+
+function handleTableClick(event) {
+
+
+    const button =
+        event.target.closest(
+            "[data-action]"
+        );
+
+
+    if (!button) {
+
+        return;
+
+    }
+
+
+    const action =
+        button.dataset.action;
+
+
+    const id =
+        button.dataset.id;
+
 
     const withdrawal =
         withdrawals.find(
-            item => String(item.id) === String(id)
+            function (item) {
+
+                return item.id === id;
+
+            }
         );
 
 
     if (!withdrawal) {
-        return;
-    }
-
-
-    selectedWithdrawal =
-        withdrawal;
-
-
-    fillWithdrawalDetails(
-        withdrawal
-    );
-
-
-    showWithdrawalActions(
-        withdrawal
-    );
-
-
-    if (withdrawalDetailsCard) {
-
-        withdrawalDetailsCard.hidden =
-            false;
-
-        withdrawalDetailsCard.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-        });
-
-    }
-
-}
-
-
-/* =========================================================
-   FILL DETAILS
-========================================================= */
-
-function fillWithdrawalDetails(
-    withdrawal
-) {
-
-
-    setText(
-        "detailUserName",
-        withdrawal.userName
-    );
-
-
-    setText(
-        "detailUserEmail",
-        withdrawal.email
-    );
-
-
-    setText(
-        "detailUserUID",
-        withdrawal.uid
-    );
-
-
-    setText(
-        "detailAmount",
-        formatAmount(withdrawal.amount)
-    );
-
-
-    setText(
-        "detailCurrency",
-        withdrawal.currency
-    );
-
-
-    setText(
-        "detailBalance",
-        formatAmount(withdrawal.balanceBefore)
-    );
-
-
-    setText(
-        "detailFee",
-        formatAmount(withdrawal.fee)
-    );
-
-
-    setText(
-        "detailNetAmount",
-        formatAmount(withdrawal.netAmount)
-    );
-
-
-    setText(
-        "detailNetwork",
-        withdrawal.network
-    );
-
-
-    setText(
-        "detailDate",
-        withdrawal.date
-    );
-
-
-    setText(
-        "detailTime",
-        withdrawal.time
-    );
-
-
-    setText(
-        "detailStatus",
-        getStatusText(
-            withdrawal.status
-        )
-    );
-
-
-    setText(
-        "detailWallet",
-        withdrawal.wallet
-    );
-
-
-    setText(
-        "detailTxid",
-        withdrawal.txid || "—"
-    );
-
-
-    if (withdrawalAdminNotes) {
-
-        withdrawalAdminNotes.value =
-            withdrawal.notes || "";
-
-    }
-
-}
-
-
-/* =========================================================
-   SHOW / HIDE ACTIONS
-========================================================= */
-
-function showWithdrawalActions(
-    withdrawal
-) {
-
-    if (!withdrawalDetailsActions) {
-        return;
-    }
-
-
-    /*
-     * الأزرار تظهر فقط للطلب المحدد.
-     *
-     * إذا كان مكتملًا أو مرفوضًا:
-     * لا نعرض أزرار اتخاذ القرار مرة أخرى.
-     */
-
-
-    if (
-        withdrawal.status === "completed" ||
-        withdrawal.status === "rejected"
-    ) {
-
-        withdrawalDetailsActions.hidden =
-            true;
 
         return;
 
     }
 
 
-    withdrawalDetailsActions.hidden =
-        false;
 
+    if (action === "view") {
 
-    /*
-     * إذا كان الطلب قيد التنفيذ:
-     * لا نحتاج إلى قبول جديد.
-     */
+        openWithdrawalDetails(
+            withdrawal
+        );
 
-    if (approveWithdrawal) {
-
-        approveWithdrawal.hidden =
-            withdrawal.status === "processing";
+        return;
 
     }
 
 
-    if (rejectWithdrawal) {
 
-        rejectWithdrawal.hidden =
-            withdrawal.status === "processing";
+    if (action === "approve") {
 
-    }
+        approveWithdrawal(
+            withdrawal
+        );
 
-}
-
-
-function hideWithdrawalActions() {
-
-    if (withdrawalDetailsActions) {
-
-        withdrawalDetailsActions.hidden =
-            true;
+        return;
 
     }
 
-}
 
 
-/* =========================================================
-   CLOSE DETAILS
-========================================================= */
+    if (action === "reject") {
 
-function closeDetails() {
+        rejectWithdrawal(
+            withdrawal
+        );
 
-    selectedWithdrawal =
-        null;
+        return;
 
-
-    hideWithdrawalActions();
+    }
 
 
-    if (withdrawalDetailsCard) {
 
-        withdrawalDetailsCard.hidden =
-            true;
+    if (action === "complete") {
+
+        completeWithdrawal(
+            withdrawal
+        );
 
     }
 
@@ -728,23 +956,14 @@ function closeDetails() {
    APPROVE
 ========================================================= */
 
-function approveSelectedWithdrawal() {
-
-    if (!selectedWithdrawal) {
-
-        showMessage(
-            "يرجى اختيار طلب سحب أولًا.",
-            "error"
-        );
-
-        return;
-
-    }
+function approveWithdrawal(
+    withdrawal
+) {
 
 
     if (
-        selectedWithdrawal.status === "completed" ||
-        selectedWithdrawal.status === "rejected"
+        withdrawal.status !==
+        WITHDRAWAL_STATUS.PENDING
     ) {
 
         return;
@@ -754,50 +973,31 @@ function approveSelectedWithdrawal() {
 
     const confirmed =
         window.confirm(
-            "هل تريد قبول طلب السحب والانتقال إلى مرحلة التنفيذ اليدوي؟"
+            "هل تريد قبول طلب السحب وتحويله إلى قيد التنفيذ؟"
         );
 
 
     if (!confirmed) {
+
         return;
+
     }
 
 
-    /*
-     * في النظام الحقيقي:
-     *
-     * هنا سيتم إرسال طلب إلى Backend
-     * لتغيير الحالة إلى processing.
-     */
+    withdrawal.status =
+        WITHDRAWAL_STATUS.PROCESSING;
 
 
-    selectedWithdrawal.status =
-        "processing";
-
-
-    selectedWithdrawal.notes =
-        withdrawalAdminNotes
-            ? withdrawalAdminNotes.value.trim()
-            : selectedWithdrawal.notes;
-
-
-    fillWithdrawalDetails(
-        selectedWithdrawal
+    openWithdrawalDetails(
+        withdrawal
     );
 
 
-    showWithdrawalActions(
-        selectedWithdrawal
-    );
-
-
-    renderWithdrawals();
-
-    updateStatistics();
+    applyFilters();
 
 
     showMessage(
-        "تم قبول طلب السحب وأصبح قيد التنفيذ. يمكنك نسخ عنوان المحفظة وشحن المستخدم يدويًا.",
+        "تم قبول طلب السحب وأصبح قيد التنفيذ. يمكنك الآن نسخ عنوان المحفظة وإجراء التحويل يدويًا.",
         "success"
     );
 
@@ -808,23 +1008,14 @@ function approveSelectedWithdrawal() {
    REJECT
 ========================================================= */
 
-function rejectSelectedWithdrawal() {
-
-    if (!selectedWithdrawal) {
-
-        showMessage(
-            "يرجى اختيار طلب سحب أولًا.",
-            "error"
-        );
-
-        return;
-
-    }
+function rejectWithdrawal(
+    withdrawal
+) {
 
 
     if (
-        selectedWithdrawal.status === "completed" ||
-        selectedWithdrawal.status === "rejected"
+        withdrawal.status !==
+        WITHDRAWAL_STATUS.PENDING
     ) {
 
         return;
@@ -832,46 +1023,44 @@ function rejectSelectedWithdrawal() {
     }
 
 
-    const confirmed =
-        window.confirm(
-            "هل أنت متأكد من رفض طلب السحب؟ سيتم اعتبار المبلغ مرفوضًا ويجب على النظام الحقيقي إعادة الرصيد للمستخدم."
+    const reason =
+        window.prompt(
+            "اكتب سبب رفض طلب السحب:"
         );
 
 
-    if (!confirmed) {
+    if (
+        reason === null
+    ) {
+
         return;
+
     }
 
 
-    /*
-     * في النظام الحقيقي:
-     *
-     * يجب تنفيذ عملية إعادة الرصيد
-     * داخل Backend بشكل آمن وذرّي.
-     */
+    withdrawal.status =
+        WITHDRAWAL_STATUS.REJECTED;
 
 
-    selectedWithdrawal.status =
-        "rejected";
+    withdrawal.notes =
+        reason.trim() ||
+        "تم رفض طلب السحب من الإدارة";
 
 
-    selectedWithdrawal.notes =
-        withdrawalAdminNotes
-            ? withdrawalAdminNotes.value.trim()
-            : selectedWithdrawal.notes;
+    if (
+        selectedWithdrawal &&
+        selectedWithdrawal.id ===
+        withdrawal.id
+    ) {
+
+        openWithdrawalDetails(
+            withdrawal
+        );
+
+    }
 
 
-    fillWithdrawalDetails(
-        selectedWithdrawal
-    );
-
-
-    hideWithdrawalActions();
-
-
-    renderWithdrawals();
-
-    updateStatistics();
+    applyFilters();
 
 
     showMessage(
@@ -883,746 +1072,24 @@ function rejectSelectedWithdrawal() {
 
 
 /* =========================================================
-   COPY WALLET
+   COMPLETE
 ========================================================= */
 
-async function copyWallet() {
-
-    if (!selectedWithdrawal) {
-        return;
-    }
-
-
-    await copyText(
-        selectedWithdrawal.wallet
-    );
-
-
-    showMessage(
-        "تم نسخ عنوان المحفظة.",
-        "success"
-    );
-
-}
-
-
-/* =========================================================
-   COPY TXID
-========================================================= */
-
-async function copyTxid() {
-
-    if (!selectedWithdrawal) {
-        return;
-    }
-
-
-    if (!selectedWithdrawal.txid) {
-
-        showMessage(
-            "لا يوجد TXID لهذا الطلب.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    await copyText(
-        selectedWithdrawal.txid
-    );
-
-
-    showMessage(
-        "تم نسخ TXID.",
-        "success"
-    );
-
-}
-
-
-/* =========================================================
-   FILTERS
-========================================================= */
-
-function applyFilters() {
-
-    const search =
-        withdrawalSearch
-            ? withdrawalSearch.value
-                .trim()
-                .toLowerCase()
-            : "";
-
-
-    const status =
-        withdrawalStatus
-            ? withdrawalStatus.value
-            : "all";
-
-
-    const network =
-        withdrawalNetwork
-            ? withdrawalNetwork.value
-            : "all";
-
-
-    const dateFrom =
-        withdrawalDateFrom
-            ? withdrawalDateFrom.value
-            : "";
-
-
-    const dateTo =
-        withdrawalDateTo
-            ? withdrawalDateTo.value
-            : "";
-
-
-    filteredWithdrawals =
-        withdrawals.filter(
-            withdrawal => {
-
-
-                const searchable =
-                    [
-
-                        withdrawal.userName,
-
-                        withdrawal.email,
-
-                        withdrawal.uid,
-
-                        withdrawal.wallet,
-
-                        withdrawal.txid
-
-                    ]
-                    .join(" ")
-                    .toLowerCase();
-
-
-                if (
-                    search &&
-                    !searchable.includes(search)
-                ) {
-
-                    return false;
-
-                }
-
-
-                if (
-                    status !== "all" &&
-                    withdrawal.status !== status
-                ) {
-
-                    return false;
-
-                }
-
-
-                if (
-                    network !== "all" &&
-                    withdrawal.network !== network
-                ) {
-
-                    return false;
-
-                }
-
-
-                if (
-                    dateFrom &&
-                    withdrawal.date < dateFrom
-                ) {
-
-                    return false;
-
-                }
-
-
-                if (
-                    dateTo &&
-                    withdrawal.date > dateTo
-                ) {
-
-                    return false;
-
-                }
-
-
-                return true;
-
-            }
-        );
-
-
-    renderWithdrawals();
-
-}
-
-
-/* =========================================================
-   RESET FILTERS
-========================================================= */
-
-function resetFilters() {
-
-
-    if (withdrawalSearch) {
-
-        withdrawalSearch.value =
-            "";
-
-    }
-
-
-    if (withdrawalStatus) {
-
-        withdrawalStatus.value =
-            "all";
-
-    }
-
-
-    if (withdrawalNetwork) {
-
-        withdrawalNetwork.value =
-            "all";
-
-    }
-
-
-    if (withdrawalDateFrom) {
-
-        withdrawalDateFrom.value =
-            "";
-
-    }
-
-
-    if (withdrawalDateTo) {
-
-        withdrawalDateTo.value =
-            "";
-
-    }
-
-
-    filteredWithdrawals =
-        [...withdrawals];
-
-
-    renderWithdrawals();
-
-}
-
-
-/* =========================================================
-   STATISTICS
-========================================================= */
-
-function updateStatistics() {
-
-
-    const pending =
-        withdrawals.filter(
-            item => item.status === "pending"
-        );
-
-
-    const processing =
-        withdrawals.filter(
-            item => item.status === "processing"
-        );
-
-
-    const completed =
-        withdrawals.filter(
-            item => item.status === "completed"
-        );
-
-
-    const rejected =
-        withdrawals.filter(
-            item => item.status === "rejected"
-        );
-
-
-    const pendingAmount =
-        pending.reduce(
-            (total, item) =>
-                total + Number(item.amount || 0),
-            0
-        );
-
-
-    const completedAmount =
-        completed.reduce(
-            (total, item) =>
-                total + Number(item.netAmount || 0),
-            0
-        );
-
-
-    const rejectedAmount =
-        rejected.reduce(
-            (total, item) =>
-                total + Number(item.amount || 0),
-            0
-        );
-
-
-    setText(
-        "pendingWithdrawalsCount",
-        pending.length
-    );
-
-
-    setText(
-        "pendingWithdrawalsAmount",
-        `${formatAmount(pendingAmount)} USDT`
-    );
-
-
-    setText(
-        "processingWithdrawalsCount",
-        processing.length
-    );
-
-
-    setText(
-        "completedWithdrawalsCount",
-        completed.length
-    );
-
-
-    setText(
-        "totalWithdrawnAmount",
-        `${formatAmount(completedAmount)} USDT`
-    );
-
-
-    setText(
-        "rejectedWithdrawalsCount",
-        rejected.length
-    );
-
-
-    setText(
-        "rejectedWithdrawalsAmount",
-        `${formatAmount(rejectedAmount)} USDT`
-    );
-
-}
-
-
-/* =========================================================
-   RESULT COUNT
-========================================================= */
-
-function updateResultCount() {
-
-    if (!withdrawalsResultCount) {
-        return;
-    }
-
-
-    const count =
-        filteredWithdrawals.length;
-
-
-    withdrawalsResultCount.textContent =
-        `${count} طلب`;
-
-}
-
-
-/* =========================================================
-   STATUS TEXT
-========================================================= */
-
-function getStatusText(status) {
-
-    const map = {
-
-        pending:
-            "قيد الانتظار",
-
-        processing:
-            "قيد التنفيذ",
-
-        completed:
-            "مكتمل",
-
-        rejected:
-            "مرفوض"
-
-    };
-
-
-    return map[status] || "غير معروف";
-
-}
-
-
-/* =========================================================
-   FORMAT AMOUNT
-========================================================= */
-
-function formatAmount(value) {
-
-    const number =
-        Number(value || 0);
-
-
-    return number.toLocaleString(
-        "en-US",
-        {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        }
-    );
-
-}
-
-
-/* =========================================================
-   SET TEXT
-========================================================= */
-
-function setText(
-    id,
-    value
+function completeWithdrawal(
+    withdrawal
 ) {
 
-    const element =
-        document.getElementById(id);
-
-
-    if (!element) {
-        return;
-    }
-
-
-    element.textContent =
-        value ?? "—";
-
-}
-
-
-/* =========================================================
-   COPY
-========================================================= */
-
-async function copyText(text) {
-
-    if (!text) {
-        return;
-    }
-
-
-    try {
-
-        await navigator.clipboard.writeText(
-            String(text)
-        );
-
-        return;
-
-    } catch (error) {
-
-        /*
-         * fallback
-         */
-
-    }
-
-
-    const textarea =
-        document.createElement("textarea");
-
-
-    textarea.value =
-        String(text);
-
-
-    textarea.style.position =
-        "fixed";
-
-    textarea.style.opacity =
-        "0";
-
-
-    document.body.appendChild(
-        textarea
-    );
-
-
-    textarea.select();
-
-
-    try {
-
-        document.execCommand(
-            "copy"
-        );
-
-    } catch (error) {
-
-        console.error(
-            "Copy failed:",
-            error
-        );
-
-    }
-
-
-    textarea.remove();
-
-}
-
-
-/* =========================================================
-   MESSAGE
-========================================================= */
-
-function showMessage(
-    message,
-    type = "success"
-) {
-
-    let element =
-        document.getElementById(
-            "withdrawalResultMessage"
-        );
-
-
-    if (!element) {
-
-        element =
-            document.createElement(
-                "div"
-            );
-
-
-        element.id =
-            "withdrawalResultMessage";
-
-
-        element.className =
-            "trade-result";
-
-
-        if (withdrawalDetailsCard) {
-
-            withdrawalDetailsCard.appendChild(
-                element
-            );
-
-        } else {
-
-            document.body.appendChild(
-                element
-            );
-
-        }
-
-    }
-
-
-    element.className =
-        `trade-result ${type}`;
-
-
-    element.hidden =
-        false;
-
-
-    element.textContent =
-        message;
-
-
-    window.clearTimeout(
-        element._hideTimer
-    );
-
-
-    element._hideTimer =
-        window.setTimeout(
-            () => {
-
-                element.hidden =
-                    true;
-
-            },
-            4000
-        );
-
-}
-
-
-/* =========================================================
-   ESCAPE HTML
-========================================================= */
-
-function escapeHTML(value) {
 
     if (
-        value === null ||
-        value === undefined
+        withdrawal.status !==
+        WITHDRAWAL_STATUS.PROCESSING
     ) {
 
-        return "";
+        return;
 
     }
 
 
-    return String(value)
-
-        .replaceAll(
-            "&",
-            "&amp;"
-        )
-
-        .replaceAll(
-            "<",
-            "&lt;"
-        )
-
-        .replaceAll(
-            ">",
-            "&gt;"
-        )
-
-        .replaceAll(
-            '"',
-            "&quot;"
-        )
-
-        .replaceAll(
-            "'",
-            "&#039;"
-        );
-
-}
-
-
-/* =========================================================
-   OPTIONAL TEST FUNCTION
-========================================================= */
-
-/*
- * لا يتم إنشاء طلبات وهمية تلقائيًا.
- *
- * إذا أردت اختبار الواجهة فقط من المتصفح،
- * يمكنك تشغيل:
- *
- * addTestWithdrawal()
- *
- * من Console.
- */
-
-function addTestWithdrawal() {
-
-    const now =
-        new Date();
-
-
-    const withdrawal = {
-
-        id:
-            Date.now(),
-
-        userName:
-            "مستخدم تجريبي",
-
-        email:
-            "user@example.com",
-
-        uid:
-            "VAL-10001",
-
-        amount:
-            100,
-
-        currency:
-            "USDT",
-
-        balanceBefore:
-            850,
-
-        balanceAfter:
-            750,
-
-        wallet:
-            "TExampleWalletAddress123456789",
-
-        network:
-            "TRC20",
-
-        fee:
-            1,
-
-        netAmount:
-            99,
-
-        date:
-            now.toISOString()
-                .slice(0, 10),
-
-        time:
-            now.toLocaleTimeString(
-                "ar",
-                {
-                    hour: "2-digit",
-                    minute: "2-digit"
-                }
-            ),
-
-        status:
-            "pending",
-
-        txid:
-            "",
-
-        notes:
-            ""
-
-    };
-
-
-    withdrawals.unshift(
-        withdrawal
-    );
-
-
-    filteredWithdrawals =
-        [...withdrawals];
-
-
-    renderWithdrawals();
-
-    updateStatistics();
-
-}
-
-
-/* =========================================================
-   GLOBAL ACCESS FOR TESTING
-========================================================= */
-
-window.VALORAWithdrawals = {
-
-    load:
-        loadWithdrawals,
-
-    addTestWithdrawal:
-        addTestWithdrawal,
-
-    open:
-        openWithdrawalDetails
-
-};
+    const txid =
+        window.prompt(
+            "
