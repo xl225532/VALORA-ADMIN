@@ -1,5 +1,6 @@
 /* =========================================================
    VALORA ADMIN — USER DETAILS
+   ADD + DEDUCT BALANCE
 ========================================================= */
 
 (function () {
@@ -13,11 +14,9 @@ document.addEventListener(
 );
 
 
-
 /* =========================================================
    STATE
 ========================================================= */
-
 
 const userDetailsState = {
 
@@ -28,209 +27,160 @@ const userDetailsState = {
 };
 
 
-
-
-
 /* =========================================================
    INIT
 ========================================================= */
 
-
 function initUserDetails() {
-
 
     userDetailsState.id =
         getUserIdFromURL();
 
-
-
     loadUserDetails();
-
-
 
     createBalanceEditor();
 
-
 }
-
-
-
-
 
 
 /* =========================================================
    GET USER ID
 ========================================================= */
 
-
 function getUserIdFromURL() {
-
 
     const params =
         new URLSearchParams(
             window.location.search
         );
 
-
     return params.get("id");
 
-
 }
-
-
-
-
 
 
 /* =========================================================
    DEMO USER DATA
 ========================================================= */
 
-
 function loadUserDetails() {
 
-
-
     const demoUser = {
-
 
         id:
             userDetailsState.id || "1001",
 
-
         name:
             "أحمد محمد",
-
 
         email:
             "ahmed@test.com",
 
-
         status:
             "active",
-
 
         balance:
             500,
 
-
         deposits:
             1200,
-
 
         withdrawals:
             200,
 
-
         profits:
             350,
-
 
         transactions:
             18,
 
-
-
         created_at:
             "2026-01-01",
 
+        referrals: [
 
+            {
+                id: "2001",
 
-],
+                name: "محمد علي",
 
-referrals: [
+                email: "mohamed@test.com",
 
-    {
-        id: "2001",
-        name: "محمد علي",
-        balance: 120,
-        created_at: "2026-02-01"
-    },
+                balance: 120,
 
-    {
-        id: "2002",
-        name: "سارة أحمد",
-        balance: 300,
-        created_at: "2026-02-05"
-    }
+                created_at: "2026-02-01"
+            },
 
-]
+            {
+                id: "2002",
 
-        operations:
+                name: "سارة أحمد",
 
-        [
+                email: "sara@test.com",
+
+                balance: 300,
+
+                created_at: "2026-02-05"
+            }
+
+        ],
+
+        operations: [
 
             {
 
-                type:"إيداع",
+                type: "إيداع",
 
-                amount:500,
+                amount: 500,
 
-                status:"مكتمل",
+                status: "مكتمل",
 
-                date:"2026-02-01",
+                date: "2026-02-01",
 
-                id:"TX10001"
+                id: "TX10001"
 
             },
 
-
             {
 
-                type:"ربح",
+                type: "ربح",
 
-                amount:150,
+                amount: 150,
 
-                status:"مكتمل",
+                status: "مكتمل",
 
-                date:"2026-02-10",
+                date: "2026-02-10",
 
-                id:"TX10002"
+                id: "TX10002"
 
             }
 
-
         ]
 
-
-
     };
-
-
-
 
 
     userDetailsState.user =
         demoUser;
 
 
-
     renderUser(
         demoUser
     );
 
-
 }
-
-
-
-
-
 
 
 /* =========================================================
    RENDER USER
 ========================================================= */
 
-
 function renderUser(user) {
-
 
     setText(
         "userName",
         user.name
     );
-
 
 
     setText(
@@ -239,12 +189,10 @@ function renderUser(user) {
     );
 
 
-
     setText(
         "userId",
         "UID #" + user.id
     );
-
 
 
     setText(
@@ -253,12 +201,10 @@ function renderUser(user) {
     );
 
 
-
     setText(
         "userDeposits",
         formatMoney(user.deposits)
     );
-
 
 
     setText(
@@ -267,22 +213,22 @@ function renderUser(user) {
     );
 
 
-
     setText(
         "userTransactions",
         user.transactions
     );
 
-setText(
-    "userReferralsCount",
-    user.referrals.length
-);
+
+    setText(
+        "userReferralsCount",
+        user.referrals.length
+    );
+
 
     setText(
         "userAvatar",
         getInitial(user.name)
     );
-
 
 
     setText(
@@ -291,12 +237,10 @@ setText(
     );
 
 
-
     setText(
         "detailEmail",
         user.email
     );
-
 
 
     setText(
@@ -305,12 +249,10 @@ setText(
     );
 
 
-
     setText(
         "detailCreatedAt",
         user.created_at
     );
-
 
 
     setText(
@@ -319,12 +261,10 @@ setText(
     );
 
 
-
     setText(
         "userStatus",
         "نشط"
     );
-
 
 
     setText(
@@ -333,12 +273,10 @@ setText(
     );
 
 
-
     setText(
         "twoFactorStatus",
         "غير مفعل"
     );
-
 
 
     renderReferrals(
@@ -346,22 +284,20 @@ setText(
     );
 
 
-
     renderTransactions(
         user.operations
     );
 
-
 }
- /* =========================================================
+
+
+/* =========================================================
    REFERRALS TABLE
 ========================================================= */
-
 
 function renderReferrals(
     referrals
 ) {
-
 
     const body =
         document.getElementById(
@@ -370,13 +306,13 @@ function renderReferrals(
 
 
     if (!body) {
+
         return;
+
     }
 
 
-
     body.innerHTML = "";
-
 
 
     if (
@@ -389,16 +325,13 @@ function renderReferrals(
     }
 
 
-
     referrals.forEach(
-        function(person){
-
+        function (person) {
 
             const row =
                 document.createElement(
                     "tr"
                 );
-
 
 
             row.innerHTML = `
@@ -412,7 +345,7 @@ ${escapeHTML(person.name)}
 <br>
 
 <small>
-${escapeHTML(person.email)}
+${escapeHTML(person.email || "")}
 </small>
 
 </td>
@@ -437,412 +370,4 @@ ${escapeHTML(person.created_at)}
 
 <a
 
-href="user-details.html?id=${encodeURIComponent(person.id)}"
-
-class="user-view-button"
-
->
-عرض
-</a>
-
-
-</td>
-
-`;
-
-
-
-            body.appendChild(row);
-
-
-        }
-    );
-
-
-}
-
-
-
-
-
-
-
-
-/* =========================================================
-   TRANSACTIONS TABLE
-========================================================= */
-
-
-function renderTransactions(
-    operations
-) {
-
-
-    const body =
-        document.getElementById(
-            "userTransactionsBody"
-        );
-
-
-    if (!body) {
-
-        return;
-
-    }
-
-
-
-    body.innerHTML = "";
-
-
-
-    operations.forEach(
-        function(item){
-
-
-
-            const row =
-                document.createElement(
-                    "tr"
-                );
-
-
-
-            row.innerHTML = `
-
-<td>
-${escapeHTML(item.type)}
-</td>
-
-
-<td>
-${formatMoney(item.amount)}
-</td>
-
-
-<td>
-${escapeHTML(item.status)}
-</td>
-
-
-<td>
-${escapeHTML(item.date)}
-</td>
-
-
-<td>
-${escapeHTML(item.id)}
-</td>
-
-`;
-
-
-
-            body.appendChild(row);
-
-
-
-        }
-    );
-
-
-}
-
-
-
-
-
-
-/* =========================================================
-   BALANCE EDITOR
-========================================================= */
-
-
-function createBalanceEditor(){
-
-
-    const container =
-        document.querySelector(
-            ".user-details-stats-grid"
-        );
-
-
-
-    if(!container){
-
-        return;
-
-    }
-
-
-
-    const box =
-        document.createElement(
-            "section"
-        );
-
-
-    box.className =
-        "admin-card";
-
-
-
-    box.style.marginTop =
-        "20px";
-
-
-
-    box.innerHTML = `
-
-<div class="admin-card-header">
-
-<h2 class="admin-card-title">
-
-تعديل الرصيد يدوياً
-
-</h2>
-
-</div>
-
-
-<div class="admin-card-body">
-
-
-<div style="display:flex;gap:10px;align-items:center">
-
-
-<input
-
-id="balanceAmount"
-
-type="number"
-
-placeholder="أدخل المبلغ"
-
-style="padding:10px;border-radius:8px;border:1px solid #444"
-
->
-
-
-<button
-
-id="addBalanceButton"
-
-class="admin-btn admin-btn-primary"
-
->
-
-إضافة
-
-</button>
-
-
-</div>
-
-
-</div>
-
-`;
-
-
-
-    container.after(box);
-
-
-
-    setupBalanceEdit();
-
-
-}
-
-
-
-
-
-
-
-
-function setupBalanceEdit(){
-
-
-    const button =
-        document.getElementById(
-            "addBalanceButton"
-        );
-
-
-    const input =
-        document.getElementById(
-            "balanceAmount"
-        );
-
-
-
-    if(!button || !input){
-
-        return;
-
-    }
-
-
-
-
-    button.addEventListener(
-        "click",
-        function(){
-
-
-            const amount =
-                Number(
-                    input.value
-                );
-
-
-
-            if(
-                !amount ||
-                amount <=0
-            ){
-
-                return;
-
-            }
-
-
-
-            userDetailsState.user.balance += amount;
-
-
-
-            setText(
-
-                "userBalance",
-
-                formatMoney(
-                    userDetailsState.user.balance
-                )
-
-            );
-
-
-
-            input.value="";
-
-
-        }
-    );
-
-
-}
-
-
-
-
-
-
-
-/* =========================================================
-   HELPERS
-========================================================= */
-
-
-function setText(
-    id,
-    value
-){
-
-    const element =
-        document.getElementById(id);
-
-
-    if(!element){
-
-        return;
-
-    }
-
-
-    element.textContent =
-        value ?? "—";
-
-
-}
-
-
-
-
-
-
-function formatMoney(
-    value
-){
-
-    return (
-
-        Number(value || 0)
-
-        .toLocaleString()
-
-        +
-
-        " USDT"
-
-    );
-
-}
-
-
-
-
-
-function getInitial(
-    name
-){
-
-    if(!name){
-
-        return "?";
-
-    }
-
-
-    return String(name)
-
-    .trim()
-
-    .charAt(0)
-
-    .toUpperCase();
-
-
-}
-
-
-
-
-
-
-function escapeHTML(
-    value
-){
-
-    return String(value ?? "")
-
-    .replace(/&/g,"&amp;")
-
-    .replace(/</g,"&lt;")
-
-    .replace(/>/g,"&gt;")
-
-    .replace(/"/g,"&quot;")
-
-    .replace(/'/g,"&#039;");
-
-
-}
-
-
-
-
-
-})();  
+href="user-details.html?id=${encode
