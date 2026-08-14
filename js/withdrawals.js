@@ -1,14 +1,16 @@
 /* =========================================================
    VALORA ADMIN — WITHDRAWALS
-   DEMO + MANUAL APPROVAL SYSTEM
+   DEMO + MANUAL WITHDRAWAL MANAGEMENT
 ========================================================= */
 
 (function () {
 
     "use strict";
 
+
     /* =====================================================
-       DEMO WITHDRAWAL
+       DEMO DATA
+       للتجربة فقط — لا يوجد ربط حقيقي بعد
     ===================================================== */
 
     let withdrawals = [
@@ -30,8 +32,7 @@
 
             balanceAfter: 700,
 
-            wallet:
-                "TQExampleWalletAddress123456789",
+            wallet: "TQExampleWalletAddress123456789",
 
             network: "TRC20",
 
@@ -58,21 +59,23 @@
 
 
     /* =====================================================
-       HELPERS
+       ELEMENT
     ===================================================== */
 
-    function el(id) {
+    function $(id) {
 
         return document.getElementById(id);
 
     }
 
 
+    /* =====================================================
+       FORMAT
+    ===================================================== */
+
     function formatAmount(value) {
 
-        const number = Number(value || 0);
-
-        return number.toLocaleString(
+        return Number(value || 0).toLocaleString(
             "en-US",
             {
                 minimumFractionDigits: 2,
@@ -83,9 +86,9 @@
     }
 
 
-    function statusText(status) {
+    function statusLabel(status) {
 
-        const statuses = {
+        const labels = {
 
             pending: "قيد الانتظار",
 
@@ -97,12 +100,12 @@
 
         };
 
-        return statuses[status] || status;
+        return labels[status] || status;
 
     }
 
 
-    function escapeHtml(value) {
+    function escapeHTML(value) {
 
         return String(value ?? "")
             .replace(/&/g, "&amp;")
@@ -114,22 +117,48 @@
     }
 
 
+    function setText(id, value) {
+
+        const element = $(id);
+
+        if (element) {
+
+            element.textContent = value;
+
+        }
+
+    }
+
+
     /* =====================================================
-       RENDER TABLE
+       RENDER
     ===================================================== */
 
     function renderWithdrawals() {
 
-        const body = el("withdrawalsBody");
+        const body = $("withdrawalsBody");
 
-        if (!body) return;
+        if (!body) {
+
+            console.error(
+                "VALORA: withdrawalsBody غير موجود في HTML"
+            );
+
+            return;
+
+        }
 
 
-        if (!withdrawals.length) {
+        if (withdrawals.length === 0) {
 
             body.innerHTML = `
+
                 <tr>
-                    <td colspan="18" class="withdrawals-empty">
+
+                    <td
+                        colspan="18"
+                        class="withdrawals-empty"
+                    >
 
                         <div class="withdrawals-empty-icon">
                             −
@@ -144,21 +173,24 @@
                         </span>
 
                     </td>
+
                 </tr>
+
             `;
 
-            updateStats();
+            updateStatistics();
 
             return;
+
         }
 
 
         body.innerHTML = withdrawals.map(
-            (withdrawal, index) => {
+            function (withdrawal, index) {
 
                 return `
 
-                <tr data-id="${escapeHtml(withdrawal.id)}">
+                <tr data-withdrawal-id="${escapeHTML(withdrawal.id)}">
 
                     <td>
                         ${index + 1}
@@ -166,19 +198,21 @@
 
 
                     <td>
+
                         <strong>
-                            ${escapeHtml(withdrawal.userName)}
+                            ${escapeHTML(withdrawal.userName)}
                         </strong>
+
                     </td>
 
 
                     <td dir="ltr">
-                        ${escapeHtml(withdrawal.email)}
+                        ${escapeHTML(withdrawal.email)}
                     </td>
 
 
                     <td dir="ltr">
-                        ${escapeHtml(withdrawal.uid)}
+                        ${escapeHTML(withdrawal.uid)}
                     </td>
 
 
@@ -188,7 +222,7 @@
 
 
                     <td>
-                        ${escapeHtml(withdrawal.currency)}
+                        ${escapeHTML(withdrawal.currency)}
                     </td>
 
 
@@ -207,13 +241,13 @@
                         <div class="withdrawal-wallet-cell">
 
                             <span>
-                                ${escapeHtml(withdrawal.wallet)}
+                                ${escapeHTML(withdrawal.wallet)}
                             </span>
 
                             <button
                                 type="button"
                                 class="withdrawal-copy-button"
-                                data-copy="${escapeHtml(withdrawal.wallet)}"
+                                data-copy-wallet="${escapeHTML(withdrawal.wallet)}"
                             >
                                 نسخ
                             </button>
@@ -224,7 +258,7 @@
 
 
                     <td>
-                        ${escapeHtml(withdrawal.network)}
+                        ${escapeHTML(withdrawal.network)}
                     </td>
 
 
@@ -239,20 +273,22 @@
 
 
                     <td>
-                        ${escapeHtml(withdrawal.date)}
+                        ${escapeHTML(withdrawal.date)}
                     </td>
 
 
                     <td>
-                        ${escapeHtml(withdrawal.time)}
+                        ${escapeHTML(withdrawal.time)}
                     </td>
 
 
                     <td>
 
-                        <span class="withdrawal-status status-${escapeHtml(withdrawal.status)}">
+                        <span
+                            class="withdrawal-status status-${escapeHTML(withdrawal.status)}"
+                        >
 
-                            ${statusText(withdrawal.status)}
+                            ${statusLabel(withdrawal.status)}
 
                         </span>
 
@@ -261,9 +297,10 @@
 
                     <td dir="ltr">
 
-                        ${withdrawal.txid
-                            ? escapeHtml(withdrawal.txid)
-                            : "—"
+                        ${
+                            withdrawal.txid
+                                ? escapeHTML(withdrawal.txid)
+                                : "—"
                         }
 
                     </td>
@@ -271,9 +308,10 @@
 
                     <td>
 
-                        ${withdrawal.notes
-                            ? escapeHtml(withdrawal.notes)
-                            : "—"
+                        ${
+                            withdrawal.notes
+                                ? escapeHTML(withdrawal.notes)
+                                : "—"
                         }
 
                     </td>
@@ -283,11 +321,12 @@
 
                         <div class="withdrawal-actions">
 
+
                             <button
                                 type="button"
                                 class="withdrawal-details-button"
                                 data-action="details"
-                                data-id="${escapeHtml(withdrawal.id)}"
+                                data-id="${escapeHTML(withdrawal.id)}"
                             >
                                 التفاصيل
                             </button>
@@ -295,7 +334,8 @@
 
                             ${
                                 withdrawal.status === "pending"
-                                ?
+
+                                    ?
 
                                 `
 
@@ -303,7 +343,7 @@
                                     type="button"
                                     class="withdrawal-approve-button"
                                     data-action="approve"
-                                    data-id="${escapeHtml(withdrawal.id)}"
+                                    data-id="${escapeHTML(withdrawal.id)}"
                                 >
                                     ✓ قبول
                                 </button>
@@ -313,14 +353,37 @@
                                     type="button"
                                     class="withdrawal-reject-button"
                                     data-action="reject"
-                                    data-id="${escapeHtml(withdrawal.id)}"
+                                    data-id="${escapeHTML(withdrawal.id)}"
                                 >
                                     × رفض
                                 </button>
 
                                 `
 
-                                : ""
+                                    : ""
+
+                            }
+
+
+                            ${
+                                withdrawal.status === "processing"
+
+                                    ?
+
+                                `
+
+                                <button
+                                    type="button"
+                                    class="withdrawal-complete-button"
+                                    data-action="complete"
+                                    data-id="${escapeHTML(withdrawal.id)}"
+                                >
+                                    ✓ تم التحويل
+                                </button>
+
+                                `
+
+                                    : ""
 
                             }
 
@@ -336,7 +399,7 @@
         ).join("");
 
 
-        updateStats();
+        updateStatistics();
 
     }
 
@@ -345,22 +408,25 @@
        STATISTICS
     ===================================================== */
 
-    function updateStats() {
+    function updateStatistics() {
 
         const pending =
             withdrawals.filter(
                 item => item.status === "pending"
             );
 
+
         const processing =
             withdrawals.filter(
                 item => item.status === "processing"
             );
 
+
         const completed =
             withdrawals.filter(
                 item => item.status === "completed"
             );
+
 
         const rejected =
             withdrawals.filter(
@@ -370,72 +436,80 @@
 
         const pendingAmount =
             pending.reduce(
-                (sum, item) =>
-                    sum + Number(item.amount || 0),
+                (total, item) =>
+                    total + Number(item.amount || 0),
                 0
             );
 
 
         const completedAmount =
             completed.reduce(
-                (sum, item) =>
-                    sum + Number(item.amount || 0),
+                (total, item) =>
+                    total + Number(item.amount || 0),
                 0
             );
 
 
         const rejectedAmount =
             rejected.reduce(
-                (sum, item) =>
-                    sum + Number(item.amount || 0),
+                (total, item) =>
+                    total + Number(item.amount || 0),
                 0
             );
 
 
-        if (el("pendingWithdrawalsCount"))
-            el("pendingWithdrawalsCount").textContent =
-                pending.length;
+        setText(
+            "pendingWithdrawalsCount",
+            pending.length
+        );
 
 
-        if (el("pendingWithdrawalsAmount"))
-            el("pendingWithdrawalsAmount").textContent =
-                formatAmount(pendingAmount) + " USDT";
+        setText(
+            "pendingWithdrawalsAmount",
+            formatAmount(pendingAmount) + " USDT"
+        );
 
 
-        if (el("processingWithdrawalsCount"))
-            el("processingWithdrawalsCount").textContent =
-                processing.length;
+        setText(
+            "processingWithdrawalsCount",
+            processing.length
+        );
 
 
-        if (el("completedWithdrawalsCount"))
-            el("completedWithdrawalsCount").textContent =
-                completed.length;
+        setText(
+            "completedWithdrawalsCount",
+            completed.length
+        );
 
 
-        if (el("totalWithdrawnAmount"))
-            el("totalWithdrawnAmount").textContent =
-                formatAmount(completedAmount) + " USDT";
+        setText(
+            "totalWithdrawnAmount",
+            formatAmount(completedAmount) + " USDT"
+        );
 
 
-        if (el("rejectedWithdrawalsCount"))
-            el("rejectedWithdrawalsCount").textContent =
-                rejected.length;
+        setText(
+            "rejectedWithdrawalsCount",
+            rejected.length
+        );
 
 
-        if (el("rejectedWithdrawalsAmount"))
-            el("rejectedWithdrawalsAmount").textContent =
-                formatAmount(rejectedAmount) + " USDT";
+        setText(
+            "rejectedWithdrawalsAmount",
+            formatAmount(rejectedAmount) + " USDT"
+        );
 
 
-        if (el("withdrawalsResultCount"))
-            el("withdrawalsResultCount").textContent =
-                withdrawals.length + " طلب";
+        setText(
+            "withdrawalsResultCount",
+            withdrawals.length + " طلب"
+        );
 
     }
 
 
     /* =====================================================
-       DETAILS
+       SHOW DETAILS
     ===================================================== */
 
     function showDetails(id) {
@@ -449,17 +523,26 @@
         if (!withdrawal) return;
 
 
-        selectedWithdrawal = withdrawal;
+        selectedWithdrawal =
+            withdrawal;
 
 
-        const card =
-            el("withdrawalDetailsCard");
+        const detailsCard =
+            $("withdrawalDetailsCard");
 
 
-        if (!card) return;
+        if (!detailsCard) {
+
+            console.warn(
+                "VALORA: withdrawalDetailsCard غير موجود"
+            );
+
+            return;
+
+        }
 
 
-        card.hidden = false;
+        detailsCard.hidden = false;
 
 
         setText(
@@ -482,8 +565,9 @@
 
         setText(
             "detailAmount",
-            formatAmount(withdrawal.amount) + " " +
-            withdrawal.currency
+            formatAmount(withdrawal.amount)
+            + " "
+            + withdrawal.currency
         );
 
 
@@ -531,7 +615,7 @@
 
         setText(
             "detailStatus",
-            statusText(withdrawal.status)
+            statusLabel(withdrawal.status)
         );
 
 
@@ -548,28 +632,24 @@
 
 
         const notes =
-            el("withdrawalAdminNotes");
+            $("withdrawalAdminNotes");
 
 
-        if (notes)
+        if (notes) {
+
             notes.value =
                 withdrawal.notes || "";
 
+        }
 
-        card.scrollIntoView({
+
+        detailsCard.scrollIntoView({
+
             behavior: "smooth",
+
             block: "start"
+
         });
-
-    }
-
-
-    function setText(id, value) {
-
-        const element = el(id);
-
-        if (element)
-            element.textContent = value;
 
     }
 
@@ -596,13 +676,17 @@
             );
 
             return;
+
         }
 
 
         const confirmed =
-            confirm(
+            window.confirm(
+
                 "هل تريد قبول طلب السحب؟\n\n" +
-                "بعد القبول يجب على المدير نسخ عنوان المحفظة وتنفيذ التحويل يدويًا."
+
+                "سيصبح الطلب قيد التنفيذ، وبعدها تقوم بتحويل المبلغ يدويًا."
+
             );
 
 
@@ -620,8 +704,13 @@
 
 
         alert(
-            "تم قبول الطلب وتحويل حالته إلى «قيد التنفيذ».\n\n" +
+
+            "تم قبول طلب السحب.\n\n" +
+
+            "الحالة الآن: قيد التنفيذ.\n\n" +
+
             "انسخ عنوان المحفظة ونفذ التحويل يدويًا."
+
         );
 
     }
@@ -649,16 +738,23 @@
             );
 
             return;
+
         }
 
 
         const reason =
-            prompt(
+            window.prompt(
+
                 "اكتب سبب رفض طلب السحب:"
+
             );
 
 
-        if (reason === null) return;
+        if (reason === null) {
+
+            return;
+
+        }
 
 
         withdrawal.status =
@@ -666,22 +762,21 @@
 
 
         withdrawal.notes =
-            reason.trim() ||
+            reason.trim()
+            ||
             "تم رفض طلب السحب من الإدارة.";
 
 
         renderWithdrawals();
 
 
-        alert(
-            "تم رفض طلب السحب."
-        );
+        showDetails(id);
 
     }
 
 
     /* =====================================================
-       COMPLETE MANUAL TRANSFER
+       COMPLETE AFTER MANUAL TRANSFER
     ===================================================== */
 
     function completeWithdrawal(id) {
@@ -698,26 +793,30 @@
         if (withdrawal.status !== "processing") {
 
             alert(
-                "الطلب ليس قيد التنفيذ."
+                "يجب قبول الطلب أولًا."
             );
 
             return;
+
         }
 
 
         const txid =
-            prompt(
-                "بعد تنفيذ التحويل يدويًا، أدخل TXID:"
+            window.prompt(
+
+                "أدخل TXID بعد تنفيذ التحويل اليدوي:"
+
             );
 
 
         if (!txid || !txid.trim()) {
 
             alert(
-                "يجب إدخال TXID لإكمال الطلب."
+                "لم يتم إكمال الطلب. يجب إدخال TXID."
             );
 
             return;
+
         }
 
 
@@ -743,33 +842,71 @@
 
 
     /* =====================================================
-       COPY
+       COPY WALLET
     ===================================================== */
 
-    async function copyText(text) {
+    async function copyWallet(wallet) {
 
         try {
 
-            await navigator.clipboard.writeText(text);
+            await navigator.clipboard.writeText(
+                wallet
+            );
 
-            alert("تم النسخ بنجاح.");
+
+            alert(
+                "تم نسخ عنوان المحفظة."
+            );
 
         } catch (error) {
 
             const textarea =
-                document.createElement("textarea");
+                document.createElement(
+                    "textarea"
+                );
 
-            textarea.value = text;
 
-            document.body.appendChild(textarea);
+            textarea.value =
+                wallet;
+
+
+            textarea.style.position =
+                "fixed";
+
+
+            textarea.style.opacity =
+                "0";
+
+
+            document.body.appendChild(
+                textarea
+            );
+
 
             textarea.select();
 
-            document.execCommand("copy");
+
+            try {
+
+                document.execCommand(
+                    "copy"
+                );
+
+            } catch (copyError) {
+
+                console.error(
+                    copyError
+                );
+
+            }
+
 
             textarea.remove();
 
-            alert("تم النسخ بنجاح.");
+
+            alert(
+                "تم نسخ عنوان المحفظة."
+            );
 
         }
 
@@ -777,7 +914,69 @@
 
 
     /* =====================================================
-       EVENTS
+       COPY DETAIL WALLET
+    ===================================================== */
+
+    const copyWalletButton =
+        $("copyWithdrawalWallet");
+
+
+    if (copyWalletButton) {
+
+        copyWalletButton.addEventListener(
+            "click",
+            function () {
+
+                if (
+                    selectedWithdrawal &&
+                    selectedWithdrawal.wallet
+                ) {
+
+                    copyWallet(
+                        selectedWithdrawal.wallet
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       COPY DETAIL TXID
+    ===================================================== */
+
+    const copyTxidButton =
+        $("copyWithdrawalTxid");
+
+
+    if (copyTxidButton) {
+
+        copyTxidButton.addEventListener(
+            "click",
+            function () {
+
+                if (
+                    selectedWithdrawal &&
+                    selectedWithdrawal.txid
+                ) {
+
+                    copyWallet(
+                        selectedWithdrawal.txid
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       TABLE EVENTS
     ===================================================== */
 
     document.addEventListener(
@@ -822,21 +1021,28 @@
                 }
 
 
+                if (action === "complete") {
+
+                    completeWithdrawal(id);
+
+                }
+
+
                 return;
 
             }
 
 
-            const copyButton =
+            const walletButton =
                 event.target.closest(
-                    "[data-copy]"
+                    "[data-copy-wallet]"
                 );
 
 
-            if (copyButton) {
+            if (walletButton) {
 
-                copyText(
-                    copyButton.dataset.copy
+                copyWallet(
+                    walletButton.dataset.copyWallet
                 );
 
             }
@@ -850,7 +1056,7 @@
     ===================================================== */
 
     const refreshButton =
-        el("refreshWithdrawals");
+        $("refreshWithdrawals");
 
 
     if (refreshButton) {
@@ -871,22 +1077,269 @@
        CLOSE DETAILS
     ===================================================== */
 
-    const closeButton =
-        el("closeWithdrawalDetails");
+    const closeDetailsButton =
+        $("closeWithdrawalDetails");
 
 
-    if (closeButton) {
+    if (closeDetailsButton) {
 
-        closeButton.addEventListener(
+        closeDetailsButton.addEventListener(
             "click",
             function () {
 
                 const card =
-                    el("withdrawalDetailsCard");
+                    $("withdrawalDetailsCard");
 
 
-                if (card)
+                if (card) {
+
                     card.hidden = true;
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       FILTERS
+    ===================================================== */
+
+    function applyFilters() {
+
+        const search =
+            ($("withdrawalSearch")?.value || "")
+                .trim()
+                .toLowerCase();
+
+
+        const status =
+            $("withdrawalStatus")?.value
+            || "all";
+
+
+        const network =
+            $("withdrawalNetwork")?.value
+            || "all";
+
+
+        const dateFrom =
+            $("withdrawalDateFrom")?.value
+            || "";
+
+
+        const dateTo =
+            $("withdrawalDateTo")?.value
+            || "";
+
+
+        const filtered =
+            withdrawals.filter(
+                function (item) {
+
+
+                    const searchable = [
+
+                        item.userName,
+
+                        item.email,
+
+                        item.uid,
+
+                        item.wallet,
+
+                        item.txid
+
+                    ]
+                    .join(" ")
+                    .toLowerCase();
+
+
+                    if (
+                        search &&
+                        !searchable.includes(search)
+                    ) {
+
+                        return false;
+
+                    }
+
+
+                    if (
+                        status !== "all" &&
+                        item.status !== status
+                    ) {
+
+                        return false;
+
+                    }
+
+
+                    if (
+                        network !== "all" &&
+                        item.network !== network
+                    ) {
+
+                        return false;
+
+                    }
+
+
+                    if (
+                        dateFrom &&
+                        item.date < dateFrom
+                    ) {
+
+                        return false;
+
+                    }
+
+
+                    if (
+                        dateTo &&
+                        item.date > dateTo
+                    ) {
+
+                        return false;
+
+                    }
+
+
+                    return true;
+
+                }
+            );
+
+
+        renderFilteredWithdrawals(
+            filtered
+        );
+
+    }
+
+
+    function renderFilteredWithdrawals(
+        list
+    ) {
+
+        const body =
+            $("withdrawalsBody");
+
+
+        if (!body) return;
+
+
+        if (!list.length) {
+
+            body.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="18"
+                        class="withdrawals-empty"
+                    >
+
+                        <div class="withdrawals-empty-icon">
+                            −
+                        </div>
+
+                        <strong>
+                            لا توجد نتائج
+                        </strong>
+
+                        <span>
+                            لم يتم العثور على طلبات مطابقة.
+                        </span>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+
+            setText(
+                "withdrawalsResultCount",
+                "0 طلب"
+            );
+
+
+            return;
+
+        }
+
+
+        /*
+         * نستخدم renderWithdrawals مؤقتًا
+         * بعد استبدال القائمة.
+         */
+
+        const original =
+            withdrawals;
+
+
+        withdrawals =
+            list;
+
+
+        renderWithdrawals();
+
+
+        withdrawals =
+            original;
+
+    }
+
+
+    const applyFilterButton =
+        $("applyWithdrawalFilters");
+
+
+    if (applyFilterButton) {
+
+        applyFilterButton.addEventListener(
+            "click",
+            applyFilters
+        );
+
+    }
+
+
+    const resetFilterButton =
+        $("resetWithdrawalFilters");
+
+
+    if (resetFilterButton) {
+
+        resetFilterButton.addEventListener(
+            "click",
+            function () {
+
+
+                if ($("withdrawalSearch"))
+                    $("withdrawalSearch").value = "";
+
+
+                if ($("withdrawalStatus"))
+                    $("withdrawalStatus").value = "all";
+
+
+                if ($("withdrawalNetwork"))
+                    $("withdrawalNetwork").value = "all";
+
+
+                if ($("withdrawalDateFrom"))
+                    $("withdrawalDateFrom").value = "";
+
+
+                if ($("withdrawalDateTo"))
+                    $("withdrawalDateTo").value = "";
+
+
+                renderWithdrawals();
 
             }
         );
@@ -901,7 +1354,7 @@
     function init() {
 
         console.log(
-            "VALORA WITHDRAWALS JS LOADED"
+            "VALORA ADMIN — withdrawals.js loaded"
         );
 
 
@@ -925,6 +1378,5 @@
         init();
 
     }
-
 
 })();
