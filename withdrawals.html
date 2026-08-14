@@ -44,7 +44,6 @@
 
 <div class="admin-app">
 
-
 <div class="admin-layout">
 
 
@@ -57,7 +56,6 @@
 
 
     <div class="admin-brand">
-
 
         <div class="admin-brand-mark">
             V
@@ -76,13 +74,11 @@
 
         </div>
 
-
     </div>
 
 
 
     <nav class="admin-nav">
-
 
         <div class="admin-nav-section">
             الإدارة
@@ -91,8 +87,6 @@
 
         <ul class="admin-nav-list">
 
-
-            <!-- USERS -->
 
             <li class="admin-nav-item">
 
@@ -113,8 +107,6 @@
 
 
 
-            <!-- NOTIFICATIONS -->
-
             <li class="admin-nav-item">
 
                 <a
@@ -133,8 +125,6 @@
             </li>
 
 
-
-            <!-- SUPPORT -->
 
             <li class="admin-nav-item">
 
@@ -155,8 +145,6 @@
 
 
 
-            <!-- TRADE CODES -->
-
             <li class="admin-nav-item">
 
                 <a
@@ -176,8 +164,6 @@
 
 
 
-            <!-- DEPOSITS -->
-
             <li class="admin-nav-item">
 
                 <a
@@ -196,8 +182,6 @@
             </li>
 
 
-
-            <!-- WITHDRAWALS -->
 
             <li class="admin-nav-item">
 
@@ -219,9 +203,7 @@
 
         </ul>
 
-
     </nav>
-
 
 </aside>
 
@@ -236,1094 +218,606 @@
 <section class="admin-main">
 
 
+    <!-- HEADER -->
 
-<!-- HEADER -->
+    <header class="admin-header">
 
-<header class="admin-header">
+        <div class="admin-page-heading">
 
-
-    <div class="admin-page-heading">
-
-
-        <h2 class="admin-page-title">
-            السحوبات
-        </h2>
-
-
-        <p class="admin-page-description">
-            إدارة ومراجعة طلبات السحب
-        </p>
-
-
-    </div>
-
-
-</header>
-
-
-
-
-
-<!-- CONTENT -->
-
-<main class="admin-content">
-
-
-
-<!-- =====================================================
-     PAGE TITLE
-===================================================== -->
-
-<div class="admin-content-header">
-
-
-    <div>
-
-        <h1 class="admin-page-title">
-            طلبات السحب
-        </h1>
-
-
-        <p class="admin-page-description">
-            جميع طلبات السحب القادمة من الموقع الرسمي تظهر هنا.
-        </p>
-
-    </div>
-
-
-
-    <div class="withdrawals-header-actions">
-
-
-        <button
-            type="button"
-            id="refreshWithdrawals"
-            class="admin-btn admin-btn-secondary withdrawals-refresh-button"
-        >
-
-            <span>
-                ↻
-            </span>
-
-            تحديث
-
-        </button>
-
-
-    </div>
-
-
-</div>
-
-
-
-
-
-<!-- =====================================================
-     STATISTICS
-===================================================== -->
-
-<section class="withdrawals-stats-grid">
-
-
-
-    <!-- PENDING -->
-
-    <div class="withdrawals-stat-card">
-
-
-        <div class="withdrawals-stat-icon">
-            ⏳
-        </div>
-
-
-        <div class="withdrawals-stat-content">
-
-            <span>
-                طلبات قيد الانتظار
-            </span>
-
-
-            <strong id="pendingWithdrawalsCount">
-                0
-            </strong>
-
-        </div>
-
-
-    </div>
-
-
-
-
-    <!-- PENDING AMOUNT -->
-
-    <div class="withdrawals-stat-card">
-
-
-        <div class="withdrawals-stat-icon">
-            ◎
-        </div>
-
-
-        <div class="withdrawals-stat-content">
-
-            <span>
-                إجمالي المبلغ المطلوب
-            </span>
-
-
-            <strong id="pendingWithdrawalsAmount">
-                0 USDT
-            </strong>
-
-        </div>
-
-
-    </div>
-
-
-
-
-    <!-- PROCESSING -->
-
-    <div class="withdrawals-stat-card">
-
-
-        <div class="withdrawals-stat-icon">
-            ↻
-        </div>
-
-
-        <div class="withdrawals-stat-content">
-
-            <span>
-                قيد التنفيذ
-            </span>
-
-
-            <strong id="processingWithdrawalsCount">
-                0
-            </strong>
-
-        </div>
-
-
-    </div>
-
-
-
-
-    <!-- COMPLETED -->
-
-    <div class="withdrawals-stat-card">
-
-
-        <div class="withdrawals-stat-icon">
-            ✓
-        </div>
-
-
-        <div class="withdrawals-stat-content">
-
-            <span>
-                السحوبات المكتملة
-            </span>
-
-
-            <strong id="completedWithdrawalsCount">
-                0
-            </strong>
-
-        </div>
-
-
-    </div>
-
-
-
-
-    <!-- TOTAL -->
-
-    <div class="withdrawals-stat-card">
-
-
-        <div class="withdrawals-stat-icon">
-            $
-        </div>
-
-
-        <div class="withdrawals-stat-content">
-
-            <span>
-                إجمالي المبلغ المسحوب
-            </span>
-
-
-            <strong id="totalWithdrawnAmount">
-                0 USDT
-            </strong>
-
-        </div>
-
-
-    </div>
-
-
-
-
-    <!-- REJECTED -->
-
-    <div class="withdrawals-stat-card">
-
-
-        <div class="withdrawals-stat-icon">
-            ×
-        </div>
-
-
-        <div class="withdrawals-stat-content">
-
-            <span>
-                السحوبات المرفوضة
-            </span>
-
-
-            <strong id="rejectedWithdrawalsCount">
-                0
-            </strong>
-
-        </div>
-
-
-    </div>
-
-
-
-
-    <!-- REJECTED AMOUNT -->
-
-    <div class="withdrawals-stat-card">
-
-
-        <div class="withdrawals-stat-icon">
-            !
-        </div>
-
-
-        <div class="withdrawals-stat-content">
-
-            <span>
-                إجمالي المبلغ المرفوض
-            </span>
-
-
-            <strong id="rejectedWithdrawalsAmount">
-                0 USDT
-            </strong>
-
-        </div>
-
-
-    </div>
-
-
-</section>
-
-
-
-
-
-<!-- =====================================================
-     SEARCH & FILTERS
-===================================================== -->
-
-<section class="admin-card withdrawals-filter-card">
-
-
-    <div class="admin-card-header">
-
-
-        <div>
-
-            <h2 class="admin-card-title">
-                البحث والتصفية
+            <h2 class="admin-page-title">
+                السحوبات
             </h2>
 
-
-            <p class="admin-card-description">
-                ابحث عن طلب سحب وحدد النتائج التي تريد عرضها.
+            <p class="admin-page-description">
+                إدارة ومراجعة طلبات السحب اليدوية
             </p>
 
         </div>
 
-
-    </div>
-
-
-
-    <div class="admin-card-body">
-
-
-        <div class="withdrawals-filters">
+    </header>
 
 
 
-            <!-- SEARCH -->
-
-            <div class="withdrawals-search">
 
 
-                <label for="withdrawalSearch">
-                    البحث
-                </label>
+    <!-- CONTENT -->
+
+    <main class="admin-content">
 
 
-                <input
-                    type="search"
-                    id="withdrawalSearch"
-                    class="withdrawals-input"
-                    placeholder="اسم المستخدم، البريد، UID، المحفظة أو TXID..."
-                    autocomplete="off"
-                >
 
+        <!-- =================================================
+             PAGE HEADER
+        ================================================= -->
+
+        <div class="admin-content-header">
+
+            <div>
+
+                <h1 class="admin-page-title">
+                    طلبات السحب
+                </h1>
+
+                <p class="admin-page-description">
+                    راجع طلب السحب ثم وافق عليه ونفذ التحويل يدويًا.
+                </p>
 
             </div>
 
 
+            <div class="withdrawals-header-actions">
 
-
-            <!-- STATUS -->
-
-            <div class="withdrawals-filter">
-
-
-                <label for="withdrawalStatus">
-                    حالة السحب
-                </label>
-
-
-                <select
-                    id="withdrawalStatus"
-                    class="withdrawals-input"
+                <button
+                    type="button"
+                    id="refreshWithdrawals"
+                    class="admin-btn admin-btn-secondary withdrawals-refresh-button"
                 >
 
-                    <option value="all">
-                        كل الحالات
-                    </option>
+                    <span>
+                        ↻
+                    </span>
 
-                    <option value="pending">
+                    تحديث
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+
+
+        <!-- =================================================
+             STATISTICS
+        ================================================= -->
+
+        <section class="withdrawals-stats-grid">
+
+
+            <div class="withdrawals-stat-card">
+
+                <div class="withdrawals-stat-icon">
+                    ⏳
+                </div>
+
+                <div class="withdrawals-stat-content">
+
+                    <span>
                         قيد الانتظار
-                    </option>
+                    </span>
 
-                    <option value="processing">
+                    <strong id="pendingWithdrawalsCount">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="withdrawals-stat-card">
+
+                <div class="withdrawals-stat-icon">
+                    ◎
+                </div>
+
+                <div class="withdrawals-stat-content">
+
+                    <span>
+                        المبلغ المطلوب
+                    </span>
+
+                    <strong id="pendingWithdrawalsAmount">
+                        0 USDT
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="withdrawals-stat-card">
+
+                <div class="withdrawals-stat-icon">
+                    ↻
+                </div>
+
+                <div class="withdrawals-stat-content">
+
+                    <span>
                         قيد التنفيذ
-                    </option>
+                    </span>
 
-                    <option value="completed">
-                        مكتمل
-                    </option>
+                    <strong id="processingWithdrawalsCount">
+                        0
+                    </strong>
 
-                    <option value="rejected">
-                        مرفوض
-                    </option>
-
-                </select>
-
+                </div>
 
             </div>
 
 
 
+            <div class="withdrawals-stat-card">
 
-            <!-- NETWORK -->
+                <div class="withdrawals-stat-icon">
+                    ✓
+                </div>
 
-            <div class="withdrawals-filter">
+                <div class="withdrawals-stat-content">
 
+                    <span>
+                        مكتملة
+                    </span>
 
-                <label for="withdrawalNetwork">
-                    الشبكة
-                </label>
+                    <strong id="completedWithdrawalsCount">
+                        0
+                    </strong>
 
-
-                <select
-                    id="withdrawalNetwork"
-                    class="withdrawals-input"
-                >
-
-                    <option value="all">
-                        كل الشبكات
-                    </option>
-
-                    <option value="TRC20">
-                        TRC20
-                    </option>
-
-                    <option value="BEP20">
-                        BEP20
-                    </option>
-
-                    <option value="ERC20">
-                        ERC20
-                    </option>
-
-                </select>
-
+                </div>
 
             </div>
 
 
 
+            <div class="withdrawals-stat-card">
 
-            <!-- FROM DATE -->
+                <div class="withdrawals-stat-icon">
+                    $
+                </div>
 
-            <div class="withdrawals-filter">
+                <div class="withdrawals-stat-content">
 
+                    <span>
+                        إجمالي المسحوب
+                    </span>
 
-                <label for="withdrawalDateFrom">
-                    من تاريخ
-                </label>
+                    <strong id="totalWithdrawnAmount">
+                        0 USDT
+                    </strong>
 
-
-                <input
-                    type="date"
-                    id="withdrawalDateFrom"
-                    class="withdrawals-input"
-                >
-
-
-            </div>
-
-
-
-
-            <!-- TO DATE -->
-
-            <div class="withdrawals-filter">
-
-
-                <label for="withdrawalDateTo">
-                    إلى تاريخ
-                </label>
-
-
-                <input
-                    type="date"
-                    id="withdrawalDateTo"
-                    class="withdrawals-input"
-                >
-
+                </div>
 
             </div>
 
 
 
+            <div class="withdrawals-stat-card">
 
-            <!-- FILTER ACTIONS -->
+                <div class="withdrawals-stat-icon">
+                    ×
+                </div>
 
-            <div class="withdrawals-filter-actions">
+                <div class="withdrawals-stat-content">
 
+                    <span>
+                        المرفوضة
+                    </span>
 
-                <button
-                    type="button"
-                    id="applyWithdrawalFilters"
-                    class="admin-btn admin-btn-primary"
-                >
+                    <strong id="rejectedWithdrawalsCount">
+                        0
+                    </strong>
 
-                    بحث
-
-                </button>
-
-
-                <button
-                    type="button"
-                    id="resetWithdrawalFilters"
-                    class="admin-btn admin-btn-secondary"
-                >
-
-                    إعادة ضبط
-
-                </button>
-
+                </div>
 
             </div>
 
 
-        </div>
 
+            <div class="withdrawals-stat-card">
 
-    </div>
+                <div class="withdrawals-stat-icon">
+                    !
+                </div>
 
+                <div class="withdrawals-stat-content">
 
-</section>
+                    <span>
+                        مبلغ المرفوض
+                    </span>
 
+                    <strong id="rejectedWithdrawalsAmount">
+                        0 USDT
+                    </strong>
 
+                </div>
 
+            </div>
 
 
-<!-- =====================================================
-     WITHDRAWALS TABLE
-===================================================== -->
+        </section>
 
-<section class="admin-card withdrawals-table-card">
 
 
-    <div class="admin-card-header">
 
 
-        <div>
+        <!-- =================================================
+             FILTERS
+        ================================================= -->
 
-            <h2 class="admin-card-title">
-                جميع طلبات السحب
-            </h2>
+        <section class="admin-card withdrawals-filter-card">
 
 
-            <p class="admin-card-description">
-                تفاصيل طلبات السحب الواردة من المستخدمين.
-            </p>
+            <div class="admin-card-header">
 
-        </div>
+                <div>
 
+                    <h2 class="admin-card-title">
+                        البحث والتصفية
+                    </h2>
 
-        <div
-            id="withdrawalsResultCount"
-            class="withdrawals-result-count"
-        >
-            0 طلب
-        </div>
+                    <p class="admin-card-description">
+                        ابحث عن طلب سحب أو اعرض حالة معينة.
+                    </p>
 
+                </div>
 
-    </div>
+            </div>
 
 
 
-    <div class="admin-card-body">
+            <div class="admin-card-body">
 
+                <div class="withdrawals-filters">
 
-        <div class="withdrawal-table-wrapper">
 
+                    <div class="withdrawals-search">
 
-            <table class="withdrawal-table">
+                        <label for="withdrawalSearch">
+                            البحث
+                        </label>
 
-
-                <thead>
-
-                    <tr>
-
-
-                        <th>
-                            #
-                        </th>
-
-
-                        <th>
-                            اسم المستخدم
-                        </th>
-
-
-                        <th>
-                            البريد الإلكتروني
-                        </th>
-
-
-                        <th>
-                            UID
-                        </th>
-
-
-                        <th>
-                            مبلغ السحب
-                        </th>
-
-
-                        <th>
-                            العملة
-                        </th>
-
-
-                        <th>
-                            الرصيد قبل السحب
-                        </th>
-
-
-                        <th>
-                            الرصيد بعد السحب
-                        </th>
-
-
-                        <th>
-                            عنوان المحفظة
-                        </th>
-
-
-                        <th>
-                            الشبكة
-                        </th>
-
-
-                        <th>
-                            رسوم السحب
-                        </th>
-
-
-                        <th>
-                            المبلغ الصافي
-                        </th>
-
-
-                        <th>
-                            تاريخ الطلب
-                        </th>
-
-
-                        <th>
-                            وقت الطلب
-                        </th>
-
-
-                        <th>
-                            الحالة
-                        </th>
-
-
-                        <th>
-                            TXID
-                        </th>
-
-
-                        <th>
-                            ملاحظات
-                        </th>
-
-
-                        <th>
-                            الإجراء
-                        </th>
-
-
-                    </tr>
-
-                </thead>
-
-
-
-                <tbody id="withdrawalsBody">
-
-
-                    <!--
-                        لا توجد بيانات وهمية.
-                        البيانات الحقيقية ستأتي من قاعدة البيانات.
-                    -->
-
-
-                    <tr>
-
-
-                        <td
-                            colspan="18"
-                            class="withdrawals-empty"
+                        <input
+                            type="search"
+                            id="withdrawalSearch"
+                            class="withdrawals-input"
+                            placeholder="اسم المستخدم، UID، البريد، المحفظة أو TXID..."
+                            autocomplete="off"
                         >
 
-
-                            <div class="withdrawals-empty-icon">
-                                −
-                            </div>
-
-
-                            <strong>
-                                لا توجد طلبات سحب حاليًا
-                            </strong>
-
-
-                            <span>
-                                ستظهر طلبات السحب هنا عند وصولها من الموقع الرسمي.
-                            </span>
-
-
-                        </td>
-
-
-                    </tr>
-
-
-                </tbody>
-
-
-            </table>
-
-
-        </div>
-
-
-    </div>
-
-
-</section>
+                    </div>
 
 
 
+                    <div class="withdrawals-filter">
 
+                        <label for="withdrawalStatus">
+                            الحالة
+                        </label>
 
-<!-- =====================================================
-     WITHDRAWAL DETAILS
-===================================================== -->
+                        <select
+                            id="withdrawalStatus"
+                            class="withdrawals-input"
+                        >
 
-<section
-    class="admin-card withdrawal-details-card"
-    id="withdrawalDetailsCard"
-    hidden
->
+                            <option value="all">
+                                كل الحالات
+                            </option>
 
+                            <option value="pending">
+                                قيد الانتظار
+                            </option>
 
-    <div class="admin-card-header">
+                            <option value="processing">
+                                قيد التنفيذ
+                            </option>
 
+                            <option value="completed">
+                                مكتمل
+                            </option>
 
-        <div>
+                            <option value="rejected">
+                                مرفوض
+                            </option>
 
-            <h2 class="admin-card-title">
-                تفاصيل طلب السحب
-            </h2>
+                        </select>
 
-
-            <p class="admin-card-description">
-                تفاصيل الطلب المحدد قبل اتخاذ الإجراء.
-            </p>
-
-        </div>
-
-
-        <button
-            type="button"
-            id="closeWithdrawalDetails"
-            class="withdrawal-close-button"
-        >
-            ×
-        </button>
-
-
-    </div>
+                    </div>
 
 
 
-    <div class="admin-card-body">
+                    <div class="withdrawals-filter">
+
+                        <label for="withdrawalNetwork">
+                            الشبكة
+                        </label>
+
+                        <select
+                            id="withdrawalNetwork"
+                            class="withdrawals-input"
+                        >
+
+                            <option value="all">
+                                كل الشبكات
+                            </option>
+
+                            <option value="TRC20">
+                                TRC20
+                            </option>
+
+                            <option value="BEP20">
+                                BEP20
+                            </option>
+
+                            <option value="ERC20">
+                                ERC20
+                            </option>
+
+                        </select>
+
+                    </div>
 
 
-        <div class="withdrawal-details-grid">
+
+                    <div class="withdrawals-filter">
+
+                        <label for="withdrawalDateFrom">
+                            من تاريخ
+                        </label>
+
+                        <input
+                            type="date"
+                            id="withdrawalDateFrom"
+                            class="withdrawals-input"
+                        >
+
+                    </div>
 
 
 
-            <!-- USER -->
+                    <div class="withdrawals-filter">
 
-            <div class="withdrawal-detail-item">
+                        <label for="withdrawalDateTo">
+                            إلى تاريخ
+                        </label>
 
-                <span>
-                    المستخدم
-                </span>
+                        <input
+                            type="date"
+                            id="withdrawalDateTo"
+                            class="withdrawals-input"
+                        >
 
-                <strong id="detailUserName">
-                    —
-                </strong>
+                    </div>
+
+
+
+                    <div class="withdrawals-filter-actions">
+
+                        <button
+                            type="button"
+                            id="applyWithdrawalFilters"
+                            class="admin-btn admin-btn-primary"
+                        >
+                            بحث
+                        </button>
+
+
+                        <button
+                            type="button"
+                            id="resetWithdrawalFilters"
+                            class="admin-btn admin-btn-secondary"
+                        >
+                            إعادة ضبط
+                        </button>
+
+                    </div>
+
+
+                </div>
 
             </div>
 
-
-
-
-            <!-- EMAIL -->
-
-            <div class="withdrawal-detail-item">
-
-                <span>
-                    البريد الإلكتروني
-                </span>
-
-                <strong id="detailUserEmail">
-                    —
-                </strong>
-
-            </div>
+        </section>
 
 
 
 
-            <!-- UID -->
 
-            <div class="withdrawal-detail-item">
+        <!-- =================================================
+             TABLE
+        ================================================= -->
 
-                <span>
-                    UID
-                </span>
+        <section class="admin-card withdrawals-table-card">
 
-                <strong
-                    id="detailUserUID"
-                    dir="ltr"
+
+            <div class="admin-card-header">
+
+                <div>
+
+                    <h2 class="admin-card-title">
+                        جميع طلبات السحب
+                    </h2>
+
+                    <p class="admin-card-description">
+                        اضغط على الطلب لعرض تفاصيله وتنفيذ السحب.
+                    </p>
+
+                </div>
+
+
+                <div
+                    id="withdrawalsResultCount"
+                    class="withdrawals-result-count"
                 >
-                    —
-                </strong>
+                    0 طلب
+                </div>
 
             </div>
 
 
 
+            <div class="admin-card-body">
 
-            <!-- AMOUNT -->
+                <div class="withdrawal-table-wrapper">
 
-            <div class="withdrawal-detail-item">
+                    <table class="withdrawal-table">
 
-                <span>
-                    مبلغ السحب
-                </span>
+                        <thead>
 
-                <strong id="detailAmount">
-                    —
-                </strong>
+                            <tr>
 
-            </div>
+                                <th>#</th>
 
+                                <th>اسم المستخدم</th>
 
+                                <th>البريد الإلكتروني</th>
 
+                                <th>UID</th>
 
-            <!-- CURRENCY -->
+                                <th>المبلغ</th>
 
-            <div class="withdrawal-detail-item">
+                                <th>العملة</th>
 
-                <span>
-                    العملة
-                </span>
+                                <th>الرصيد قبل</th>
 
-                <strong id="detailCurrency">
-                    USDT
-                </strong>
+                                <th>الرصيد بعد</th>
 
-            </div>
+                                <th>عنوان المحفظة</th>
 
+                                <th>الشبكة</th>
 
+                                <th>الرسوم</th>
 
+                                <th>الصافي</th>
 
-            <!-- BALANCE -->
+                                <th>تاريخ الطلب</th>
 
-            <div class="withdrawal-detail-item">
+                                <th>وقت الطلب</th>
 
-                <span>
-                    الرصيد الحالي
-                </span>
+                                <th>الحالة</th>
 
-                <strong id="detailBalance">
-                    —
-                </strong>
+                                <th>TXID</th>
 
-            </div>
+                                <th>ملاحظات</th>
 
+                                <th>الإجراء</th>
 
+                            </tr>
 
-
-            <!-- FEE -->
-
-            <div class="withdrawal-detail-item">
-
-                <span>
-                    رسوم السحب
-                </span>
-
-                <strong id="detailFee">
-                    —
-                </strong>
-
-            </div>
+                        </thead>
 
 
+                        <tbody id="withdrawalsBody">
 
+                            <tr>
 
-            <!-- NET -->
+                                <td
+                                    colspan="18"
+                                    class="withdrawals-empty"
+                                >
 
-            <div class="withdrawal-detail-item">
+                                    <div class="withdrawals-empty-icon">
+                                        −
+                                    </div>
 
-                <span>
-                    المبلغ الصافي
-                </span>
+                                    <strong>
+                                        لا توجد طلبات سحب حاليًا
+                                    </strong>
 
-                <strong id="detailNetAmount">
-                    —
-                </strong>
+                                    <span>
+                                        ستظهر الطلبات هنا عند وصولها من الموقع الرسمي.
+                                    </span>
 
-            </div>
+                                </td>
 
+                            </tr>
 
+                        </tbody>
 
+                    </table>
 
-            <!-- NETWORK -->
-
-            <div class="withdrawal-detail-item">
-
-                <span>
-                    الشبكة
-                </span>
-
-                <strong id="detailNetwork">
-                    —
-                </strong>
+                </div>
 
             </div>
 
-
-
-
-            <!-- DATE -->
-
-            <div class="withdrawal-detail-item">
-
-                <span>
-                    تاريخ الطلب
-                </span>
-
-                <strong id="detailDate">
-                    —
-                </strong>
-
-            </div>
+        </section>
 
 
 
 
-            <!-- TIME -->
 
-            <div class="withdrawal-detail-item">
+        <!-- =================================================
+             DETAILS
+        ================================================= -->
 
-                <span>
-                    وقت الطلب
-                </span>
-
-                <strong id="detailTime">
-                    —
-                </strong>
-
-            </div>
+        <section
+            class="admin-card withdrawal-details-card"
+            id="withdrawalDetailsCard"
+            hidden
+        >
 
 
+            <div class="admin-card-header">
 
+                <div>
 
-            <!-- STATUS -->
+                    <h2 class="admin-card-title">
+                        تفاصيل طلب السحب
+                    </h2>
 
-            <div class="withdrawal-detail-item">
-
-                <span>
-                    الحالة
-                </span>
-
-                <strong id="detailStatus">
-                    —
-                </strong>
-
-            </div>
-
-
-
-
-            <!-- WALLET -->
-
-            <div class="withdrawal-detail-item withdrawal-detail-wide">
-
-                <span>
-                    عنوان المحفظة
-                </span>
-
-
-                <div class="withdrawal-wallet-detail">
-
-
-                    <strong
-                        id="detailWallet"
-                        dir="ltr"
-                    >
-                        —
-                    </strong>
-
-
-                    <button
-                        type="button"
-                        id="copyWithdrawalWallet"
-                        class="withdrawal-copy-button"
-                    >
-                        نسخ
-                    </button>
-
+                    <p class="admin-card-description">
+                        راجع بيانات المستخدم قبل تنفيذ التحويل.
+                    </p>
 
                 </div>
 
 
-            </div>
-
-
-
-
-            <!-- TXID -->
-
-            <div class="withdrawal-detail-item withdrawal-detail-wide">
-
-                <span>
-                    TXID
-                </span>
-
-
-                <div class="withdrawal-wallet-detail">
-
-
-                    <strong
-                        id="detailTxid"
-                        dir="ltr"
-                    >
-                        —
-                    </strong>
-
-
-                    <button
-                        type="button"
-                        id="copyWithdrawalTxid"
-                        class="withdrawal-copy-button"
-                    >
-                        نسخ
-                    </button>
-
-
-                </div>
-
+                <button
+                    type="button"
+                    id="closeWithdrawalDetails"
+                    class="withdrawal-close-button"
+                >
+                    ×
+                </button>
 
             </div>
 
 
 
-
-            <!-- NOTES -->
-
-            <div class="withdrawal-detail-item withdrawal-detail-wide">
+            <div class="admin-card-body">
 
 
-                <span>
-                    ملاحظات الإدارة
-                </span>
+                <div class="withdrawal-details-grid">
 
 
-                <textarea
-                    id="withdrawalAdminNotes"
-                    class="withdrawals-notes-input"
-                    rows="4"
-                    placeholder="أضف ملاحظة داخلية..."
-                ></textarea>
+                    <div class="withdrawal-detail-item">
 
+                        <span>المستخدم</span>
 
-            </div>
+                        <strong id="detailUserName">
+                            —
+                        </strong>
 
-
-        </div>
+                    </div>
 
 
 
+                    <div class="withdrawal-detail-item">
 
+                        <span>البريد الإلكتروني</span>
 
-        <!-- DETAILS ACTIONS -->
-
-        <div class="withdrawal-details-actions">
-
-
-            <button
-                type="button"
+                        <strong id="
