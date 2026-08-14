@@ -1,0 +1,1962 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>VALORA ADMIN — الإعدادات</title>
+
+
+    <!-- FONT -->
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- ADMIN LAYOUT -->
+
+    <link
+        rel="stylesheet"
+        href="css/admin-layout.css"
+    >
+
+
+    <!-- SETTINGS -->
+
+    <link
+        rel="stylesheet"
+        href="css/settings.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="admin-app">
+
+<div class="admin-layout">
+
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="admin-sidebar">
+
+
+    <!-- BRAND -->
+
+    <div class="admin-brand">
+
+        <div class="admin-brand-mark">
+            V
+        </div>
+
+
+        <div>
+
+            <h1 class="admin-brand-title">
+                VALORA
+            </h1>
+
+            <p class="admin-brand-subtitle">
+                Admin Panel
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- NAVIGATION -->
+
+    <nav class="admin-nav">
+
+
+        <div class="admin-nav-section">
+            الإدارة
+        </div>
+
+
+        <ul class="admin-nav-list">
+
+
+            <!-- USERS -->
+
+            <li class="admin-nav-item">
+
+                <a
+                    href="users.html"
+                    class="admin-nav-link"
+                >
+
+                    <span class="admin-nav-icon">
+                        ♙
+                    </span>
+
+                    المستخدمون
+
+                </a>
+
+            </li>
+
+
+
+            <!-- NOTIFICATIONS -->
+
+            <li class="admin-nav-item">
+
+                <a
+                    href="notifications.html"
+                    class="admin-nav-link"
+                >
+
+                    <span class="admin-nav-icon">
+                        ◉
+                    </span>
+
+                    الإشعارات
+
+                </a>
+
+            </li>
+
+
+
+            <!-- SUPPORT -->
+
+            <li class="admin-nav-item">
+
+                <a
+                    href="messages.html"
+                    class="admin-nav-link"
+                >
+
+                    <span class="admin-nav-icon">
+                        ▱
+                    </span>
+
+                    الدعم
+
+                </a>
+
+            </li>
+
+
+
+            <!-- TRADE CODES -->
+
+            <li class="admin-nav-item">
+
+                <a
+                    href="trade-codes.html"
+                    class="admin-nav-link"
+                >
+
+                    <span class="admin-nav-icon">
+                        #
+                    </span>
+
+                    أكواد التداول
+
+                </a>
+
+            </li>
+
+
+
+            <!-- DEPOSITS -->
+
+            <li class="admin-nav-item">
+
+                <a
+                    href="deposits.html"
+                    class="admin-nav-link"
+                >
+
+                    <span class="admin-nav-icon">
+                        ＋
+                    </span>
+
+                    الإيداعات
+
+                </a>
+
+            </li>
+
+
+
+            <!-- WITHDRAWALS -->
+
+            <li class="admin-nav-item">
+
+                <a
+                    href="withdrawals.html"
+                    class="admin-nav-link"
+                >
+
+                    <span class="admin-nav-icon">
+                        −
+                    </span>
+
+                    السحوبات
+
+                </a>
+
+            </li>
+
+
+
+            <!-- SETTINGS -->
+
+            <li class="admin-nav-item">
+
+                <a
+                    href="settings.html"
+                    class="admin-nav-link active"
+                >
+
+                    <span class="admin-nav-icon">
+                        ⚙
+                    </span>
+
+                    الإعدادات
+
+                </a>
+
+            </li>
+
+
+        </ul>
+
+
+    </nav>
+
+
+</aside>
+
+
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<section class="admin-main">
+
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="admin-header">
+
+
+    <div class="admin-page-heading">
+
+
+        <h2 class="admin-page-title">
+            الإعدادات
+        </h2>
+
+
+        <p class="admin-page-description">
+            إدارة إعدادات منصة VALORA العامة والتشغيلية.
+        </p>
+
+
+    </div>
+
+
+</header>
+
+
+
+
+
+<!-- =====================================================
+     CONTENT
+===================================================== -->
+
+<main class="admin-content">
+
+
+
+<!-- =====================================================
+     PAGE HEADER
+===================================================== -->
+
+<div class="admin-content-header">
+
+
+    <div>
+
+        <h1 class="admin-page-title">
+            إعدادات المنصة
+        </h1>
+
+
+        <p class="admin-page-description">
+            تحكم في حدود التداول والإيداعات والسحوبات وإعدادات النظام.
+        </p>
+
+    </div>
+
+
+    <div class="settings-header-status">
+
+        <span
+            id="settingsSaveStatus"
+            class="settings-save-status"
+        >
+            آخر حالة: لم يتم الحفظ
+        </span>
+
+    </div>
+
+
+</div>
+
+
+
+
+
+<!-- =====================================================
+     TRADING SETTINGS
+===================================================== -->
+
+<section
+    class="admin-card settings-card"
+    id="tradingSettings"
+>
+
+
+    <div class="admin-card-header">
+
+
+        <div class="settings-card-heading">
+
+
+            <div class="settings-card-icon">
+                ◈
+            </div>
+
+
+            <div>
+
+                <h2 class="admin-card-title">
+                    إعدادات التداول
+                </h2>
+
+
+                <p class="admin-card-description">
+                    تحديد حدود وقواعد التداول الأساسية للمستخدمين.
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+        <span class="settings-section-badge">
+            التداول
+        </span>
+
+
+    </div>
+
+
+
+    <div class="admin-card-body">
+
+
+        <div class="settings-grid">
+
+
+
+            <!-- ENABLE TRADING -->
+
+            <div class="settings-field settings-field-toggle">
+
+
+                <div class="settings-field-content">
+
+                    <label
+                        for="tradingEnabled"
+                        class="settings-label"
+                    >
+                        تفعيل التداول
+                    </label>
+
+
+                    <p class="settings-help">
+                        السماح للمستخدمين ببدء صفقات جديدة.
+                    </p>
+
+                </div>
+
+
+                <label class="settings-switch">
+
+                    <input
+                        type="checkbox"
+                        id="tradingEnabled"
+                        checked
+                    >
+
+                    <span class="settings-switch-slider"></span>
+
+                </label>
+
+
+            </div>
+
+
+
+
+            <!-- MIN TRADE -->
+
+            <div class="settings-field">
+
+                <label
+                    for="minimumTradeAmount"
+                    class="settings-label"
+                >
+                    الحد الأدنى للصفقة
+                </label>
+
+
+                <div class="settings-input-group">
+
+                    <input
+                        type="number"
+                        id="minimumTradeAmount"
+                        class="settings-input"
+                        value="10"
+                        min="0"
+                        step="0.01"
+                    >
+
+                    <span>
+                        USDT
+                    </span>
+
+                </div>
+
+
+                <p class="settings-help">
+                    أقل مبلغ يمكن للمستخدم فتح صفقة به.
+                </p>
+
+            </div>
+
+
+
+
+            <!-- MAX TRADE -->
+
+            <div class="settings-field">
+
+                <label
+                    for="maximumTradeAmount"
+                    class="settings-label"
+                >
+                    الحد الأقصى للصفقة
+                </label>
+
+
+                <div class="settings-input-group">
+
+                    <input
+                        type="number"
+                        id="maximumTradeAmount"
+                        class="settings-input"
+                        value="1000"
+                        min="0"
+                        step="0.01"
+                    >
+
+                    <span>
+                        USDT
+                    </span>
+
+                </div>
+
+
+                <p class="settings-help">
+                    أكبر مبلغ يمكن استخدامه في الصفقة الواحدة.
+                </p>
+
+            </div>
+
+
+
+
+            <!-- MIN BALANCE -->
+
+            <div class="settings-field">
+
+                <label
+                    for="minimumTradingBalance"
+                    class="settings-label"
+                >
+                    الحد الأدنى للرصيد للتداول
+                </label>
+
+
+                <div class="settings-input-group">
+
+                    <input
+                        type="number"
+                        id="minimumTradingBalance"
+                        class="settings-input"
+                        value="10"
+                        min="0"
+                        step="0.01"
+                    >
+
+                    <span>
+                        USDT
+                    </span>
+
+                </div>
+
+
+                <p class="settings-help">
+                    أقل رصيد مطلوب حتى يتمكن المستخدم من بدء التداول.
+                </p>
+
+            </div>
+
+
+
+
+            <!-- TRADE DURATION -->
+
+            <div class="settings-field">
+
+                <label
+                    for="tradeDuration"
+                    class="settings-label"
+                >
+                    مدة الصفقة
+                </label>
+
+
+                <div class="settings-input-group">
+
+                    <input
+                        type="number"
+                        id="tradeDuration"
+                        class="settings-input"
+                        value="15"
+                        min="1"
+                        step="1"
+                    >
+
+                    <span>
+                        دقيقة
+                    </span>
+
+                </div>
+
+
+                <p class="settings-help">
+                    المدة الافتراضية للصفقة.
+                </p>
+
+            </div>
+
+
+
+
+            <!-- PROFIT RELEASE -->
+
+            <div class="settings-field">
+
+                <label
+                    for="profitReleaseDelay"
+                    class="settings-label"
+                >
+                    تأخير إضافة الأرباح
+                </label>
+
+
+                <div class="settings-input-group">
+
+                    <input
+                        type="number"
+                        id="profitReleaseDelay"
+                        class="settings-input"
+                        value="15"
+                        min="0"
+                        step="1"
+                    >
+
+                    <span>
+                        دقيقة
+                    </span>
+
+                </div>
+
+
+                <p class="settings-help">
+                    المدة بعد انتهاء الصفقة قبل إضافة الأرباح للمستخدم.
+                </p>
+
+            </div>
+
+
+
+
+            <!-- PROFIT RATE -->
+
+            <div class="settings-field">
+
+                <label
+                    for="defaultProfitRate"
+                    class="settings-label"
+                >
+                    نسبة الربح الافتراضية
+                </label>
+
+
+                <div class="settings-input-group">
+
+                    <input
+                        type="number"
+                        id="defaultProfitRate"
+                        class="settings-input"
+                        value="80"
+                        min="0"
+                        max="100"
+                        step="0.01"
+                    >
+
+                    <span>
+                        %
+                    </span>
+
+                </div>
+
+
+                <p class="settings-help">
+                    النسبة الافتراضية التي تستخدمها المنصة للصفقات.
+                </p>
+
+            </div>
+
+
+
+
+            <!-- DAILY TRADES -->
+
+            <div class="settings-field">
+
+                <label
+                    for="dailyTradeLimit"
+                    class="settings-label"
+                >
+                    الحد الأقصى للصفقات اليومية
+                </label>
+
+
+                <div class="settings-input-group">
+
+                    <input
+                        type="number"
+                        id="dailyTradeLimit"
+                        class="settings-input"
+                        value="50"
+                        min="0"
+                        step="1"
+                    >
+
+                    <span>
+                        صفقة
+                    </span>
+
+                </div>
+
+
+                <p class="settings-help">
+                    ضع 0 إذا أردت عدم تطبيق حد.
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+
+        <div class="settings-card-actions">
+
+            <button
+                type="button"
+                class="admin-btn admin-btn-primary settings-save-button"
+                data-section="trading"
+            >
+                حفظ إعدادات التداول
+            </button>
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+
+
+<!-- =====================================================
+     DEPOSIT SETTINGS
+===================================================== -->
+
+<section
+    class="admin-card settings-card"
+    id="depositSettings"
+>
+
+
+    <div class="admin-card-header">
+
+
+        <div class="settings-card-heading">
+
+
+            <div class="settings-card-icon">
+                ＋
+            </div>
+
+
+            <div>
+
+                <h2 class="admin-card-title">
+                    إعدادات الإيداعات
+                </h2>
+
+
+                <p class="admin-card-description">
+                    تحديد حدود الإيداع وحالة استقبال الأموال.
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+        <span class="settings-section-badge">
+            الإيداعات
+        </span>
+
+
+    </div>
+
+
+
+    <div class="admin-card-body">
+
+
+        <div class="settings-grid">
+
+
+
+            <!-- ENABLE DEPOSITS -->
+
+            <div class="settings-field settings-field-toggle">
+
+
+                <div class="settings-field-content">
+
+                    <label
+                        for="depositsEnabled"
+                        class="settings-label"
+                    >
+                        تفعيل الإيداعات
+                    </label>
+
+
+                    <p class="settings-help">
+                        السماح للمستخدمين بإنشاء عمليات إيداع.
+                    </p>
+
+                </div>
+
+
+                <label class="settings-switch">
+
+                    <input
+                        type="checkbox"
+                        id="depositsEnabled"
+                        checked
+                    >
+
+                    <span class="settings-switch-slider"></span>
+
+                </label>
+
+
+            </div>
+
+
+
+
+            <!-- MIN DEPOSIT -->
+
+            <div class="settings-field">
+
+                <label
+                    for="minimumDepositAmount"
+                    class="settings-label"
+                >
+                    الحد الأدنى للإيداع
+                </label>
+
+
+                <div class="settings-input-group">
+
+                    <input
+                        type="number"
+                        id="minimumDepositAmount"
+                        class="settings-input"
+                        value="10"
+                        min="0"
+                        step="0.01"
+                    >
+
+                    <span>
+                        USDT
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+
+            <!-- MAX DEPOSIT -->
+
+            <div class="settings-field">
+
+                <label
+                    for="maximumDepositAmount"
+                    class="settings-label"
+                >
+                    الحد الأقصى للإيداع
+                </label>
+
+
+                <div class="settings-input-group">
+
+                    <input
+                        type="number"
+                        id="maximumDepositAmount"
+                        class="settings-input"
+                        value="10000"
+                        min="0"
+                        step="0.01"
+                    >
+
+                    <span>
+                        USDT
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+
+            <!-- CONFIRMATIONS -->
+
+            <div class="settings-field">
+
+                <label
+                    for="requiredDepositConfirmations"
+                    class="settings-label"
+                >
+                    عدد تأكيدات الشبكة
+                </label>
+
+
+                <div class="settings-input-group">
+
+                    <input
+                        type="number"
+                        id="requiredDepositConfirmations"
+                        class="settings-input"
+                        value="3"
+                        min="0"
+                        step="1"
+                    >
+
+                    <span>
+                        تأكيد
+                    </span>
+
+                </div>
+
+
+                <p class="settings-help">
+                    عدد التأكيدات المطلوبة قبل اعتماد الإيداع تلقائيًا.
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+
+        <div class="settings-card-actions">
+
+            <button
+                type="button"
+                class="admin-btn admin-btn-primary settings-save-button"
+                data-section="deposits"
+            >
+                حفظ إعدادات الإيداعات
+            </button>
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+
+
+<!-- =====================================================
+     WITHDRAWAL SETTINGS
+===================================================== -->
+
+<section
+    class="admin-card settings-card"
+    id="withdrawalSettings"
+>
+
+
+    <div class="admin-card-header">
+
+
+        <div class="settings-card-heading">
+
+
+            <div class="settings-card-icon">
+                −
+            </div>
+
+
+            <div>
+
+                <h2 class="admin-card-title">
+                    إعدادات السحوبات
+                </h2>
+
+
+                <p class="admin-card-description">
+                    تحديد حدود السحب والرسوم وطريقة معالجة الطلبات.
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+        <span class="settings-section-badge">
+            السحوبات
+        </span>
+
+
+    </div>
+
+
+
+    <div class="admin-card-body">
+
+
+        <div class="settings-grid">
+
+
+
+            <!-- ENABLE WITHDRAWALS -->
+
+            <div class="settings-field settings-field-toggle">
+
+
+                <div class="settings-field-content">
+
+                    <label
+                        for="withdrawalsEnabled"
+                        class="settings-label"
+                    >
+                        تفعيل السحوبات
+                    </label>
+
+
+                    <p class="settings-help">
+                        السماح للمستخدمين بإنشاء طلبات سحب.
+                    </p>
+
+                </div>
+
+
+                <label class="settings-switch">
+
+                    <input
+                        type="checkbox"
+                        id="withdrawalsEnabled"
+                        checked
+                    >
+
+                    <span class="settings-switch-slider"></span>
+
+                </label>
+
+
+            </div>
+
+
+
+
+            <!-- MANUAL REVIEW -->
+
+            <div class="settings-field settings-field-toggle">
+
+
+                <div class="settings-field-content">
+
+                    <label
+                        for="withdrawalsManualReview"
+                        class="settings-label"
+                    >
+                        مراجعة السحب يدويًا
+                    </label>
+
+
+                    <p class="settings-help">
+                        يجب على المدير مراجعة الطلب قبل تنفيذ التحويل.
+                    </p>
+
+                </div>
+
+
+                <label class="settings-switch">
+
+                    <input
+                        type="checkbox"
+                        id="withdrawalsManualReview"
+                        checked
+                    >
+
+                    <span class="settings-switch-slider"></span>
+
+                </label>
+
+
+            </div>
+
+
+
+
+            <!-- MIN WITHDRAWAL -->
+
+            <div class="settings-field">
+
+                <label
+                    for="minimumWithdrawalAmount"
+                    class="settings-label"
+                >
+                    الحد الأدنى للسحب
+                </label>
+
+
+                <div class="settings-input-group">
+
+                    <input
+                        type="number"
+                        id="minimumWithdrawalAmount"
+                        class="settings-input"
+                        value="10"
+                        min="0"
+                        step="0.01"
+                    >
+
+                    <span>
+                        USDT
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+
+            <!-- MAX WITHDRAWAL -->
+
+            <div class="settings-field">
+
+                <label
+                    for="maximumWithdrawalAmount"
+                    class="settings-label"
+                >
+                    الحد الأقصى للسحب
+                </label>
+
+
+                <div class="settings-input-group">
+
+                    <input
+                        type="number"
+                        id="maximumWithdrawalAmount"
+                        class="settings-input"
+                        value="5000"
+                        min="0"
+                        step="0.01"
+                    >
+
+                    <span>
+                        USDT
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+
+            <!-- DAILY WITHDRAWAL -->
+
+            <div class="settings-field">
+
+                <label
+                    for="dailyWithdrawalLimit"
+                    class="settings-label"
+                >
+                    الحد اليومي للسحب
+                </label>
+
+
+                <div class="settings-input-group">
+
+                    <input
+                        type="number"
+                        id="dailyWithdrawalLimit"
+                        class="settings-input"
+                        value="10000"
+                        min="0"
+                        step="0.01"
+                    >
+
+                    <span>
+                        USDT
+                    </span>
+
+                </div>
+
+
+                <p class="settings-help">
+                    إجمالي المبلغ المسموح للمستخدم بسحبه يوميًا.
+                </p>
+
+            </div>
+
+
+
+
+            <!-- WITHDRAWAL FEE -->
+
+            <div class="settings-field">
+
+                <label
+                    for="withdrawalFee"
+                    class="settings-label"
+                >
+                    رسوم السحب
+                </label>
+
+
+                <div class="settings-input-group">
+
+                    <input
+                        type="number"
+                        id="withdrawalFee"
+                        class="settings-input"
+                        value="2"
+                        min="0"
+                        step="0.01"
+                    >
+
+                    <span>
+                        USDT
+                    </span>
+
+                </div>
+
+
+                <p class="settings-help">
+                    الرسوم الافتراضية التي تخصم من عملية السحب.
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+
+        <div class="settings-card-actions">
+
+            <button
+                type="button"
+                class="admin-btn admin-btn-primary settings-save-button"
+                data-section="withdrawals"
+            >
+                حفظ إعدادات السحوبات
+            </button>
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+
+
+<!-- =====================================================
+     ACCOUNT SETTINGS
+===================================================== -->
+
+<section
+    class="admin-card settings-card"
+    id="accountSettings"
+>
+
+
+    <div class="admin-card-header">
+
+
+        <div class="settings-card-heading">
+
+
+            <div class="settings-card-icon">
+                ♙
+            </div>
+
+
+            <div>
+
+                <h2 class="admin-card-title">
+                    إعدادات الحسابات
+                </h2>
+
+
+                <p class="admin-card-description">
+                    التحكم في التسجيل وحدود الحسابات والأرصدة.
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+        <span class="settings-section-badge">
+            الحسابات
+        </span>
+
+
+    </div>
+
+
+
+    <div class="admin-card-body">
+
+
+        <div class="settings-grid">
+
+
+
+            <!-- REGISTRATION -->
+
+            <div class="settings-field settings-field-toggle">
+
+
+                <div class="settings-field-content">
+
+                    <label
+                        for="registrationEnabled"
+                        class="settings-label"
+                    >
+                        السماح بالتسجيل
+                    </label>
+
+
+                    <p class="settings-help">
+                        السماح بإنشاء حسابات مستخدمين جديدة.
+                    </p>
+
+                </div>
+
+
+                <label class="settings-switch">
+
+                    <input
+                        type="checkbox"
+                        id="registrationEnabled"
+                        checked
+                    >
+
+                    <span class="settings-switch-slider"></span>
+
+                </label>
+
+
+            </div>
+
+
+
+
+            <!-- MIN BALANCE -->
+
+            <div class="settings-field">
+
+                <label
+                    for="minimumAccountBalance"
+                    class="settings-label"
+                >
+                    الحد الأدنى للرصيد
+                </label>
+
+
+                <div class="settings-input-group">
+
+                    <input
+                        type="number"
+                        id="minimumAccountBalance"
+                        class="settings-input"
+                        value="0"
+                        min="0"
+                        step="0.01"
+                    >
+
+                    <span>
+                        USDT
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+
+            <!-- MAX BALANCE -->
+
+            <div class="settings-field">
+
+                <label
+                    for="maximumAccountBalance"
+                    class="settings-label"
+                >
+                    الحد الأقصى للرصيد
+                </label>
+
+
+                <div class="settings-input-group">
+
+                    <input
+                        type="number"
+                        id="maximumAccountBalance"
+                        class="settings-input"
+                        value="100000"
+                        min="0"
+                        step="0.01"
+                    >
+
+                    <span>
+                        USDT
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+
+            <!-- DAILY TRADES -->
+
+            <div class="settings-field">
+
+                <label
+                    for="accountDailyTradeLimit"
+                    class="settings-label"
+                >
+                    الحد اليومي لعدد الصفقات
+                </label>
+
+
+                <div class="settings-input-group">
+
+                    <input
+                        type="number"
+                        id="accountDailyTradeLimit"
+                        class="settings-input"
+                        value="50"
+                        min="0"
+                        step="1"
+                    >
+
+                    <span>
+                        صفقة
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+
+            <!-- DAILY WITHDRAW REQUESTS -->
+
+            <div class="settings-field">
+
+                <label
+                    for="dailyWithdrawalRequestsLimit"
+                    class="settings-label"
+                >
+                    عدد طلبات السحب اليومية
+                </label>
+
+
+                <div class="settings-input-group">
+
+                    <input
+                        type="number"
+                        id="dailyWithdrawalRequestsLimit"
+                        class="settings-input"
+                        value="5"
+                        min="0"
+                        step="1"
+                    >
+
+                    <span>
+                        طلب
+                    </span>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <div class="settings-card-actions">
+
+            <button
+                type="button"
+                class="admin-btn admin-btn-primary settings-save-button"
+                data-section="accounts"
+            >
+                حفظ إعدادات الحسابات
+            </button>
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+
+
+<!-- =====================================================
+     SYSTEM SETTINGS
+===================================================== -->
+
+<section
+    class="admin-card settings-card"
+    id="systemSettings"
+>
+
+
+    <div class="admin-card-header">
+
+
+        <div class="settings-card-heading">
+
+
+            <div class="settings-card-icon">
+                ⚙
+            </div>
+
+
+            <div>
+
+                <h2 class="admin-card-title">
+                    إعدادات النظام
+                </h2>
+
+
+                <p class="admin-card-description">
+                    الإعدادات العامة التي تتحكم في حالة المنصة.
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+        <span class="settings-section-badge">
+            النظام
+        </span>
+
+
+    </div>
+
+
+
+    <div class="admin-card-body">
+
+
+        <div class="settings-grid">
+
+
+
+            <!-- MAINTENANCE -->
+
+            <div class="settings-field settings-field-toggle">
+
+
+                <div class="settings-field-content">
+
+                    <label
+                        for="maintenanceMode"
+                        class="settings-label"
+                    >
+                        وضع الصيانة
+                    </label>
+
+
+                    <p class="settings-help">
+                        عند التفعيل يتم منع المستخدمين من استخدام المنصة.
+                    </p>
+
+                </div>
+
+
+                <label class="settings-switch">
+
+                    <input
+                        type="checkbox"
+                        id="maintenanceMode"
+                    >
+
+                    <span class="settings-switch-slider"></span>
+
+                </label>
+
+
+            </div>
+
+
+
+
+            <!-- PLATFORM NAME -->
+
+            <div class="settings-field">
+
+                <label
+                    for="platformName"
+                    class="settings-label"
+                >
+                    اسم المنصة
+                </label>
+
+
+                <input
+                    type="text"
+                    id="platformName"
+                    class="settings-input"
+                    value="VALORA"
+                >
+
+            </div>
+
+
+
+
+            <!-- DEFAULT CURRENCY -->
+
+            <div class="settings-field">
+
+                <label
+                    for="defaultCurrency"
+                    class="settings-label"
+                >
+                    العملة الافتراضية
+                </label>
+
+
+                <select
+                    id="defaultCurrency"
+                    class="settings-input"
+                >
+
+                    <option value="USDT" selected>
+                        USDT
+                    </option>
+
+                    <option value="USD">
+                        USD
+                    </option>
+
+                    <option value="EUR">
+                        EUR
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+
+            <!-- TIMEZONE -->
+
+            <div class="settings-field">
+
+                <label
+                    for="platformTimezone"
+                    class="settings-label"
+                >
+                    المنطقة الزمنية
+                </label>
+
+
+                <select
+                    id="platformTimezone"
+                    class="settings-input"
+                >
+
+                    <option value="UTC">
+                        UTC
+                    </option>
+
+                    <option
+                        value="Asia/Baghdad"
+                        selected
+                    >
+                        بغداد — UTC+3
+                    </option>
+
+                    <option value="Asia/Riyadh">
+                        الرياض — UTC+3
+                    </option>
+
+                    <option value="Europe/Istanbul">
+                        إسطنبول — UTC+3
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+
+            <!-- TRADING GLOBAL -->
+
+            <div class="settings-field settings-field-toggle">
+
+
+                <div class="settings-field-content">
+
+                    <label
+                        for="globalTradingStatus"
+                        class="settings-label"
+                    >
+                        حالة التداول العامة
+                    </label>
+
+
+                    <p class="settings-help">
+                        تشغيل أو إيقاف التداول من المنصة بالكامل.
+                    </p>
+
+                </div>
+
+
+                <label class="settings-switch">
+
+                    <input
+                        type="checkbox"
+                        id="globalTradingStatus"
+                        checked
+                    >
+
+                    <span class="settings-switch-slider"></span>
+
+                </label>
+
+
+            </div>
+
+
+
+
+            <!-- DEPOSITS GLOBAL -->
+
+            <div class="settings-field settings-field-toggle">
+
+
+                <div class="settings-field-content">
+
+                    <label
+                        for="globalDepositsStatus"
+                        class="settings-label"
+                    >
+                        حالة الإيداعات العامة
+                    </label>
+
+
+                    <p class="settings-help">
+                        تشغيل أو إيقاف استقبال الإيداعات.
+                    </p>
+
+                </div>
+
+
+                <label class="settings-switch">
+
+                    <input
+                        type="checkbox"
+                        id="globalDepositsStatus"
+                        checked
+                    >
+
+                    <span class="settings-switch-slider"></span>
+
+                </label>
+
+
+            </div>
+
+
+
+
+            <!-- WITHDRAWALS GLOBAL -->
+
+            <div class="settings-field settings-field-toggle">
+
+
+                <div class="settings-field-content">
+
+                    <label
+                        for="globalWithdrawalsStatus"
+                        class="settings-label"
+                    >
+                        حالة السحوبات العامة
+                    </label>
+
+
+                    <p class="settings-help">
+                        تشغيل أو إيقاف استقبال طلبات السحب.
+                    </p>
+
+                </div>
+
+
+                <label class="settings-switch">
+
+                    <input
+                        type="checkbox"
+                        id="globalWithdrawalsStatus"
+                        checked
+                    >
+
+                    <span class="settings-switch-slider"></span>
+
+                </label>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <div class="settings-card-actions">
+
+            <button
+                type="button"
+                class="admin-btn admin-btn-primary settings-save-button"
+                data-section="system"
+            >
+                حفظ إعدادات النظام
+            </button>
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+
+
+<!-- =====================================================
+     DANGER ZONE
+===================================================== -->
+
+<section
+    class="admin-card settings-card settings-danger-card"
+>
+
+
+    <div class="admin-card-header">
+
+
+        <div class="settings-card-heading">
+
+
+            <div class="settings-card-icon">
+                !
+            </div>
+
+
+            <div>
+
+                <h2 class="admin-card-title">
+                    إجراءات حساسة
+                </h2>
+
+
+                <p class="admin-card-description">
+                    إجراءات تؤثر على تشغيل المنصة ويجب استخدامها بحذر.
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+        <span class="settings-section-badge settings-danger-badge">
+            حساس
+        </span>
+
+
+    </div>
+
+
+
+    <div class="admin-card-body">
+
+
+        <div class="settings-danger-actions">
+
+
+            <button
+                type="button"
+                id="disableAllTrading"
+                class="admin-btn admin-btn-danger"
+            >
+                إيقاف التداول
+            </button>
+
+
+            <button
+                type="button"
+                id="enableMaintenance"
+                class="admin-btn admin-btn-danger"
+            >
+                تفعيل وضع الصيانة
+            </button>
+
+
+        </div>
+
+
+        <p class="settings-danger-note">
+            هذه الأزرار ستتطلب تأكيدًا قبل تنفيذ الإجراء عند ربط الصفحة بالنظام الحقيقي.
+        </p>
+
+
+    </div>
+
+
+</section>
+
+
+
+</main>
+
+
+</section>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<!-- =====================================================
+     SETTINGS JS
+===================================================== -->
+
+<script src="js/settings.js"></script>
+
+
+</body>
+
+          </html>
