@@ -1,6 +1,6 @@
 /* =========================================================
    VALORA ADMIN — IDENTITY VERIFICATION
-   DEMO + MANUAL REVIEW SYSTEM
+   MANUAL REVIEW SYSTEM
 ========================================================= */
 
 (function () {
@@ -9,74 +9,10 @@
 
 
     /* =====================================================
-       DEMO VERIFICATION REQUESTS
+       VERIFICATION REQUESTS
     ===================================================== */
 
-    let verificationRequests = [
-
-        {
-            id: "KYC-DEMO-001",
-
-            userName: "أحمد محمد",
-
-            email: "ahmed@example.com",
-
-            uid: "VAL-10001",
-
-            documentType: "بطاقة هوية",
-
-            documentNumber: "********1234",
-
-            country: "السعودية",
-
-            submittedDate: "2026-08-15",
-
-            submittedTime: "12:45",
-
-            status: "pending",
-
-            identityImage:
-                "https://placehold.co/900x600/png?text=ID+CARD",
-
-            selfieImage:
-                "https://placehold.co/600x800/png?text=SELFIE",
-
-            notes: ""
-
-        },
-
-        {
-            id: "KYC-DEMO-002",
-
-            userName: "محمد علي",
-
-            email: "mohammed@example.com",
-
-            uid: "VAL-10002",
-
-            documentType: "جواز سفر",
-
-            documentNumber: "********5678",
-
-            country: "الإمارات",
-
-            submittedDate: "2026-08-15",
-
-            submittedTime: "13:10",
-
-            status: "pending",
-
-            identityImage:
-                "https://placehold.co/900x600/png?text=PASSPORT",
-
-            selfieImage:
-                "https://placehold.co/600x800/png?text=SELFIE",
-
-            notes: ""
-
-        }
-
-    ];
+    let verificationRequests = [];
 
 
     let selectedRequest = null;

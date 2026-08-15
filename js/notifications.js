@@ -52,35 +52,16 @@
 
 
     /* =====================================================
-       DEMO USERS
+       USERS
        ===================================================== */
 
     function loadUsers() {
 
         /*
-         * هذه بيانات مؤقتة للاختبار فقط.
-         * لاحقًا سيتم استبدالها ببيانات API.
+         * يتم تحميل المستخدمين من مصدر البيانات عند الربط.
          */
 
-        notificationState.users = [
-
-            {
-                id: "1001",
-                name: "أحمد محمد",
-                email: "ahmed@test.com",
-                balance: 500,
-                deposits: 1000
-            },
-
-            {
-                id: "1002",
-                name: "مستخدم تجريبي",
-                email: "user@example.com",
-                balance: 0,
-                deposits: 0
-            }
-
-        ];
+        notificationState.users = [];
 
     }
 

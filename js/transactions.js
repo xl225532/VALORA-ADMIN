@@ -1,6 +1,6 @@
 /* =========================================================
    VALORA ADMIN — TRANSACTIONS
-   TRANSACTIONS SYSTEM
+   TRANSACTIONS MANAGEMENT
 ========================================================= */
 
 (function () {
@@ -9,7 +9,7 @@
 
 
     /* =====================================================
-       TRANSACTIONS DATA
+        DATA
     ===================================================== */
 
     let transactions = [];
@@ -540,9 +540,15 @@
             "";
 
 
+
         const filtered =
             transactions.filter(
                 function (transaction) {
+
+
+                    /* ==========================
+                       SEARCH
+                    ========================== */
 
                     if (search) {
 
@@ -578,6 +584,11 @@
                     }
 
 
+
+                    /* ==========================
+                       TYPE
+                    ========================== */
+
                     if (
                         type !== "all" &&
                         transaction.type !== type
@@ -587,6 +598,11 @@
 
                     }
 
+
+
+                    /* ==========================
+                       STATUS
+                    ========================== */
 
                     if (
                         status !== "all" &&
@@ -598,6 +614,11 @@
                     }
 
 
+
+                    /* ==========================
+                       CURRENCY
+                    ========================== */
+
                     if (
                         currency !== "all" &&
                         transaction.currency !== currency
@@ -608,6 +629,11 @@
                     }
 
 
+
+                    /* ==========================
+                       DATE FROM
+                    ========================== */
+
                     if (
                         dateFrom &&
                         transaction.date < dateFrom
@@ -617,6 +643,11 @@
 
                     }
 
+
+
+                    /* ==========================
+                       DATE TO
+                    ========================== */
 
                     if (
                         dateTo &&
@@ -649,17 +680,22 @@
         const search =
             el("transactionSearch");
 
+
         const type =
             el("transactionType");
+
 
         const status =
             el("transactionStatus");
 
+
         const currency =
             el("transactionCurrency");
 
+
         const dateFrom =
             el("transactionDateFrom");
+
 
         const dateTo =
             el("transactionDateTo");
@@ -668,17 +704,22 @@
         if (search)
             search.value = "";
 
+
         if (type)
             type.value = "all";
+
 
         if (status)
             status.value = "all";
 
+
         if (currency)
             currency.value = "all";
 
+
         if (dateFrom)
             dateFrom.value = "";
+
 
         if (dateTo)
             dateTo.value = "";
@@ -722,30 +763,36 @@
         card.hidden = false;
 
 
+
         setText(
             "detailTransactionId",
             transaction.id
         );
+
 
         setText(
             "detailTransactionUser",
             transaction.userName
         );
 
+
         setText(
             "detailTransactionUID",
             transaction.uid
         );
+
 
         setText(
             "detailTransactionEmail",
             transaction.email
         );
 
+
         setText(
             "detailTransactionType",
             typeText(transaction.type)
         );
+
 
         setText(
             "detailTransactionAmount",
@@ -754,10 +801,12 @@
             + transaction.currency
         );
 
+
         setText(
             "detailTransactionCurrency",
             transaction.currency
         );
+
 
         setText(
             "detailTransactionBalanceBefore",
@@ -766,6 +815,7 @@
             )
         );
 
+
         setText(
             "detailTransactionBalanceAfter",
             formatAmount(
@@ -773,30 +823,36 @@
             )
         );
 
+
         setText(
             "detailTransactionStatus",
             statusText(transaction.status)
         );
+
 
         setText(
             "detailTransactionDate",
             transaction.date
         );
 
+
         setText(
             "detailTransactionTime",
             transaction.time
         );
+
 
         setText(
             "detailTransactionReference",
             transaction.reference
         );
 
+
         setText(
             "detailTransactionNotes",
             transaction.notes || "—"
         );
+
 
 
         card.scrollIntoView({
@@ -840,6 +896,7 @@
         "click",
         function (event) {
 
+
             const actionButton =
                 event.target.closest(
                     "[data-action]"
@@ -859,6 +916,7 @@
 
             const id =
                 actionButton.dataset.id;
+
 
 
             if (
@@ -939,7 +997,6 @@
                 resetFilters();
 
             }
-
         );
 
     }
@@ -963,7 +1020,6 @@
                 filterTransactions();
 
             }
-
         );
 
     }
@@ -972,4 +1028,76 @@
 
     /* =====================================================
        CLOSE DETAILS
-    =================================================
+    ===================================================== */
+
+    const closeButton =
+        el("closeTransactionDetails");
+
+
+    if (closeButton) {
+
+        closeButton.addEventListener(
+            "click",
+            function () {
+
+                const card =
+                    el("transactionDetailsCard");
+
+
+                if (card) {
+
+                    card.hidden = true;
+
+                }
+
+
+                selectedTransaction =
+                    null;
+
+            }
+        );
+
+    }
+
+
+
+    /* =====================================================
+       INITIALIZE
+    ===================================================== */
+
+    function init() {
+
+        console.log(
+            "VALORA TRANSACTIONS JS LOADED"
+        );
+
+
+        updateStats();
+
+
+        renderTransactions(
+            transactions
+        );
+
+    }
+
+
+
+    if (
+        document.readyState ===
+        "loading"
+    ) {
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            init
+        );
+
+    } else {
+
+        init();
+
+    }
+
+
+})();

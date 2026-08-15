@@ -1,6 +1,6 @@
 /* =========================================================
    VALORA ADMIN — WITHDRAWALS
-   DEMO + MANUAL WITHDRAWAL MANAGEMENT
+   MANUAL WITHDRAWAL MANAGEMENT
 ========================================================= */
 
 (function () {
@@ -9,50 +9,11 @@
 
 
     /* =====================================================
-       DEMO DATA
+       DATA
        للتجربة فقط — لا يوجد ربط حقيقي بعد
     ===================================================== */
 
-    let withdrawals = [
-
-        {
-            id: "WD-DEMO-001",
-
-            userName: "أحمد محمد",
-
-            email: "ahmed@example.com",
-
-            uid: "VAL-10001",
-
-            amount: 150,
-
-            currency: "USDT",
-
-            balanceBefore: 850,
-
-            balanceAfter: 700,
-
-            wallet: "TQExampleWalletAddress123456789",
-
-            network: "TRC20",
-
-            fee: 2,
-
-            netAmount: 148,
-
-            date: "2026-08-14",
-
-            time: "12:30",
-
-            status: "pending",
-
-            txid: "",
-
-            notes: ""
-
-        }
-
-    ];
+    let withdrawals = [];
 
 
     let selectedWithdrawal = null;
