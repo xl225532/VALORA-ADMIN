@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>VALORA ADMIN — المعاملات</title>
+
+
+    <!-- FONT -->
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- ADMIN LAYOUT -->
+
+    <link
+        rel="stylesheet"
+        href="css/admin-layout.css"
+    >
+
+
+    <!-- TRANSACTIONS -->
+
+    <link
+        rel="stylesheet"
+        href="css/transactions.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="admin-app">
+
+<div class="admin-layout">
+
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="admin-sidebar">
+
+
+    <div class="admin-brand">
+
+        <div class="admin-brand-mark">
+            V
+        </div>
+
+        <div>
+
+            <h1 class="admin-brand-title">
+                VALORA
+            </h1>
+
+            <p class="admin-brand-subtitle">
+                Admin Panel
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <nav class="admin-nav">
+
+
+        <div class="admin-nav-section">
+            الإدارة
+        </div>
+
+
+        <ul class="admin-nav-list">
+
+
+            <!-- USERS -->
+
+            <li class="admin-nav-item">
+
+                <a
+                    href="users.html"
+                    class="admin-nav-link"
+                >
+
+                    <span class="admin-nav-icon">
+                        ♙
+                    </span>
+
+                    المستخدمون
+
+                </a>
+
+            </li>
+
+
+
+            <!-- NOTIFICATIONS -->
+
+            <li class="admin-nav-item">
+
+                <a
+                    href="notifications.html"
+                    class="admin-nav-link"
+                >
+
+                    <span class="admin-nav-icon">
+                        ◉
+                    </span>
+
+                    الإشعارات
+
+                </a>
+
+            </li>
+
+
+
+            <!-- SUPPORT -->
+
+            <li class="admin-nav-item">
+
+                <a
+                    href="messages.html"
+                    class="admin-nav-link"
+                >
+
+                    <span class="admin-nav-icon">
+                        ▱
+                    </span>
+
+                    الدعم
+
+                </a>
+
+            </li>
+
+
+
+            <!-- TRADE CODES -->
+
+            <li class="admin-nav-item">
+
+                <a
+                    href="trade-codes.html"
+                    class="admin-nav-link"
+                >
+
+                    <span class="admin-nav-icon">
+                        #
+                    </span>
+
+                    أكواد التداول
+
+                </a>
+
+            </li>
+
+
+
+            <!-- DEPOSITS -->
+
+            <li class="admin-nav-item">
+
+                <a
+                    href="deposits.html"
+                    class="admin-nav-link"
+                >
+
+                    <span class="admin-nav-icon">
+                        ＋
+                    </span>
+
+                    الإيداعات
+
+                </a>
+
+            </li>
+
+
+
+            <!-- WITHDRAWALS -->
+
+            <li class="admin-nav-item">
+
+                <a
+                    href="withdrawals.html"
+                    class="admin-nav-link"
+                >
+
+                    <span class="admin-nav-icon">
+                        −
+                    </span>
+
+                    السحوبات
+
+                </a>
+
+            </li>
+
+
+
+            <!-- TRANSACTIONS -->
+
+            <li class="admin-nav-item">
+
+                <a
+                    href="transactions.html"
+                    class="admin-nav-link active"
+                >
+
+                    <span class="admin-nav-icon">
+                        ⇄
+                    </span>
+
+                    المعاملات
+
+                </a>
+
+            </li>
+
+
+
+            <!-- VERIFICATION -->
+
+            <li class="admin-nav-item">
+
+                <a
+                    href="verification.html"
+                    class="admin-nav-link"
+                >
+
+                    <span class="admin-nav-icon">
+                        ✓
+                    </span>
+
+                    توثيق الهوية
+
+                </a>
+
+            </li>
+
+
+
+            <!-- SETTINGS -->
+
+            <li class="admin-nav-item">
+
+                <a
+                    href="settings.html"
+                    class="admin-nav-link"
+                >
+
+                    <span class="admin-nav-icon">
+                        ⚙
+                    </span>
+
+                    الإعدادات
+
+                </a>
+
+            </li>
+
+
+        </ul>
+
+    </nav>
+
+</aside>
+
+
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<section class="admin-main">
+
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="admin-header">
+
+    <div class="admin-page-heading">
+
+        <h2 class="admin-page-title">
+            المعاملات
+        </h2>
+
+        <p class="admin-page-description">
+            سجل شامل لجميع الحركات المالية داخل المنصة.
+        </p>
+
+    </div>
+
+</header>
+
+
+
+
+
+<!-- =====================================================
+     CONTENT
+===================================================== -->
+
+<main class="admin-content">
+
+
+
+<!-- =====================================================
+     PAGE HEADER
+===================================================== -->
+
+<div class="admin-content-header">
+
+
+    <div>
+
+        <h1 class="admin-page-title">
+            سجل المعاملات
+        </h1>
+
+        <p class="admin-page-description">
+            راجع جميع عمليات الإيداع والسحب والتداول وتعديلات الأرصدة.
+        </p>
+
+    </div>
+
+
+    <div class="transactions-header-actions">
+
+
+        <button
+            type="button"
+            id="refreshTransactions"
+            class="admin-btn admin-btn-secondary"
+        >
+
+            <span>
+                ↻
+            </span>
+
+            تحديث
+
+        </button>
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+<!-- =====================================================
+     STATISTICS
+===================================================== -->
+
+<section class="transactions-stats-grid">
+
+
+    <!-- TOTAL -->
+
+    <div class="transactions-stat-card">
+
+        <div class="transactions-stat-icon">
+            ⇄
+        </div>
+
+        <div class="transactions-stat-content">
+
+            <span>
+                إجمالي العمليات
+            </span>
+
+            <strong id="totalTransactionsCount">
+                0
+            </strong>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- DEPOSITS -->
+
+   
