@@ -1,6 +1,6 @@
 /* =========================================================
    VALORA ADMIN — TRANSACTIONS
-   DEMO TRANSACTIONS SYSTEM
+   TRANSACTIONS SYSTEM
 ========================================================= */
 
 (function () {
@@ -9,259 +9,10 @@
 
 
     /* =====================================================
-       DEMO DATA
+       TRANSACTIONS DATA
     ===================================================== */
 
-    let transactions = [
-
-        {
-            id: "TX-DEMO-001",
-
-            userName: "أحمد محمد",
-
-            email: "ahmed@example.com",
-
-            uid: "VAL-10001",
-
-            type: "deposit",
-
-            amount: 500,
-
-            currency: "USDT",
-
-            balanceBefore: 350,
-
-            balanceAfter: 850,
-
-            status: "completed",
-
-            date: "2026-08-14",
-
-            time: "10:15",
-
-            reference: "DEP-DEMO-001",
-
-            notes: "إيداع تجريبي"
-        },
-
-
-        {
-            id: "TX-DEMO-002",
-
-            userName: "أحمد محمد",
-
-            email: "ahmed@example.com",
-
-            uid: "VAL-10001",
-
-            type: "withdrawal",
-
-            amount: 150,
-
-            currency: "USDT",
-
-            balanceBefore: 850,
-
-            balanceAfter: 700,
-
-            status: "processing",
-
-            date: "2026-08-14",
-
-            time: "12:30",
-
-            reference: "WD-DEMO-001",
-
-            notes: "طلب سحب قيد التنفيذ"
-        },
-
-
-        {
-            id: "TX-DEMO-003",
-
-            userName: "محمد علي",
-
-            email: "mohamed@example.com",
-
-            uid: "VAL-10002",
-
-            type: "trade",
-
-            amount: 250,
-
-            currency: "USDT",
-
-            balanceBefore: 1200,
-
-            balanceAfter: 950,
-
-            status: "completed",
-
-            date: "2026-08-13",
-
-            time: "15:45",
-
-            reference: "TRD-DEMO-001",
-
-            notes: "عملية تداول تجريبية"
-        },
-
-
-        {
-            id: "TX-DEMO-004",
-
-            userName: "سارة خالد",
-
-            email: "sara@example.com",
-
-            uid: "VAL-10003",
-
-            type: "credit",
-
-            amount: 100,
-
-            currency: "USDT",
-
-            balanceBefore: 500,
-
-            balanceAfter: 600,
-
-            status: "completed",
-
-            date: "2026-08-13",
-
-            time: "17:20",
-
-            reference: "CRD-DEMO-001",
-
-            notes: "إضافة رصيد من الإدارة"
-        },
-
-
-        {
-            id: "TX-DEMO-005",
-
-            userName: "سارة خالد",
-
-            email: "sara@example.com",
-
-            uid: "VAL-10003",
-
-            type: "debit",
-
-            amount: 25,
-
-            currency: "USDT",
-
-            balanceBefore: 600,
-
-            balanceAfter: 575,
-
-            status: "completed",
-
-            date: "2026-08-13",
-
-            time: "18:10",
-
-            reference: "DBT-DEMO-001",
-
-            notes: "خصم رصيد من الإدارة"
-        },
-
-
-        {
-            id: "TX-DEMO-006",
-
-            userName: "خالد حسن",
-
-            email: "khaled@example.com",
-
-            uid: "VAL-10004",
-
-            type: "deposit",
-
-            amount: 300,
-
-            currency: "USDT",
-
-            balanceBefore: 200,
-
-            balanceAfter: 500,
-
-            status: "pending",
-
-            date: "2026-08-12",
-
-            time: "09:40",
-
-            reference: "DEP-DEMO-002",
-
-            notes: "بانتظار تأكيد الإيداع"
-        },
-
-
-        {
-            id: "TX-DEMO-007",
-
-            userName: "خالد حسن",
-
-            email: "khaled@example.com",
-
-            uid: "VAL-10004",
-
-            type: "fee",
-
-            amount: 3,
-
-            currency: "USDT",
-
-            balanceBefore: 500,
-
-            balanceAfter: 497,
-
-            status: "completed",
-
-            date: "2026-08-12",
-
-            time: "10:05",
-
-            reference: "FEE-DEMO-001",
-
-            notes: "رسوم العملية"
-        },
-
-
-        {
-            id: "TX-DEMO-008",
-
-            userName: "ليان محمود",
-
-            email: "layan@example.com",
-
-            uid: "VAL-10005",
-
-            type: "withdrawal",
-
-            amount: 75,
-
-            currency: "USDT",
-
-            balanceBefore: 400,
-
-            balanceAfter: 325,
-
-            status: "rejected",
-
-            date: "2026-08-11",
-
-            time: "14:25",
-
-            reference: "WD-DEMO-002",
-
-            notes: "تم رفض طلب السحب"
-        }
-
-    ];
+    let transactions = [];
 
 
     let selectedTransaction = null;
@@ -789,15 +540,9 @@
             "";
 
 
-
         const filtered =
             transactions.filter(
                 function (transaction) {
-
-
-                    /* ==========================
-                       SEARCH
-                    ========================== */
 
                     if (search) {
 
@@ -833,11 +578,6 @@
                     }
 
 
-
-                    /* ==========================
-                       TYPE
-                    ========================== */
-
                     if (
                         type !== "all" &&
                         transaction.type !== type
@@ -847,11 +587,6 @@
 
                     }
 
-
-
-                    /* ==========================
-                       STATUS
-                    ========================== */
 
                     if (
                         status !== "all" &&
@@ -863,11 +598,6 @@
                     }
 
 
-
-                    /* ==========================
-                       CURRENCY
-                    ========================== */
-
                     if (
                         currency !== "all" &&
                         transaction.currency !== currency
@@ -878,11 +608,6 @@
                     }
 
 
-
-                    /* ==========================
-                       DATE FROM
-                    ========================== */
-
                     if (
                         dateFrom &&
                         transaction.date < dateFrom
@@ -892,11 +617,6 @@
 
                     }
 
-
-
-                    /* ==========================
-                       DATE TO
-                    ========================== */
 
                     if (
                         dateTo &&
@@ -929,22 +649,17 @@
         const search =
             el("transactionSearch");
 
-
         const type =
             el("transactionType");
-
 
         const status =
             el("transactionStatus");
 
-
         const currency =
             el("transactionCurrency");
 
-
         const dateFrom =
             el("transactionDateFrom");
-
 
         const dateTo =
             el("transactionDateTo");
@@ -953,22 +668,17 @@
         if (search)
             search.value = "";
 
-
         if (type)
             type.value = "all";
-
 
         if (status)
             status.value = "all";
 
-
         if (currency)
             currency.value = "all";
 
-
         if (dateFrom)
             dateFrom.value = "";
-
 
         if (dateTo)
             dateTo.value = "";
@@ -1012,36 +722,30 @@
         card.hidden = false;
 
 
-
         setText(
             "detailTransactionId",
             transaction.id
         );
-
 
         setText(
             "detailTransactionUser",
             transaction.userName
         );
 
-
         setText(
             "detailTransactionUID",
             transaction.uid
         );
-
 
         setText(
             "detailTransactionEmail",
             transaction.email
         );
 
-
         setText(
             "detailTransactionType",
             typeText(transaction.type)
         );
-
 
         setText(
             "detailTransactionAmount",
@@ -1050,12 +754,10 @@
             + transaction.currency
         );
 
-
         setText(
             "detailTransactionCurrency",
             transaction.currency
         );
-
 
         setText(
             "detailTransactionBalanceBefore",
@@ -1064,7 +766,6 @@
             )
         );
 
-
         setText(
             "detailTransactionBalanceAfter",
             formatAmount(
@@ -1072,36 +773,30 @@
             )
         );
 
-
         setText(
             "detailTransactionStatus",
             statusText(transaction.status)
         );
-
 
         setText(
             "detailTransactionDate",
             transaction.date
         );
 
-
         setText(
             "detailTransactionTime",
             transaction.time
         );
-
 
         setText(
             "detailTransactionReference",
             transaction.reference
         );
 
-
         setText(
             "detailTransactionNotes",
             transaction.notes || "—"
         );
-
 
 
         card.scrollIntoView({
@@ -1145,7 +840,6 @@
         "click",
         function (event) {
 
-
             const actionButton =
                 event.target.closest(
                     "[data-action]"
@@ -1165,7 +859,6 @@
 
             const id =
                 actionButton.dataset.id;
-
 
 
             if (
@@ -1246,6 +939,7 @@
                 resetFilters();
 
             }
+
         );
 
     }
@@ -1269,6 +963,7 @@
                 filterTransactions();
 
             }
+
         );
 
     }
@@ -1277,76 +972,4 @@
 
     /* =====================================================
        CLOSE DETAILS
-    ===================================================== */
-
-    const closeButton =
-        el("closeTransactionDetails");
-
-
-    if (closeButton) {
-
-        closeButton.addEventListener(
-            "click",
-            function () {
-
-                const card =
-                    el("transactionDetailsCard");
-
-
-                if (card) {
-
-                    card.hidden = true;
-
-                }
-
-
-                selectedTransaction =
-                    null;
-
-            }
-        );
-
-    }
-
-
-
-    /* =====================================================
-       INITIALIZE
-    ===================================================== */
-
-    function init() {
-
-        console.log(
-            "VALORA TRANSACTIONS JS LOADED"
-        );
-
-
-        updateStats();
-
-
-        renderTransactions(
-            transactions
-        );
-
-    }
-
-
-
-    if (
-        document.readyState ===
-        "loading"
-    ) {
-
-        document.addEventListener(
-            "DOMContentLoaded",
-            init
-        );
-
-    } else {
-
-        init();
-
-    }
-
-
-})();
+    =================================================
