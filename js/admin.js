@@ -12,7 +12,7 @@ ADMIN CORE
 - Active Navigation
 - Notifications
 - Admin Menu
-- Logout Demo
+- Logout
 - Keyboard / Accessibility helpers
 
 ملاحظة:
@@ -879,7 +879,7 @@ ADMIN CORE
 
         /*
         -------------------------------------------------
-        DEMO SESSION CLEANUP
+        SESSION CLEANUP
         -------------------------------------------------
         */
 
