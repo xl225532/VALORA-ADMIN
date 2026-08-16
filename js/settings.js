@@ -1,1229 +1,1421 @@
-/* =========================================================
-   VALORA ADMIN — SETTINGS
-   Global Settings Management
-========================================================= */
+ملف settings.js
 
-(function () {
+"use strict";
 
-    "use strict";
+/*
+=========================================================
+VALORA ADMIN SETTINGS
+=========================================================
 
-    /* =====================================================
-       DEFAULT SETTINGS
-    ===================================================== */
+هذا الملف مسؤول عن:
 
-    const DEFAULT_SETTINGS = {
+1. تحميل الإعدادات.
+2. حفظ إعدادات التداول.
+3. حفظ إعدادات الإيداعات.
+4. حفظ إعدادات السحوبات.
+5. حفظ عناوين السحب.
+6. حفظ إعدادات الحسابات.
+7. حفظ إعدادات النظام.
+8. تحديد اللغة الأساسية للموقع.
+9. إجراءات إيقاف التداول والصيانة.
 
-        /* =========================
-           GENERAL
-        ========================= */
+=========================================================
+*/
 
-        siteName: "VALORA",
 
-        siteStatus: "active",
+/* =====================================================
+   STORAGE KEYS
+===================================================== */
 
-        maintenanceMessage:
-            "الموقع تحت الصيانة حاليًا. يرجى المحاولة لاحقًا.",
+const VALORA_SETTINGS_KEY =
+    "VALORA_ADMIN_SETTINGS";
+
+const VALORA_LANGUAGE_KEY =
+    "VALORA_LANG";
+
+const VALORA_WITHDRAW_ADDRESSES_KEY =
+    "VALORA_WITHDRAW_ADDRESSES";
+
+
+/* =====================================================
+   DEFAULT SETTINGS
+===================================================== */
+
+const DEFAULT_SETTINGS = {
+
+    trading: {
+
+        tradingEnabled: true,
+
+        minimumTradeAmount: 10,
+
+        maximumTradeAmount: 1000,
+
+        minimumTradingBalance: 10,
+
+        tradeDuration: 15,
+
+        profitReleaseDelay: 15,
+
+        defaultProfitRate: 80,
+
+        dailyTradeLimit: 50
+
+    },
+
+
+    deposits: {
+
+        depositsEnabled: true,
+
+        minimumDepositAmount: 10,
+
+        maximumDepositAmount: 10000,
+
+        requiredDepositConfirmations: 3
+
+    },
+
+
+    withdrawals: {
+
+        withdrawalsEnabled: true,
+
+        withdrawalsManualReview: true,
+
+        minimumWithdrawalAmount: 10,
+
+        maximumWithdrawalAmount: 5000,
+
+        dailyWithdrawalLimit: 10000,
+
+        withdrawalFee: 2
+
+    },
+
+
+    accounts: {
+
+        registrationEnabled: true,
+
+        minimumAccountBalance: 0,
+
+        maximumAccountBalance: 100000,
+
+        accountDailyTradeLimit: 50,
+
+        dailyWithdrawalRequestsLimit: 5
+
+    },
+
+
+    system: {
+
+        maintenanceMode: false,
+
+        platformName: "VALORA",
+
+        defaultCurrency: "USDT",
+
+        platformTimezone: "Asia/Baghdad",
+
+        siteDefaultLanguage: "ar",
+
+        globalTradingStatus: true,
+
+        globalDepositsStatus: true,
+
+        globalWithdrawalsStatus: true
+
+    }
+
+};
+
+
+/* =====================================================
+   DEFAULT WITHDRAWAL ADDRESSES
+===================================================== */
+
+const DEFAULT_WITHDRAWAL_ADDRESSES = {
+
+    USDT_TRON:
+
+        "",
+
+    USDT_ERC20:
+
+        "",
+
+    BTC:
+
+        "",
+
+    ETH:
+
+        "",
+
+    TRX:
+
+        ""
+
+};
+
+
+/* =====================================================
+   GET SETTINGS
+===================================================== */
+
+function getAdminSettings() {
+
+    try {
+
+        const saved =
+            JSON.parse(
+                localStorage.getItem(
+                    VALORA_SETTINGS_KEY
+                )
+            );
+
+        if (
+            saved &&
+            typeof saved === "object"
+        ) {
+
+            return mergeSettings(
+                DEFAULT_SETTINGS,
+                saved
+            );
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "VALORA settings load error:",
+            error
+        );
+
+    }
+
+
+    return cloneObject(
+        DEFAULT_SETTINGS
+    );
+
+}
+
+
+/* =====================================================
+   MERGE SETTINGS
+===================================================== */
+
+function mergeSettings(
+    defaults,
+    saved
+) {
+
+    const result = {};
+
+
+    Object.keys(defaults).forEach(
+        function (section) {
+
+            result[section] = {
+
+                ...defaults[section],
+
+                ...(
+                    saved &&
+                    saved[section]
+                        ? saved[section]
+                        : {}
+                )
+
+            };
+
+        }
+    );
+
+
+    return result;
+
+}
+
+
+/* =====================================================
+   CLONE OBJECT
+===================================================== */
+
+function cloneObject(object) {
+
+    return JSON.parse(
+        JSON.stringify(object)
+    );
+
+}
+
+
+/* =====================================================
+   SAVE SETTINGS
+===================================================== */
+
+function saveAdminSettings(
+    settings
+) {
+
+    localStorage.setItem(
+
+        VALORA_SETTINGS_KEY,
+
+        JSON.stringify(settings)
+
+    );
+
+}
+
+
+/* =====================================================
+   GET WITHDRAWAL ADDRESSES
+===================================================== */
+
+function getWithdrawalAddresses() {
+
+    try {
+
+        const saved =
+            JSON.parse(
+                localStorage.getItem(
+                    VALORA_WITHDRAW_ADDRESSES_KEY
+                )
+            );
+
+        if (
+            saved &&
+            typeof saved === "object"
+        ) {
+
+            return {
+
+                ...DEFAULT_WITHDRAWAL_ADDRESSES,
+
+                ...saved
+
+            };
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "VALORA withdrawal addresses load error:",
+            error
+        );
+
+    }
+
+
+    return {
+
+        ...DEFAULT_WITHDRAWAL_ADDRESSES
+
+    };
+
+}
+
+
+/* =====================================================
+   SAVE WITHDRAWAL ADDRESSES
+===================================================== */
+
+function saveWithdrawalAddresses() {
+
+    const addresses = {
+
+        USDT_TRON:
+            getValue(
+                "withdrawAddressUSDTTRC20"
+            ),
+
+        USDT_ERC20:
+            getValue(
+                "withdrawAddressUSDTERC20"
+            ),
+
+        BTC:
+            getValue(
+                "withdrawAddressBTC"
+            ),
+
+        ETH:
+            getValue(
+                "withdrawAddressETH"
+            ),
+
+        TRX:
+            getValue(
+                "withdrawAddressTRX"
+            )
+
+    };
+
+
+    localStorage.setItem(
+
+        VALORA_WITHDRAW_ADDRESSES_KEY,
+
+        JSON.stringify(addresses)
+
+    );
+
+
+    showSaveStatus(
+        "تم حفظ عناوين السحب بنجاح."
+    );
+
+}
+
+
+/* =====================================================
+   LOAD WITHDRAWAL ADDRESSES
+===================================================== */
+
+function loadWithdrawalAddresses() {
+
+    const addresses =
+        getWithdrawalAddresses();
+
+
+    setValue(
+        "withdrawAddressUSDTTRC20",
+        addresses.USDT_TRON
+    );
+
+
+    setValue(
+        "withdrawAddressUSDTERC20",
+        addresses.USDT_ERC20
+    );
+
+
+    setValue(
+        "withdrawAddressBTC",
+        addresses.BTC
+    );
+
+
+    setValue(
+        "withdrawAddressETH",
+        addresses.ETH
+    );
+
+
+    setValue(
+        "withdrawAddressTRX",
+        addresses.TRX
+    );
+
+}
+
+
+/* =====================================================
+   LOAD SETTINGS INTO FORM
+===================================================== */
+
+function loadAdminSettings() {
+
+    const settings =
+        getAdminSettings();
+
+
+    /* =========================
+       TRADING
+    ========================= */
+
+    setChecked(
+        "tradingEnabled",
+        settings.trading.tradingEnabled
+    );
+
+
+    setValue(
+        "minimumTradeAmount",
+        settings.trading.minimumTradeAmount
+    );
+
+
+    setValue(
+        "maximumTradeAmount",
+        settings.trading.maximumTradeAmount
+    );
+
+
+    setValue(
+        "minimumTradingBalance",
+        settings.trading.minimumTradingBalance
+    );
+
+
+    setValue(
+        "tradeDuration",
+        settings.trading.tradeDuration
+    );
+
+
+    setValue(
+        "profitReleaseDelay",
+        settings.trading.profitReleaseDelay
+    );
+
+
+    setValue(
+        "defaultProfitRate",
+        settings.trading.defaultProfitRate
+    );
+
+
+    setValue(
+        "dailyTradeLimit",
+        settings.trading.dailyTradeLimit
+    );
+
+
+    /* =========================
+       DEPOSITS
+    ========================= */
+
+    setChecked(
+        "depositsEnabled",
+        settings.deposits.depositsEnabled
+    );
+
+
+    setValue(
+        "minimumDepositAmount",
+        settings.deposits.minimumDepositAmount
+    );
+
+
+    setValue(
+        "maximumDepositAmount",
+        settings.deposits.maximumDepositAmount
+    );
+
+
+    setValue(
+        "requiredDepositConfirmations",
+        settings.deposits.requiredDepositConfirmations
+    );
+
+
+    /* =========================
+       WITHDRAWALS
+    ========================= */
+
+    setChecked(
+        "withdrawalsEnabled",
+        settings.withdrawals.withdrawalsEnabled
+    );
+
+
+    setChecked(
+        "withdrawalsManualReview",
+        settings.withdrawals.withdrawalsManualReview
+    );
+
+
+    setValue(
+        "minimumWithdrawalAmount",
+        settings.withdrawals.minimumWithdrawalAmount
+    );
+
+
+    setValue(
+        "maximumWithdrawalAmount",
+        settings.withdrawals.maximumWithdrawalAmount
+    );
+
+
+    setValue(
+        "dailyWithdrawalLimit",
+        settings.withdrawals.dailyWithdrawalLimit
+    );
+
+
+    setValue(
+        "withdrawalFee",
+        settings.withdrawals.withdrawalFee
+    );
+
+
+    /* =========================
+       ACCOUNTS
+    ========================= */
+
+    setChecked(
+        "registrationEnabled",
+        settings.accounts.registrationEnabled
+    );
+
+
+    setValue(
+        "minimumAccountBalance",
+        settings.accounts.minimumAccountBalance
+    );
+
+
+    setValue(
+        "maximumAccountBalance",
+        settings.accounts.maximumAccountBalance
+    );
+
+
+    setValue(
+        "accountDailyTradeLimit",
+        settings.accounts.accountDailyTradeLimit
+    );
+
+
+    setValue(
+        "dailyWithdrawalRequestsLimit",
+        settings.accounts.dailyWithdrawalRequestsLimit
+    );
+
+
+    /* =========================
+       SYSTEM
+    ========================= */
+
+    setChecked(
+        "maintenanceMode",
+        settings.system.maintenanceMode
+    );
+
+
+    setValue(
+        "platformName",
+        settings.system.platformName
+    );
+
+
+    setValue(
+        "defaultCurrency",
+        settings.system.defaultCurrency
+    );
+
+
+    setValue(
+        "platformTimezone",
+        settings.system.platformTimezone
+    );
+
+
+    setValue(
+        "siteDefaultLanguage",
+        settings.system.siteDefaultLanguage
+    );
+
+
+    setChecked(
+        "globalTradingStatus",
+        settings.system.globalTradingStatus
+    );
+
+
+    setChecked(
+        "globalDepositsStatus",
+        settings.system.globalDepositsStatus
+    );
+
+
+    setChecked(
+        "globalWithdrawalsStatus",
+        settings.system.globalWithdrawalsStatus
+    );
+
+
+    /* =========================
+       WITHDRAWAL ADDRESSES
+    ========================= */
+
+    loadWithdrawalAddresses();
+
+}
+
+
+/* =====================================================
+   SAVE SECTION
+===================================================== */
+
+function saveSettingsSection(
+    section
+) {
+
+    const settings =
+        getAdminSettings();
+
+
+    switch (section) {
 
 
         /* =========================
            TRADING
         ========================= */
 
-        tradingEnabled: true,
+        case "trading":
 
-        minimumTradeAmount: 10,
+            settings.trading = {
 
-        maximumTradeAmount: 100000,
+                tradingEnabled:
+                    getChecked(
+                        "tradingEnabled"
+                    ),
 
-        tradingFee: 0.10,
+                minimumTradeAmount:
+                    getNumber(
+                        "minimumTradeAmount"
+                    ),
 
+                maximumTradeAmount:
+                    getNumber(
+                        "maximumTradeAmount"
+                    ),
 
-        /* =========================
-           DEPOSIT
-        ========================= */
+                minimumTradingBalance:
+                    getNumber(
+                        "minimumTradingBalance"
+                    ),
 
-        depositsEnabled: true,
+                tradeDuration:
+                    getNumber(
+                        "tradeDuration"
+                    ),
 
-        minimumDeposit: 10,
+                profitReleaseDelay:
+                    getNumber(
+                        "profitReleaseDelay"
+                    ),
 
-        maximumDeposit: 100000,
+                defaultProfitRate:
+                    getNumber(
+                        "defaultProfitRate"
+                    ),
 
-
-        /* =========================
-           WITHDRAWAL
-        ========================= */
-
-        withdrawalsEnabled: true,
-
-        minimumWithdrawal: 10,
-
-        maximumWithdrawal: 100000,
-
-        withdrawalFee: 2,
-
-
-        /* =========================
-           KYC
-        ========================= */
-
-        kycEnabled: true,
-
-        kycRequiredForTrading: true,
-
-        kycRequiredForWithdrawal: true,
-
-        kycMinimumWithdrawal: 1000,
-
-
-        /* =========================
-           SECURITY
-        ========================= */
-
-        loginAttempts: 5,
-
-        sessionTimeout: 60,
-
-
-        /* =========================
-           NOTIFICATIONS
-        ========================= */
-
-        emailNotifications: true,
-
-        systemNotifications: true,
-
-
-        /* =========================
-           SAVE DATE
-        ========================= */
-
-        updatedAt: null
-
-    };
-
-
-    /* =====================================================
-       STORAGE KEY
-    ===================================================== */
-
-    const STORAGE_KEY =
-        "valora_admin_settings";
-
-
-    /* =====================================================
-       ELEMENT HELPER
-    ===================================================== */
-
-    function el(id) {
-
-        return document.getElementById(id);
-
-    }
-
-
-    /* =====================================================
-       LOAD SETTINGS
-    ===================================================== */
-
-    function loadSettings() {
-
-        try {
-
-            const saved =
-                localStorage.getItem(
-                    STORAGE_KEY
-                );
-
-
-            if (!saved) {
-
-                return {
-                    ...DEFAULT_SETTINGS
-                };
-
-            }
-
-
-            const parsed =
-                JSON.parse(saved);
-
-
-            return {
-
-                ...DEFAULT_SETTINGS,
-
-                ...parsed
+                dailyTradeLimit:
+                    getNumber(
+                        "dailyTradeLimit"
+                    )
 
             };
 
-        } catch (error) {
 
-            console.error(
-                "VALORA SETTINGS LOAD ERROR:",
-                error
-            );
-
-
-            return {
-                ...DEFAULT_SETTINGS
-            };
-
-        }
-
-    }
-
-
-    /* =====================================================
-       SAVE SETTINGS
-    ===================================================== */
-
-    function saveSettings(settings) {
-
-        try {
-
-            settings.updatedAt =
-                new Date().toISOString();
-
-
-            localStorage.setItem(
-                STORAGE_KEY,
-                JSON.stringify(settings)
-            );
-
-
-            return true;
-
-        } catch (error) {
-
-            console.error(
-                "VALORA SETTINGS SAVE ERROR:",
-                error
-            );
-
-
-            return false;
-
-        }
-
-    }
-
-
-    /* =====================================================
-       SET INPUT VALUE
-    ===================================================== */
-
-    function setValue(
-        id,
-        value
-    ) {
-
-        const element =
-            el(id);
-
-
-        if (!element) return;
-
-
-        if (
-            element.type ===
-            "checkbox"
-        ) {
-
-            element.checked =
-                Boolean(value);
-
-            return;
-
-        }
-
-
-        element.value =
-            value ?? "";
-
-    }
-
-
-    /* =====================================================
-       GET INPUT VALUE
-    ===================================================== */
-
-    function getValue(id) {
-
-        const element =
-            el(id);
-
-
-        if (!element) {
-
-            return null;
-
-        }
-
-
-        if (
-            element.type ===
-            "checkbox"
-        ) {
-
-            return element.checked;
-
-        }
-
-
-        if (
-            element.type ===
-            "number"
-        ) {
-
-            const value =
-                Number(element.value);
-
-
-            return Number.isFinite(value)
-                ? value
-                : 0;
-
-        }
-
-
-        return element.value;
-
-    }
-
-
-    /* =====================================================
-       APPLY SETTINGS TO FORM
-    ===================================================== */
-
-    function applySettings(settings) {
-
-
-        /* GENERAL */
-
-        setValue(
-            "siteName",
-            settings.siteName
-        );
-
-
-        setValue(
-            "siteStatus",
-            settings.siteStatus
-        );
-
-
-        setValue(
-            "maintenanceMessage",
-            settings.maintenanceMessage
-        );
-
-
-        /* TRADING */
-
-        setValue(
-            "tradingEnabled",
-            settings.tradingEnabled
-        );
-
-
-        setValue(
-            "minimumTradeAmount",
-            settings.minimumTradeAmount
-        );
-
-
-        setValue(
-            "maximumTradeAmount",
-            settings.maximumTradeAmount
-        );
-
-
-        setValue(
-            "tradingFee",
-            settings.tradingFee
-        );
-
-
-        /* DEPOSIT */
-
-        setValue(
-            "depositsEnabled",
-            settings.depositsEnabled
-        );
-
-
-        setValue(
-            "minimumDeposit",
-            settings.minimumDeposit
-        );
-
-
-        setValue(
-            "maximumDeposit",
-            settings.maximumDeposit
-        );
-
-
-        /* WITHDRAWAL */
-
-        setValue(
-            "withdrawalsEnabled",
-            settings.withdrawalsEnabled
-        );
-
-
-        setValue(
-            "minimumWithdrawal",
-            settings.minimumWithdrawal
-        );
-
-
-        setValue(
-            "maximumWithdrawal",
-            settings.maximumWithdrawal
-        );
-
-
-        setValue(
-            "withdrawalFee",
-            settings.withdrawalFee
-        );
-
-
-        /* KYC */
-
-        setValue(
-            "kycEnabled",
-            settings.kycEnabled
-        );
-
-
-        setValue(
-            "kycRequiredForTrading",
-            settings.kycRequiredForTrading
-        );
-
-
-        setValue(
-            "kycRequiredForWithdrawal",
-            settings.kycRequiredForWithdrawal
-        );
-
-
-        setValue(
-            "kycMinimumWithdrawal",
-            settings.kycMinimumWithdrawal
-        );
-
-
-        /* SECURITY */
-
-        setValue(
-            "loginAttempts",
-            settings.loginAttempts
-        );
-
-
-        setValue(
-            "sessionTimeout",
-            settings.sessionTimeout
-        );
-
-
-        /* NOTIFICATIONS */
-
-        setValue(
-            "emailNotifications",
-            settings.emailNotifications
-        );
-
-
-        setValue(
-            "systemNotifications",
-            settings.systemNotifications
-        );
-
-
-        updateLastSaved(
-            settings.updatedAt
-        );
-
-    }
-
-
-    /* =====================================================
-       COLLECT FORM SETTINGS
-    ===================================================== */
-
-    function collectSettings() {
-
-        return {
-
-            /* GENERAL */
-
-            siteName:
-                getValue("siteName"),
-
-            siteStatus:
-                getValue("siteStatus"),
-
-            maintenanceMessage:
-                getValue("maintenanceMessage"),
-
-
-            /* TRADING */
-
-            tradingEnabled:
-                getValue("tradingEnabled"),
-
-            minimumTradeAmount:
-                getValue("minimumTradeAmount"),
-
-            maximumTradeAmount:
-                getValue("maximumTradeAmount"),
-
-            tradingFee:
-                getValue("tradingFee"),
-
-
-            /* DEPOSIT */
-
-            depositsEnabled:
-                getValue("depositsEnabled"),
-
-            minimumDeposit:
-                getValue("minimumDeposit"),
-
-            maximumDeposit:
-                getValue("maximumDeposit"),
-
-
-            /* WITHDRAWAL */
-
-            withdrawalsEnabled:
-                getValue("withdrawalsEnabled"),
-
-            minimumWithdrawal:
-                getValue("minimumWithdrawal"),
-
-            maximumWithdrawal:
-                getValue("maximumWithdrawal"),
-
-            withdrawalFee:
-                getValue("withdrawalFee"),
-
-
-            /* KYC */
-
-            kycEnabled:
-                getValue("kycEnabled"),
-
-            kycRequiredForTrading:
-                getValue("kycRequiredForTrading"),
-
-            kycRequiredForWithdrawal:
-                getValue("kycRequiredForWithdrawal"),
-
-            kycMinimumWithdrawal:
-                getValue("kycMinimumWithdrawal"),
-
-
-            /* SECURITY */
-
-            loginAttempts:
-                getValue("loginAttempts"),
-
-            sessionTimeout:
-                getValue("sessionTimeout"),
-
-
-            /* NOTIFICATIONS */
-
-            emailNotifications:
-                getValue("emailNotifications"),
-
-            systemNotifications:
-                getValue("systemNotifications")
-
-        };
-
-    }
-
-
-    /* =====================================================
-       VALIDATION
-    ===================================================== */
-
-    function validateSettings(settings) {
-
-
-        if (
-            settings.minimumTradeAmount < 0 ||
-            settings.maximumTradeAmount < 0
-        ) {
-
-            return {
-                valid: false,
-                message:
-                    "مبالغ التداول لا يمكن أن تكون سالبة."
-            };
-
-        }
-
-
-        if (
-            settings.minimumTradeAmount >
-            settings.maximumTradeAmount
-        ) {
-
-            return {
-                valid: false,
-                message:
-                    "الحد الأدنى للتداول يجب أن يكون أقل من الحد الأقصى."
-            };
-
-        }
-
-
-        if (
-            settings.minimumDeposit < 0 ||
-            settings.maximumDeposit < 0
-        ) {
-
-            return {
-                valid: false,
-                message:
-                    "مبالغ الإيداع غير صحيحة."
-            };
-
-        }
-
-
-        if (
-            settings.minimumDeposit >
-            settings.maximumDeposit
-        ) {
-
-            return {
-                valid: false,
-                message:
-                    "الحد الأدنى للإيداع يجب أن يكون أقل من الحد الأقصى."
-            };
-
-        }
-
-
-        if (
-            settings.minimumWithdrawal < 0 ||
-            settings.maximumWithdrawal < 0
-        ) {
-
-            return {
-                valid: false,
-                message:
-                    "مبالغ السحب غير صحيحة."
-            };
-
-        }
-
-
-        if (
-            settings.minimumWithdrawal >
-            settings.maximumWithdrawal
-        ) {
-
-            return {
-                valid: false,
-                message:
-                    "الحد الأدنى للسحب يجب أن يكون أقل من الحد الأقصى."
-            };
-
-        }
-
-
-        if (
-            settings.tradingFee < 0
-        ) {
-
-            return {
-                valid: false,
-                message:
-                    "رسوم التداول لا يمكن أن تكون سالبة."
-            };
-
-        }
-
-
-        if (
-            settings.withdrawalFee < 0
-        ) {
-
-            return {
-                valid: false,
-                message:
-                    "رسوم السحب لا يمكن أن تكون سالبة."
-            };
-
-        }
-
-
-        if (
-            settings.loginAttempts < 1
-        ) {
-
-            return {
-                valid: false,
-                message:
-                    "عدد محاولات الدخول يجب أن يكون على الأقل 1."
-            };
-
-        }
-
-
-        if (
-            settings.sessionTimeout < 1
-        ) {
-
-            return {
-                valid: false,
-                message:
-                    "مدة الجلسة يجب أن تكون أكبر من صفر."
-            };
-
-        }
-
-
-        return {
-            valid: true
-        };
-
-    }
-
-
-    /* =====================================================
-       SAVE BUTTON
-    ===================================================== */
-
-    function handleSave() {
-
-        const settings =
-            collectSettings();
-
-
-        const validation =
-            validateSettings(
+            saveAdminSettings(
                 settings
             );
 
 
-        if (!validation.valid) {
-
-            showMessage(
-                validation.message,
-                "error"
+            showSaveStatus(
+                "تم حفظ إعدادات التداول."
             );
 
-            return;
-
-        }
+            break;
 
 
-        const saved =
-            saveSettings(settings);
+        /* =========================
+           DEPOSITS
+        ========================= */
+
+        case "deposits":
+
+            settings.deposits = {
+
+                depositsEnabled:
+                    getChecked(
+                        "depositsEnabled"
+                    ),
+
+                minimumDepositAmount:
+                    getNumber(
+                        "minimumDepositAmount"
+                    ),
+
+                maximumDepositAmount:
+                    getNumber(
+                        "maximumDepositAmount"
+                    ),
+
+                requiredDepositConfirmations:
+                    getNumber(
+                        "requiredDepositConfirmations"
+                    )
+
+            };
 
 
-        if (!saved) {
-
-            showMessage(
-                "حدث خطأ أثناء حفظ الإعدادات.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        updateLastSaved(
-            settings.updatedAt
-        );
-
-
-        showMessage(
-            "تم حفظ الإعدادات بنجاح.",
-            "success"
-        );
-
-
-        console.log(
-            "VALORA SETTINGS SAVED:",
-            settings
-        );
-
-    }
-
-
-    /* =====================================================
-       RESET SETTINGS
-    ===================================================== */
-
-    function handleReset() {
-
-        const confirmed =
-            window.confirm(
-                "هل تريد إعادة جميع الإعدادات إلى القيم الافتراضية؟"
+            saveAdminSettings(
+                settings
             );
 
 
-        if (!confirmed) return;
+            showSaveStatus(
+                "تم حفظ إعدادات الإيداعات."
+            );
+
+            break;
 
 
-        const defaults = {
-            ...DEFAULT_SETTINGS
-        };
+        /* =========================
+           WITHDRAWALS
+        ========================= */
+
+        case "withdrawals":
+
+            settings.withdrawals = {
+
+                withdrawalsEnabled:
+                    getChecked(
+                        "withdrawalsEnabled"
+                    ),
+
+                withdrawalsManualReview:
+                    getChecked(
+                        "withdrawalsManualReview"
+                    ),
+
+                minimumWithdrawalAmount:
+                    getNumber(
+                        "minimumWithdrawalAmount"
+                    ),
+
+                maximumWithdrawalAmount:
+                    getNumber(
+                        "maximumWithdrawalAmount"
+                    ),
+
+                dailyWithdrawalLimit:
+                    getNumber(
+                        "dailyWithdrawalLimit"
+                    ),
+
+                withdrawalFee:
+                    getNumber(
+                        "withdrawalFee"
+                    )
+
+            };
 
 
-        saveSettings(defaults);
+            saveAdminSettings(
+                settings
+            );
 
 
-        applySettings(
-            defaults
-        );
+            showSaveStatus(
+                "تم حفظ إعدادات السحوبات."
+            );
+
+            break;
 
 
-        showMessage(
-            "تمت إعادة الإعدادات الافتراضية.",
-            "success"
-        );
+        /* =========================
+           WITHDRAWAL ADDRESSES
+        ========================= */
 
-    }
+        case "withdrawalAddresses":
 
+            saveWithdrawalAddresses();
 
-    /* =====================================================
-       STATUS MESSAGE
-    ===================================================== */
-
-    function showMessage(
-        message,
-        type
-    ) {
-
-        let box =
-            el("settingsMessage");
+            break;
 
 
-        if (!box) {
+        /* =========================
+           ACCOUNTS
+        ========================= */
 
-            box =
-                document.createElement(
-                    "div"
+        case "accounts":
+
+            settings.accounts = {
+
+                registrationEnabled:
+                    getChecked(
+                        "registrationEnabled"
+                    ),
+
+                minimumAccountBalance:
+                    getNumber(
+                        "minimumAccountBalance"
+                    ),
+
+                maximumAccountBalance:
+                    getNumber(
+                        "maximumAccountBalance"
+                    ),
+
+                accountDailyTradeLimit:
+                    getNumber(
+                        "accountDailyTradeLimit"
+                    ),
+
+                dailyWithdrawalRequestsLimit:
+                    getNumber(
+                        "dailyWithdrawalRequestsLimit"
+                    )
+
+            };
+
+
+            saveAdminSettings(
+                settings
+            );
+
+
+            showSaveStatus(
+                "تم حفظ إعدادات الحسابات."
+            );
+
+            break;
+
+
+        /* =========================
+           SYSTEM
+        ========================= */
+
+        case "system":
+
+            let language =
+                getValue(
+                    "siteDefaultLanguage"
                 );
 
 
-            box.id =
-                "settingsMessage";
+            if (
+                language !== "ar" &&
+                language !== "en"
+            ) {
 
-
-            box.className =
-                "settings-message";
-
-
-            const content =
-                document.querySelector(
-                    ".admin-content"
-                );
-
-
-            if (content) {
-
-                content.prepend(box);
-
-            } else {
-
-                document.body.prepend(box);
+                language = "ar";
 
             }
 
-        }
+
+            settings.system = {
+
+                maintenanceMode:
+                    getChecked(
+                        "maintenanceMode"
+                    ),
+
+                platformName:
+                    getValue(
+                        "platformName"
+                    ) || "VALORA",
+
+                defaultCurrency:
+                    getValue(
+                        "defaultCurrency"
+                    ) || "USDT",
+
+                platformTimezone:
+                    getValue(
+                        "platformTimezone"
+                    ) || "Asia/Baghdad",
+
+                siteDefaultLanguage:
+                    language,
+
+                globalTradingStatus:
+                    getChecked(
+                        "globalTradingStatus"
+                    ),
+
+                globalDepositsStatus:
+                    getChecked(
+                        "globalDepositsStatus"
+                    ),
+
+                globalWithdrawalsStatus:
+                    getChecked(
+                        "globalWithdrawalsStatus"
+                    )
+
+            };
 
 
-        box.textContent =
-            message;
-
-
-        box.dataset.type =
-            type;
-
-
-        box.hidden = false;
-
-
-        clearTimeout(
-            box._timer
-        );
-
-
-        box._timer =
-            setTimeout(
-                function () {
-
-                    box.hidden = true;
-
-                },
-                4000
+            saveAdminSettings(
+                settings
             );
+
+
+            /*
+            =================================================
+            LANGUAGE
+            =================================================
+
+            هذا المفتاح هو الذي تستخدمه صفحات الموقع
+            التي تعتمد على language.js.
+
+            =================================================
+            */
+
+            localStorage.setItem(
+                VALORA_LANGUAGE_KEY,
+                language
+            );
+
+
+            applyDocumentLanguage(
+                language
+            );
+
+
+            showSaveStatus(
+                "تم حفظ إعدادات النظام واللغة."
+            );
+
+            break;
 
     }
 
+}
 
-    /* =====================================================
-       LAST SAVED
-    ===================================================== */
 
-    function updateLastSaved(
-        date
-    ) {
+/* =====================================================
+   APPLY DOCUMENT LANGUAGE
+===================================================== */
 
-        const element =
-            el("settingsLastSaved");
-
-
-        if (!element) return;
-
-
-        if (!date) {
-
-            element.textContent =
-                "لم يتم الحفظ بعد";
-
-            return;
-
-        }
-
-
-        const parsed =
-            new Date(date);
-
-
-        if (
-            Number.isNaN(
-                parsed.getTime()
-            )
-        ) {
-
-            element.textContent =
-                "—";
-
-            return;
-
-        }
-
-
-        element.textContent =
-            parsed.toLocaleString(
-                "ar",
-                {
-                    dateStyle: "medium",
-                    timeStyle: "short"
-                }
-            );
-
-    }
-
-
-    /* =====================================================
-       TOGGLE DEPENDENCIES
-    ===================================================== */
-
-    function updateDependencies() {
-
-
-        const trading =
-            el("tradingEnabled");
-
-
-        const tradingFields = [
-
-            "minimumTradeAmount",
-
-            "maximumTradeAmount",
-
-            "tradingFee"
-
-        ];
-
-
-        if (trading) {
-
-            tradingFields.forEach(
-                function (id) {
-
-                    const element =
-                        el(id);
-
-                    if (element) {
-
-                        element.disabled =
-                            !trading.checked;
-
-                    }
-
-                }
-            );
-
-        }
-
-
-        const deposits =
-            el("depositsEnabled");
-
-
-        const depositFields = [
-
-            "minimumDeposit",
-
-            "maximumDeposit"
-
-        ];
-
-
-        if (deposits) {
-
-            depositFields.forEach(
-                function (id) {
-
-                    const element =
-                        el(id);
-
-                    if (element) {
-
-                        element.disabled =
-                            !deposits.checked;
-
-                    }
-
-                }
-            );
-
-        }
-
-
-        const withdrawals =
-            el("withdrawalsEnabled");
-
-
-        const withdrawalFields = [
-
-            "minimumWithdrawal",
-
-            "maximumWithdrawal",
-
-            "withdrawalFee",
-
-            "kycMinimumWithdrawal"
-
-        ];
-
-
-        if (withdrawals) {
-
-            withdrawalFields.forEach(
-                function (id) {
-
-                    const element =
-                        el(id);
-
-                    if (element) {
-
-                        element.disabled =
-                            !withdrawals.checked;
-
-                    }
-
-                }
-            );
-
-        }
-
-
-        const kyc =
-            el("kycEnabled");
-
-
-        const kycFields = [
-
-            "kycRequiredForTrading",
-
-            "kycRequiredForWithdrawal",
-
-            "kycMinimumWithdrawal"
-
-        ];
-
-
-        if (kyc) {
-
-            kycFields.forEach(
-                function (id) {
-
-                    const element =
-                        el(id);
-
-                    if (element) {
-
-                        element.disabled =
-                            !kyc.checked;
-
-                    }
-
-                }
-            );
-
-        }
-
-    }
-
-
-    /* =====================================================
-       ADD EVENT LISTENERS
-    ===================================================== */
-
-    function bindEvents() {
-
-
-        /* SAVE */
-
-        const saveButton =
-            el("saveSettings");
-
-
-        if (saveButton) {
-
-            saveButton.addEventListener(
-                "click",
-                handleSave
-            );
-
-        }
-
-
-        /* RESET */
-
-        const resetButton =
-            el("resetSettings");
-
-
-        if (resetButton) {
-
-            resetButton.addEventListener(
-                "click",
-                handleReset
-            );
-
-        }
-
-
-        /* TOGGLES */
-
-        [
-
-            "tradingEnabled",
-
-            "depositsEnabled",
-
-            "withdrawalsEnabled",
-
-            "kycEnabled"
-
-        ].forEach(
-            function (id) {
-
-                const element =
-                    el(id);
-
-
-                if (!element) return;
-
-
-                element.addEventListener(
-                    "change",
-                    updateDependencies
-                );
-
-            }
-        );
-
-
-        /* SAVE WITH CTRL + S */
-
-        document.addEventListener(
-            "keydown",
-            function (event) {
-
-                if (
-                    (event.ctrlKey ||
-                     event.metaKey) &&
-                    event.key.toLowerCase() === "s"
-                ) {
-
-                    event.preventDefault();
-
-                    handleSave();
-
-                }
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       INITIALIZE
-    ===================================================== */
-
-    function init() {
-
-        console.log(
-            "VALORA SETTINGS JS LOADED"
-        );
-
-
-        const settings =
-            loadSettings();
-
-
-        applySettings(
-            settings
-        );
-
-
-        bindEvents();
-
-
-        updateDependencies();
-
-    }
-
-
-    /* =====================================================
-       START
-    ===================================================== */
+function applyDocumentLanguage(
+    language
+) {
 
     if (
-        document.readyState ===
-        "loading"
+        language !== "ar" &&
+        language !== "en"
     ) {
 
-        document.addEventListener(
-            "DOMContentLoaded",
-            init
-        );
-
-    } else {
-
-        init();
+        language = "ar";
 
     }
 
-})();
+
+    document.documentElement.lang =
+        language;
+
+
+    document.documentElement.dir =
+        language === "ar"
+            ? "rtl"
+            : "ltr";
+
+}
+
+
+/* =====================================================
+   GET VALUE
+===================================================== */
+
+function getValue(
+    id
+) {
+
+    const element =
+        document.getElementById(id);
+
+
+    if (!element) {
+
+        return "";
+
+    }
+
+
+    return element.value.trim();
+
+}
+
+
+/* =====================================================
+   SET VALUE
+===================================================== */
+
+function setValue(
+    id,
+    value
+) {
+
+    const element =
+        document.getElementById(id);
+
+
+    if (!element) {
+
+        return;
+
+    }
+
+
+    element.value =
+        value ?? "";
+
+}
+
+
+/* =====================================================
+   GET NUMBER
+===================================================== */
+
+function getNumber(
+    id
+) {
+
+    const element =
+        document.getElementById(id);
+
+
+    if (!element) {
+
+        return 0;
+
+    }
+
+
+    const value =
+        Number(
+            element.value
+        );
+
+
+    if (
+        !Number.isFinite(value)
+    ) {
+
+        return 0;
+
+    }
+
+
+    return value;
+
+}
+
+
+/* =====================================================
+   GET CHECKED
+===================================================== */
+
+function getChecked(
+    id
+) {
+
+    const element =
+        document.getElementById(id);
+
+
+    if (!element) {
+
+        return false;
+
+    }
+
+
+    return Boolean(
+        element.checked
+    );
+
+}
+
+
+/* =====================================================
+   SET CHECKED
+===================================================== */
+
+function setChecked(
+    id,
+    value
+) {
+
+    const element =
+        document.getElementById(id);
+
+
+    if (!element) {
+
+        return;
+
+    }
+
+
+    element.checked =
+        Boolean(value);
+
+}
+
+
+/* =====================================================
+   SAVE STATUS
+===================================================== */
+
+function showSaveStatus(
+    message
+) {
+
+    const status =
+        document.getElementById(
+            "settingsSaveStatus"
+        );
+
+
+    if (!status) {
+
+        return;
+
+    }
+
+
+    status.textContent =
+        "آخر حالة: " + message;
+
+
+    status.classList.add(
+        "is-saved"
+    );
+
+
+    clearTimeout(
+        window.valoraSaveStatusTimer
+    );
+
+
+    window.valoraSaveStatusTimer =
+        setTimeout(
+            function () {
+
+                status.classList.remove(
+                    "is-saved"
+                );
+
+            },
+            3000
+        );
+
+}
+
+
+/* =====================================================
+   DANGER ACTIONS
+===================================================== */
+
+function setupDangerActions() {
+
+
+    const disableTrading =
+        document.getElementById(
+            "disableAllTrading"
+        );
+
+
+    if (disableTrading) {
+
+        disableTrading.addEventListener(
+            "click",
+            function () {
+
+                const confirmed =
+                    window.confirm(
+                        "هل تريد إيقاف التداول بالكامل؟"
+                    );
+
+
+                if (!confirmed) {
+
+                    return;
+
+                }
+
+
+                const settings =
+                    getAdminSettings();
+
+
+                settings.trading.tradingEnabled =
+                    false;
+
+
+                settings.system.globalTradingStatus =
+                    false;
+
+
+                saveAdminSettings(
+                    settings
+                );
+
+
+                setChecked(
+                    "tradingEnabled",
+                    false
+                );
+
+
+                setChecked(
+                    "globalTradingStatus",
+                    false
+                );
+
+
+                showSaveStatus(
+                    "تم إيقاف التداول."
+                );
+
+            }
+        );
+
+    }
+
+
+    const enableMaintenance =
+        document.getElementById(
+            "enableMaintenance"
+        );
+
+
+    if (enableMaintenance) {
+
+        enableMaintenance.addEventListener(
+            "click",
+            function () {
+
+                const confirmed =
+                    window.confirm(
+                        "هل تريد تفعيل وضع الصيانة؟"
+                    );
+
+
+                if (!confirmed) {
+
+                    return;
+
+                }
+
+
+                const settings =
+                    getAdminSettings();
+
+
+                settings.system.maintenanceMode =
+                    true;
+
+
+                saveAdminSettings(
+                    settings
+                );
+
+
+                setChecked(
+                    "maintenanceMode",
+                    true
+                );
+
+
+                showSaveStatus(
+                    "تم تفعيل وضع الصيانة."
+                );
+
+            }
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+function setupSaveButtons() {
+
+    document
+        .querySelectorAll(
+            ".settings-save-button"
+        )
+        .forEach(
+            function (button) {
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        const section =
+                            button.dataset.section;
+
+
+                        saveSettingsSection(
+                            section
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+}
+
+
+/* =====================================================
+   LANGUAGE PREVIEW
+===================================================== */
+
+function setupLanguageSelector() {
+
+    const selector =
+        document.getElementById(
+            "siteDefaultLanguage"
+        );
+
+
+    if (!selector) {
+
+        return;
+
+    }
+
+
+    selector.addEventListener(
+        "change",
+        function () {
+
+            const language =
+                selector.value;
+
+
+            applyDocumentLanguage(
+                language
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        loadAdminSettings();
+
+        setupSaveButtons();
+
+        setupDangerActions();
+
+        setupLanguageSelector();
+
+    }
+);
